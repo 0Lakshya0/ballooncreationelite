@@ -1,0 +1,1 @@
+CREATE POLICY "Private service manages concierge inquiries" ON public.concierge_inquiries FOR ALL TO service_role USING (true) WITH CHECK (true);
