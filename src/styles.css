@@ -243,6 +243,11 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
   .standard-item,.standard-item:first-child,.standard-item:last-child { padding: 28px; border: 1px solid var(--glass-border); }
   .form-grid input,.form-grid select,.form-grid textarea,.form-grid label { font-size: 11px; }
 }
+@media(max-width:360px) {
+  .nav-consultation { display: none; }
+  .mobile-menu { margin-left: auto; flex: none; }
+  .hero { height: 720px; }
+}
 @media(prefers-reduced-motion:reduce) {
   .hero-content,.hero-content > *,.reveal,.reveal * { opacity: 1; transform: none; }
   .hero-image { transform: none; }
