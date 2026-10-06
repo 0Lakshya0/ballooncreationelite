@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
 import { celebrations, contact } from '@/lib/celebrations';
 import hero from '@/assets/celebration-hero.jpg';
-import logo from '@/assets/brand-logo.jpg';
+import logoAsset from '@/assets/profile-logo.jpg.asset.json';
+const logo = logoAsset.url;
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
@@ -40,7 +41,7 @@ function Index() {
   }
   return <>
     <header className="site-header"><div className="page-width nav-layout">
-      <a href="#" className="brand" aria-label="Balloon Creation home"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} loading="lazy" /><span>Balloon Creation<span className="brand-descriptor">We Decorate Your Happiness</span></span></a>
+      <a href="#" className="brand" aria-label="Balloon Creation home"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /><span>Balloon Creation<span className="brand-descriptor">We Decorate Your Happiness</span></span></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
         <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
       </nav>
@@ -52,7 +53,7 @@ function Index() {
         <img src={hero} className="hero-image" alt="An exquisite ivory and champagne balloon installation with cascading white flowers in a grand ballroom" width={1920} height={1024} fetchPriority="high" />
         <div className="hero-wash" />
         <div className="page-width hero-content">
-          <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} loading="lazy" />
+          <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
           <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
           <h1>We Don’t Just<br />Decorate, We Create<br /><em>Magical Memories.</em></h1>
           <p>Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in 2 hours.</p>
