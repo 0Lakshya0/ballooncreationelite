@@ -36,7 +36,7 @@ export function Concierge({ occasion, onOccasionChange }: { occasion: string; on
           <div className="form-title"><h3>Let’s create something beautiful.</h3><span>01 — THE FIRST CONVERSATION</span></div>
           <div className="form-grid">
             <label>Your name<input name="name" autoComplete="name" placeholder="Full name" minLength={2} maxLength={100} required /></label>
-            <label>Phone number<input name="phone" type="tel" autoComplete="tel" placeholder="+91" pattern="[+0-9 ()\-]{10,20}" required /></label>
+            <label>Phone number<input name="phone" type="tel" autoComplete="tel" placeholder="+91 · 10-digit number" pattern="[+0-9 ()\-]{10,20}" required /></label>
             <label>The occasion<select name="occasion" value={occasion} onChange={event => onOccasionChange(event.target.value)} required><option value="" disabled>Select your celebration</option>{celebrations.map(item => <option key={item.name}>{item.name}</option>)}</select></label>
             <label>Event date<input name="event_date" type="date" aria-label="Event date" required /></label>
             <label className="field-wide">Venue / location<input name="venue" placeholder="Where will the magic happen?" minLength={2} maxLength={200} required /></label>
