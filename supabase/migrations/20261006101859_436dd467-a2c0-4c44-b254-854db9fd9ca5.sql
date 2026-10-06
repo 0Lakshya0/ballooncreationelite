@@ -1,0 +1,7 @@
+CREATE TABLE public.concierge_inquiries (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), name text NOT NULL, phone text NOT NULL, occasion text NOT NULL, event_date date NOT NULL, venue text NOT NULL, vision text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now());
+GRANT ALL ON public.concierge_inquiries TO service_role;
+ALTER TABLE public.concierge_inquiries ENABLE ROW LEVEL SECURITY;
+CREATE INDEX concierge_phone_created ON public.concierge_inquiries(phone, created_at);
+CREATE FUNCTION public.submit_concierge(p_name text, p_phone text, p_occasion text, p_event_date date, p_venue text, p_vision text) RETURNS uuid LANGUAGE plpgsql SET search_path = public AS $$ DECLARE result uuid; BEGIN PERFORM pg_advisory_xact_lock(hashtextextended(p_phone, 0)); IF (SELECT count(*) FROM public.concierge_inquiries WHERE phone = p_phone AND created_at > now() - interval '1 hour') >= 3 THEN RAISE EXCEPTION 'Please call us to discuss further details.'; END IF; INSERT INTO public.concierge_inquiries(name, phone, occasion, event_date, venue, vision) VALUES(p_name, p_phone, p_occasion, p_event_date, p_venue, p_vision) RETURNING id INTO result; RETURN result; END; $$;
+REVOKE ALL ON FUNCTION public.submit_concierge(text,text,text,date,text,text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.submit_concierge(text,text,text,date,text,text) TO service_role;

@@ -14,13 +14,55 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      concierge_inquiries: {
+        Row: {
+          created_at: string
+          event_date: string
+          id: string
+          name: string
+          occasion: string
+          phone: string
+          venue: string
+          vision: string
+        }
+        Insert: {
+          created_at?: string
+          event_date: string
+          id?: string
+          name: string
+          occasion: string
+          phone: string
+          venue: string
+          vision?: string
+        }
+        Update: {
+          created_at?: string
+          event_date?: string
+          id?: string
+          name?: string
+          occasion?: string
+          phone?: string
+          venue?: string
+          vision?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_concierge: {
+        Args: {
+          p_event_date: string
+          p_name: string
+          p_occasion: string
+          p_phone: string
+          p_venue: string
+          p_vision: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
