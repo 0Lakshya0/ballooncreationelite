@@ -29,11 +29,13 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [occasion, setOccasion] = useState('');
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    document.documentElement.classList.add('motion-ready');
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
-    }), { threshold: 0.08 });
+    }), { threshold: 0, rootMargin: '0px 0px 80px 0px' });
     document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); document.documentElement.classList.remove('motion-ready'); };
   }, []);
   function chooseOccasion(name: string) {
     setOccasion(name);
