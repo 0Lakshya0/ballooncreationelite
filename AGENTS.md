@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+- Keep the single-page event experience at the index route; share celebration data and isolate the concierge form to minimize duplication.
+- Define all visual styling as global semantic tokens and named styles, with luxury and glass Button variants to preserve consistent controls.
+- Submit concierge inquiries through a validated public server function and service-only database RPC; serialize phone-based rate limiting in PostgreSQL so requests remain private and limits survive server restarts.
+- Keep generated editorial photography bundled in the app; replace it with real portfolio photography when the owner supplies it.
