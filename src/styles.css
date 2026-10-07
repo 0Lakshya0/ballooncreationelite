@@ -290,11 +290,20 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 @media(max-width:540px) { .brand { font-size: 28px; gap: 10px; } .brand-mark { width: 50px; height: 50px; } .brand-descriptor { font-size: 10px; } .hero-mark { width: 92px; height: 92px; margin-bottom: 20px; } }
 @media(max-width:360px) { .brand { font-size: 24px; } .brand-descriptor { font-size: 9px; } }
 
-/* Brand sequence: name glows, then tagline steps forward and shines */
-.brand-name { display: block; background: var(--metallic-text); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: transform .5s var(--motion-ease), filter .5s var(--motion-ease); }
-.brand-descriptor { transform-origin: left center; background: linear-gradient(110deg, var(--muted-foreground) 40%, var(--gold) 47%, var(--champagne) 50%, var(--rose-gold) 53%, var(--muted-foreground) 60%) 100% 0 / 260% 100%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: transform .45s var(--motion-ease) .3s; }
+/* Brand sequence: name shine -> tagline rise+shine -> tagline settle -> logo pop+shine */
+.brand-name,.brand-descriptor { display: block; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-repeat: no-repeat; }
+.brand-name { background-image: linear-gradient(115deg, transparent 40%, oklch(.97 .06 88 / .95) 50%, transparent 60%), var(--metallic-text); background-size: 250% 100%, 100% 100%; background-position: 130% 0, 0 0; }
+.brand-descriptor { background-image: linear-gradient(115deg, transparent 40%, var(--gold) 50%, transparent 60%), linear-gradient(var(--muted-foreground), var(--muted-foreground)); background-size: 250% 100%, 100% 100%; background-position: 130% 0, 0 0; }
+.brand-mark-wrap { position: relative; flex: none; display: block; border-radius: 50%; overflow: hidden; background: none !important; -webkit-text-fill-color: initial; }
+.brand-mark-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, oklch(.97 .07 85 / .75) 50%, transparent 65%); transform: translateX(-130%); pointer-events: none; }
+.brand-mark-wrap .brand-mark { display: block; }
 @media (prefers-reduced-motion:no-preference) {
-  .brand:is(:hover,:focus-visible,.is-playing) .brand-name { transform: translateY(-2px); filter: drop-shadow(0 0 10px oklch(.8 .09 60 / .55)); }
-  .brand:is(:hover,:focus-visible,.is-playing) .brand-descriptor { transform: translateX(4px) scale(1.05); animation: brand-shine 1s cubic-bezier(.4,0,.2,1) .65s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-name { animation: text-shine .8s cubic-bezier(.45,0,.25,1) both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-descriptor { animation: tag-rise 1.1s cubic-bezier(.45,0,.25,1) .8s both, text-shine .6s cubic-bezier(.45,0,.25,1) 1.05s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-mark-wrap { animation: logo-pop 1.1s cubic-bezier(.45,0,.25,1) 1.9s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-mark-wrap::after { animation: logo-shine .75s cubic-bezier(.45,0,.25,1) 2.1s both; }
 }
-@keyframes brand-shine { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes text-shine { from { background-position: 130% 0, 0 0; } to { background-position: -30% 0, 0 0; } }
+@keyframes tag-rise { 0%,100% { transform: none; } 25%,70% { transform: translateY(-4px); } }
+@keyframes logo-pop { 0%,100% { transform: none; box-shadow: none; } 30%,70% { transform: scale(1.15); box-shadow: var(--shadow-hover); } }
+@keyframes logo-shine { from { transform: translateX(-130%); } to { transform: translateX(130%); } }
