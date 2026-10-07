@@ -290,3 +290,11 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 @media(max-width:540px) { .brand { font-size: 28px; gap: 10px; } .brand-mark { width: 50px; height: 50px; } .brand-descriptor { font-size: 10px; } .hero-mark { width: 92px; height: 92px; margin-bottom: 20px; } }
 @media(max-width:360px) { .brand { font-size: 24px; } .brand-descriptor { font-size: 9px; } }
 
+/* Brand sequence: name glows, then tagline steps forward and shines */
+.brand-name { display: block; background: var(--metallic-text); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: transform .5s var(--motion-ease), filter .5s var(--motion-ease); }
+.brand-descriptor { transform-origin: left center; background: linear-gradient(110deg, var(--muted-foreground) 40%, var(--gold) 47%, var(--champagne) 50%, var(--rose-gold) 53%, var(--muted-foreground) 60%) 100% 0 / 260% 100%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: transform .45s var(--motion-ease) .3s; }
+@media (prefers-reduced-motion:no-preference) {
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-name { transform: translateY(-2px); filter: drop-shadow(0 0 10px oklch(.8 .09 60 / .55)); }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-descriptor { transform: translateX(4px) scale(1.05); animation: brand-shine 1s cubic-bezier(.4,0,.2,1) .65s both; }
+}
+@keyframes brand-shine { from { background-position: 100% 0; } to { background-position: 0 0; } }
