@@ -271,3 +271,4 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 }
 @media(max-width:360px) { .concierge-copy,.concierge-contact a { font-size: 13px; overflow-wrap: anywhere; } .concierge-contact a svg:last-child { margin-left: 4px; } .brand { font-size: 20px; } .brand-descriptor { font-size: 8px; } .hero h1 { font-size: 34px; } }
 .concierge-copy { min-width: 0; }
+.concierge-layout > *,.inquiry-panel,.form-grid > * { min-width: 0; }
