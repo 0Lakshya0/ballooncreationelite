@@ -15,3 +15,4 @@
 - Submit concierge inquiries through a validated public server function and service-only database RPC; serialize phone-based rate limiting in PostgreSQL so requests remain private and limits survive server restarts.
 - Keep generated editorial photography bundled in the app; replace it with real portfolio photography when the owner supplies it.
 - Use one IntersectionObserver for early, one-time nested scroll reveals and CSS-only ambient/hover motion; reduced-motion users see all content without animation to keep the experience lightweight and accessible.
+- Stack invisible, aria-hidden tagline sizing copies in the headline grid so its longest sentence reserves stable space at every width without browser measurement.
