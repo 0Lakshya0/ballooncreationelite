@@ -8,3 +8,4 @@
 - [x] Rotate the owner’s 15 taglines in the hero headline with larger, more readable typography.
 - [x] Replace the slide with a slow smooth crossfade between taglines; verify on desktop and phone widths.
 - [x] Prevent clipping across all 15 taglines, slightly enlarge the brand and logos, and use a six-second hold with softer fades; verified at five screen widths.
+- [x] Raise the navbar company name and both circular photos to a clearly noticeable size without changing the champagne/ivory theme; verified at five screen widths.
