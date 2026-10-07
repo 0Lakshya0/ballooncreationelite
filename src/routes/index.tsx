@@ -75,7 +75,7 @@ function Index() {
   const out = fading === null ? null : taglines[fading] ?? null;
   return <>
     <header className="site-header"><div className="page-width nav-layout">
-      <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove('is-playing'), 1800); }}><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /><span><span className="brand-name">Balloon Creation</span><span className="brand-descriptor">We Decorate Your Happiness</span></span></a>
+      <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove('is-playing'), 3200); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span><span className="brand-name">Balloon Creation</span><span className="brand-descriptor">We Decorate Your Happiness</span></span></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
         <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
       </nav>
