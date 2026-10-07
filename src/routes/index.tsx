@@ -71,6 +71,8 @@ function Index() {
     setOccasion(name);
     document.getElementById('concierge')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
+  const current = taglines[line] ?? ['', ''];
+  const out = fading === null ? null : taglines[fading] ?? null;
   return <>
     <header className="site-header"><div className="page-width nav-layout">
       <a href="#" className="brand" aria-label="Balloon Creation home"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /><span>Balloon Creation<span className="brand-descriptor">We Decorate Your Happiness</span></span></a>
@@ -88,8 +90,8 @@ function Index() {
           <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
           <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
           <h1 className="hero-title" aria-live="polite">
-            {fading !== null && <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">{taglines[fading][0]} <em>{taglines[fading][1]}</em></span>}
-            <span key={`in-${line}`} className="tagline tagline-in">{taglines[line][0]} <em>{taglines[line][1]}</em></span>
+            {out && <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">{out[0]} <em>{out[1]}</em></span>}
+            <span key={`in-${line}`} className="tagline tagline-in">{current[0]} <em>{current[1]}</em></span>
           </h1>
           <p>Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in 2 hours.</p>
           <div className="hero-actions"><Button variant="luxury" asChild><a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! I would love to plan a bespoke celebration.')}`} target="_blank" rel="noreferrer"><MessageCircle />Let’s talk on WhatsApp<ArrowUpRight /></a></Button><Button variant="glass" asChild><a href={`tel:${contact.phone}`}><Phone />Call our concierge</a></Button></div>
