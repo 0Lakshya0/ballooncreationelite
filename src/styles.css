@@ -331,3 +331,14 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 @keyframes tag-rise { 0%,100% { transform: translateY(0); } 25%,70% { transform: translateY(-5px); } }
 @keyframes logo-pop2 { 0%,100% { transform: translate(-50%,-50%) scale(.8334); } 30%,70% { transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 0 2px var(--champagne), var(--shadow-hover); } }
 @keyframes logo-shine2 { 0% { opacity: 1; background-position: 130% 0; } 100% { opacity: 1; background-position: -30% 0; } }
+/* Brand sequence v3: no parent clipping, visible shine, slower */
+.brand > .brand-text { background: none; -webkit-text-fill-color: initial; display: block; }
+.brand-name { background-image: linear-gradient(115deg, transparent 35%, oklch(.99 .03 90) 47%, oklch(.86 .12 85) 50%, oklch(.99 .03 90) 53%, transparent 65%), var(--metallic-text); }
+.brand-descriptor { background-image: linear-gradient(115deg, transparent 35%, oklch(.8 .13 80) 47%, oklch(.62 .12 60) 50%, oklch(.8 .13 80) 53%, transparent 65%), linear-gradient(var(--muted-foreground), var(--muted-foreground)); }
+@media (prefers-reduced-motion:no-preference) {
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-name { animation: text-shine 2.4s ease-in-out both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-rise { animation: tag-rise 3.4s ease-in-out 2.4s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-descriptor { animation: text-shine 2s ease-in-out 3.1s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-mark-wrap .brand-mark { animation: logo-pop2 3s ease-in-out 5.8s both; }
+  .brand:is(:hover,:focus-visible,.is-playing) .brand-mark-wrap::after { animation: logo-shine2 1.8s ease-in-out 6.4s both; }
+}
