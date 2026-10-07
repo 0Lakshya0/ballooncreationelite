@@ -25,9 +25,33 @@ const standards = [
   { icon: Gem, number: '03', title: 'Premium Materials', detail: 'Only the exceptional', copy: 'Exquisite blooms, premium balloons and carefully chosen finishes. A difference you can feel.' },
 ];
 
+const taglines: [string, string][] = [
+  ['We Don’t Just Decorate, We Create', 'Magical Memories.'],
+  ['We Decorate', 'Your Happiness.'],
+  ['Bespoke Flower & Balloon Artistry in', 'Indore.'],
+  ['Transforming Ordinary Spaces Into', 'Extraordinary Celebrations.'],
+  ['Turning Your Dream Celebrations Into', 'Breathtaking Reality.'],
+  ['Where Your Deepest Emotions Meet Our', 'Finest Artistry.'],
+  ['Crafting Beautiful Backdrops for Your', 'Lifelong Memories.'],
+  ['The Secret Behind Every', 'Smiling and Beautiful Gathering.'],
+  ['Elegant Balloon & Floral Aesthetics for', 'Elite Events.'],
+  ['Celebrating Your Love and Milestones with', 'Luxury Decor.'],
+  ['Where Modern Luxury Meets', 'Unforgettable Celebrations.'],
+  ['Filling Every Corner of Your Venue with', 'Joy and Shine.'],
+  ['Breathtaking Setups for the Days', 'You’ll Never Forget.'],
+  ['Adding a Touch of Perfection to Your', 'Most Special Days.'],
+  ['Making Every Milestone Look', 'Absolutely Legendary.'],
+];
+
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [occasion, setOccasion] = useState('');
+  const [line, setLine] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = setInterval(() => setLine(i => (i + 1) % taglines.length), 9600);
+    return () => clearInterval(timer);
+  }, []);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
     document.documentElement.classList.add('motion-ready');
@@ -57,7 +81,7 @@ function Index() {
         <div className="page-width hero-content">
           <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
           <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
-          <h1>We Don’t Just<br />Decorate, We Create<br /><em>Magical Memories.</em></h1>
+          <h1 className="hero-title" aria-live="polite"><span key={line} className="tagline">{taglines[line][0]} <em>{taglines[line][1]}</em></span></h1>
           <p>Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in 2 hours.</p>
           <div className="hero-actions"><Button variant="luxury" asChild><a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! I would love to plan a bespoke celebration.')}`} target="_blank" rel="noreferrer"><MessageCircle />Let’s talk on WhatsApp<ArrowUpRight /></a></Button><Button variant="glass" asChild><a href={`tel:${contact.phone}`}><Phone />Call our concierge</a></Button></div>
           <div className="hero-footnote"><span className="little-line" /> THOUGHTFULLY DESIGNED. BEAUTIFULLY REMEMBERED.</div>
