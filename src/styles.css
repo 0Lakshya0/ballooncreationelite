@@ -269,4 +269,4 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
   .creation-caption p { font-size: 11px; } .creation-index { font-size: 10px; } .image-tag { font-size: 8px; }
   .standard-item p,.form-grid label,.form-grid input,.form-grid select { font-size: 13px; }
 }
-@media(max-width:360px) { .brand { font-size: 20px; } .brand-descriptor { font-size: 8px; } .hero h1 { font-size: 34px; } }
+@media(max-width:360px) { .concierge-copy,.concierge-contact a { font-size: 13px; overflow-wrap: anywhere; } .concierge-contact a svg:last-child { margin-left: 4px; } .brand { font-size: 20px; } .brand-descriptor { font-size: 8px; } .hero h1 { font-size: 34px; } }
