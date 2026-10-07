@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
@@ -47,9 +47,15 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [occasion, setOccasion] = useState('');
   const [line, setLine] = useState(0);
+  const [fading, setFading] = useState<number | null>(null);
+  const index = useRef(0);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = setInterval(() => setLine(i => (i + 1) % taglines.length), 9600);
+    const timer = setInterval(() => {
+      setFading(index.current);
+      index.current = (index.current + 1) % taglines.length;
+      setLine(index.current);
+    }, 10500);
     return () => clearInterval(timer);
   }, []);
   useEffect(() => {
@@ -81,7 +87,10 @@ function Index() {
         <div className="page-width hero-content">
           <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
           <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
-          <h1 className="hero-title" aria-live="polite"><span key={line} className="tagline">{taglines[line][0]} <em>{taglines[line][1]}</em></span></h1>
+          <h1 className="hero-title" aria-live="polite">
+            {fading !== null && <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">{taglines[fading][0]} <em>{taglines[fading][1]}</em></span>}
+            <span key={`in-${line}`} className="tagline tagline-in">{taglines[line][0]} <em>{taglines[line][1]}</em></span>
+          </h1>
           <p>Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in 2 hours.</p>
           <div className="hero-actions"><Button variant="luxury" asChild><a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! I would love to plan a bespoke celebration.')}`} target="_blank" rel="noreferrer"><MessageCircle />Let’s talk on WhatsApp<ArrowUpRight /></a></Button><Button variant="glass" asChild><a href={`tel:${contact.phone}`}><Phone />Call our concierge</a></Button></div>
           <div className="hero-footnote"><span className="little-line" /> THOUGHTFULLY DESIGNED. BEAUTIFULLY REMEMBERED.</div>
