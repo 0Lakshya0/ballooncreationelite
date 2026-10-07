@@ -7,3 +7,4 @@
 - [x] Add early cinematic reveals, image drift and gold hover shine; verify layout, reduced motion and consultation links.
 - [x] Rotate the owner’s 15 taglines in the hero headline with larger, more readable typography.
 - [x] Replace the slide with a slow smooth crossfade between taglines; verify on desktop and phone widths.
+- [x] Prevent clipping across all 15 taglines and slightly enlarge the navbar name and both logo photos; verified at 320–1280px with no overlap.

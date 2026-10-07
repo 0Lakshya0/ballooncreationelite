@@ -90,6 +90,7 @@ function Index() {
           <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
           <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
           <h1 className="hero-title" aria-live="polite">
+            <span className="tagline-sizing" aria-hidden="true">{taglines.map(([text, emphasis]) => <span key={text}>{text} <em>{emphasis}</em></span>)}</span>
             {out && <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">{out[0]} <em>{out[1]}</em></span>}
             <span key={`in-${line}`} className="tagline tagline-in">{current[0]} <em>{current[1]}</em></span>
           </h1>
