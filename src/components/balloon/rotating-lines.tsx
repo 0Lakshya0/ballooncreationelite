@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 
 const lines: [string, string][] = [
   ['Life’s finest moments,', 'beautifully imagined.'],
@@ -21,7 +21,7 @@ const lines: [string, string][] = [
 const sparks = Array.from({ length: 14 }, (_, k) => ({
   left: `${(k * 37 + 7) % 100}%`, top: `${(k * 53) % 60}%`,
   animationDelay: `${0.4 + (k % 7) * 0.35}s`, '--s': `${3 + (k % 3) * 2}px`,
-}) as React.CSSProperties);
+}) as CSSProperties);
 
 export function RotatingLines() {
   const [i, setI] = useState(0);
