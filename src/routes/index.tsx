@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
+import { RotatingLines } from '@/components/balloon/rotating-lines';
 import { celebrations, contact } from '@/lib/celebrations';
 import hero from '@/assets/celebration-hero.jpg';
 import logoAsset from '@/assets/profile-logo.jpg.asset.json';
@@ -103,7 +104,7 @@ function Index() {
       </section>
       <div className="brand-strip"><div className="page-width"><span><MapPin size={14} /> INDORE’S BOUTIQUE EVENT ATELIER</span><span className="strip-center">Extraordinary occasions. Effortlessly yours.</span><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
       <section className="portfolio section-space page-width" id="portfolio">
-        <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><h2>Life’s finest moments,<br /><em>beautifully imagined.</em></h2></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
+        <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><RotatingLines /></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
         <div className="portfolio-grid">{celebrations.map((item, index) => <article className={`creation reveal creation-${index + 1}`} key={item.name}>
           <a className="creation-image" href="#concierge" onClick={event => { event.preventDefault(); chooseOccasion(item.name); }} aria-label={`Plan ${item.name}`}><img src={item.image} alt={`${item.name}: bespoke luxury flower and balloon styling`} width={1024} height={1024} loading="lazy" /><span className="image-tag">{item.tag}</span><span className="image-action"><ArrowUpRight size={21} /></span></a>
           <div className="creation-caption"><span className="creation-index">0{index + 1}</span><div><h3>{item.name}</h3><p>{item.subtitle}</p></div></div>
