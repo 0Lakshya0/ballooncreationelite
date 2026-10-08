@@ -45,6 +45,11 @@
   --gold: oklch(.52 .085 75);
   --rose-gold: oklch(.54 .088 24);
   --champagne: oklch(.92 .06 84);
+  --fluid-cream: oklch(.98 .025 90);
+  --fluid-warm: oklch(.82 .105 82);
+  --fluid-deep: oklch(.67 .10 76);
+  --silver-light: oklch(.99 .005 250);
+  --silver-shadow: 0 0 4px oklch(.93 .01 250 / .7);
   --royal-background: linear-gradient(125deg, var(--background), var(--secondary) 55%, var(--champagne));
   --royal-band: linear-gradient(115deg, var(--secondary), var(--background) 55%, oklch(.94 .035 25));
   --metallic-gold: linear-gradient(115deg, oklch(.89 .085 88), oklch(.8 .09 72) 45%, oklch(.92 .075 87) 75%, oklch(.83 .07 38));
@@ -346,23 +351,24 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .aura-sizer, .aura-line { grid-area: 1/1; }
 .aura-sizer { visibility: hidden; }
 .liquid-gold, .star-dust { position: absolute; inset: -25% 0; z-index: -1; pointer-events: none; }
-.liquid-gold { overflow: hidden; border-radius: 50%; filter: blur(14px); opacity: 0; }
-.liquid-gold i { position: absolute; width: 70%; height: 90%; top: 5%; border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%; background: radial-gradient(circle at 35% 35%, oklch(.97 .04 90 / .9), oklch(.84 .11 82 / .55) 45%, transparent 72%); will-change: transform; }
-.liquid-gold i:nth-child(1) { left: 0; }
-.liquid-gold i:nth-child(2) { left: 30%; background: radial-gradient(circle at 60% 40%, oklch(.78 .12 75 / .5), oklch(.95 .05 88 / .4) 50%, transparent 72%); }
-.liquid-gold i:nth-child(3) { left: 15%; top: 20%; height: 70%; background: radial-gradient(circle, oklch(.99 .02 92 / .7), transparent 65%); }
-.star-dust b { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: oklch(.99 0 0); box-shadow: 0 0 6px 1px oklch(.93 .01 250 / .9), 0 0 12px oklch(.85 .02 250 / .6); opacity: 0; }
-.star-dust b:nth-child(3n) { clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); width: calc(var(--s) * 2.4); height: calc(var(--s) * 2.4); border-radius: 0; }
+.liquid-gold { overflow: hidden; opacity: 0; mask-image: linear-gradient(90deg, transparent, var(--foreground) 14%, var(--foreground) 86%, transparent); }
+.liquid-gold svg { position: absolute; width: 160%; height: 100%; max-width: none; left: -45%; top: 0; filter: blur(1px); }
+.fluid-cream { stop-color: var(--fluid-cream); }
+.fluid-warm { stop-color: var(--fluid-warm); }
+.fluid-deep { stop-color: var(--fluid-deep); }
+.fluid-thread { fill: none; stroke: var(--fluid-warm); stroke-width: 2; opacity: .5; }
+.fluid-thread-fine { stroke: var(--fluid-cream); stroke-width: 1; }
+.star-dust { overflow: hidden; }
+.star-dust b { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: var(--silver-light); box-shadow: var(--silver-shadow); opacity: 0; }
 @media (prefers-reduced-motion:no-preference) {
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
   .liquid-gold { animation: fluid-in 6s ease-in-out both; }
-  .liquid-gold i { animation: fluid-flow 6s ease-in-out both; }
-  .liquid-gold i:nth-child(2) { animation-direction: reverse; }
-  .star-dust b { animation: dust-fall 2.6s ease-out both; }
+  .liquid-gold svg { animation: fluid-flow 6s linear both; }
+  .star-dust b { animation: dust-fall 3.2s ease-in-out both; }
 }
 @keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes aura-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }
-@keyframes fluid-in { 0%,100% { opacity: 0; } 25%,70% { opacity: 1; } }
-@keyframes fluid-flow { from { transform: translateX(-12%) rotate(0) scale(.9); } to { transform: translateX(12%) rotate(60deg) scale(1.1); } }
-@keyframes dust-fall { 0% { opacity: 0; transform: translateY(-6px) scale(.4); } 25% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: translateY(34px) scale(.5); } }
+@keyframes fluid-in { 0%,100% { opacity: 0; } 25%,70% { opacity: .38; } }
+@keyframes fluid-flow { from { transform: translateX(0); } to { transform: translateX(25%); } }
+@keyframes dust-fall { 0% { opacity: 0; transform: translate(0,-8px); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate(10px,48px); } }
