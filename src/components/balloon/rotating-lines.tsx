@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 
 const lines: [string, string][] = [
   ['Life’s finest moments,', 'beautifully imagined.'],
@@ -25,18 +25,26 @@ const sparks = Array.from({ length: 14 }, (_, k) => ({
 
 export function RotatingLines() {
   const [i, setI] = useState(0);
+  const [fading, setFading] = useState<number | null>(null);
+  const index = useRef(0);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const t = setInterval(() => setI(n => (n + 1) % lines.length), 6000);
+    const t = setInterval(() => {
+      setFading(index.current);
+      index.current = (index.current + 1) % lines.length;
+      setI(index.current);
+    }, 6000);
     return () => clearInterval(t);
   }, []);
   const [a, b] = lines[i] ?? lines[0]!;
+  const out = fading === null ? null : lines[fading] ?? null;
   return (
     <h2 className="aura-lines" aria-live="polite">
       {lines.map(([x, y], k) => <span key={k} className="aura-sizer" aria-hidden="true">{x}<br /><em>{y}</em></span>)}
       <span key={`f${i}`} className="liquid-gold" aria-hidden="true"><i /><i /><i /></span>
       <span key={`s${i}`} className="star-dust" aria-hidden="true">{sparks.map((s, k) => <b key={k} style={s} />)}</span>
-      <span key={i} className="aura-line">{a}<br /><em>{b}</em></span>
+      {out && <span key={`o${fading}`} className="aura-line aura-out" aria-hidden="true">{out[0]}<br /><em>{out[1]}</em></span>}
+      <span key={i} className="aura-line aura-in">{a}<br /><em>{b}</em></span>
     </h2>
   );
 }
