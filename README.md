@@ -1,14 +1,36 @@
-# Welcome to your Lovable project
+# Balloon Prestige
+
+Build a high-end, ultra-luxury Single-Page Website for "Balloon Creation". The design must look like a world-class premium event agency, NOT a basic local vendor. 
+
+Theme: Elite Minimalist LIGHT theme (Pure white background, subtle cream accents, sophisticated dark charcoal typography). 
+
+Apply Apple-style premium smooth fade-in scroll animations. Use elegant glassmorphism (frosted glass blur effect) for cards and navigation to keep it modern.
+
+Include these premium sections efficiently to save tokens:
+
+1. Luxury Navbar: Blurred transparent background, sleek logo "🎈 Balloon Creation", and a minimalist, high-contrast "Request Consultation" button.
+
+2. High-Fashion Hero: Massive editorial heading "We Don't Just Decorate, We Create Magical Memories." Subheading in a clean minimal font: "Indore's premier boutique for bespoke flower & balloon aesthetics. Expert setup in 2 hours." Two clean, elegant CTA buttons (WhatsApp / Call).
+
+3. The Portfolio Grid (Categories): An editorial magazine-style layout showcasing 5 premium categories (Grand Weddings & Rings, Mega Birthdays, Anniversaries & Surprises, Baby Showers, and Devotional Celebrations like Mataji/Ganeshji). Strictly exclude general festivals (Diwali/Holi). Use large, sleek image placeholders.
+
+4. The Signature Standard (Value Proposition): A highly sophisticated 3-column layout highlighting: "Bespoke Artistry" (1000+ custom designs), "Flawless Execution" (2-hour setup), and "Premium Materials".
+
+5. Elite Concierge (Contact Form): A beautiful, minimal interactive inquiry form that feels like booking a luxury service.
+
+Keep the entire codebase highly optimized, modular, and clean to preserve tokens for future modifications. Fully responsive for mobile.
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://ballooncreationelite.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c9c62f0c-5ed5-4b6a-aacf-35886dba1434).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +42,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
