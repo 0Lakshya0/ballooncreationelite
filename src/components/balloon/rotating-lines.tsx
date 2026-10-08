@@ -19,8 +19,8 @@ const lines: [string, string][] = [
 ];
 
 const sparks = Array.from({ length: 14 }, (_, k) => ({
-  left: `${(k * 37 + 7) % 100}%`, top: `${(k * 53) % 60}%`,
-  animationDelay: `${0.4 + (k % 7) * 0.35}s`, '--s': `${3 + (k % 3) * 2}px`,
+  left: `${(k * 37 + 7) % 96 + 2}%`, top: `${(k * 53) % 35}%`,
+  animationDelay: `${0.5 + (k % 7) * 0.4}s`, '--s': `${1.5 + (k % 3) * 0.75}px`,
 }) as CSSProperties);
 
 export function RotatingLines() {
@@ -36,12 +36,19 @@ export function RotatingLines() {
     }, 6000);
     return () => clearInterval(t);
   }, []);
-  const [a, b] = lines[i] ?? lines[0]!;
+  const [a, b] = lines[i] ?? ['', ''];
   const out = fading === null ? null : lines[fading] ?? null;
   return (
     <h2 className="aura-lines" aria-live="polite">
       {lines.map(([x, y], k) => <span key={k} className="aura-sizer" aria-hidden="true">{x}<br /><em>{y}</em></span>)}
-      <span key={`f${i}`} className="liquid-gold" aria-hidden="true"><i /><i /><i /></span>
+      <span key={`f${i}`} className="liquid-gold" aria-hidden="true">
+        <svg viewBox="0 0 1200 200" preserveAspectRatio="none" focusable="false">
+          <defs><linearGradient id="fluid-gold" x1="0" y1="0" x2="0" y2="1"><stop className="fluid-cream" /><stop offset=".32" className="fluid-warm" /><stop offset=".52" className="fluid-cream" /><stop offset=".7" className="fluid-deep" /><stop offset="1" className="fluid-warm" /></linearGradient></defs>
+          <path fill="url(#fluid-gold)" d="M0 83 C180 25 310 145 530 87 S890 35 1200 88 L1200 113 C890 62 740 157 530 111 S180 59 0 109 Z" />
+          <path className="fluid-thread" d="M0 119 C230 70 360 165 620 114 S970 75 1200 121" />
+          <path className="fluid-thread fluid-thread-fine" d="M0 67 C180 115 390 23 640 73 S1010 126 1200 70" />
+        </svg>
+      </span>
       <span key={`s${i}`} className="star-dust" aria-hidden="true">{sparks.map((s, k) => <b key={k} style={s} />)}</span>
       {out && <span key={`o${fading}`} className="aura-line aura-out" aria-hidden="true">{out[0]}<br /><em>{out[1]}</em></span>}
       <span key={i} className="aura-line aura-in">{a}<br /><em>{b}</em></span>
