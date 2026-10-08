@@ -345,7 +345,7 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .aura-lines { display: grid; position: relative; isolation: isolate; }
 .aura-sizer, .aura-line { grid-area: 1/1; }
 .aura-sizer { visibility: hidden; }
-.liquid-gold, .star-dust { position: absolute; inset: -25% -12%; z-index: -1; pointer-events: none; }
+.liquid-gold, .star-dust { position: absolute; inset: -25% 0; z-index: -1; pointer-events: none; }
 .liquid-gold { overflow: hidden; border-radius: 50%; filter: blur(14px); opacity: 0; }
 .liquid-gold i { position: absolute; width: 70%; height: 90%; top: 5%; border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%; background: radial-gradient(circle at 35% 35%, oklch(.97 .04 90 / .9), oklch(.84 .11 82 / .55) 45%, transparent 72%); will-change: transform; }
 .liquid-gold i:nth-child(1) { left: 0; }
