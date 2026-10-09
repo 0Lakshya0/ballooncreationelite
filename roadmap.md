@@ -12,4 +12,5 @@
 - [x] Increase the navbar tagline “We Decorate Your Happiness” once more; verified no clipping at 1280/390/320.
 - [x] Middle section: 15 celebration lines on a six-second cycle with a three-second soft crossfade rising bottom-to-top, gold aura and silver sparkles; verified no clipping or side scrolling at five widths.
 - [x] Superseded gold ribbons: remove the wave entirely and retain gold/silver sprinkles.
-- [ ] Increase silver spark shower density and full-text falling distance throughout each six-second cycle; preserve text and verify motion/layout.
+- [x] Increase silver spark shower density and full-text falling distance throughout each six-second cycle; verified falling motion, repeated cycle and reduced motion.
+- [x] Replace lightning-like streaks with small twinkling silver/gold glints; visually verified with shower density and text preserved.
