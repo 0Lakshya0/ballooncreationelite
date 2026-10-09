@@ -13,4 +13,4 @@
 - [x] Middle section: 15 celebration lines on a six-second cycle with a three-second soft crossfade rising bottom-to-top, gold aura and silver sparkles; verified no clipping or side scrolling at five widths.
 - [x] Superseded gold ribbons: remove the wave entirely and retain gold/silver sprinkles.
 - [x] Increase silver spark shower density and full-text falling distance throughout each six-second cycle; verified falling motion, repeated cycle and reduced motion.
-- [ ] Replace lightning-like streaks with small twinkling silver/gold glints; preserve shower density and text.
+- [x] Replace lightning-like streaks with small twinkling silver/gold glints; visually verified with shower density and text preserved.
