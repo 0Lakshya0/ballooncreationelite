@@ -16,4 +16,4 @@
 - Keep generated editorial photography bundled in the app; replace it with real portfolio photography when the owner supplies it.
 - Use one IntersectionObserver for early, one-time nested scroll reveals and CSS-only ambient/hover motion; reduced-motion users see all content without animation to keep the experience lightweight and accessible.
 - Stack invisible, aria-hidden tagline sizing copies in the headline grid so its longest sentence reserves stable space at every width without browser measurement.
-- Render the middle text backdrop with clipped SVG ribbons and CSS transform/opacity motion; keep decorative motion independent of text sizing and rotation to prevent layout shifts.
+- Render middle-text showers as staggered CSS transform/opacity particles keyed to each text cycle, using full-height tracks so falling distance follows text height without measurement or layout shifts.

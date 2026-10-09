@@ -50,6 +50,9 @@
   --fluid-deep: oklch(.67 .10 76);
   --silver-light: oklch(.99 .005 250);
   --silver-shadow: 0 0 4px oklch(.93 .01 250 / .7);
+  --silver-spark: linear-gradient(135deg, oklch(.62 .015 250), var(--silver-light) 45%, oklch(.74 .015 250) 75%, var(--silver-light));
+  --silver-trail: linear-gradient(to top, oklch(.72 .015 250 / .8), transparent);
+  --gold-trail: linear-gradient(to top, var(--fluid-warm), transparent);
   --royal-background: linear-gradient(125deg, var(--background), var(--secondary) 55%, var(--champagne));
   --royal-band: linear-gradient(115deg, var(--secondary), var(--background) 55%, oklch(.94 .035 25));
   --metallic-gold: linear-gradient(115deg, oklch(.89 .085 88), oklch(.8 .09 72) 45%, oklch(.92 .075 87) 75%, oklch(.83 .07 38));
@@ -358,16 +361,19 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .fluid-deep { stop-color: var(--fluid-deep); }
 .fluid-thread { fill: none; stroke: var(--fluid-warm); stroke-width: 2; opacity: .5; }
 .fluid-thread-fine { stroke: var(--fluid-cream); stroke-width: 1; }
-.star-dust { overflow: hidden; }
-.star-dust b { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: var(--silver-light); box-shadow: var(--silver-shadow); opacity: 0; }
+.star-dust { inset: -20px 0 0; overflow: hidden; }
+.star-dust b { position: absolute; top: 0; width: var(--s); height: 100%; opacity: 0; }
+.star-dust b::before { content: ''; position: absolute; width: var(--s); height: var(--s); background: var(--silver-spark); filter: drop-shadow(var(--silver-shadow)); clip-path: polygon(50% 0, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0 50%, 38% 36%); }
+.star-dust b::after { content: ''; position: absolute; width: 1px; height: 14px; left: 50%; bottom: 100%; background: var(--silver-trail); }
+.star-dust b.gold::before { background: var(--metallic-gold); }
+.star-dust b.gold::after { background: var(--gold-trail); }
 @media (prefers-reduced-motion:no-preference) {
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
-  .star-dust b.gold { background: var(--metallic-gold); box-shadow: 0 0 6px var(--fluid-warm); }
-  .star-dust b { animation: dust-fall 3.2s ease-in-out both; }
+  .star-dust b { animation: dust-fall 2s linear both; }
 }
 @keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes aura-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }
 @keyframes fluid-in { from { opacity: 0; } to { opacity: .34; } }
 @keyframes fluid-flow { from { transform: translateX(0); } to { transform: translateX(25%); } }
-@keyframes dust-fall { 0% { opacity: 0; transform: translate(0,-8px); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate(10px,48px); } }
+@keyframes dust-fall { 0% { opacity: 0; transform: translate(0,-8px); } 8%,90% { opacity: 1; } 100% { opacity: 0; transform: translate(7px,100%); } }
