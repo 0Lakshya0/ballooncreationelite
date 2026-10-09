@@ -363,12 +363,13 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 @media (prefers-reduced-motion:no-preference) {
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
-  .liquid-gold { animation: fluid-in 6s ease-in-out both; }
-  .liquid-gold svg { animation: fluid-flow 6s linear both; }
+  .liquid-gold { opacity: .34; animation: fluid-in 1.6s ease-out both; }
+  .liquid-gold svg { animation: fluid-flow 12s ease-in-out infinite alternate; }
+  .aura-in ~ .liquid-gold, .liquid-gold { will-change: transform; }
   .star-dust b { animation: dust-fall 3.2s ease-in-out both; }
 }
 @keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes aura-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }
-@keyframes fluid-in { 0%,100% { opacity: 0; } 25%,70% { opacity: .38; } }
+@keyframes fluid-in { from { opacity: 0; } to { opacity: .34; } }
 @keyframes fluid-flow { from { transform: translateX(0); } to { transform: translateX(25%); } }
 @keyframes dust-fall { 0% { opacity: 0; transform: translate(0,-8px); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate(10px,48px); } }
