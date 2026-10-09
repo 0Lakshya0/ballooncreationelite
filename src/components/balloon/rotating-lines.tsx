@@ -41,7 +41,7 @@ export function RotatingLines() {
   return (
     <h2 className="aura-lines" aria-live="polite">
       {lines.map(([x, y], k) => <span key={k} className="aura-sizer" aria-hidden="true">{x}<br /><em>{y}</em></span>)}
-      <span key={`f${i}`} className="liquid-gold" aria-hidden="true">
+      <span className="liquid-gold" aria-hidden="true">
         <svg viewBox="0 0 1200 200" preserveAspectRatio="none" focusable="false">
           <defs><linearGradient id="fluid-gold" x1="0" y1="0" x2="0" y2="1"><stop className="fluid-cream" /><stop offset=".32" className="fluid-warm" /><stop offset=".52" className="fluid-cream" /><stop offset=".7" className="fluid-deep" /><stop offset="1" className="fluid-warm" /></linearGradient></defs>
           <path fill="url(#fluid-gold)" d="M0 83 C180 25 310 145 530 87 S890 35 1200 88 L1200 113 C890 62 740 157 530 111 S180 59 0 109 Z" />
