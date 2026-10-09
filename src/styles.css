@@ -363,9 +363,7 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 @media (prefers-reduced-motion:no-preference) {
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
-  .liquid-gold { opacity: .34; animation: fluid-in 1.6s ease-out both; }
-  .liquid-gold svg { animation: fluid-flow 12s ease-in-out infinite alternate; }
-  .aura-in ~ .liquid-gold, .liquid-gold { will-change: transform; }
+  .star-dust b.gold { background: var(--metallic-gold); box-shadow: 0 0 6px var(--fluid-warm); }
   .star-dust b { animation: dust-fall 3.2s ease-in-out both; }
 }
 @keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
