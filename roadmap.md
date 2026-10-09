@@ -11,4 +11,5 @@
 - [x] Raise the navbar company name and both circular photos to a clearly noticeable size without changing the champagne/ivory theme; verified at five screen widths.
 - [x] Increase the navbar tagline “We Decorate Your Happiness” once more; verified no clipping at 1280/390/320.
 - [x] Middle section: 15 celebration lines on a six-second cycle with a three-second soft crossfade rising bottom-to-top, gold aura and silver sparkles; verified no clipping or side scrolling at five widths.
-- [ ] Replace middle-section blobs with horizontal left-to-right gold ribbons and natural silver dust; preserve text and verify motion/layout.
+- [x] Superseded gold ribbons: remove the wave entirely and retain gold/silver sprinkles.
+- [ ] Increase silver spark shower density and full-text falling distance throughout each six-second cycle; preserve text and verify motion/layout.
