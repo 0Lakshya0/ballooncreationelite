@@ -3,7 +3,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 
 const photos = import.meta.glob<string>('/src/assets/categories/*.webp', { eager: true, import: 'default' });
-const categories = [
+export const categories = [
   'Birthday', 'Kids Birthday', 'Baby Shower', 'Welcome Baby', 'Naming Ceremony',
   'Anniversary', 'Proposal', 'Room Surprise', 'First Night', 'Bachelor Party',
   'Wedding', 'House Warming', 'Car Decoration', 'Pet Decoration', 'Farewell Party',
@@ -18,7 +18,7 @@ export function CategoryMarquee() {
     breakpoints: { '(prefers-reduced-motion: reduce)': { active: false } },
   })]);
   return (
-    <section className="category-section" aria-labelledby={headingId}>
+    <section className="category-section" id="categories" aria-labelledby={headingId}>
       <div className="page-width category-heading">
         <span className="eyebrow">EVERY OCCASION, BEAUTIFULLY YOURS</span>
         <h2 id={headingId}>A celebration for every story.</h2>
