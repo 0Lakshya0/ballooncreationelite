@@ -45,6 +45,19 @@ const taglines: [string, string][] = [
   ['Making Every Milestone Look', 'Absolutely Legendary.'],
 ];
 
+const indoreAreas = [
+  'Vijay Nagar', 'Palasia', 'New Palasia', 'Old Palasia', 'Scheme 54', 'Scheme 78', 'Scheme 94', 'Scheme 103', 'Scheme 114', 'Scheme 136', 'Scheme 140',
+  'AB Road', 'MG Road', 'Rajwada', 'Sarafa Bazaar', 'Khajrana', 'Bengali Square', 'Geeta Bhawan', 'Bhawarkua', 'Tower Square', 'Regal Square',
+  'Sudama Nagar', 'Annapurna Nagar', 'Dwarkapuri', 'Navlakha', 'Sapna Sangeeta', 'Snehlataganj', 'LIG Colony', 'Tilak Nagar', 'Khatiwala Tank',
+  'South Tukoganj', 'Tukoganj', 'Race Course Road', 'Yeshwant Niwas Road', 'Residency Area', 'Chhawani', 'Mhow Naka', 'Sanyogitaganj',
+  'Rau', 'Pithampur Road', 'Bypass Road', 'Super Corridor', 'Nipania', 'Lasudia', 'Kanadia Road', 'Bicholi Mardana', 'Bicholi Hapsi',
+  'Umiya Nagar', 'Mahalaxmi Nagar', 'Nanda Nagar', 'Pardeshipura', 'Sukhlia', 'MR 10', 'MR 11', 'Ring Road', 'Airport Road', 'Khandwa Road',
+  'Sanwer Road', 'Depalpur Road', 'Simrol', 'Hatod', 'Manpur', 'Rajendra Nagar', 'Kesarbagh', 'Musakhedi', 'Azad Nagar', 'Vaishali Nagar',
+  'Gulmohar Colony', 'Saket Nagar', 'Shalimar Township', 'Silver Springs', 'Apollo DB City', 'Greater Brajeshwari', 'Treasure Island Area',
+  'Malhar Mega Mall Area', 'C21 Mall Area', 'Orbit Mall Area', 'Phoenix Citadel Area', 'Sarwate Bus Stand Area', 'Vijay Stambh Area',
+  'Patnipura', 'Chandan Nagar', 'Gauri Nagar', 'Hira Nagar', 'Juni Indore', 'Ranipura', 'Bada Ganpati Area', 'Krishnapura',
+];
+
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [areasOpen, setAreasOpen] = useState(false);
@@ -127,6 +140,13 @@ function Index() {
       </div></section>
       <Concierge occasion={occasion} onOccasionChange={setOccasion} />
     </main>
+    {areasOpen && <div className="areas-overlay" role="dialog" aria-modal="true" aria-label="Areas we serve in Indore" onClick={() => setAreasOpen(false)}>
+      <div className="areas-modal" onClick={e => e.stopPropagation()}>
+        <div className="areas-head"><span className="eyebrow">WHERE WE CELEBRATE</span><h2>Areas we serve in Indore</h2><button type="button" className="areas-close" aria-label="Close areas list" onClick={() => setAreasOpen(false)}><X size={18} /></button></div>
+        <ul className="areas-list">{indoreAreas.map(area => <li key={area}><MapPin size={13} />{area}</li>)}</ul>
+        <p className="areas-note">Don’t see your area? <a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! Do you serve my area in Indore?')}`} target="_blank" rel="noreferrer">Ask us on WhatsApp</a> — we likely do.</p>
+      </div>
+    </div>}
     <footer className="site-footer page-width"><a className="brand footer-brand" href="#"><span className="brand-balloon">🎈</span>Balloon Creation</a><span>© {new Date().getFullYear()} Balloon Creation. Crafted for your moments.</span><a href="#" className="back-top">BACK TO TOP <ArrowUpRight size={14} /></a></footer>
   </>;
 }
