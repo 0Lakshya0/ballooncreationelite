@@ -47,6 +47,7 @@ const taglines: [string, string][] = [
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [areasOpen, setAreasOpen] = useState(false);
   const [occasion, setOccasion] = useState('');
   const [line, setLine] = useState(0);
   const [fading, setFading] = useState<number | null>(null);
@@ -110,7 +111,7 @@ function Index() {
         <div className="service-badge" aria-live="polite"><span className="service-dot" /><span key={slide} className="service-name">{heroSlides[slide]?.name}</span></div>
         <div className="hero-caption"><span>THE ART OF CELEBRATION</span><span>BALLOON CREATION · INDORE</span></div>
       </section>
-      <div className="brand-strip"><div className="page-width"><span><MapPin size={14} /> INDORE’S BOUTIQUE EVENT ATELIER</span><span className="strip-center">Extraordinary occasions. Effortlessly yours.</span><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
+      <div className="brand-strip"><div className="page-width"><button type="button" className="areas-pill" onClick={() => setAreasOpen(true)} aria-haspopup="dialog"><MapPin size={14} /> Serving All Indore Areas <span className="areas-view">(View List)</span></button><span className="strip-center">Extraordinary occasions. Effortlessly yours.</span><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
       <CategoryMarquee />
       <section className="portfolio section-space page-width" id="portfolio">
         <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><RotatingLines /></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
