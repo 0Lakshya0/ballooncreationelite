@@ -56,7 +56,7 @@ const indoreAreas = [
   'Gulmohar Colony', 'Saket Nagar', 'Shalimar Township', 'Silver Springs', 'Apollo DB City', 'Greater Brajeshwari', 'Treasure Island Area',
   'Malhar Mega Mall Area', 'C21 Mall Area', 'Orbit Mall Area', 'Phoenix Citadel Area', 'Sarwate Bus Stand Area', 'Vijay Stambh Area',
   'Patnipura', 'Chandan Nagar', 'Gauri Nagar', 'Hira Nagar', 'Juni Indore', 'Ranipura', 'Bada Ganpati Area', 'Krishnapura',
-];
+].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
