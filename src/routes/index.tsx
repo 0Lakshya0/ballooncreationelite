@@ -4,8 +4,9 @@ import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phon
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
 import { RotatingLines } from '@/components/balloon/rotating-lines';
+import { CategoryMarquee } from '@/components/balloon/category-marquee';
 import { celebrations, contact } from '@/lib/celebrations';
-import hero from '@/assets/celebration-hero.jpg';
+import { heroSlides } from '@/lib/hero-slides';
 import logoAsset from '@/assets/profile-logo.jpg.asset.json';
 const logo = logoAsset.url;
 
@@ -50,6 +51,12 @@ function Index() {
   const [line, setLine] = useState(0);
   const [fading, setFading] = useState<number | null>(null);
   const index = useRef(0);
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setInterval(() => setSlide(s => (s + 1) % heroSlides.length), 5000);
+    return () => clearInterval(t);
+  }, []);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => {
@@ -85,7 +92,7 @@ function Index() {
     </div></header>
     <main>
       <section className="hero">
-        <img src={hero} className="hero-image" alt="An exquisite ivory and champagne balloon installation with cascading white flowers in a grand ballroom" width={1920} height={1024} fetchPriority="high" />
+        {heroSlides.map((s, i) => <img key={s.name} src={s.image} className={i === slide ? 'hero-image hero-slide is-active' : 'hero-image hero-slide'} alt={i === slide ? `${s.name} decoration by Balloon Creation` : ''} aria-hidden={i !== slide} width={1920} height={1024} fetchPriority={i === 0 ? 'high' : 'low'} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />)}
         <div className="hero-wash" />
         <div className="page-width hero-content">
           <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
@@ -100,9 +107,11 @@ function Index() {
           <div className="hero-footnote"><span className="little-line" /> THOUGHTFULLY DESIGNED. BEAUTIFULLY REMEMBERED.</div>
         </div>
         <a className="explore-scroll" href="#portfolio" aria-label="Explore our creations"><span>EXPLORE</span><ArrowDown size={17} /></a>
+        <div className="service-badge" aria-live="polite"><span className="service-dot" /><span key={slide} className="service-name">{heroSlides[slide]?.name}</span></div>
         <div className="hero-caption"><span>THE ART OF CELEBRATION</span><span>BALLOON CREATION · INDORE</span></div>
       </section>
       <div className="brand-strip"><div className="page-width"><span><MapPin size={14} /> INDORE’S BOUTIQUE EVENT ATELIER</span><span className="strip-center">Extraordinary occasions. Effortlessly yours.</span><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
+      <CategoryMarquee />
       <section className="portfolio section-space page-width" id="portfolio">
         <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><RotatingLines /></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
         <div className="portfolio-grid">{celebrations.map((item, index) => <article className={`creation reveal creation-${index + 1}`} key={item.name}>
