@@ -23,7 +23,7 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
     ];
     let i = 0, pos = 0, del = false, t: ReturnType<typeof setTimeout>;
     const tick = () => {
-      const line = lines[i];
+      const line = lines[i]!;
       if (!del) {
         pos++;
         setPh(line.slice(0, pos));
