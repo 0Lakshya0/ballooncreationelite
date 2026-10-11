@@ -8,6 +8,38 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
   const [q, setQ] = useState('');
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
+  const [ph, setPh] = useState('');
+  useEffect(() => {
+    const lines = [
+      'You have any question? Write here...',
+      'Want to search something? Search here...',
+      'Want to know something? Write here...',
+      'Looking for a Birthday Surprise?',
+      "Search for 'Baby Shower' or 'Welcome Baby'...",
+      "Try searching: 'First Night Decoration'...",
+      "Ask us: 'Do you serve in Vijay Nagar?'",
+      "Want to see 'Car Decoration' photos?",
+      "Type 'Wedding' to explore our magic...",
+    ];
+    let i = 0, pos = 0, del = false, t: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const line = lines[i];
+      if (!del) {
+        pos++;
+        setPh(line.slice(0, pos));
+        if (pos === line.length) { del = true; t = setTimeout(tick, 1500); return; }
+        t = setTimeout(tick, 55);
+      } else {
+        pos = line.lastIndexOf(' ', pos - 1);
+        if (pos < 0) pos = 0;
+        setPh(line.slice(0, pos));
+        if (pos === 0) { del = false; i = (i + 1) % lines.length; t = setTimeout(tick, 400); return; }
+        t = setTimeout(tick, 120);
+      }
+    };
+    t = setTimeout(tick, 600);
+    return () => clearTimeout(t);
+  }, []);
   const term = q.trim().toLowerCase();
   const services = useMemo(() => term ? categories.filter(s => s.toLowerCase().includes(term)) : categories.slice(0, 5), [term]);
   const places = useMemo(() => term ? areas.filter(a => a.toLowerCase().includes(term)) : areas.slice(0, 5), [term, areas]);
