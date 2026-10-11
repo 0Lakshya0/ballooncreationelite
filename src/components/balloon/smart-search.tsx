@@ -27,14 +27,13 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
       if (!del) {
         pos++;
         setPh(line.slice(0, pos));
-        if (pos === line.length) { del = true; t = setTimeout(tick, 1500); return; }
-        t = setTimeout(tick, 55);
-      } else {
-        pos = line.lastIndexOf(' ', pos - 1);
-        if (pos < 0) pos = 0;
-        setPh(line.slice(0, pos));
-        if (pos === 0) { del = false; i = (i + 1) % lines.length; t = setTimeout(tick, 400); return; }
+        if (pos === line.length) { del = true; t = setTimeout(tick, 2500); return; }
         t = setTimeout(tick, 120);
+      } else {
+        pos--;
+        setPh(line.slice(0, pos));
+        if (pos === 0) { del = false; i = (i + 1) % lines.length; t = setTimeout(tick, 700); return; }
+        t = setTimeout(tick, 55);
       }
     };
     t = setTimeout(tick, 600);
