@@ -53,7 +53,7 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
   const pickPlace = (p: string) => { done(); onLocation(); toast.success(`Yes! We cover ${p}.`); };
   return <div className="smart-search" ref={box} onKeyDown={e => e.key === 'Escape' && setOpen(false)}>
     <Search size={16} className="smart-icon" aria-hidden="true" />
-    <input value={q} onChange={e => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} placeholder="Search services or Indore areas…" aria-label="Search services or locations" />
+    <input value={q} onChange={e => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} placeholder={ph || 'Search services or Indore areas…'} aria-label="Search services or locations" />
     {open && <div className="smart-results" role="listbox">
       {services.length + places.length === 0
         ? <a className="smart-empty" href={`${contact.whatsapp}?text=${encodeURIComponent(`Hello Balloon Creation! I am looking for: ${q}`)}`} target="_blank" rel="noreferrer">Not found? Ask directly on WhatsApp 💬</a>
