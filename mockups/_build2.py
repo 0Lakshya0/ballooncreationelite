@@ -115,7 +115,7 @@ CSS = """      /* ---------- detail sheet (chip click -> option click) ---------
       .detail-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
       .detail-mini img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid var(--border); border-radius: 3px; }
       .detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); align-items: center; }
-      .detail-up { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.99 0.012 90 / 0.9); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; font-weight: 600; cursor: pointer; }
+      .detail-up { position: absolute; top: 13px; left: 13px; z-index: 3; display: inline-flex; align-items: center; gap: 8px; max-width: min(72%, 340px); padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px; background: oklch(0.99 0.012 90 / 0.94); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; box-shadow: 0 4px 14px oklch(0.4 0.04 70 / 0.14); }
       .detail-up:hover { background: var(--secondary); }
       .ghost { display: inline-flex; align-items: center; padding: 12px 18px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.995 0.015 88 / 0.7); color: var(--foreground); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; text-decoration: none; }
       .ghost:hover { background: var(--secondary); }
@@ -176,9 +176,9 @@ MARKUP = """    <!-- detail sheet: click a chip, then click any option inside it
         </div>
 
         <div id="view-opt" hidden>
+          <button class="detail-up" type="button" id="opt-back"></button>
           <div class="detail-hero"><img id="opt-img" src="" alt="" /></div>
           <div class="detail-body">
-            <button class="detail-up" type="button" id="opt-back"></button>
             <span class="detail-kicker" id="opt-kicker"></span>
             <h3 id="opt-title"></h3>
             <p class="detail-intro" id="opt-what"></p>
@@ -321,7 +321,7 @@ SCRIPT = """<script>
       openOption = null;
       viewOpt.hidden = true;
       viewChip.hidden = false;
-      sheet.querySelector('.detail-card').scrollTop = 0;
+      scrollTop();
       el.img.src = info.photo;
       el.img.alt = name;
       el.kicker.textContent = info.kicker;
@@ -356,6 +356,7 @@ SCRIPT = """<script>
       el.wa.href = waHref(T.wa.replace('{name}', name));
       syncChip();
       openSheet();
+      scrollTop();
     }
 
     function syncChip() {
@@ -373,7 +374,7 @@ SCRIPT = """<script>
       openOption = { chip: chipName, name: optName };
       viewChip.hidden = true;
       viewOpt.hidden = false;
-      sheet.querySelector('.detail-card').scrollTop = 0;
+      scrollTop();
       el.optImg.src = o.img || D[chipName].photo;
       el.optImg.alt = chipName + ' — ' + optName;
       el.optBack.textContent = T.back.replace('{name}', chipName);
@@ -411,7 +412,8 @@ SCRIPT = """<script>
       }).join('');
       el.optWa.href = waHref(T.waOpt.replace('{chip}', chipName).replace('{option}', optName));
       syncOpt();
-      el.optAdd.focus();
+      el.optAdd.focus({ preventScroll: true });
+      scrollTop();
     }
 
     function syncOpt() {
@@ -422,10 +424,19 @@ SCRIPT = """<script>
     }
 
     // ---------- wiring ----------
+    function cardEl() {
+      return sheet.querySelector('.detail-card');
+    }
+    function scrollTop() {
+      var c = cardEl();
+      if (c) c.scrollTop = 0;
+    }
     function openSheet() {
       sheet.hidden = false;
       document.body.classList.add('locked');
-      el.add.focus();
+      // focusing without preventScroll drags the sheet to the bottom, so keep it still
+      el.add.focus({ preventScroll: true });
+      scrollTop();
     }
     function closeSheet() {
       sheet.hidden = true;
