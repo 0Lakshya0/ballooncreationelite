@@ -14,3 +14,4 @@
 - [x] Superseded gold ribbons: remove the wave entirely and retain gold/silver sprinkles.
 - [x] Increase silver spark shower density and full-text falling distance throughout each six-second cycle; verified falling motion, repeated cycle and reduced motion.
 - [x] Replace lightning-like streaks with small twinkling silver/gold glints; visually verified with shower density and text preserved.
+- [x] Remove the silver sparkle shower behind the “A world of celebrations” rotating taglines at the owner’s request; the taglines keep their six-second crossfade and no background sparkle remains.

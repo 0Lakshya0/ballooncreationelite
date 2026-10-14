@@ -1,0 +1,3081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DRAFT — Decor Types Section (Balloon Creation)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background: oklch(0.985 0.018 88);
+        --foreground: oklch(0.29 0.025 65);
+        --secondary: oklch(0.955 0.035 85);
+        --muted-foreground: oklch(0.47 0.026 65);
+        --border: oklch(0.77 0.065 80 / 0.4);
+        --glass: oklch(0.995 0.015 88 / 0.7);
+        --gold: oklch(0.52 0.085 75);
+        --rose-gold: oklch(0.54 0.088 24);
+        --champagne: oklch(0.92 0.06 84);
+        --card: oklch(0.995 0.01 90 / 0.52);
+        --shadow-panel: 0 14px 45px oklch(0.48 0.06 72 / 0.1), inset 0 1px 0 oklch(1 0 0 / 0.75);
+        --font-sans: "Manrope", sans-serif;
+        --font-display: "Cormorant Garamond", Georgia, serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 15% 0%, var(--secondary), var(--background) 55%);
+        color: var(--foreground);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        padding-bottom: 140px;
+      }
+      .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+      .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; color: var(--gold); }
+      .eyebrow::before { content: ""; height: 1px; width: 30px; background: var(--gold); }
+      h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; }
+      h1 { font-size: 40px; line-height: 1.15; margin-top: 14px; }
+      h1 em { font-style: italic; color: var(--rose-gold); }
+      h2 { font-size: 34px; line-height: 1.12; }
+      h2 em { font-style: italic; color: var(--rose-gold); }
+
+      /* ---------- draft banner ---------- */
+      .banner { background: oklch(0.42 0.05 65); color: oklch(0.97 0.02 88); padding: 14px 0; font-size: 13px; line-height: 1.6; }
+      .banner b { color: var(--champagne); }
+      .banner .wrap { display: flex; gap: 12px; align-items: flex-start; }
+      .banner span { flex: 1; }
+
+      /* ---------- annotation ---------- */
+      .note {
+        border: 1px dashed oklch(0.62 0.09 72 / 0.55);
+        background: oklch(0.97 0.04 84 / 0.5);
+        border-radius: 4px; padding: 12px 15px; font-size: 12.5px; line-height: 1.7;
+        color: var(--muted-foreground); margin: 18px 0;
+      }
+      .note b { color: var(--gold); }
+      .note .tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--rose-gold); text-transform: uppercase; margin-right: 6px; }
+
+      /* ---------- sections ---------- */
+      section.block { padding: 54px 0 10px; }
+      .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 26px; flex-wrap: wrap; margin-bottom: 26px; }
+      .head p { margin: 12px 0 0; font-size: 14px; line-height: 1.75; color: var(--muted-foreground); max-width: 430px; }
+      .divider { height: 1px; background: var(--border); margin: 46px 0 0; }
+
+      /* ---------- OPTION A : three groups of chips ---------- */
+      .groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+      .group {
+        background: linear-gradient(150deg, var(--glass), var(--card));
+        border: 1px solid var(--border); border-radius: 6px; padding: 22px 20px 20px;
+        box-shadow: var(--shadow-panel); backdrop-filter: blur(10px);
+      }
+      .group-no { font-family: var(--font-display); font-size: 13px; font-style: italic; color: var(--rose-gold); }
+      .group h3 { font-size: 23px; margin: 4px 0 2px; line-height: 1.2; }
+      .group > p { font-size: 11.5px; line-height: 1.6; color: var(--muted-foreground); margin: 6px 0 16px; }
+      .chips { display: flex; flex-direction: column; gap: 8px; }
+      .chip {
+        display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
+        padding: 10px 12px; border-radius: 4px; cursor: pointer;
+        border: 1px solid var(--border); background: oklch(1 0 0 / 0.5);
+        font-family: var(--font-sans); color: var(--foreground);
+        transition: background 0.25s, border-color 0.25s, transform 0.25s;
+      }
+      .chip:hover { background: var(--secondary); transform: translateY(-1px); }
+      .chip .txt { display: block; }
+      .chip .nm { display: block; font-size: 13px; font-weight: 600; }
+      .chip .ds { display: block; font-size: 10.5px; color: var(--muted-foreground); line-height: 1.5; margin-top: 2px; }
+      .chip .tick { margin-left: auto; font-size: 13px; color: var(--gold); opacity: 0; transition: opacity 0.2s; }
+      .chip[aria-pressed="true"] { background: linear-gradient(115deg, oklch(0.93 0.06 84), oklch(0.96 0.04 86)); border-color: var(--gold); }
+      .chip[aria-pressed="true"] .tick { opacity: 1; }
+      .group-foot { margin-top: 14px; font-size: 10.5px; color: var(--muted-foreground); font-style: italic; }
+
+      /* ---------- chip thumbnails ---------- */
+      .chip .thumb { width: 34px; height: 42px; flex: none; border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+      .chip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ---------- OPTION D : photo showcase ---------- */
+      .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+      .gallery figure { margin: 0; position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 4px; background: var(--card); }
+      .gallery img { width: 100%; height: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+      .gallery figure:hover img { transform: scale(1.05); }
+      .gallery .big { grid-column: span 2; }
+      .gallery .big img { aspect-ratio: 3 / 2; }
+      .gallery figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 14px 12px; background: linear-gradient(to top, oklch(0.24 0.03 60 / 0.82), transparent); color: oklch(0.98 0.02 88); font-size: 12px; font-weight: 600; line-height: 1.4; }
+      .gallery figcaption span { display: block; font-weight: 400; font-size: 10px; opacity: 0.85; margin-top: 2px; }
+      .gallery .more { display: flex; flex-direction: column; justify-content: center; gap: 9px; padding: 18px; background: linear-gradient(150deg, var(--glass), var(--card)); text-align: center; }
+      .gallery .more b { font-family: var(--font-display); font-size: 19px; font-weight: 500; }
+      .gallery .more span { font-size: 11.5px; color: var(--muted-foreground); line-height: 1.6; }
+      .gallery .more a { font-size: 11px; font-weight: 600; color: var(--gold); text-decoration: none; }
+      @media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+      /* ---------- detail sheet (chip click -> option click) ---------- */
+      body.locked { overflow: hidden; }
+      .detail { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 26px; }
+      .detail[hidden] { display: none; }
+      .detail-scrim { position: absolute; inset: 0; background: oklch(0.28 0.03 65 / 0.42); backdrop-filter: blur(7px); }
+      .detail-card { position: relative; width: min(920px, 100%); max-height: min(90vh, 960px); overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: linear-gradient(168deg, oklch(0.997 0.012 90 / 0.99), oklch(0.972 0.03 87 / 0.99)); box-shadow: 0 30px 80px oklch(0.3 0.04 70 / 0.32); }
+      .detail-x { position: absolute; top: 13px; right: 13px; z-index: 3; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: oklch(0.99 0.012 90 / 0.92); color: var(--foreground); font-size: 14px; line-height: 1; cursor: pointer; }
+      .detail-x:hover { background: var(--secondary); }
+      .detail-hero { position: relative; }
+      .detail-hero img { width: 100%; height: 208px; object-fit: cover; display: block; }
+      .detail-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, oklch(0.99 0.012 90 / 0.98), transparent 62%); }
+      .detail-body { position: relative; padding: 0 34px 30px; margin-top: -40px; }
+      .detail-kicker { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+      .detail-body h3 { font-size: 34px; margin: 8px 0 9px; }
+      .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+      .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
+      .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+      .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .rich-block p { margin: 0; font-size: 12.5px; line-height: 1.8; color: var(--muted-foreground); }
+      .rich-block .detail-h { margin-top: 0; }
+      .detail-facts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; margin: 24px 0 0; padding: 15px 0; border-block: 1px solid var(--border); }
+      .fact { font-size: 12px; }
+      .fact b { display: block; margin-bottom: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+      .bestfor { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+      .bestfor i { font-style: normal; font-size: 10.5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 20px; background: var(--secondary); }
+      .opt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+      .opt-card { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 13px; text-align: left; cursor: pointer; border: 1px solid var(--border); border-radius: 4px; background: oklch(1 0 0 / 0.62); color: var(--foreground); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; transition: background 0.25s, border-color 0.25s; }
+      .opt-card:hover { background: var(--secondary); border-color: var(--gold); }
+      .opt-card .arw { margin-left: auto; color: var(--gold); font-weight: 400; }
+      .plain-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+      .plain-list li { padding: 7px 11px; border: 1px solid var(--border); border-radius: 3px; background: oklch(1 0 0 / 0.62); font-size: 11.5px; }
+      .fact span { font-size: 12px; line-height: 1.6; }
+      .comes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 20px; margin: 0; padding: 0; list-style: none; }
+      .comes li { position: relative; padding-left: 19px; font-size: 12px; line-height: 1.7; color: var(--muted-foreground); }
+      .comes li::before { content: '\2713'; position: absolute; left: 0; top: 0; color: var(--gold); font-size: 11px; }
+      .pairs { display: flex; flex-wrap: wrap; gap: 7px; }
+      .pairs button { padding: 7px 12px; border: 1px solid var(--border); border-radius: 3px; background: oklch(1 0 0 / 0.6); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; cursor: pointer; }
+      .pairs button:hover { background: var(--secondary); border-color: var(--gold); }
+      .detail-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .detail-mini img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid var(--border); border-radius: 3px; }
+      .detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); align-items: center; }
+      .detail-up { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.99 0.012 90 / 0.9); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; font-weight: 600; cursor: pointer; }
+      .detail-up:hover { background: var(--secondary); }
+      .ghost { display: inline-flex; align-items: center; padding: 12px 18px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.995 0.015 88 / 0.7); color: var(--foreground); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; text-decoration: none; }
+      .ghost:hover { background: var(--secondary); }
+      .cta.on { background: var(--secondary); box-shadow: none; }
+      @media (max-width: 860px) {
+        .detail-rich, .detail-rich.two { grid-template-columns: 1fr; gap: 16px; }
+        .opt-grid { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 760px) {
+        .detail { padding: 0; align-items: end; }
+        .detail-card { max-height: 93vh; border-radius: 10px 10px 0 0; }
+        .detail-hero img { height: 150px; }
+        .detail-body { padding: 0 20px 22px; margin-top: -30px; }
+        .detail-body h3 { font-size: 26px; }
+        .bestfor { margin-left: 0; }
+      }
+
+      /* ---------- OPTION B : tabs ---------- */
+      .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+      .tab {
+        font-family: var(--font-sans); font-size: 11.5px; letter-spacing: 0.04em; font-weight: 600;
+        padding: 10px 16px; border-radius: 3px; cursor: pointer; border: 1px solid var(--border);
+        background: oklch(1 0 0 / 0.55); color: var(--muted-foreground);
+      }
+      .tab[aria-selected="true"] { background: oklch(0.42 0.05 65); color: var(--champagne); border-color: oklch(0.42 0.05 65); }
+      .panel { display: none; }
+      .panel.on { display: block; }
+      .lines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 26px; }
+      .lines span { font-size: 12.5px; padding: 8px 0; border-bottom: 1px dotted var(--border); }
+      .lines span b { font-weight: 600; }
+      .lines span i { font-style: normal; color: var(--muted-foreground); font-size: 11px; display: block; margin-top: 2px; }
+
+      /* ---------- OPTION C : search strip ---------- */
+      .strip {
+        border-block: 1px solid var(--border); background: var(--glass);
+        display: flex; align-items: center; justify-content: center; min-height: 64px;
+        font-family: var(--font-display); font-size: 17px; font-style: italic; letter-spacing: 0.05em;
+        overflow: hidden;
+      }
+      .strip .roll { display: inline-block; animation: flip 16s infinite; }
+      @keyframes flip { 0%, 11% { transform: translateY(0); } 12.5%, 23.5% { transform: translateY(-100%); } 25%, 36% { transform: translateY(-200%); } 37.5%, 48.5% { transform: translateY(-300%); } 50%, 61% { transform: translateY(-400%); } 62.5%, 73.5% { transform: translateY(-500%); } 75%, 86.5% { transform: translateY(-600%); } 87.5%, 100% { transform: translateY(-700%); } }
+      .strip .win { height: 1.4em; overflow: hidden; }
+      .strip .roll span { display: block; height: 1.4em; line-height: 1.4em; text-align: center; }
+      .strip .roll .dot { color: var(--gold); font-style: normal; }
+
+      /* ---------- selection bar ---------- */
+      .selbar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+        background: oklch(0.99 0.015 88 / 0.92); backdrop-filter: blur(14px);
+        border-top: 1px solid var(--border); box-shadow: 0 -12px 40px oklch(0.48 0.06 72 / 0.1);
+      }
+      .selbar .wrap { display: flex; align-items: center; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+      .selbar .lbl { font-size: 10px; letter-spacing: 0.12em; font-weight: 700; color: var(--gold); text-transform: uppercase; }
+      .picked { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+      .picked .p { font-size: 11px; padding: 5px 10px; border-radius: 20px; background: var(--secondary); border: 1px solid var(--border); }
+      .picked .empty { font-size: 12px; color: var(--muted-foreground); font-style: italic; }
+      .cta {
+        font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: oklch(0.27 0.03 65);
+        background: linear-gradient(115deg, oklch(0.89 0.085 88), oklch(0.8 0.09 72) 45%, oklch(0.92 0.075 87) 75%, oklch(0.83 0.07 38));
+        border: 1px solid oklch(0.82 0.08 82 / 0.48); border-radius: 3px; padding: 12px 20px; cursor: pointer;
+      }
+      .reset { font-family: var(--font-sans); font-size: 11px; background: none; border: 0; color: var(--muted-foreground); cursor: pointer; text-decoration: underline; }
+
+      .foot { margin-top: 50px; padding: 30px 0 40px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.9; color: var(--muted-foreground); }
+      .foot b { color: var(--foreground); }
+
+      @media (max-width: 900px) {
+        .groups { grid-template-columns: 1fr; }
+        .lines { grid-template-columns: 1fr; }
+        h1 { font-size: 30px; }
+        h2 { font-size: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <div class="wrap">
+        <span>
+          🧪 <b>DRAFT MOCKUP — this is NOT your live website.</b> Nothing on your site has been changed.
+          This is a rough draft, made only so the idea can be seen with your own eyes. Anything inside a
+          dashed amber box is my note to you — nothing like that will appear on the site.
+        </span>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <!-- ================= OPTION A ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">THE ART OF OUR DECOR</span>
+            <h1>Every decoration we create works in <em>two layers.</em></h1>
+            <p>
+              First, what it is made of — balloons, flowers, fabric, light. Then how it is built and where
+              it stands — backdrop, arch, stage, ceiling. And finally, the extra magic on top.
+            </p>
+          </div>
+          <div class="note" style="max-width: 360px; margin: 0">
+            <span class="tag">My note</span> This is the one section customers understand instantly, and
+            it also brings in new visitors searching for these exact services.
+          </div>
+        </div>
+
+        <div class="groups">
+          <!-- group 1 -->
+          <article class="group">
+            <span class="group-no">01</span>
+            <h3>What we craft with</h3>
+            <p>The Elements — material &amp; art style</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/balloon-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Balloon Decor</span><span class="ds">Organic garlands, jumbo &amp; chrome balloons</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/floral-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Floral Decor</span><span class="ds">Fresh flowers, rose walls, floral arches</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/drapes-lighting.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Drapes &amp; Fabric</span><span class="ds">Sheer, satin &amp; tent draping</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/drapes-lighting.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Lighting Decor</span><span class="ds">Fairy lights, uplighters, chandeliers</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/greenery-foliage.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Greenery &amp; Foliage</span><span class="ds">Vines, palms, mogra &amp; leaf walls</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/props-cutouts.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Props &amp; Cutouts</span><span class="ds">3D standees, neon names, mirror panels</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/premium-finishes.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Premium Finishes</span><span class="ds">Pearl, sequin, metallic &amp; glitter touches</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/custom-signage.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Custom Signage</span><span class="ds">Neon names, welcome &amp; acrylic boards</span></span><span class="tick">✓</span></button>
+            </div>
+            <p class="group-foot">Deliberately short — the list never overwhelms.</p>
+          </article>
+
+          <!-- group 2 -->
+          <article class="group">
+            <span class="group-no">02</span>
+            <h3>How we build it</h3>
+            <p>The Structures — setup type</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/backdrop-photobooth.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Backdrop / Photo Booth</span><span class="ds">Our most requested setup</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/arch-entrance.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Arch / Entrance Gate</span><span class="ds">Balloon arch, floral gate, welcome entry</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/mandap-pandal.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Mandap &amp; Pandal</span><span class="ds">Wedding mandap, haldi &amp; mehndi pandal</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/stage-truss.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Stage &amp; Front Truss</span><span class="ds">Stage, truss and side panels</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/ceiling-hanging.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Ceiling &amp; Hanging Decor</span><span class="ds">Ceiling rings, hung props, overhead setups</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/tablescape-lounge.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Tablescape &amp; Lounge</span><span class="ds">Table settings, low seating, lounge corners</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/marry-me-proposal.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Marry Me / Proposal</span><span class="ds">Rooftop, poolside &amp; restaurant setups</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/walkway-aisle.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Walkway &amp; Aisle Decor</span><span class="ds">Entry paths, pathway lighting</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/cake-dessert.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cake Table &amp; Dessert Bar</span><span class="ds">Cake plinths, dessert &amp; candy displays</span></span><span class="tick">✓</span></button>
+            </div>
+          </article>
+
+          <!-- group 3 -->
+          <article class="group">
+            <span class="group-no">03</span>
+            <h3>The extra magic</h3>
+            <p>The Experiences — effects &amp; fun</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/cold-pyro.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cold Pyro &amp; Fountains</span><span class="ds">Entries, cake cutting &amp; first dances</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/fog-bubbles.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Fog, Bubbles &amp; Smoke</span><span class="ds">Low-lying fog, dance-floor smoke</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/confetti-balloon-drop.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Confetti &amp; Balloon Drop</span><span class="ds">Confetti cannons, ceiling balloon drops</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/booth-360.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">360° Booth / Selfie Point</span><span class="ds">360 booth, photo booth, selfie frames</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/kids-zone.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Kids Zone &amp; Character Fun</span><span class="ds">Gaming zone, cartoon characters, tattoos</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/sweet-cart.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Sweet Cart &amp; Candy Bar</span><span class="ds">Sweet carts, welcome drinks, popcorn</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/live-entertainment.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Live Entertainment</span><span class="ds">Anchors, dhol, magicians, games</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/surprise-setups.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Surprise Setups</span><span class="ds">Room, car &amp; pet surprise decoration</span></span><span class="tick">✓</span></button>
+            </div>
+            <p class="group-foot">This list brings the most enquiries — it is what people ask for by name.</p>
+          </article>
+        </div>
+
+        <div class="note">
+          <span class="tag">How to read this</span>
+          <b>Group 01</b> = “what it is made of” • <b>Group 02</b> = “how and where it is built” •
+          <b>Group 03</b> = “what else we can add”. Together they give the customer the full picture,
+          without weighing the page down.
+          <br /><br />
+          👉 <b>Click any chip</b> — a full explanation opens: what it is, every option inside it, and examples. Tap “Add to my enquiry” to collect your picks in the bar below, and it will also pre-fill the enquiry form on the live site.
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <div class="divider"></div>
+
+      <!-- ================= OPTION D : PHOTO SHOWCASE ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION D — WITH PHOTOS</span>
+            <h2>The same section, <em>with pictures beside it.</em></h2>
+            <p>
+              Every chip carries a small picture of its own, and this photo showcase sits right below.
+              Customers decide with their eyes — this is the version that sells.
+            </p>
+          </div>
+        </div>
+        <div class="gallery">
+          <figure class="big"><img src="img/backdrop-photobooth.jpg" alt="Backdrop and photo booth styling" loading="lazy" /><figcaption>Backdrop / Photo Booth<span>Our most requested setup</span></figcaption></figure>
+          <figure><img src="img/arch-entrance.jpg" alt="Floral entrance arch" loading="lazy" /><figcaption>Arch / Entrance Gate</figcaption></figure>
+          <figure><img src="img/cold-pyro.jpg" alt="Cold pyro fountains" loading="lazy" /><figcaption>Cold Pyro &amp; Fountains</figcaption></figure>
+          <figure class="big"><img src="img/mandap-pandal.jpg" alt="Wedding mandap" loading="lazy" /><figcaption>Mandap &amp; Pandal<span>Wedding · Haldi · Mehndi</span></figcaption></figure>
+          <figure><img src="img/floral-decor.jpg" alt="Floral decor" loading="lazy" /><figcaption>Floral Decor</figcaption></figure>
+          <figure><img src="img/balloon-decor.jpg" alt="Balloon decor" loading="lazy" /><figcaption>Balloon Decor</figcaption></figure>
+          <figure><img src="img/drapes-lighting.jpg" alt="Drapes and lighting" loading="lazy" /><figcaption>Drapes &amp; Lighting</figcaption></figure>
+          <figure><img src="img/booth-360.jpg" alt="360 photo booth" loading="lazy" /><figcaption>360° Booth</figcaption></figure>
+          <figure><img src="img/kids-zone.jpg" alt="Kids play zone" loading="lazy" /><figcaption>Kids Zone</figcaption></figure>
+          <figure class="more">
+            <b>And much more…</b>
+            <span>Ceiling decor, tablescapes, proposals, cake tables, confetti drops and more.</span>
+            <a href="#concierge">Ask us anything →</a>
+          </figure>
+        </div>
+        <div class="note">
+          <span class="tag">Important</span> These pictures are <b>AI-made placeholders</b> — not your real
+          work. They are here only to show how the section breathes with photography. Your own event
+          photos will look far better in these slots.
+        </div>
+      </section>
+
+      <!-- ================= OPTION B ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION B — COMPACT</span>
+            <h2>The same content, <em>in a fraction of the space.</em></h2>
+            <p>
+              If a long section feels like too much, this identical content can live in three tabs — no
+              more than three lines tall.
+            </p>
+          </div>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" aria-selected="true" data-p="p1">WHAT WE CRAFT WITH</button>
+          <button class="tab" role="tab" aria-selected="false" data-p="p2">HOW WE BUILD IT</button>
+          <button class="tab" role="tab" aria-selected="false" data-p="p3">THE EXTRA MAGIC</button>
+        </div>
+        <div class="panel on" id="p1">
+          <div class="lines">
+            <span><b>🎈 Balloon Decor</b><i>Organic garlands, jumbo, chrome</i></span>
+            <span><b>💐 Floral Decor</b><i>Fresh flowers, rose walls, arches</i></span>
+            <span><b>🧵 Drapes &amp; Fabric</b><i>Sheer, satin, tent draping</i></span>
+            <span><b>💡 Lighting Decor</b><i>Fairy lights, uplighters, chandeliers</i></span>
+            <span><b>🌿 Greenery &amp; Foliage</b><i>Vines, palms, mogra, leaf walls</i></span>
+            <span><b>🖼️ Props &amp; Cutouts</b><i>Standees, neon names, mirror panels</i></span>
+            <span><b>⚜️ Premium Finishes</b><i>Pearl, sequin, metallic, glitter</i></span>
+            <span><b>🎨 Custom Signage</b><i>Neon names, welcome boards</i></span>
+          </div>
+        </div>
+        <div class="panel" id="p2">
+          <div class="lines">
+            <span><b>🖼️ Backdrop / Photo Booth</b><i>Most requested setup</i></span>
+            <span><b>🚪 Arch / Entrance Gate</b><i>Balloon arch, floral gate</i></span>
+            <span><b>⛩️ Mandap &amp; Pandal</b><i>Wedding, haldi, mehndi</i></span>
+            <span><b>🎭 Stage &amp; Front Truss</b><i>Stage, truss, side panels</i></span>
+            <span><b>☁️ Ceiling &amp; Hanging</b><i>Ceiling rings, hanging props</i></span>
+            <span><b>🍽️ Tablescape &amp; Lounge</b><i>Table settings, low seating</i></span>
+            <span><b>💍 Marry Me / Proposal</b><i>Rooftop, poolside setups</i></span>
+            <span><b>🚶 Walkway &amp; Aisle</b><i>Entry paths, pathway lighting</i></span>
+            <span><b>🎂 Cake Table &amp; Dessert Bar</b><i>Cake plinths, dessert displays</i></span>
+          </div>
+        </div>
+        <div class="panel" id="p3">
+          <div class="lines">
+            <span><b>🔥 Cold Pyro &amp; Fountains</b><i>Entries, cake cutting</i></span>
+            <span><b>🌫️ Fog, Bubbles &amp; Smoke</b><i>Low fog, dance-floor smoke</i></span>
+            <span><b>🎊 Confetti &amp; Balloon Drop</b><i>Cannons, ceiling drops</i></span>
+            <span><b>📸 360° Booth</b><i>360 booth, photo booth, selfie point</i></span>
+            <span><b>🎠 Kids Zone</b><i>Gaming, characters, tattoos</i></span>
+            <span><b>🍭 Sweet Cart</b><i>Candy, welcome drinks, popcorn</i></span>
+            <span><b>🎉 Live Entertainment</b><i>Anchors, dhol, magicians</i></span>
+            <span><b>🚗 Surprise Setups</b><i>Room, car, pet decoration</i></span>
+          </div>
+        </div>
+        <div class="note">
+          <span class="tag">Honest note</span> In Option B the content stays <b>hidden</b> — if a visitor
+          does not click, they never read it. In Option A everything is visible at a glance. That is why
+          I recommend Option A — but the choice is yours.
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= OPTION C ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION C — SEARCH STRIP</span>
+            <h2>Instead of <em>“flowers, balloons, memories”</em></h2>
+            <p>
+              The slim strip beside the search bar currently reads flowers, balloons, memories. Let it
+              cycle through the work we actually do, and a visitor understands your range at a glance.
+            </p>
+          </div>
+        </div>
+        <div class="strip">
+          <span class="win">
+            <span class="roll">
+              <span>BALLOON <span class="dot">✦</span> FLORAL <span class="dot">✦</span> DRAPES</span>
+              <span>LIGHTING <span class="dot">✦</span> BACKDROP <span class="dot">✦</span> ARCH</span>
+              <span>MANDAP <span class="dot">✦</span> STAGE <span class="dot">✦</span> CEILING</span>
+              <span>TABLESCAPE <span class="dot">✦</span> PROPOSAL <span class="dot">✦</span> AISLE</span>
+              <span>COLD PYRO <span class="dot">✦</span> CONFETTI <span class="dot">✦</span> FOG</span>
+              <span>360° BOOTH <span class="dot">✦</span> KIDS ZONE <span class="dot">✦</span> SWEET CART</span>
+              <span>WELCOME BABY <span class="dot">✦</span> NAMING <span class="dot">✦</span> HOUSEWARMING</span>
+              <span>BALLOON <span class="dot">✦</span> FLORAL <span class="dot">✦</span> DRAPES</span>
+            </span>
+          </span>
+        </div>
+        <div class="note">
+          <span class="tag">Remember</span> This <b>replaces</b> that strip — it is not a new section, so it
+          takes up no extra space on the page.
+        </div>
+      </section>
+
+      <div class="foot">
+        <b>Does this match the idea in your head?</b> Look through it, then tell me:<br />
+        1️⃣ Which option — A, B or C (or a mix)?<br />
+        2️⃣ Anything to add or remove? (I will write the names exactly the way you say them.)<br />
+        3️⃣ Where should it go — after the occasions row (my recommendation), or after the portfolio?<br /><br />
+        Whatever you change, I will update it <b>here in this draft</b>. I will only touch the real
+        website when you clearly say “put it on the site”. 👍
+      </div>
+    </div>
+
+    <!-- detail sheet: click a chip, then click any option inside it -->
+    <div class="detail" id="detail" hidden>
+      <div class="detail-scrim" data-close></div>
+      <article class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button class="detail-x" type="button" data-close aria-label="Close">✕</button>
+
+        <div id="view-chip">
+          <div class="detail-hero"><img id="detail-img" src="" alt="" /></div>
+          <div class="detail-body">
+            <span class="detail-kicker" id="detail-kicker"></span>
+            <h3 id="detail-title"></h3>
+            <p class="detail-intro" id="detail-intro"></p>
+
+            <div class="detail-rich">
+              <div class="rich-block"><span class="detail-h">What it is</span><p id="c-what"></p></div>
+              <div class="rich-block"><span class="detail-h">Why people choose it</span><p id="c-why"></p></div>
+              <div class="rich-block"><span class="detail-h">How we build it</span><p id="c-how"></p></div>
+            </div>
+
+            <div class="detail-facts">
+              <div id="c-facts" style="display: contents"></div>
+              <div class="bestfor" id="c-best"></div>
+            </div>
+
+            <span class="detail-h" id="opts-head"></span>
+            <ul class="opt-grid" id="c-opts"></ul>
+
+            <span class="detail-h">A few examples</span>
+            <div class="detail-mini" id="detail-mini"></div>
+
+            <div class="detail-actions">
+              <button class="cta" type="button" id="detail-add">Add to my enquiry</button>
+              <a class="ghost" id="detail-wa" href="#" target="_blank" rel="noreferrer">WhatsApp →</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-opt" hidden>
+          <div class="detail-hero"><img id="opt-img" src="" alt="" /></div>
+          <div class="detail-body">
+            <button class="detail-up" type="button" id="opt-back"></button>
+            <span class="detail-kicker" id="opt-kicker"></span>
+            <h3 id="opt-title"></h3>
+            <p class="detail-intro" id="opt-what"></p>
+
+            <div class="detail-rich">
+              <div class="rich-block"><span class="detail-h">How it is made</span><p id="opt-how"></p></div>
+              <div class="rich-block"><span class="detail-h">Where it is used</span><p id="opt-where"></p></div>
+              <div class="rich-block"><span class="detail-h">Good to know</span><p id="opt-note"></p></div>
+            </div>
+
+            <div class="detail-facts">
+              <div class="fact"><b>Setup time</b><span id="opt-time"></span></div>
+              <div class="fact"><b>Colour & palette</b><span id="opt-colours"></span></div>
+              <div class="bestfor" id="opt-best"></div>
+            </div>
+
+            <span class="detail-h" id="comes-head"></span>
+            <ul class="comes" id="opt-comes"></ul>
+
+            <span class="detail-h" id="pairs-head"></span>
+            <div class="pairs" id="opt-pairs"></div>
+
+            <div class="detail-actions">
+              <button class="cta" type="button" id="opt-add">Add this option to my enquiry</button>
+              <a class="ghost" id="opt-wa" href="#" target="_blank" rel="noreferrer">WhatsApp →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- selection bar -->
+    <div class="selbar">
+      <div class="wrap">
+        <span class="lbl">Your selection</span>
+        <div class="picked"><span class="empty">Nothing selected yet — tap any chip above</span></div>
+        <button class="reset" type="button">Clear</button>
+        <button class="cta" type="button">Send on WhatsApp →</button>
+      </div>
+    </div>
+    <script>
+  window.DECOR_DATA = {
+  "Balloon Decor": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "Our first language — layered, organic, never just a bunch of balloons.",
+    "includes": [
+      "Bubble & confetti balloons",
+      "Jumbo & chrome balloons",
+      "Organic balloon garland",
+      "Balloon wall & cloud",
+      "Number & alphabet balloons",
+      "Balloon arch & columns"
+    ],
+    "photo": "img/balloon-decor.jpg",
+    "gallery": [
+      "img/backdrop-photobooth.jpg",
+      "img/arch-entrance.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "Balloon styling is our signature craft — layered organic garlands, sculpted arches and colour stories built for the camera.",
+    "why": "It is the fastest way to turn a plain room into a celebration, and it photographs beautifully from every angle.",
+    "how": "We start from your palette and the venue's light, sketch the silhouette, then build on site with premium latex, chrome and jumbo balloons in matched tones.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where it works",
+        "Indoor & outdoor"
+      ],
+      [
+        "Stays fresh",
+        "2–3 days"
+      ]
+    ],
+    "bestFor": [
+      "Birthdays",
+      "Baby Showers",
+      "Weddings",
+      "Corporate"
+    ],
+    "options": {
+      "Bubble & confetti balloons": {
+        "what": "Clear balloons filled with confetti, feathers, or nothing at all.",
+        "how": "Confetti is inserted dry first, then the balloon is inflated and sealed so nothing settles at the bottom.",
+        "where": "Mixed into garlands to lighten the look.",
+        "note": "A luxury feel for very little extra cost — ask for it in at least one size.",
+        "pick": "Choose this when the palette is soft and you want a lighter, airier look.",
+        "time": "20 mins",
+        "colours": "Clear with gold, silver or pastel confetti",
+        "best": [
+          "Baby Showers",
+          "Engagements",
+          "Bridal Showers"
+        ],
+        "comes": [
+          "Dry confetti filling",
+          "Slow inflation, no settling",
+          "Sealed finish",
+          "Mixed into your main garland"
+        ],
+        "pairs": [
+          "Organic balloon garland",
+          "Premium Finishes",
+          "Floral Decor"
+        ]
+      },
+      "Jumbo & chrome balloons": {
+        "what": "Oversized balloons with a mirror-like metallic finish.",
+        "how": "Chrome balloons are inflated slowly and evenly so the surface stays flawless and free of marks.",
+        "where": "As statement pieces inside garlands, clouds and arches.",
+        "note": "They must never be deflated early — the shine is the entire point.",
+        "pick": "Choose this when photos will be taken with flash or in bright daylight.",
+        "time": "30 mins",
+        "colours": "Chrome gold · silver · rose gold · pearl white",
+        "best": [
+          "Engagements",
+          "Anniversaries",
+          "Luxury Birthdays"
+        ],
+        "comes": [
+          "Chrome and pearl jumbos",
+          "Slow-inflated flawless finish",
+          "Hidden suspension strings",
+          "On-site placement by hand"
+        ],
+        "pairs": [
+          "Organic balloon garland",
+          "Premium Finishes",
+          "Backdrop / Photo Booth"
+        ]
+      },
+      "Organic balloon garland": {
+        "what": "A free-flowing, layered garland of mixed-size balloons.",
+        "how": "Balloons in three to five sizes are inflated to exact diameters and pinned in clusters so the surface never looks flat.",
+        "where": "Wrapped along a wall, arch, backdrop edge or staircase.",
+        "note": "The most versatile balloon style — it works in any colour combination you choose.",
+        "pick": "Choose this when you want maximum impact across a wall without a rigid structure.",
+        "time": "45–60 mins",
+        "colours": "Ivory · blush · sage · chrome gold · pastel mix",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "House Warming"
+        ],
+        "comes": [
+          "Three to five balloon sizes",
+          "Matching chrome accents",
+          "Hidden fixing and hooks",
+          "On-site finishing and clean-up"
+        ],
+        "pairs": [
+          "Balloon wall & cloud",
+          "Backdrop / Photo Booth",
+          "Drapes & Fabric"
+        ]
+      },
+      "Balloon wall & cloud": {
+        "what": "A dense wall or a floating cluster of balloons.",
+        "how": "Balloons are built up row by row on a frame until the surface is solid.",
+        "where": "Backdrops, selfie corners, behind the cake.",
+        "note": "It is heavy — it needs a wall or a stand, never just a hook.",
+        "pick": "Choose this when you need a solid, full background for photographs.",
+        "time": "60–90 mins",
+        "colours": "Single tone, ombre or mixed palette",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "Corporate"
+        ],
+        "comes": [
+          "Wall or frame mounting",
+          "Row-by-row build",
+          "Colour blocking",
+          "Solid base for stability"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Premium Finishes"
+        ]
+      },
+      "Number & alphabet balloons": {
+        "what": "Large numbers and letters, either inflated foil or built from balloons.",
+        "how": "We choose between foil or a balloon-built frame depending on how large and how sharp the shape must be.",
+        "where": "Milestones — first birthdays, 25th anniversaries, shop openings.",
+        "note": "The shape is judged entirely in photographs, so we keep the edges crisp.",
+        "pick": "Choose this for a milestone where the number or name must be readable in every photo.",
+        "time": "30 mins",
+        "colours": "Foil metallic, or balloon-built in your palette",
+        "best": [
+          "1st Birthday",
+          "25th Anniversary",
+          "Shop Openings"
+        ],
+        "comes": [
+          "Foil or balloon-built letters",
+          "Hidden support",
+          "Backdrop pairing",
+          "Daylight alignment check"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Balloon wall & cloud",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Balloon arch & columns": {
+        "what": "A structured arch or pair of pillars, built to a fixed height and width.",
+        "how": "A hidden frame holds the shape while balloons are layered over it from the inside out.",
+        "where": "Entrance gates, stage sides, photo frames and doorways.",
+        "note": "Best where the venue already has a doorway worth dressing.",
+        "pick": "Choose this when the entrance deserves a moment of its own.",
+        "time": "60–90 mins",
+        "colours": "Two-tone or three-tone palettes",
+        "best": [
+          "Weddings",
+          "Grand Openings",
+          "Birthdays"
+        ],
+        "comes": [
+          "Hidden rigid frame",
+          "Balloon layering inside-out",
+          "Weighted bases for wind",
+          "Clean finish on the guest side"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Custom Signage",
+          "Arch / Entrance Gate"
+        ]
+      }
+    }
+  },
+  "Floral Decor": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "Fresh flowers composed like a florist would — never simply placed.",
+    "includes": [
+      "Flower & petal walkway",
+      "Fresh flower wall",
+      "Floral arch & pillars",
+      "Rose & orchid arrangements",
+      "Table centrepieces",
+      "Hanging & ceiling florals"
+    ],
+    "photo": "img/floral-decor.jpg",
+    "gallery": [
+      "img/arch-entrance.jpg",
+      "img/mandap-pandal.jpg",
+      "img/floral-decor.jpg"
+    ],
+    "what": "Fresh flowers arranged the way a florist composes — full, fragrant, and never simply placed.",
+    "why": "Flowers bring the two things balloons cannot: fragrance and softness.",
+    "how": "Blooms are sourced fresh on the day, conditioned, then arranged on site in the venue's own light so nothing looks tired by the time guests arrive.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where it works",
+        "Shaded areas"
+      ],
+      [
+        "Stays fresh",
+        "Same day"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Ring Ceremony",
+      "Anniversaries",
+      "Devotional"
+    ],
+    "options": {
+      "Flower & petal walkway": {
+        "what": "A pathway dressed in petals and blooms.",
+        "how": "Petals are laid in a gradient on the day itself, with heavier colour near the entry.",
+        "where": "Entries, mandap approaches, proposal spots.",
+        "note": "Wet surfaces get slippery — we manage the floor so nobody has to watch their step.",
+        "pick": "Choose this when the entry or aisle deserves drama.",
+        "time": "45 mins",
+        "colours": "Rose · white · marigold for traditional setups",
+        "best": [
+          "Weddings",
+          "Proposals",
+          "Grand Entries"
+        ],
+        "comes": [
+          "Fresh petal laying",
+          "Gradient colour planning",
+          "Slip-safe handling",
+          "Post-event sweeping"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Arch / Entrance Gate",
+          "Lighting Decor"
+        ]
+      },
+      "Fresh flower wall": {
+        "what": "A full wall of fresh blooms, built panel by panel.",
+        "how": "Each bloom is wired into a water-fed frame on site, so it stays fresh from the first guest to the last.",
+        "where": "Backdrops, photo corners and stage fronts.",
+        "note": "It is built on the day itself — a flower wall never looks tired if it is made fresh.",
+        "pick": "Choose this when the photo zone is the highlight of the whole event.",
+        "time": "2–3 hours",
+        "colours": "White · blush · peach · seasonal blooms",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Engagements"
+        ],
+        "comes": [
+          "Water-fed frame",
+          "Fresh blooms wired on site",
+          "Green backing so no gaps show",
+          "Clean-up of fallen petals"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      },
+      "Floral arch & pillars": {
+        "what": "A flower-covered arch, or a pair of floral pillars.",
+        "how": "Florals are fixed to a hidden frame and finished from the top down, so no fixing is visible.",
+        "where": "Entrances, mandap sides, aisle ends, stage corners.",
+        "note": "Pillars usually give you more flower coverage per rupee than a full arch.",
+        "pick": "Choose this when guests will walk through it, not just look at it.",
+        "time": "2–3 hours",
+        "colours": "Classic white-green or your bridal palette",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Hidden structural frame",
+          "Top-down floral finishing",
+          "Weighted footing",
+          "Evening misting to stay fresh"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Drapes & Fabric"
+        ]
+      },
+      "Rose & orchid arrangements": {
+        "what": "Dense, high-value arrangements in the flowers you choose.",
+        "how": "Blooms are conditioned, then arranged in tiers of height so the arrangement reads full from every seat.",
+        "where": "Centrepieces, plinths, gift tables and cake tables.",
+        "note": "Fragrance is part of the design, not a side effect.",
+        "pick": "Choose this when the table needs to look valuable, not merely pretty.",
+        "time": "1–2 hours",
+        "colours": "Ivory · rose · orchid purple · green",
+        "best": [
+          "Anniversaries",
+          "Weddings",
+          "Corporate Dinners"
+        ],
+        "comes": [
+          "Conditioned fresh blooms",
+          "Vase or plinth styling",
+          "Tiered arrangement",
+          "Replacement blooms kept on standby"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar",
+          "Lighting Decor"
+        ]
+      },
+      "Table centrepieces": {
+        "what": "Low arrangements that never block conversation.",
+        "how": "Kept below eye level when seated, with the tallest element always in the centre.",
+        "where": "Dining tables, guest tables, bar counters.",
+        "note": "We plan these before the tablecloth is chosen, so the two always match.",
+        "pick": "Choose this when guests must be able to talk comfortably across the table.",
+        "time": "45 mins",
+        "colours": "Matched to your linen and crockery",
+        "best": [
+          "Weddings",
+          "Anniversaries",
+          "Corporate Dinners"
+        ],
+        "comes": [
+          "Low arrangements",
+          "Vessel styling",
+          "Identical repeated sets",
+          "Table-by-table placement"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar",
+          "Lighting Decor"
+        ]
+      },
+      "Hanging & ceiling florals": {
+        "what": "Flowers suspended from above, out of everyone's way.",
+        "how": "Wire and proper rigging hold the arrangement safely above head height, tested before guests arrive.",
+        "where": "Ceilings, chandeliers, above the aisle and mandap.",
+        "note": "Nothing touches the floor, which makes it perfect for tight venues.",
+        "pick": "Choose this when the floor is already full and you still want more impact.",
+        "time": "1–3 hours",
+        "colours": "Soft whites, greens and pastels",
+        "best": [
+          "Receptions",
+          "Weddings",
+          "Corporate"
+        ],
+        "comes": [
+          "Rigging and safety wire",
+          "Hanging arrangements",
+          "Set hanging height",
+          "Safety test before guests arrive"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Lighting Decor",
+          "Mandap & Pandal"
+        ]
+      }
+    }
+  },
+  "Drapes & Fabric": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "Fabric turns an ordinary room into a set — soft, tall and cinematic.",
+    "includes": [
+      "Floating fabric ceiling",
+      "Ceiling & tent draping",
+      "Table & chair draping",
+      "Gathered backdrop drapes",
+      "Sheer & chiffon drapes",
+      "Satin & velvet panels"
+    ],
+    "photo": "img/drapes-lighting.jpg",
+    "gallery": [
+      "img/drapes-lighting.jpg",
+      "img/mandap-pandal.jpg",
+      "img/backdrop-photobooth.jpg"
+    ],
+    "what": "Fabric is what makes a room feel like a set instead of a hall.",
+    "why": "It hides what you would rather not see and frames what you want everyone to look at.",
+    "how": "We measure the venue's heights first, then drape to the ceiling in sheer, satin or velvet so the fall stays clean and looks permanent.",
+    "facts": [
+      [
+        "Typical setup",
+        "2–3 hours"
+      ],
+      [
+        "Where it works",
+        "Any indoor venue"
+      ],
+      [
+        "Removed",
+        "Same night"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Receptions",
+      "Corporate",
+      "Baby Showers"
+    ],
+    "options": {
+      "Floating fabric ceiling": {
+        "what": "Fabric suspended with visible air between each panel.",
+        "how": "Panels are hung at staggered depths so they appear to float rather than hang.",
+        "where": "High ceilings, mandaps and terrace setups.",
+        "note": "It looks at its best with warm light glowing behind the fabric.",
+        "pick": "Choose this when the venue has height and you want to use it.",
+        "time": "2–3 hours",
+        "colours": "White · ivory · soft pastels",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Mandap"
+        ],
+        "comes": [
+          "Staggered panel hanging",
+          "Hidden rigging",
+          "Depth planning",
+          "Light-ready finish"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Ceiling & Hanging Decor",
+          "Mandap & Pandal"
+        ]
+      },
+      "Ceiling & tent draping": {
+        "what": "Fabric covering the whole ceiling in a soft canopy.",
+        "how": "Stretched across the room under tension and pinned at the edges so it never sags.",
+        "where": "Terrace functions, halls, pandals and courtyards.",
+        "note": "The single biggest visual change for the money, on any ceiling.",
+        "pick": "Choose this when you want one single change to lift the entire room.",
+        "time": "2–3 hours",
+        "colours": "Single ivory, or two-tone",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Haldi & Mehndi"
+        ],
+        "comes": [
+          "Room-wide canopy",
+          "Edge pinning",
+          "Tension testing",
+          "Night-time light check"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Ceiling & Hanging Decor",
+          "Mandap & Pandal"
+        ]
+      },
+      "Table & chair draping": {
+        "what": "Dressed linen, runners and sashes.",
+        "how": "Measured per table and pressed before setting, with sashes tied evenly across every chair.",
+        "where": "Dining tables, lounges and head tables.",
+        "note": "We match drapes and napkins to your palette instead of using venue stock.",
+        "pick": "Choose this when the venue's own linen looks tired in photographs.",
+        "time": "1–2 hours",
+        "colours": "Palette-matched linen and sashes",
+        "best": [
+          "Weddings",
+          "Corporate",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Fitted linen",
+          "Runners and napkins",
+          "Sashes tied evenly",
+          "Pressed before setting"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Floral Decor",
+          "Premium Finishes"
+        ]
+      },
+      "Gathered backdrop drapes": {
+        "what": "Centrally gathered fabric for a classic curtain feel.",
+        "how": "Fabric is gathered and fixed at a centre point, then spread evenly to both sides.",
+        "where": "Behind the cake, the couple, the stage and the mandap.",
+        "note": "The gathering height decides the whole character of the backdrop.",
+        "pick": "Choose this when the cake or the couple needs a classic frame behind them.",
+        "time": "1–2 hours",
+        "colours": "Any single tone with a gold tie",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Receptions"
+        ],
+        "comes": [
+          "Centre gather styling",
+          "Even spread to both sides",
+          "Gold tie or brooch detail",
+          "Photo angle check"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Backdrop / Photo Booth",
+          "Floral Decor"
+        ]
+      },
+      "Sheer & chiffon drapes": {
+        "what": "Light, floating fabric that softens hard walls.",
+        "how": "Draped in wide, even folds over hidden support, then steamed on site.",
+        "where": "Backdrops, stage sides, ceilings and entrances.",
+        "note": "This single change turns an ordinary hall into a set.",
+        "pick": "Choose this when a hall looks plain and the budget needs to work hard.",
+        "time": "2 hours",
+        "colours": "White · ivory · blush · champagne",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Corporate"
+        ],
+        "comes": [
+          "Ceiling-to-floor draping",
+          "Hidden support",
+          "Even fold setting",
+          "Steam finishing on site"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Backdrop / Photo Booth",
+          "Ceiling & Hanging Decor"
+        ]
+      },
+      "Satin & velvet panels": {
+        "what": "Heavier fabrics with depth and a rich sheen.",
+        "how": "Panelled to measure and steamed on site, because heavier cloth shows every crease.",
+        "where": "Formal backdrops, lounges and VIP corners.",
+        "note": "Never rush this one — creases show twice as much on camera.",
+        "pick": "Choose this when the backdrop must look rich in a formal setting.",
+        "time": "2–3 hours",
+        "colours": "Ivory · burgundy · emerald · navy",
+        "best": [
+          "Weddings",
+          "Corporate",
+          "Receptions"
+        ],
+        "comes": [
+          "Made-to-measure panels",
+          "Steamed finish",
+          "Weighted hem",
+          "Careful removal after the event"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Lighting Decor": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "The biggest single upgrade — light decides how premium a setup feels.",
+    "includes": [
+      "Candles & lanterns",
+      "Pathway & tree lighting",
+      "Warm uplighters",
+      "Neon-style light pieces",
+      "Chandeliers & pendants",
+      "Fairy & string lights"
+    ],
+    "photo": "img/drapes-lighting.jpg",
+    "gallery": [
+      "img/drapes-lighting.jpg",
+      "img/cold-pyro.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "Light decides how premium a setup feels — more than any other single element.",
+    "why": "Warm light flatters people in photographs; harsh light ruins even expensive decor.",
+    "how": "We add the light last, after the decor is standing, so every fixture is aimed at whatever deserves to glow.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where it works",
+        "Indoor & terrace"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Receptions",
+      "Anniversaries",
+      "Corporate",
+      "Engagements"
+    ],
+    "options": {
+      "Candles & lanterns": {
+        "what": "Real or safe candles and lanterns, at floor and table level.",
+        "how": "Placed inside lanterns or glass so they stay safe around fabric and children.",
+        "where": "Walkways, tabletops, mandap steps and proposal setups.",
+        "note": "Nothing photographs as romantically as a flame — we keep it safe instead of skipping it.",
+        "pick": "Choose this when you want romance without building a big structure.",
+        "time": "30 mins",
+        "colours": "Amber glow with glass and brass",
+        "best": [
+          "Proposals",
+          "Anniversaries",
+          "Weddings"
+        ],
+        "comes": [
+          "Lantern or glass housing",
+          "Wind protection",
+          "Safe placement around fabric",
+          "Tending through the evening"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Walkway & Aisle Decor",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Pathway & tree lighting": {
+        "what": "Lights that guide guests along a route.",
+        "how": "Placed at even intervals and tested after dark, so the route reads clearly without glare.",
+        "where": "Entries, driveways, gardens, terraces and walkways.",
+        "note": "This is what makes an outdoor venue feel safe, grand and finished.",
+        "pick": "Choose this when guests must find their way in the dark.",
+        "time": "1 hour",
+        "colours": "Warm white, occasionally amber",
+        "best": [
+          "Weddings",
+          "Outdoor Events",
+          "Receptions"
+        ],
+        "comes": [
+          "Even-interval placement",
+          "Weather-safe cabling",
+          "After-dark testing",
+          "Tree and trunk wrapping"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Arch / Entrance Gate",
+          "Greenery & Foliage"
+        ]
+      },
+      "Warm uplighters": {
+        "what": "Lights placed on the floor, aimed upward at walls and drapes.",
+        "how": "Each unit is aimed and dimmed by hand after the decor is standing, never left at full strength.",
+        "where": "Stage walls, backdrops, pillars and tree trunks.",
+        "note": "Uplighting alone can change the colour of an entire hall.",
+        "pick": "Choose this when the hall feels cold or flat on camera.",
+        "time": "45 mins",
+        "colours": "Amber · warm white · magenta accent",
+        "best": [
+          "Weddings",
+          "Corporate",
+          "Receptions"
+        ],
+        "comes": [
+          "Floor units",
+          "Hand aiming and dimming",
+          "Cable safety covers",
+          "One standby unit"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Stage & Front Truss",
+          "Backdrop / Photo Booth"
+        ]
+      },
+      "Neon-style light pieces": {
+        "what": "Glowing light shapes and lettering — names, dates, symbols.",
+        "how": "Made to order and tested before the event so the glow is even, with no dark spots.",
+        "where": "Backdrops, entrances, proposals and cake tables.",
+        "note": "Warm white reads best in photographs; coloured light tends to look washed out.",
+        "pick": "Choose this when a name or a date should glow in the photographs.",
+        "time": "30 mins",
+        "colours": "Warm white · gold glow · ice blue",
+        "best": [
+          "Proposals",
+          "Birthdays",
+          "Corporate"
+        ],
+        "comes": [
+          "Made-to-order lettering",
+          "Hidden power routing",
+          "Glow-evenness test",
+          "Stand or hang mounting"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal"
+        ]
+      },
+      "Chandeliers & pendants": {
+        "what": "Hanging light fixtures that become part of the decor.",
+        "how": "Hung from proper rigging points and levelled so they hang identically in every photograph.",
+        "where": "Mandaps, dining areas, entrances and lounge corners.",
+        "note": "Ideal when the venue has height but no character.",
+        "pick": "Choose this when the venue has height but no character.",
+        "time": "1–2 hours",
+        "colours": "Crystal · gold · black metal",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Luxury Birthdays"
+        ],
+        "comes": [
+          "Rigging and levelling",
+          "Matched hanging height",
+          "Duplicate fixtures for symmetry",
+          "Sturdy mounting"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Drapes & Fabric",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Fairy & string lights": {
+        "what": "Warm, tiny lights woven through the decor.",
+        "how": "Strings are woven through florals, drapes and ceilings so no wire is ever visible.",
+        "where": "Backdrops, ceilings, trees, walkways and tables.",
+        "note": "Cheapest way to make any setup feel warm — ask for double density in photos zones.",
+        "pick": "Choose this when you want warmth in every photograph.",
+        "time": "45–90 mins",
+        "colours": "Warm white (recommended) or cool white",
+        "best": [
+          "All Occasions",
+          "Weddings",
+          "Birthdays"
+        ],
+        "comes": [
+          "Dense string wiring",
+          "Hidden cable runs",
+          "Backup sets on site",
+          "Extension and safety check"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Floral Decor",
+          "Ceiling & Hanging Decor"
+        ]
+      }
+    }
+  },
+  "Greenery & Foliage": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "Leaves and vines bring the freshness that flowers alone cannot.",
+    "includes": [
+      "Foliage arches",
+      "Palm & monstera styling",
+      "Hanging vines & creepers",
+      "Mogra & jasmine strands",
+      "Green walls & hedges",
+      "Potted & planter setups"
+    ],
+    "photo": "img/greenery-foliage.jpg",
+    "gallery": [
+      "img/greenery-foliage.jpg",
+      "img/floral-decor.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "Leaves, vines and palms bring the freshness that flowers alone cannot hold.",
+    "why": "Green balances strong colours and keeps a large setup from feeling heavy.",
+    "how": "Foliage is wired and layered behind the blooms so the structure never shows and the greens stay upright all evening.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where it works",
+        "Indoor & outdoor"
+      ],
+      [
+        "Stays fresh",
+        "2–3 days"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Baby Showers",
+      "Corporate",
+      "Baby Reveal"
+    ],
+    "options": {
+      "Foliage arches": {
+        "what": "An arch built mostly from leaves, with minimal flowers.",
+        "how": "Foliage is layered over the frame first and blooms are added last, only where they will be seen.",
+        "where": "Entrances, walkways, proposals and photo corners.",
+        "note": "It gives the same scale as a floral arch at a noticeably lower cost.",
+        "pick": "Choose this when you want the scale of a floral arch at a lower cost.",
+        "time": "1–2 hours",
+        "colours": "Green with white or seasonal accent flowers",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "Receptions"
+        ],
+        "comes": [
+          "Framed arch",
+          "Foliage-first layering",
+          "Accent blooms only where seen",
+          "Weighted footing"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Palm & monstera styling": {
+        "what": "Large structured leaves used for an architectural look.",
+        "how": "Each leaf is wired individually so it holds its angle instead of drooping through the evening.",
+        "where": "Modern venues, statement corners and entrances.",
+        "note": "Best choice when the theme is contemporary rather than traditional.",
+        "pick": "Choose this when the theme is contemporary rather than traditional.",
+        "time": "45 mins",
+        "colours": "Deep green with ivory or terracotta accents",
+        "best": [
+          "Corporate",
+          "Modern Weddings",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Individually wired leaves",
+          "Held angles, no drooping",
+          "Statement cl usters",
+          "Cleanup of cut stems"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Hanging vines & creepers": {
+        "what": "Trailing greenery that falls from above.",
+        "how": "Vines are layered over the rigging and combed straight, so they fall evenly instead of tangling.",
+        "where": "Ceilings, arches, tablescapes and mandap corners.",
+        "note": "Light in weight and quick to install, which makes it easy on tight timelines.",
+        "pick": "Choose this when you want softness in the air without spending on structure.",
+        "time": "30–60 mins",
+        "colours": "Natural green, or dried-look tones",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "Receptions"
+        ],
+        "comes": [
+          "Rigging over the area",
+          "Evenly combed vines",
+          "Varied drop lengths",
+          "Full removal after the event"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Floral Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Mogra & jasmine strands": {
+        "what": "Fragrant flower and leaf strands, traditional and fresh.",
+        "how": "Fresh strands are hung on the same day and lightly misted to hold through the function.",
+        "where": "Devotional setups, traditional weddings and mandaps.",
+        "note": "Here the fragrance is the main feature, not the look alone.",
+        "pick": "Choose this when tradition and fragrance matter as much as the look.",
+        "time": "45 mins",
+        "colours": "Fresh white with green",
+        "best": [
+          "Devotional",
+          "Traditional Weddings",
+          "Pooja & Havan"
+        ],
+        "comes": [
+          "Fresh strands hung the same day",
+          "Light misting to hold",
+          "Even drop lengths",
+          "Extra strands kept on standby"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Custom Signage"
+        ]
+      },
+      "Green walls & hedges": {
+        "what": "A solid panel of leaves, either standing or fixed to a wall.",
+        "how": "Real or premium artificial foliage is pinned densely onto a frame until no backing shows.",
+        "where": "Backdrops, dividers, photo walls and entrances.",
+        "note": "It also hides whatever you would rather guests did not see behind it.",
+        "pick": "Choose this when you want a full backdrop that also hides what is behind it.",
+        "time": "45–90 mins",
+        "colours": "Deep green, or mixed tropical greens",
+        "best": [
+          "Weddings",
+          "Baby Showers",
+          "Corporate"
+        ],
+        "comes": [
+          "Framed or freestanding panel",
+          "Dense leaf pinning",
+          "No backing visible",
+          "Reusable foliage where suitable"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Premium Finishes"
+        ]
+      },
+      "Potted & planter setups": {
+        "what": "Plants in dressed pots, used as decor.",
+        "how": "Pots are wrapped or painted to match the theme before they are placed.",
+        "where": "Entry paths, corners, stage sides and waiting areas.",
+        "note": "These can go home with you afterwards and be reused for years.",
+        "pick": "Choose this when the decor should keep working after the event.",
+        "time": "30 mins",
+        "colours": "Wrapped in gold, ivory or your theme colour",
+        "best": [
+          "House Warming",
+          "Corporate",
+          "Receptions"
+        ],
+        "comes": [
+          "Wrapped or painted pots",
+          "Healthy plants",
+          "Placement layout",
+          "Handover for home use afterwards"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Greenery & Foliage",
+          "Custom Signage"
+        ]
+      }
+    }
+  },
+  "Props & Cutouts": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "The playful layer — shapes, panels and standees that make photos interesting.",
+    "includes": [
+      "Hanging props & mobiles",
+      "Ring & frame props",
+      "3D standees & cut-outs",
+      "Kids props & soft shapes",
+      "Custom-shaped props",
+      "Mirror & sequin panels"
+    ],
+    "photo": "img/props-cutouts.jpg",
+    "gallery": [
+      "img/props-cutouts.jpg",
+      "img/kids-zone.jpg",
+      "img/backdrop-photobooth.jpg"
+    ],
+    "what": "Shapes, panels and standees — the playful layer that makes photographs interesting.",
+    "why": "Guests need something to interact with, not just something to look at.",
+    "how": "Every prop is cut, painted and finished in our own workshop, then placed so it frames the guest instead of hiding them.",
+    "facts": [
+      [
+        "Typical setup",
+        "30–60 mins"
+      ],
+      [
+        "Where it works",
+        "Any venue"
+      ],
+      [
+        "Reusable",
+        "For years"
+      ]
+    ],
+    "bestFor": [
+      "Birthdays",
+      "Kids Parties",
+      "Corporate",
+      "College Events"
+    ],
+    "options": {
+      "Hanging props & mobiles": {
+        "what": "Objects suspended in the air as decor.",
+        "how": "Hung at varied heights to create depth, always above head height.",
+        "where": "Ceilings, entry pathways and above tables.",
+        "note": "It adds interest to a venue without blocking a single step of walkway.",
+        "pick": "Choose this when a plain ceiling needs something to look at.",
+        "time": "30–45 mins",
+        "colours": "Matched to your palette",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "Receptions"
+        ],
+        "comes": [
+          "Varied-height hanging",
+          "Head-clearance checking",
+          "Multiple hanging points",
+          "Balanced visual weight"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Balloon Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Ring & frame props": {
+        "what": "Large rings and frames that guests stand inside.",
+        "how": "Frames are grounded on a hidden base so they stay standing even with people leaning on them.",
+        "where": "Photo booths, welcome corners and entrances.",
+        "note": "Guarantees a good couple photo without anyone having to pose twice.",
+        "pick": "Choose this when guests should photograph themselves without being asked.",
+        "time": "20–30 mins",
+        "colours": "Gold, white or pastel frames",
+        "best": [
+          "Weddings",
+          "Baby Showers",
+          "Birthdays"
+        ],
+        "comes": [
+          "Large ring or frame",
+          "Hidden grounded base",
+          "Photogenic standing angle",
+          "Stability check with weight"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal",
+          "Balloon Decor"
+        ]
+      },
+      "3D standees & cut-outs": {
+        "what": "Painted, standing shapes and figures.",
+        "how": "Each piece is cut, painted and finished by hand in our own workshop — never printed flat.",
+        "where": "Photo corners, kids areas, entrances and stage sides.",
+        "note": "Tell us the shape or the theme and it is made to order.",
+        "pick": "Choose this when the theme needs to be visible without any explanation.",
+        "time": "30–45 mins",
+        "colours": "Painted to your theme palette",
+        "best": [
+          "Kids Birthdays",
+          "Themed Parties",
+          "Corporate"
+        ],
+        "comes": [
+          "Hand-cut and painted pieces",
+          "Standing bases",
+          "Theme-matched colours",
+          "Reuse on later events if stored"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Backdrop / Photo Booth",
+          "Balloon Decor"
+        ]
+      },
+      "Kids props & soft shapes": {
+        "what": "Soft, safe, oversized shapes for children.",
+        "how": "Made from padded or lightweight material, with every edge checked by hand.",
+        "where": "Kids zones, play corners and birthday setups.",
+        "note": "Safety is the design brief here — every edge is padded, no exceptions.",
+        "pick": "Choose this when children will be at the event for several hours.",
+        "time": "30–45 mins",
+        "colours": "Pastels, or theme-matched brights",
+        "best": [
+          "Kids Birthdays",
+          "Family Functions",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Padded and lightweight pieces",
+          "Every edge hand-checked",
+          "Wipe-clean surfaces",
+          "Safe, low arrangement"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ]
+      },
+      "Custom-shaped props": {
+        "what": "Anything built to your own idea.",
+        "how": "We design it, make a small sample, get your approval, then finish the full piece.",
+        "where": "Themed parties, brand launches and milestone birthdays.",
+        "note": "If you can describe it, we can build it — share a reference and we will confirm.",
+        "pick": "Choose this when the idea is yours and nothing readymade will do.",
+        "time": "Made in 2–4 days",
+        "colours": "Any shade you name, matched to a reference",
+        "best": [
+          "Themed Parties",
+          "Brand Launches",
+          "Milestone Birthdays"
+        ],
+        "comes": [
+          "Design first, then approval",
+          "A small sample if needed",
+          "Hand finishing",
+          "Delivery or on-site installation"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Stage & Front Truss"
+        ]
+      },
+      "Mirror & sequin panels": {
+        "what": "Reflective panels that catch and multiply every light.",
+        "how": "Acrylic or sequin sheets are fixed onto a safe frame and polished before guests arrive.",
+        "where": "Backdrops, selfie walls and lounge corners.",
+        "note": "A clever way to make a small venue look considerably bigger.",
+        "pick": "Choose this when a small venue needs to look considerably bigger.",
+        "time": "30 mins",
+        "colours": "Silver · gold · rose-gold panels",
+        "best": [
+          "Engagements",
+          "Birthdays",
+          "Corporate"
+        ],
+        "comes": [
+          "Acrylic or sequin sheets",
+          "Safe hidden frame",
+          "Polished before guests arrive",
+          "Light-direction setting"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Premium Finishes": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "The details you notice only once everything else is already perfect.",
+    "includes": [
+      "Glitter & confetti detail",
+      "Ribbon & tassel work",
+      "Pearl & bead strands",
+      "Metallic chrome accents",
+      "Sequin & shimmer panels",
+      "Mirror & acrylic accents"
+    ],
+    "photo": "img/premium-finishes.jpg",
+    "gallery": [
+      "img/premium-finishes.jpg",
+      "img/balloon-decor.jpg",
+      "img/cake-dessert.jpg"
+    ],
+    "what": "Pearl, sequin, mirror and metallic detail — the last ten percent that decides the class.",
+    "why": "This is the difference between a decorated venue and a styled one.",
+    "how": "Finishes are matched to your palette, then added only after the structure is complete, so nothing competes for attention.",
+    "facts": [
+      [
+        "Typical setup",
+        "30 mins"
+      ],
+      [
+        "Added",
+        "Last, on site"
+      ],
+      [
+        "Reused",
+        "Across setups"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Engagements",
+      "Anniversaries",
+      "Luxury Birthdays"
+    ],
+    "options": {
+      "Glitter & confetti detail": {
+        "what": "Fine sparkle worked into the decor itself, not thrown over it.",
+        "how": "Applied by hand to props and panels so the density stays controlled and elegant.",
+        "where": "Accents across the whole setup.",
+        "note": "Kept subtle on purpose — overdone glitter is what makes decor look cheap.",
+        "pick": "Choose this when the decor feels correct but slightly flat on camera.",
+        "time": "20 mins",
+        "colours": "Champagne · rose gold · subtle silver",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Hand-applied glitter",
+          "Controlled density",
+          "Sealed so it does not shed",
+          "Even placement on props"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Props & Cutouts",
+          "Custom Signage"
+        ]
+      },
+      "Ribbon & tassel work": {
+        "what": "Satin ribbons and hand-tied tassels.",
+        "how": "Measured, steamed and tied individually so every tassel falls to the same point.",
+        "where": "Chairs, cake tables, narrow spaces and gift tables.",
+        "note": "A delicate way to dress a small space without a full setup.",
+        "pick": "Choose this when the space is small but the occasion is special.",
+        "time": "Allotted with draping",
+        "colours": "Satin in your palette, with gold thread",
+        "best": [
+          "Birthdays",
+          "Baby Showers",
+          "House Warming"
+        ],
+        "comes": [
+          "Measured ribbons",
+          "Steamed length",
+          "Hand-tied tassels",
+          "Identical drop length everywhere"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Pearl & bead strands": {
+        "what": "Draped strands of pearls and beads.",
+        "how": "Strung to the right length and pinned in soft loops so they hang identically across the width.",
+        "where": "Backdrops, table edges, cake tables and arches.",
+        "note": "A small detail that makes photographs look considerably more expensive.",
+        "pick": "Choose this when the setup needs to look expensive in close-up photos.",
+        "time": "20–30 mins",
+        "colours": "Ivory pearl · champagne · gold",
+        "best": [
+          "Weddings",
+          "Engagements",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Strung to length",
+          "Soft even loops",
+          "Pinned, never taped",
+          "Matched across the whole width"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Cake Table & Dessert Bar",
+          "Floral Decor"
+        ]
+      },
+      "Metallic chrome accents": {
+        "what": "Gold, silver and rose-gold metallic touches across the setup.",
+        "how": "Delivered as chrome balloons, painted props and foil detail, all matched to one another.",
+        "where": "Garlands, tables, signage and centrepieces.",
+        "note": "We match the metal to your palette rather than to whatever is trending.",
+        "pick": "Choose this when the palette is soft and needs one metallic lift.",
+        "time": "20 mins",
+        "colours": "Gold · silver · rose gold — one metal only",
+        "best": [
+          "Weddings",
+          "Engagements",
+          "Luxury Birthdays"
+        ],
+        "comes": [
+          "Chrome balloons",
+          "Painted props",
+          "Foil detailing",
+          "One matched metal across the setup"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Premium Finishes",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Sequin & shimmer panels": {
+        "what": "Fabric covered in sequins that catches light from any angle.",
+        "how": "Panelled and pinned with the light direction in mind, so the shimmer is even and not patchy.",
+        "where": "Statement walls, booths and stage fronts.",
+        "note": "Looks best with warm uplighting rather than white light.",
+        "pick": "Choose this when the light in the venue is warm and worth catching.",
+        "time": "30 mins",
+        "colours": "Gold · champagne · silver · blush",
+        "best": [
+          "Receptions",
+          "Corporate",
+          "Birthdays"
+        ],
+        "comes": [
+          "Panelled to size",
+          "Light-direction planning",
+          "Even shimmer, no patches",
+          "Careful storage between events"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ]
+      },
+      "Mirror & acrylic accents": {
+        "what": "Reflective acrylic shapes and panels.",
+        "how": "Cut to shape, polished and fixed so no fixing shows from the front.",
+        "where": "Backdrops, signage, tablescapes and entrances.",
+        "note": "It quietly bounces light into corners that would otherwise stay dark.",
+        "pick": "Choose this when corners of the venue stay dark even after lighting.",
+        "time": "20–30 mins",
+        "colours": "Mirror silver, gold or tinted acrylic",
+        "best": [
+          "Corporate",
+          "Weddings",
+          "Receptions"
+        ],
+        "comes": [
+          "Cut-to-shape pieces",
+          "Polished edges",
+          "Hidden fixing",
+          "Placement to bounce light"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Tablescape & Lounge"
+        ]
+      }
+    }
+  },
+  "Custom Signage": {
+    "kicker": "The Elements · what we craft with",
+    "intro": "Personal touches written in light or acrylic — the customer's own words.",
+    "includes": [
+      "Hashtag & quote boards",
+      "Acrylic & mirror boards",
+      "Custom text of your choice",
+      "Table & menu signage",
+      "Welcome boards",
+      "Neon-style name boards"
+    ],
+    "photo": "img/custom-signage.jpg",
+    "gallery": [
+      "img/custom-signage.jpg",
+      "img/backdrop-photobooth.jpg",
+      "img/marry-me-proposal.jpg"
+    ],
+    "what": "Your own words, written in light or acrylic — names, dates, welcomes.",
+    "why": "A personalised board is the detail guests photograph most often.",
+    "how": "We design the lettering to your font and colour, produce it, and light it so it reads cleanly in photographs.",
+    "facts": [
+      [
+        "Made in",
+        "1–2 days"
+      ],
+      [
+        "Delivery",
+        "On site"
+      ],
+      [
+        "Reusable",
+        "Afterwards"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Birthdays",
+      "Proposals",
+      "Corporate"
+    ],
+    "options": {
+      "Hashtag & quote boards": {
+        "what": "A board with your hashtag or a line you love.",
+        "how": "Lettering designed, cut and framed to suit the backdrop behind it.",
+        "where": "Photo corners, stages and entrances.",
+        "note": "Guests photograph these more than almost anything else in the setup.",
+        "pick": "Choose this when you want guests to post about the celebration themselves.",
+        "time": "Made in 1–2 days",
+        "colours": "Mirror, black or ivory with gold lettering",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Corporate"
+        ],
+        "comes": [
+          "Your hashtag or line",
+          "Framed finish",
+          "Photo-friendly placement",
+          "Angle checked against the backdrop"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ]
+      },
+      "Acrylic & mirror boards": {
+        "what": "Clean printed or cut boards on stands.",
+        "how": "Built with a hidden stand so the board appears to float above the table.",
+        "where": "Welcome tables, gift tables and photo corners.",
+        "note": "Most of these can go home with you and be reused later.",
+        "pick": "Choose this when you want something you can keep after the function.",
+        "time": "Made in 1–2 days",
+        "colours": "Clear acrylic, mirror or frosted",
+        "best": [
+          "Weddings",
+          "Corporate",
+          "House Warming"
+        ],
+        "comes": [
+          "Hidden stand so it appears to float",
+          "Print or cut lettering",
+          "Polished edges",
+          "Handover after the event"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Tablescape & Lounge",
+          "Premium Finishes"
+        ]
+      },
+      "Custom text of your choice": {
+        "what": "Any words, in any style you want.",
+        "how": "Designed with you, approved by you, then produced to order.",
+        "where": "Wherever the moment needs it — entry, stage, table, room.",
+        "note": "Tell us the words and the mood, and we will handle everything else.",
+        "pick": "Choose this when the moment needs words that only you know.",
+        "time": "Made in 1–2 days",
+        "colours": "Any colour and material you choose",
+        "best": [
+          "Proposals",
+          "Anniversaries",
+          "Farewells"
+        ],
+        "comes": [
+          "Design shown before production",
+          "Your wording, exactly",
+          "Material of your choice",
+          "Placed by us on the day"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Marry Me / Proposal",
+          "Surprise Setups"
+        ]
+      },
+      "Table & menu signage": {
+        "what": "Small signs for tables, menus and seating.",
+        "how": "Printed and finished to suit the tablescape, in the same palette and typeface.",
+        "where": "Dining tables, bars and buffet counters.",
+        "note": "It quietly stops guests from asking where they should sit.",
+        "pick": "Choose this when the guest list is big and seating needs to be self-explanatory.",
+        "time": "Made in 1–2 days",
+        "colours": "Matched to the tablescape linen",
+        "best": [
+          "Weddings",
+          "Corporate",
+          "Receptions"
+        ],
+        "comes": [
+          "Printed cards or boards",
+          "Seating and menu sets",
+          "Consistent typeface throughout",
+          "Placed before guests enter"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Floral Decor",
+          "Premium Finishes"
+        ]
+      },
+      "Welcome boards": {
+        "what": "A styled board carrying your welcome message.",
+        "how": "Designed in your fonts and colours, then finished and placed on site.",
+        "where": "Entrances and guest tables.",
+        "note": "It is the first thing guests read, so we keep it short and beautifully set.",
+        "pick": "Choose this when guests should know they have arrived somewhere special.",
+        "time": "Made in 1–2 days",
+        "colours": "Your palette, in ivory or blush",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Short styled message",
+          "Your fonts and colours",
+          "Stand or easel",
+          "Placed where guests walk past"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Floral Decor"
+        ]
+      },
+      "Neon-style name boards": {
+        "what": "Glowing light lettering carrying your names.",
+        "how": "Made to order, tested before delivery, and mounted with a hidden fixing.",
+        "where": "Backdrops, entrances, proposals and cake tables.",
+        "note": "Warm white reads best on camera — we will show you the difference.",
+        "pick": "Choose this when your names should be the brightest thing in the photo.",
+        "time": "Made in 1–2 days",
+        "colours": "Warm white · gold glow · ice blue",
+        "best": [
+          "Weddings",
+          "Proposals",
+          "Birthdays"
+        ],
+        "comes": [
+          "Made-to-order lettering",
+          "Tested before delivery",
+          "Hidden mounting and cable",
+          "Stand or wall option"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Backdrop / Photo Booth": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "The wall every guest photographs — the piece that lives on in memories.",
+    "includes": [
+      "Round & arch backdrops",
+      "Floral + balloon combos",
+      "Sequin & shimmer walls",
+      "Settee & stool styling",
+      "Ring-light photo corner",
+      "Selfie & polaroid corners"
+    ],
+    "photo": "img/backdrop-photobooth.jpg",
+    "gallery": [
+      "img/backdrop-photobooth.jpg",
+      "img/floral-decor.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "The wall every guest ends up standing in front of.",
+    "why": "It is the only part of the decor that lives on in the album forever.",
+    "how": "We build the frame first, layer florals and balloons over it, then add seating and light so it looks complete in every photograph.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Needs",
+        "A wall or stand"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "All Occasions",
+      "Birthdays",
+      "Baby Showers",
+      "Corporate"
+    ],
+    "options": {}
+  },
+  "Arch / Entrance Gate": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "First impressions — what guests walk through before anything else.",
+    "includes": [
+      "Balloon arches",
+      "Floral arches",
+      "Fabric & drape gates",
+      "Balloon + flower columns",
+      "Welcome gate setups",
+      "Pathway entry decor"
+    ],
+    "photo": "img/arch-entrance.jpg",
+    "gallery": [
+      "img/arch-entrance.jpg",
+      "img/floral-decor.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "The frame guests pass through before they see anything else.",
+    "why": "It sets the expectation for the whole celebration in three seconds.",
+    "how": "We measure your doorway or driveway, then build the arch on site so it sits straight and stays steady all evening.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Needs",
+        "8–10 ft width"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Receptions",
+      "Grand Openings",
+      "Birthdays"
+    ],
+    "options": {}
+  },
+  "Mandap & Pandal": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "Traditional scale with a modern finish — built to hold the whole ceremony.",
+    "includes": [
+      "Wedding mandap",
+      "Haldi & mehndi pandal",
+      "Ring ceremony stage",
+      "Draped canopies & roofs",
+      "Pillar floral work",
+      "Pooja & havan setups"
+    ],
+    "photo": "img/mandap-pandal.jpg",
+    "gallery": [
+      "img/mandap-pandal.jpg",
+      "img/floral-decor.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "A full traditional structure — pillars, canopy and draping for the ceremony itself.",
+    "why": "Families need a setting that holds the ritual respectfully and still looks premium on camera.",
+    "how": "We plan around the ritual first — seating, fire, walkway — then style the florals and drapes around that plan.",
+    "facts": [
+      [
+        "Typical setup",
+        "3–5 hours"
+      ],
+      [
+        "Where",
+        "Outdoor or garden"
+      ],
+      [
+        "Runs",
+        "Through the ritual"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Haldi",
+      "Mehndi",
+      "Ring Ceremony"
+    ],
+    "options": {}
+  },
+  "Stage & Front Truss": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "The main frame — built strong behind, finished beautifully in front.",
+    "includes": [
+      "Front truss & side panels",
+      "Stage skirting & steps",
+      "Layered stage backdrop",
+      "LED & light bars",
+      "Ramp & entry styling",
+      "Award & function stages"
+    ],
+    "photo": "img/stage-truss.jpg",
+    "gallery": [
+      "img/stage-truss.jpg",
+      "img/drapes-lighting.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "The main working frame — truss, panels, skirting and backdrop.",
+    "why": "Every function needs a focal point where the eye lands first.",
+    "how": "The truss is rigged for weight and safety, then dressed with drapes, florals and light bars so the structure disappears.",
+    "facts": [
+      [
+        "Typical setup",
+        "2–4 hours"
+      ],
+      [
+        "Needs",
+        "Level ground"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Corporate",
+      "Award Nights",
+      "Annual Days"
+    ],
+    "options": {}
+  },
+  "Ceiling & Hanging Decor": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "Most setups stop at eye level. We decorate the air above your guests.",
+    "includes": [
+      "Ceiling florals & foliage",
+      "Hanging balloon clouds",
+      "Ceiling rings & chandeliers",
+      "Umbrella & lantern hangs",
+      "Floating fabric",
+      "Hanging photo strings"
+    ],
+    "photo": "img/ceiling-hanging.jpg",
+    "gallery": [
+      "img/ceiling-hanging.jpg",
+      "img/balloon-decor.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "Decoration above eye level — the layer most setups forget.",
+    "why": "Guests look up the moment they walk in; a dressed ceiling makes a room feel twice as grand.",
+    "how": "We map the ceiling height and rigging points, then hang florals, balloons and lights in balanced layers.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–3 hours"
+      ],
+      [
+        "Needs",
+        "Rigging points"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Receptions",
+      "Weddings",
+      "Corporate",
+      "Baby Showers"
+    ],
+    "options": {}
+  },
+  "Tablescape & Lounge": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "Where guests actually sit, eat and relax — comfort, but styled.",
+    "includes": [
+      "Formal table settings",
+      "Cake & gift tables",
+      "Low floor seating",
+      "Lounge & sofa corners",
+      "Linen, runners & cutlery",
+      "Bar & buffet styling"
+    ],
+    "photo": "img/tablescape-lounge.jpg",
+    "gallery": [
+      "img/tablescape-lounge.jpg",
+      "img/cake-dessert.jpg",
+      "img/ceiling-hanging.jpg"
+    ],
+    "what": "The part guests actually touch — tables, seating and lounge corners.",
+    "why": "Comfort is remembered far longer than any arch.",
+    "how": "Linen, cutlery and centrepieces are set last, in a repeating rhythm, with the light adjusted for the tabletop.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where",
+        "Indoors"
+      ],
+      [
+        "Set",
+        "Just before guests"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Anniversaries",
+      "Corporate Dinners",
+      "Baby Showers"
+    ],
+    "options": {}
+  },
+  "Marry Me / Proposal": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "The most personal setup we build — small, private and unforgettable.",
+    "includes": [
+      "Rooftop proposals",
+      "Restaurant & cafe surprises",
+      "Poolside setups",
+      "Heart & letter styling",
+      "Candle & petal paths",
+      "Custom proposal frames"
+    ],
+    "photo": "img/marry-me-proposal.jpg",
+    "gallery": [
+      "img/marry-me-proposal.jpg",
+      "img/walkway-aisle.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "A private setup built for one question and one answer.",
+    "why": "It has to feel personal — never rented.",
+    "how": "We study the spot, plan the reveal angle, and finish everything before you arrive, quietly.",
+    "facts": [
+      [
+        "Typical setup",
+        "45–90 mins"
+      ],
+      [
+        "Where",
+        "Rooftop, pool, room"
+      ],
+      [
+        "Cleared",
+        "After the moment"
+      ]
+    ],
+    "bestFor": [
+      "Proposals",
+      "Anniversaries",
+      "Date Nights",
+      "Reconciliations"
+    ],
+    "options": {}
+  },
+  "Walkway & Aisle Decor": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "The walk guests remember — every step of it styled.",
+    "includes": [
+      "Petal & flower pathways",
+      "Candle-lit aisles",
+      "Lantern & pillar rows",
+      "Balloon & foliage borders",
+      "Entrance corridors",
+      "Red-carpet entries"
+    ],
+    "photo": "img/walkway-aisle.jpg",
+    "gallery": [
+      "img/walkway-aisle.jpg",
+      "img/arch-entrance.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "The path that leads guests in — and the one the couple walks.",
+    "why": "A dressed walkway builds anticipation step by step.",
+    "how": "We line the route with petals, lanterns and florals, always keeping the walking width clear and safe.",
+    "facts": [
+      [
+        "Typical setup",
+        "1 hour"
+      ],
+      [
+        "Needs",
+        "3–4 ft width"
+      ],
+      [
+        "Kept",
+        "Clear for walking"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Receptions",
+      "Proposals",
+      "Grand Entries"
+    ],
+    "options": {}
+  },
+  "Cake Table & Dessert Bar": {
+    "kicker": "The Structures · how and where we build",
+    "intro": "Cake cutting is always the photo moment — so we build around it.",
+    "includes": [
+      "Cake plinths & stands",
+      "Dessert & sweets display",
+      "Cupcake & macaron towers",
+      "Live counter styling",
+      "Candy & chocolate bars",
+      "Cake table backdrop"
+    ],
+    "photo": "img/cake-dessert.jpg",
+    "gallery": [
+      "img/cake-dessert.jpg",
+      "img/premium-finishes.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "The sweet station, built around the cake.",
+    "why": "Cake cutting is the most photographed minute of any function.",
+    "how": "We set the plinth height, arrange the dessert display, then light it so the cake reads perfectly on camera.",
+    "facts": [
+      [
+        "Typical setup",
+        "45–60 mins"
+      ],
+      [
+        "Needs",
+        "A power point"
+      ],
+      [
+        "Runs",
+        "Through the function"
+      ]
+    ],
+    "bestFor": [
+      "Birthdays",
+      "Weddings",
+      "Baby Showers",
+      "Anniversaries"
+    ],
+    "options": {}
+  },
+  "Cold Pyro & Fountains": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "The five-second moment that makes the entire venue look up.",
+    "includes": [
+      "Cold pyro fountains",
+      "Entry & welcome sparks",
+      "Cake-cutting sparklers",
+      "First-dance fountains",
+      "Stage-side jets",
+      "Indoor-safe sparklers"
+    ],
+    "photo": "img/cold-pyro.jpg",
+    "gallery": [
+      "img/cold-pyro.jpg",
+      "img/stage-truss.jpg",
+      "img/marry-me-proposal.jpg"
+    ],
+    "what": "Cold sparkler fountains — the five-second moment that makes everyone look up.",
+    "why": "Nothing else creates a reaction this large from something this small.",
+    "how": "Machines are placed on both sides, tested for indoor safety, and fired exactly on cue.",
+    "facts": [
+      [
+        "Typical setup",
+        "20 mins"
+      ],
+      [
+        "Safety",
+        "Indoor-safe machines"
+      ],
+      [
+        "Effect",
+        "30–60 seconds"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Receptions",
+      "Birthdays",
+      "Proposals"
+    ],
+    "options": {}
+  },
+  "Fog, Bubbles & Smoke": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Air you can see — instant drama right where guests are standing.",
+    "includes": [
+      "Low-lying fog",
+      "Dance-floor smoke",
+      "Bubble machines",
+      "Dry-ice effects",
+      "Haze & beam lighting",
+      "Cloud entries"
+    ],
+    "photo": "img/fog-bubbles.jpg",
+    "gallery": [
+      "img/fog-bubbles.jpg",
+      "img/stage-truss.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "Air you can see — low fog, bubbles and haze.",
+    "why": "It makes an ordinary floor look like a stage.",
+    "how": "We place the machines off-camera and control the drift, so the fog hugs the floor instead of the guests.",
+    "facts": [
+      [
+        "Typical setup",
+        "20 mins"
+      ],
+      [
+        "Where",
+        "Indoors, on request"
+      ],
+      [
+        "Runs",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Receptions",
+      "First Dances",
+      "Birthdays",
+      "Concerts"
+    ],
+    "options": {}
+  },
+  "Confetti & Balloon Drop": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "The happy chaos of confetti — and a ceiling that gives way.",
+    "includes": [
+      "Confetti cannons",
+      "Hand-held confetti",
+      "Ceiling balloon drop",
+      "Net & cage releases",
+      "Petal showers",
+      "Streamer launches"
+    ],
+    "photo": "img/confetti-balloon-drop.jpg",
+    "gallery": [
+      "img/confetti-balloon-drop.jpg",
+      "img/ceiling-hanging.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "Confetti cannons and a ceiling release that hands the celebration straight to the guests.",
+    "why": "It turns the crowd itself into the decoration.",
+    "how": "The net or cannons are rigged above, timed to your entry or cake cut, and cleared immediately after.",
+    "facts": [
+      [
+        "Typical setup",
+        "30–45 mins"
+      ],
+      [
+        "Needs",
+        "Ceiling height"
+      ],
+      [
+        "Moment",
+        "One big one"
+      ]
+    ],
+    "bestFor": [
+      "Receptions",
+      "Birthdays",
+      "New Year",
+      "Grand Finales"
+    ],
+    "options": {}
+  },
+  "360° Booth / Selfie Point": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Guests don't just take pictures — they become part of the reel.",
+    "includes": [
+      "360° spinning booth",
+      "Classic photo booth",
+      "Selfie & polaroid corner",
+      "Instant print station",
+      "Reels & GIF output",
+      "Custom prop box"
+    ],
+    "photo": "img/booth-360.jpg",
+    "gallery": [
+      "img/booth-360.jpg",
+      "img/backdrop-photobooth.jpg",
+      "img/props-cutouts.jpg"
+    ],
+    "what": "A camera that spins around your guests and sends them a clip.",
+    "why": "Guests share it — so your celebration travels far beyond the venue.",
+    "how": "We position it where the queue will not block the walkway, with lighting and props ready before guests arrive.",
+    "facts": [
+      [
+        "Typical setup",
+        "45 mins"
+      ],
+      [
+        "Needs",
+        "8–10 ft space"
+      ],
+      [
+        "Runs",
+        "2–4 hours"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Corporate",
+      "Birthdays",
+      "College Events"
+    ],
+    "options": {}
+  },
+  "Kids Zone & Character Fun": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Keeps the little ones busy, so their parents can enjoy the party too.",
+    "includes": [
+      "Soft play area",
+      "Ball pit & slides",
+      "Kids gaming zone",
+      "Character visits",
+      "Tattoo & face painting",
+      "Art & craft corner"
+    ],
+    "photo": "img/kids-zone.jpg",
+    "gallery": [
+      "img/kids-zone.jpg",
+      "img/props-cutouts.jpg",
+      "img/booth-360.jpg"
+    ],
+    "what": "A dedicated area where the children get to be children.",
+    "why": "When the kids are happy, the parents actually enjoy the function.",
+    "how": "We keep it in sight of the main seating, soften every edge, and staff it so the hosts never have to supervise.",
+    "facts": [
+      [
+        "Typical setup",
+        "1–2 hours"
+      ],
+      [
+        "Where",
+        "Corner, within sight"
+      ],
+      [
+        "Runs",
+        "Through the function"
+      ]
+    ],
+    "bestFor": [
+      "Kids Birthdays",
+      "Weddings",
+      "Family Functions",
+      "Baby Showers"
+    ],
+    "options": {}
+  },
+  "Sweet Cart & Candy Bar": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Always the busiest corner of any celebration — for kids and grown-ups alike.",
+    "includes": [
+      "Sweet & candy cart",
+      "Chocolate fountain",
+      "Popcorn & cotton candy",
+      "Welcome drinks counter",
+      "Dessert jars & toppings",
+      "Ice-cream counter"
+    ],
+    "photo": "img/sweet-cart.jpg",
+    "gallery": [
+      "img/sweet-cart.jpg",
+      "img/cake-dessert.jpg",
+      "img/kids-zone.jpg"
+    ],
+    "what": "A styled cart of sweets, jars and treats.",
+    "why": "It is the busiest corner of every function — for every age.",
+    "how": "The cart is dressed to match your palette and stocked before guests arrive, with refills through the event.",
+    "facts": [
+      [
+        "Typical setup",
+        "45 mins"
+      ],
+      [
+        "Where",
+        "Near the entrance"
+      ],
+      [
+        "Restocked",
+        "Through the event"
+      ]
+    ],
+    "bestFor": [
+      "Birthdays",
+      "Baby Showers",
+      "Weddings",
+      "Corporate"
+    ],
+    "options": {}
+  },
+  "Live Entertainment": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Sound, rhythm and performance — the part everyone talks about later.",
+    "includes": [
+      "Anchor & host",
+      "Dhol & baraat band",
+      "DJ & sound setup",
+      "Live music or singer",
+      "Magician & performers",
+      "Games & activities"
+    ],
+    "photo": "img/live-entertainment.jpg",
+    "gallery": [
+      "img/live-entertainment.jpg",
+      "img/stage-truss.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "Anchors, dhol, DJ, magicians and performers.",
+    "why": "Performers decide the energy of the evening — more than the decor does.",
+    "how": "We book, brief and time each act around your schedule, so nothing overlaps with the rituals.",
+    "facts": [
+      [
+        "Booked",
+        "In advance"
+      ],
+      [
+        "Where",
+        "Any venue"
+      ],
+      [
+        "Timed",
+        "To your schedule"
+      ]
+    ],
+    "bestFor": [
+      "Weddings",
+      "Sangeet",
+      "Corporate",
+      "Birthdays"
+    ],
+    "options": {}
+  },
+  "Surprise Setups": {
+    "kicker": "The Experiences · the extra magic",
+    "intro": "Small setups, huge reactions — quietly finished before they walk in.",
+    "includes": [
+      "Room decoration",
+      "Car decoration",
+      "Pet decoration",
+      "Car boot surprises",
+      "Office desk surprises",
+      "Night-before setups"
+    ],
+    "photo": "img/surprise-setups.jpg",
+    "gallery": [
+      "img/surprise-setups.jpg",
+      "img/marry-me-proposal.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "Small, personal setups — a room, a car, a desk or a pet.",
+    "why": "It is the simplest way to say something words cannot.",
+    "how": "We set up quietly before you arrive, work to your timings, and clear everything away after the moment.",
+    "facts": [
+      [
+        "Typical setup",
+        "30–45 mins"
+      ],
+      [
+        "Where",
+        "Room, car, desk"
+      ],
+      [
+        "Cleared",
+        "Quietly after"
+      ]
+    ],
+    "bestFor": [
+      "Surprises",
+      "Anniversaries",
+      "Proposals",
+      "Farewells"
+    ],
+    "options": {}
+  }
+};
+  (function () {
+    var T = {
+  "what": "What it is",
+  "why": "Why people choose it",
+  "how": "How we build it",
+  "opts": "Every option inside — tap any one for its full detail",
+  "optsPlain": "Every option inside",
+  "ex": "A few examples",
+  "back": "← Back to {name}",
+  "howMade": "How it is made",
+  "whereUsed": "Where it is used",
+  "note": "Good to know",
+  "add": "Add to my enquiry",
+  "addOpt": "Add this option to my enquiry",
+  "time": "Setup time",
+  "colours": "Colour & palette",
+  "comes": "What comes with it",
+  "pairs": "Pairs beautifully with",
+  "added": "✓ Added — tap again to remove",
+  "close": "Close",
+  "wa": "Hello Balloon Creation! I would like to know more about {name}.",
+  "waOpt": "Hello Balloon Creation! I would like to know more about {chip} — {option}.",
+  "empty": "Nothing selected yet — click any chip to explore",
+  "demo": "Demo: this is the WhatsApp message it would send 👇\n\n\"Hello Balloon Creation! I am looking for: {list}\"",
+  "demoEmpty": "Demo: select a few chips first, then see what this button sends 👆"
+};
+    var D = window.DECOR_DATA || {};
+    var picked = new Map();
+
+    function renderBar() {
+      var box = document.querySelector('.picked');
+      if (!box) return;
+      var list = Array.from(picked.keys());
+      box.innerHTML = list.length
+        ? list.map(function (n) { return '<span class="p">\u2713 ' + n + '</span>'; }).join('')
+        : '<span class="empty">' + T.empty + '</span>';
+    }
+    function setPicked(key, on) {
+      if (on) picked.set(key, true); else picked.delete(key);
+      renderBar();
+      syncChip();
+      syncOpt();
+      syncChips();
+    }
+    // a chip looks chosen when the chip itself, or any option inside it, is picked
+    function chipSelected(name) {
+      if (picked.has(name)) return true;
+      var prefix = name + ' \u00b7 ';
+      return Array.from(picked.keys()).some(function (k) { return k.indexOf(prefix) === 0; });
+    }
+    function syncChips() {
+      document.querySelectorAll('.chip').forEach(function (chip) {
+        var name = chip.querySelector('.nm').textContent.trim();
+        chip.setAttribute('aria-pressed', chipSelected(name) ? 'true' : 'false');
+      });
+    }
+    function chipKey(name) { return name; }
+    function optKey(chip, opt) { return chip + ' \u00b7 ' + opt; }
+
+    var sheet = document.getElementById('detail');
+    var viewChip = document.getElementById('view-chip');
+    var viewOpt = document.getElementById('view-opt');
+    var el = {
+      img: document.getElementById('detail-img'),
+      kicker: document.getElementById('detail-kicker'),
+      title: document.getElementById('detail-title'),
+      intro: document.getElementById('detail-intro'),
+      what: document.getElementById('c-what'),
+      why: document.getElementById('c-why'),
+      how: document.getElementById('c-how'),
+      facts: document.getElementById('c-facts'),
+      best: document.getElementById('c-best'),
+      optsHead: document.getElementById('opts-head'),
+      opts: document.getElementById('c-opts'),
+      mini: document.getElementById('detail-mini'),
+      add: document.getElementById('detail-add'),
+      wa: document.getElementById('detail-wa'),
+      optImg: document.getElementById('opt-img'),
+      optBack: document.getElementById('opt-back'),
+      optKicker: document.getElementById('opt-kicker'),
+      optTitle: document.getElementById('opt-title'),
+      optWhat: document.getElementById('opt-what'),
+      optHow: document.getElementById('opt-how'),
+      optWhere: document.getElementById('opt-where'),
+      optNote: document.getElementById('opt-note'),
+      optTime: document.getElementById('opt-time'),
+      optColours: document.getElementById('opt-colours'),
+      optBest: document.getElementById('opt-best'),
+      optComes: document.getElementById('opt-comes'),
+      comesHead: document.getElementById('comes-head'),
+      pairsHead: document.getElementById('pairs-head'),
+      optPairs: document.getElementById('opt-pairs'),
+      optAdd: document.getElementById('opt-add'),
+      optWa: document.getElementById('opt-wa')
+    };
+    var openChip = null;
+    var openOption = null;
+
+    function waHref(text) {
+      return 'https://wa.me/917489863753?text=' + encodeURIComponent(text);
+    }
+
+    // ---------- level 1: the chip ----------
+    function showChip(name) {
+      var info = D[name];
+      if (!info) return;
+      openChip = name;
+      openOption = null;
+      viewOpt.hidden = true;
+      viewChip.hidden = false;
+      sheet.querySelector('.detail-card').scrollTop = 0;
+      el.img.src = info.photo;
+      el.img.alt = name;
+      el.kicker.textContent = info.kicker;
+      el.title.textContent = name;
+      el.intro.textContent = info.intro;
+      el.what.textContent = info.what || '';
+      el.why.textContent = info.why || '';
+      el.how.textContent = info.how || '';
+      el.facts.innerHTML = (info.facts || []).map(function (f) {
+        return '<div class="fact"><b>' + f[0] + '</b>' + f[1] + '</div>';
+      }).join('');
+      el.best.innerHTML = (info.bestFor || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      var opts = info.options || {};
+      var keys = Object.keys(opts);
+      if (keys.length) {
+        el.optsHead.textContent = T.opts;
+        el.opts.className = 'opt-grid';
+        el.opts.innerHTML = keys.map(function (k) {
+          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' + k +
+            '<span class="arw">\u2192</span></button></li>';
+        }).join('');
+      } else {
+        el.optsHead.textContent = T.optsPlain;
+        el.opts.className = 'plain-list';
+        el.opts.innerHTML = (info.includes || []).map(function (k) { return '<li>' + k + '</li>'; }).join('');
+      }
+      el.mini.innerHTML = (info.gallery || []).map(function (g) {
+        return '<img src="' + g + '" alt="" loading="lazy" />';
+      }).join('');
+      el.wa.href = waHref(T.wa.replace('{name}', name));
+      syncChip();
+      openSheet();
+    }
+
+    function syncChip() {
+      if (!openChip) return;
+      var on = picked.has(chipKey(openChip));
+      el.add.textContent = on ? T.added : T.add;
+      el.add.classList.toggle('on', on);
+    }
+
+    // ---------- level 2: the option inside ----------
+    function showOption(chipName, optName) {
+      var info = (D[chipName] || {}).options || {};
+      var o = info[optName];
+      if (!o) return;
+      openOption = { chip: chipName, name: optName };
+      viewChip.hidden = true;
+      viewOpt.hidden = false;
+      sheet.querySelector('.detail-card').scrollTop = 0;
+      el.optImg.src = D[chipName].photo;
+      el.optImg.alt = chipName + ' — ' + optName;
+      el.optBack.textContent = T.back.replace('{name}', chipName);
+      el.optKicker.textContent = chipName;
+      el.optTitle.textContent = optName;
+      el.optWhat.textContent = o.what || '';
+      el.optHow.textContent = o.how || '';
+      el.optWhere.textContent = o.where || '';
+      el.optNote.textContent = o.note || '';
+      el.optTime.textContent = o.time || '';
+      el.optColours.textContent = o.colours || '';
+      el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      el.comesHead.textContent = T.comes;
+      el.comesHead.style.display = (o.comes || []).length ? 'block' : 'none';
+      el.optComes.innerHTML = (o.comes || []).map(function (c) { return '<li>' + c + '</li>'; }).join('');
+      el.pairsHead.textContent = T.pairs;
+      el.pairsHead.style.display = (o.pairs || []).length ? 'block' : 'none';
+      el.optPairs.innerHTML = (o.pairs || []).map(function (n) {
+        return D[n] ? '<button type="button" data-chip="' + n + '">' + n + ' →</button>'
+                    : '<button type="button">' + n + '</button>';
+      }).join('');
+      el.optWa.href = waHref(T.waOpt.replace('{chip}', chipName).replace('{option}', optName));
+      syncOpt();
+      el.optAdd.focus();
+    }
+
+    function syncOpt() {
+      if (!openOption) return;
+      var on = picked.has(optKey(openOption.chip, openOption.name));
+      el.optAdd.textContent = on ? T.added : T.addOpt;
+      el.optAdd.classList.toggle('on', on);
+    }
+
+    // ---------- wiring ----------
+    function openSheet() {
+      sheet.hidden = false;
+      document.body.classList.add('locked');
+      el.add.focus();
+    }
+    function closeSheet() {
+      sheet.hidden = true;
+      document.body.classList.remove('locked');
+      viewChip.hidden = false;
+      viewOpt.hidden = true;
+      openOption = null;
+    }
+
+    document.querySelectorAll('.chip').forEach(function (chip) {
+      chip.setAttribute('aria-pressed', 'false');
+      chip.setAttribute('aria-expanded', 'false');
+      chip.addEventListener('click', function () {
+        var name = chip.querySelector('.nm').textContent.trim();
+        chip.setAttribute('aria-expanded', 'true');
+        showChip(name);
+      });
+    });
+
+    el.opts.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-opt]') : null;
+      if (btn && openChip) showOption(openChip, btn.getAttribute('data-opt'));
+    });
+    el.optBack.addEventListener('click', function () { if (openChip) showChip(openChip); });
+    el.optPairs.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-chip]') : null;
+      if (b) showChip(b.getAttribute('data-chip'));
+    });
+    el.add.addEventListener('click', function () {
+      if (openChip) setPicked(chipKey(openChip), !picked.has(chipKey(openChip)));
+    });
+    el.optAdd.addEventListener('click', function () {
+      if (openOption) {
+        var k = optKey(openOption.chip, openOption.name);
+        setPicked(k, !picked.has(k));
+      }
+    });
+    sheet.addEventListener('click', function (e) {
+      if (e.target.hasAttribute && e.target.hasAttribute('data-close')) closeSheet();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || sheet.hidden) return;
+      if (openOption) showChip(openOption.chip); else closeSheet();
+    });
+
+    var reset = document.querySelector('.reset');
+    if (reset) reset.addEventListener('click', function () {
+      picked.clear();
+      renderBar();
+      syncChip();
+      syncOpt();
+      syncChips();
+    });
+    var barCta = document.querySelector('.selbar .cta');
+    if (barCta) barCta.addEventListener('click', function () {
+      var list = Array.from(picked.keys());
+      alert(list.length ? T.demo.replace('{list}', list.join(', ')) : T.demoEmpty);
+    });
+
+    document.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+        document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('on'); });
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.dataset.p).classList.add('on');
+      });
+    });
+  })();
+</script>
+  </body>
+</html>

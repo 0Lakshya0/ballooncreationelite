@@ -1,0 +1,3081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DRAFT — Decor Types Section (Balloon Creation)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background: oklch(0.985 0.018 88);
+        --foreground: oklch(0.29 0.025 65);
+        --secondary: oklch(0.955 0.035 85);
+        --muted-foreground: oklch(0.47 0.026 65);
+        --border: oklch(0.77 0.065 80 / 0.4);
+        --glass: oklch(0.995 0.015 88 / 0.7);
+        --gold: oklch(0.52 0.085 75);
+        --rose-gold: oklch(0.54 0.088 24);
+        --champagne: oklch(0.92 0.06 84);
+        --card: oklch(0.995 0.01 90 / 0.52);
+        --shadow-panel: 0 14px 45px oklch(0.48 0.06 72 / 0.1), inset 0 1px 0 oklch(1 0 0 / 0.75);
+        --font-sans: "Manrope", sans-serif;
+        --font-display: "Cormorant Garamond", Georgia, serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 15% 0%, var(--secondary), var(--background) 55%);
+        color: var(--foreground);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        padding-bottom: 140px;
+      }
+      .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+      .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; color: var(--gold); }
+      .eyebrow::before { content: ""; height: 1px; width: 30px; background: var(--gold); }
+      h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; }
+      h1 { font-size: 40px; line-height: 1.15; margin-top: 14px; }
+      h1 em { font-style: italic; color: var(--rose-gold); }
+      h2 { font-size: 34px; line-height: 1.12; }
+      h2 em { font-style: italic; color: var(--rose-gold); }
+
+      /* ---------- draft banner ---------- */
+      .banner { background: oklch(0.42 0.05 65); color: oklch(0.97 0.02 88); padding: 14px 0; font-size: 13px; line-height: 1.6; }
+      .banner b { color: var(--champagne); }
+      .banner .wrap { display: flex; gap: 12px; align-items: flex-start; }
+      .banner span { flex: 1; }
+
+      /* ---------- annotation ---------- */
+      .note {
+        border: 1px dashed oklch(0.62 0.09 72 / 0.55);
+        background: oklch(0.97 0.04 84 / 0.5);
+        border-radius: 4px; padding: 12px 15px; font-size: 12.5px; line-height: 1.7;
+        color: var(--muted-foreground); margin: 18px 0;
+      }
+      .note b { color: var(--gold); }
+      .note .tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--rose-gold); text-transform: uppercase; margin-right: 6px; }
+
+      /* ---------- sections ---------- */
+      section.block { padding: 54px 0 10px; }
+      .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 26px; flex-wrap: wrap; margin-bottom: 26px; }
+      .head p { margin: 12px 0 0; font-size: 14px; line-height: 1.75; color: var(--muted-foreground); max-width: 430px; }
+      .divider { height: 1px; background: var(--border); margin: 46px 0 0; }
+
+      /* ---------- OPTION A : three groups of chips ---------- */
+      .groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+      .group {
+        background: linear-gradient(150deg, var(--glass), var(--card));
+        border: 1px solid var(--border); border-radius: 6px; padding: 22px 20px 20px;
+        box-shadow: var(--shadow-panel); backdrop-filter: blur(10px);
+      }
+      .group-no { font-family: var(--font-display); font-size: 13px; font-style: italic; color: var(--rose-gold); }
+      .group h3 { font-size: 23px; margin: 4px 0 2px; line-height: 1.2; }
+      .group > p { font-size: 11.5px; line-height: 1.6; color: var(--muted-foreground); margin: 6px 0 16px; }
+      .chips { display: flex; flex-direction: column; gap: 8px; }
+      .chip {
+        display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
+        padding: 10px 12px; border-radius: 4px; cursor: pointer;
+        border: 1px solid var(--border); background: oklch(1 0 0 / 0.5);
+        font-family: var(--font-sans); color: var(--foreground);
+        transition: background 0.25s, border-color 0.25s, transform 0.25s;
+      }
+      .chip:hover { background: var(--secondary); transform: translateY(-1px); }
+      .chip .txt { display: block; }
+      .chip .nm { display: block; font-size: 13px; font-weight: 600; }
+      .chip .ds { display: block; font-size: 10.5px; color: var(--muted-foreground); line-height: 1.5; margin-top: 2px; }
+      .chip .tick { margin-left: auto; font-size: 13px; color: var(--gold); opacity: 0; transition: opacity 0.2s; }
+      .chip[aria-pressed="true"] { background: linear-gradient(115deg, oklch(0.93 0.06 84), oklch(0.96 0.04 86)); border-color: var(--gold); }
+      .chip[aria-pressed="true"] .tick { opacity: 1; }
+      .group-foot { margin-top: 14px; font-size: 10.5px; color: var(--muted-foreground); font-style: italic; }
+
+      /* ---------- chip thumbnails ---------- */
+      .chip .thumb { width: 34px; height: 42px; flex: none; border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+      .chip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ---------- OPTION D : photo showcase ---------- */
+      .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+      .gallery figure { margin: 0; position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 4px; background: var(--card); }
+      .gallery img { width: 100%; height: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+      .gallery figure:hover img { transform: scale(1.05); }
+      .gallery .big { grid-column: span 2; }
+      .gallery .big img { aspect-ratio: 3 / 2; }
+      .gallery figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 14px 12px; background: linear-gradient(to top, oklch(0.24 0.03 60 / 0.82), transparent); color: oklch(0.98 0.02 88); font-size: 12px; font-weight: 600; line-height: 1.4; }
+      .gallery figcaption span { display: block; font-weight: 400; font-size: 10px; opacity: 0.85; margin-top: 2px; }
+      .gallery .more { display: flex; flex-direction: column; justify-content: center; gap: 9px; padding: 18px; background: linear-gradient(150deg, var(--glass), var(--card)); text-align: center; }
+      .gallery .more b { font-family: var(--font-display); font-size: 19px; font-weight: 500; }
+      .gallery .more span { font-size: 11.5px; color: var(--muted-foreground); line-height: 1.6; }
+      .gallery .more a { font-size: 11px; font-weight: 600; color: var(--gold); text-decoration: none; }
+      @media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+      /* ---------- detail sheet (chip click -> option click) ---------- */
+      body.locked { overflow: hidden; }
+      .detail { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 26px; }
+      .detail[hidden] { display: none; }
+      .detail-scrim { position: absolute; inset: 0; background: oklch(0.28 0.03 65 / 0.42); backdrop-filter: blur(7px); }
+      .detail-card { position: relative; width: min(920px, 100%); max-height: min(90vh, 960px); overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: linear-gradient(168deg, oklch(0.997 0.012 90 / 0.99), oklch(0.972 0.03 87 / 0.99)); box-shadow: 0 30px 80px oklch(0.3 0.04 70 / 0.32); }
+      .detail-x { position: absolute; top: 13px; right: 13px; z-index: 3; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: oklch(0.99 0.012 90 / 0.92); color: var(--foreground); font-size: 14px; line-height: 1; cursor: pointer; }
+      .detail-x:hover { background: var(--secondary); }
+      .detail-hero { position: relative; }
+      .detail-hero img { width: 100%; height: 208px; object-fit: cover; display: block; }
+      .detail-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, oklch(0.99 0.012 90 / 0.98), transparent 62%); }
+      .detail-body { position: relative; padding: 0 34px 30px; margin-top: -40px; }
+      .detail-kicker { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+      .detail-body h3 { font-size: 34px; margin: 8px 0 9px; }
+      .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+      .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
+      .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+      .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .rich-block p { margin: 0; font-size: 12.5px; line-height: 1.8; color: var(--muted-foreground); }
+      .rich-block .detail-h { margin-top: 0; }
+      .detail-facts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; margin: 24px 0 0; padding: 15px 0; border-block: 1px solid var(--border); }
+      .fact { font-size: 12px; }
+      .fact b { display: block; margin-bottom: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+      .bestfor { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+      .bestfor i { font-style: normal; font-size: 10.5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 20px; background: var(--secondary); }
+      .opt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+      .opt-card { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 13px; text-align: left; cursor: pointer; border: 1px solid var(--border); border-radius: 4px; background: oklch(1 0 0 / 0.62); color: var(--foreground); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; transition: background 0.25s, border-color 0.25s; }
+      .opt-card:hover { background: var(--secondary); border-color: var(--gold); }
+      .opt-card .arw { margin-left: auto; color: var(--gold); font-weight: 400; }
+      .plain-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+      .plain-list li { padding: 7px 11px; border: 1px solid var(--border); border-radius: 3px; background: oklch(1 0 0 / 0.62); font-size: 11.5px; }
+      .fact span { font-size: 12px; line-height: 1.6; }
+      .comes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 20px; margin: 0; padding: 0; list-style: none; }
+      .comes li { position: relative; padding-left: 19px; font-size: 12px; line-height: 1.7; color: var(--muted-foreground); }
+      .comes li::before { content: '\2713'; position: absolute; left: 0; top: 0; color: var(--gold); font-size: 11px; }
+      .pairs { display: flex; flex-wrap: wrap; gap: 7px; }
+      .pairs button { padding: 7px 12px; border: 1px solid var(--border); border-radius: 3px; background: oklch(1 0 0 / 0.6); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; cursor: pointer; }
+      .pairs button:hover { background: var(--secondary); border-color: var(--gold); }
+      .detail-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .detail-mini img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid var(--border); border-radius: 3px; }
+      .detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); align-items: center; }
+      .detail-up { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.99 0.012 90 / 0.9); color: var(--foreground); font-family: var(--font-sans); font-size: 11px; font-weight: 600; cursor: pointer; }
+      .detail-up:hover { background: var(--secondary); }
+      .ghost { display: inline-flex; align-items: center; padding: 12px 18px; border: 1px solid var(--border); border-radius: 3px; background: oklch(0.995 0.015 88 / 0.7); color: var(--foreground); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; text-decoration: none; }
+      .ghost:hover { background: var(--secondary); }
+      .cta.on { background: var(--secondary); box-shadow: none; }
+      @media (max-width: 860px) {
+        .detail-rich, .detail-rich.two { grid-template-columns: 1fr; gap: 16px; }
+        .opt-grid { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 760px) {
+        .detail { padding: 0; align-items: end; }
+        .detail-card { max-height: 93vh; border-radius: 10px 10px 0 0; }
+        .detail-hero img { height: 150px; }
+        .detail-body { padding: 0 20px 22px; margin-top: -30px; }
+        .detail-body h3 { font-size: 26px; }
+        .bestfor { margin-left: 0; }
+      }
+
+      /* ---------- OPTION B : tabs ---------- */
+      .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+      .tab {
+        font-family: var(--font-sans); font-size: 11.5px; letter-spacing: 0.04em; font-weight: 600;
+        padding: 10px 16px; border-radius: 3px; cursor: pointer; border: 1px solid var(--border);
+        background: oklch(1 0 0 / 0.55); color: var(--muted-foreground);
+      }
+      .tab[aria-selected="true"] { background: oklch(0.42 0.05 65); color: var(--champagne); border-color: oklch(0.42 0.05 65); }
+      .panel { display: none; }
+      .panel.on { display: block; }
+      .lines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 26px; }
+      .lines span { font-size: 12.5px; padding: 8px 0; border-bottom: 1px dotted var(--border); }
+      .lines span b { font-weight: 600; }
+      .lines span i { font-style: normal; color: var(--muted-foreground); font-size: 11px; display: block; margin-top: 2px; }
+
+      /* ---------- OPTION C : search strip ---------- */
+      .strip {
+        border-block: 1px solid var(--border); background: var(--glass);
+        display: flex; align-items: center; justify-content: center; min-height: 64px;
+        font-family: var(--font-display); font-size: 17px; font-style: italic; letter-spacing: 0.05em;
+        overflow: hidden;
+      }
+      .strip .roll { display: inline-block; animation: flip 16s infinite; }
+      @keyframes flip { 0%, 11% { transform: translateY(0); } 12.5%, 23.5% { transform: translateY(-100%); } 25%, 36% { transform: translateY(-200%); } 37.5%, 48.5% { transform: translateY(-300%); } 50%, 61% { transform: translateY(-400%); } 62.5%, 73.5% { transform: translateY(-500%); } 75%, 86.5% { transform: translateY(-600%); } 87.5%, 100% { transform: translateY(-700%); } }
+      .strip .win { height: 1.4em; overflow: hidden; }
+      .strip .roll span { display: block; height: 1.4em; line-height: 1.4em; text-align: center; }
+      .strip .roll .dot { color: var(--gold); font-style: normal; }
+
+      /* ---------- selection bar ---------- */
+      .selbar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+        background: oklch(0.99 0.015 88 / 0.92); backdrop-filter: blur(14px);
+        border-top: 1px solid var(--border); box-shadow: 0 -12px 40px oklch(0.48 0.06 72 / 0.1);
+      }
+      .selbar .wrap { display: flex; align-items: center; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+      .selbar .lbl { font-size: 10px; letter-spacing: 0.12em; font-weight: 700; color: var(--gold); text-transform: uppercase; }
+      .picked { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+      .picked .p { font-size: 11px; padding: 5px 10px; border-radius: 20px; background: var(--secondary); border: 1px solid var(--border); }
+      .picked .empty { font-size: 12px; color: var(--muted-foreground); font-style: italic; }
+      .cta {
+        font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: oklch(0.27 0.03 65);
+        background: linear-gradient(115deg, oklch(0.89 0.085 88), oklch(0.8 0.09 72) 45%, oklch(0.92 0.075 87) 75%, oklch(0.83 0.07 38));
+        border: 1px solid oklch(0.82 0.08 82 / 0.48); border-radius: 3px; padding: 12px 20px; cursor: pointer;
+      }
+      .reset { font-family: var(--font-sans); font-size: 11px; background: none; border: 0; color: var(--muted-foreground); cursor: pointer; text-decoration: underline; }
+
+      .foot { margin-top: 50px; padding: 30px 0 40px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.9; color: var(--muted-foreground); }
+      .foot b { color: var(--foreground); }
+
+      @media (max-width: 900px) {
+        .groups { grid-template-columns: 1fr; }
+        .lines { grid-template-columns: 1fr; }
+        h1 { font-size: 30px; }
+        h2 { font-size: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <div class="wrap">
+        <span>
+          🧪 <b>DRAFT MOCKUP — ye tumhari asli website NAHI hai.</b> Tumhari site me kuch bhi change
+          nahi kiya gaya. Ye sirf ek kaccha draft hai jisme tum apni soch ko <b>aankhon se dekh</b> sakte ho.
+          Jo line peele (dashed) box me hai wo sirf meri note hai — site par aisi cheez nahi aayegi.
+        </span>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <!-- ================= OPTION A ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">THE ART OF OUR DECOR</span>
+            <h1>Har decoration, <em>do tarah se</em> banti hai.</h1>
+            <p>
+              Pehle — kis cheez se banate hain (balloon, phool, kapda, roshni). Phir — kahan aur kaise
+              khada karte hain (backdrop, arch, stage, ceiling). Aur uske upar extra magic.
+            </p>
+          </div>
+          <div class="note" style="max-width: 360px; margin: 0">
+            <span class="tag">Mera note</span> Ye section customer ko sabse zyada samajh aata hai, aur
+            tumhare kaam ke naam se Google par naye log bhi aate hain.
+          </div>
+        </div>
+
+        <div class="groups">
+          <!-- group 1 -->
+          <article class="group">
+            <span class="group-no">01</span>
+            <h3>Kis cheez se banate hain</h3>
+            <p>The Elements — material &amp; art style</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/balloon-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Balloon Decor</span><span class="ds">Organic garlands, jumbo &amp; chrome balloons</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/floral-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Floral Decor</span><span class="ds">Fresh flowers, rose walls, floral arches</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/drapes-lighting.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Drapes &amp; Fabric</span><span class="ds">Sheer, satin &amp; tent draping</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/drapes-lighting.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Lighting Decor</span><span class="ds">Fairy lights, uplighters, chandeliers</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/greenery-foliage.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Greenery &amp; Foliage</span><span class="ds">Vines, palms, mogra &amp; leaf walls</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/props-cutouts.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Props &amp; Cutouts</span><span class="ds">3D standees, neon names, mirror panels</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/premium-finishes.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Premium Finishes</span><span class="ds">Pearl, sequin, metallic &amp; glitter touches</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/custom-signage.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Custom Signage</span><span class="ds">Neon name, welcome boards, acrylic boards</span></span><span class="tick">✓</span></button>
+            </div>
+            <p class="group-foot">Chhoti list rakhi hai — dimaag confuse nahi hota.</p>
+          </article>
+
+          <!-- group 2 -->
+          <article class="group">
+            <span class="group-no">02</span>
+            <h3>Kahan aur kaise lagate hain</h3>
+            <p>The Structures — setup type</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/backdrop-photobooth.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Backdrop / Photo Booth</span><span class="ds">Sabse zyada bikne wala setup</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/arch-entrance.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Arch / Entrance Gate</span><span class="ds">Balloon arch, floral gate, welcome entry</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/mandap-pandal.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Mandap &amp; Pandal</span><span class="ds">Shaadi mandap, haldi &amp; mehndi pandal</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/stage-truss.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Stage &amp; Front Truss</span><span class="ds">Tumhara “front tross” + side panels</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/ceiling-hanging.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Ceiling &amp; Hanging Decor</span><span class="ds">Ceiling rings, hanging props, upside setups</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/tablescape-lounge.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Tablescape &amp; Lounge</span><span class="ds">Table setting, low seating, lounge corners</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/marry-me-proposal.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Marry Me / Proposal</span><span class="ds">Rooftop, poolside, restaurant setup</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/walkway-aisle.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Walkway &amp; Aisle Decor</span><span class="ds">Entry path, pathway lighting</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/cake-dessert.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cake Table &amp; Dessert Bar</span><span class="ds">Cake plinth, dessert &amp; candy display</span></span><span class="tick">✓</span></button>
+            </div>
+          </article>
+
+          <!-- group 3 -->
+          <article class="group">
+            <span class="group-no">03</span>
+            <h3>Extra magic</h3>
+            <p>The Experiences — effects &amp; fun</p>
+            <div class="chips">
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/cold-pyro.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cold Pyro &amp; Fountains</span><span class="ds">Entry, cake cutting &amp; first dance</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/fog-bubbles.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Fog, Bubbles &amp; Smoke</span><span class="ds">Low-lying fog, dance-floor smoke</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/confetti-balloon-drop.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Confetti &amp; Balloon Drop</span><span class="ds">Confetti cannon, ceiling balloon drop</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/booth-360.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">360° Booth / Selfie Point</span><span class="ds">360 booth, photo booth, selfie frames</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/kids-zone.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Kids Zone &amp; Character Fun</span><span class="ds">Gaming zone, cartoon characters, tattoo</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/sweet-cart.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Sweet Cart &amp; Candy Bar</span><span class="ds">Sweet cart, welcome drinks, popcorn</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/live-entertainment.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Live Entertainment</span><span class="ds">Anchor, dhol, magician, games</span></span><span class="tick">✓</span></button>
+              <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/surprise-setups.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Surprise Setups</span><span class="ds">Room, car &amp; pet surprise decoration</span></span><span class="tick">✓</span></button>
+            </div>
+            <p class="group-foot">Ye list sabse zyada enquiry laati hai — log inhi ke naam se poochte hain.</p>
+          </article>
+        </div>
+
+        <div class="note">
+          <span class="tag">Ise kaise padho</span>
+          <b>Group 1</b> = “kis cheez se” • <b>Group 2</b> = “kahan lagta hai” • <b>Group 3</b> = “aur kya
+          mil sakta hai”. Customer ki nazar me poora picture ban jaata hai — bina bhaari lagne ke.
+          <br /><br />
+          👉 <b>Kisi bhi chip par click karo</b> — poori jaankari khulegi: wo kya hai, usme kaunse-kaunse options aate hain, aur examples. “Meri enquiry me jodo” dabao to neeche wali patti me jama ho jaayega — aur asli site par ye enquiry form bhi apne aap bhar dega.
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <div class="divider"></div>
+
+      <!-- ================= OPTION D : PHOTO SHOWCASE ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION D — PHOTOS KE SAATH</span>
+            <h2>Wahi section, <em>ab photos ke saath.</em></h2>
+            <p>
+              Har chip ke saath uski chhoti photo, aur niche ek photo showcase. Customer aankhon se
+              faisla karta hai — yahi version bikta hai.
+            </p>
+          </div>
+        </div>
+        <div class="gallery">
+          <figure class="big"><img src="img/backdrop-photobooth.jpg" alt="Backdrop aur photo booth setup" loading="lazy" /><figcaption>Backdrop / Photo Booth<span>Sabse zyada maanga jaane wala setup</span></figcaption></figure>
+          <figure><img src="img/arch-entrance.jpg" alt="Floral entrance arch" loading="lazy" /><figcaption>Arch / Entrance Gate</figcaption></figure>
+          <figure><img src="img/cold-pyro.jpg" alt="Cold pyro fountains" loading="lazy" /><figcaption>Cold Pyro &amp; Fountains</figcaption></figure>
+          <figure class="big"><img src="img/mandap-pandal.jpg" alt="Wedding mandap" loading="lazy" /><figcaption>Mandap &amp; Pandal<span>Shaadi · Haldi · Mehndi</span></figcaption></figure>
+          <figure><img src="img/floral-decor.jpg" alt="Floral decoration" loading="lazy" /><figcaption>Floral Decor</figcaption></figure>
+          <figure><img src="img/balloon-decor.jpg" alt="Balloon decoration" loading="lazy" /><figcaption>Balloon Decor</figcaption></figure>
+          <figure><img src="img/drapes-lighting.jpg" alt="Drapes aur lighting" loading="lazy" /><figcaption>Drapes &amp; Lighting</figcaption></figure>
+          <figure><img src="img/booth-360.jpg" alt="360 photo booth" loading="lazy" /><figcaption>360° Booth</figcaption></figure>
+          <figure><img src="img/kids-zone.jpg" alt="Kids play zone" loading="lazy" /><figcaption>Kids Zone</figcaption></figure>
+          <figure class="more">
+            <b>Aur bhi bahut kuch…</b>
+            <span>Ceiling decor, tablescape, proposal setup, cake table, confetti drop — sab kuch.</span>
+            <a href="#concierge">Kuch bhi poocho →</a>
+          </figure>
+        </div>
+        <div class="note">
+          <span class="tag">Zaroori baat</span> Ye photos <b>AI se banayi hui dummy</b> hain — tumhara asli
+          kaam nahi. Ye sirf ye dikhane ke liye hain ki photos ke saath section kaisa lagta hai. Tumhari
+          asli event photos in jagah par kaafi behtar lagegi.
+        </div>
+      </section>
+
+      <!-- ================= OPTION B ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION B — COMPACT</span>
+            <h2>Wahi baat, <em>chhoti jagah me.</em></h2>
+            <p>
+              Agar tumhe lamba section theek na lage to yahi content 3 tabs me daal sakte hain — 3 line ki
+              height me poora section.
+            </p>
+          </div>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" aria-selected="true" data-p="p1">KIS CHEEZ SE</button>
+          <button class="tab" role="tab" aria-selected="false" data-p="p2">KAHAN LAGATE HAIN</button>
+          <button class="tab" role="tab" aria-selected="false" data-p="p3">EXTRA MAGIC</button>
+        </div>
+        <div class="panel on" id="p1">
+          <div class="lines">
+            <span><b>🎈 Balloon Decor</b><i>Organic garland, jumbo, chrome</i></span>
+            <span><b>💐 Floral Decor</b><i>Fresh flowers, rose wall, arch</i></span>
+            <span><b>🧵 Drapes &amp; Fabric</b><i>Sheer, satin, tent draping</i></span>
+            <span><b>💡 Lighting Decor</b><i>Fairy, uplighter, chandelier</i></span>
+            <span><b>🌿 Greenery &amp; Foliage</b><i>Vines, palms, mogra</i></span>
+            <span><b>🖼️ Props &amp; Cutouts</b><i>Standees, neon, mirror panels</i></span>
+            <span><b>⚜️ Premium Finishes</b><i>Pearl, sequin, metallic</i></span>
+            <span><b>🎨 Custom Signage</b><i>Neon name, welcome boards</i></span>
+          </div>
+        </div>
+        <div class="panel" id="p2">
+          <div class="lines">
+            <span><b>🖼️ Backdrop / Photo Booth</b><i>Sabse popular setup</i></span>
+            <span><b>🚪 Arch / Entrance Gate</b><i>Balloon arch, floral gate</i></span>
+            <span><b>⛩️ Mandap &amp; Pandal</b><i>Shaadi, haldi, mehndi</i></span>
+            <span><b>🎭 Stage &amp; Front Truss</b><i>Stage, truss, side panels</i></span>
+            <span><b>☁️ Ceiling &amp; Hanging</b><i>Ceiling rings, hanging props</i></span>
+            <span><b>🍽️ Tablescape &amp; Lounge</b><i>Table setting, low seating</i></span>
+            <span><b>💍 Marry Me / Proposal</b><i>Rooftop, poolside setup</i></span>
+            <span><b>🚶 Walkway &amp; Aisle</b><i>Entry path decor</i></span>
+            <span><b>🎂 Cake Table &amp; Dessert Bar</b><i>Cake plinth, dessert display</i></span>
+          </div>
+        </div>
+        <div class="panel" id="p3">
+          <div class="lines">
+            <span><b>🔥 Cold Pyro &amp; Fountains</b><i>Entry, cake cutting</i></span>
+            <span><b>🌫️ Fog, Bubbles &amp; Smoke</b><i>Low fog, dance floor smoke</i></span>
+            <span><b>🎊 Confetti &amp; Balloon Drop</b><i>Cannon, ceiling drop</i></span>
+            <span><b>📸 360° Booth</b><i>360, photo booth, selfie point</i></span>
+            <span><b>🎠 Kids Zone</b><i>Gaming, characters, tattoo</i></span>
+            <span><b>🍭 Sweet Cart</b><i>Candy, welcome drinks, popcorn</i></span>
+            <span><b>🎉 Live Entertainment</b><i>Anchor, dhol, magician</i></span>
+            <span><b>🚗 Surprise Setups</b><i>Room, car, pet decor</i></span>
+          </div>
+        </div>
+        <div class="note">
+          <span class="tag">Sach bolu</span> Option B me content <b>chhupa</b> rehta hai — customer click na
+          kare to padhega nahi. Option A me sab kuch saamne hota hai. Isliye maine Option A recommend
+          kiya tha, par choice tumhari.
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= OPTION C ================= -->
+      <section class="block">
+        <div class="head">
+          <div>
+            <span class="eyebrow">OPTION C — SEARCH STRIP</span>
+            <h2>“FLOWERS ✦ BALLOONS ✦ MEMORIES” <em>ki jagah.</em></h2>
+            <p>
+              Search bar ke saath jo patli patti hai na — usme aaj flowers/balloons/memories likha hai.
+              Usme apni <b>kaam ki list</b> ghumti rahe to customer ek nazar me samajh jaayega ki tum kya-kya
+              karte ho.
+            </p>
+          </div>
+        </div>
+        <div class="strip">
+          <span class="win">
+            <span class="roll">
+              <span>BALLOON <span class="dot">✦</span> FLORAL <span class="dot">✦</span> DRAPES</span>
+              <span>LIGHTING <span class="dot">✦</span> BACKDROP <span class="dot">✦</span> ARCH</span>
+              <span>MANDAP <span class="dot">✦</span> STAGE <span class="dot">✦</span> CEILING</span>
+              <span>TABLESCAPE <span class="dot">✦</span> PROPOSAL <span class="dot">✦</span> AISLE</span>
+              <span>COLD PYRO <span class="dot">✦</span> CONFETTI <span class="dot">✦</span> FOG</span>
+              <span>360° BOOTH <span class="dot">✦</span> KIDS ZONE <span class="dot">✦</span> SWEET CART</span>
+              <span>WELCOME BABY <span class="dot">✦</span> NAMING <span class="dot">✦</span> HOUSEWARMING</span>
+              <span>BALLOON <span class="dot">✦</span> FLORAL <span class="dot">✦</span> DRAPES</span>
+            </span>
+          </span>
+        </div>
+        <div class="note">
+          <span class="tag">Yaad rakho</span> Ye patti <b>replace</b> karne ki hai, nayi section nahi. Isse
+          jagah bhi nahi legi — jo patti khaali thi, wahi kaam ki ho jaayegi.
+        </div>
+      </section>
+
+      <div class="foot">
+        <b>Kya ye tumhari soch ke kareeb hai?</b> Pehle bas ye dekh lo — phir batao:<br />
+        1️⃣ Kaun sa option (A / B / C) — ya mix?<br />
+        2️⃣ Koi cheez add karni hai ya hataani hai? (naam bilkul tumhare jaise likh dunga)<br />
+        3️⃣ Ye section kahan aaye — occasions ke <i>baad</i> (meri salaah) ya portfolio ke baad?<br /><br />
+        Jo bhi change bolo, main <b>isi draft me</b> kar dunga — asli website tabhi chhoounga jab tum
+        saaf-saaf bologe “ab website par laga do”. 👍
+      </div>
+    </div>
+
+    <!-- detail sheet: click a chip, then click any option inside it -->
+    <div class="detail" id="detail" hidden>
+      <div class="detail-scrim" data-close></div>
+      <article class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button class="detail-x" type="button" data-close aria-label="Band karo">✕</button>
+
+        <div id="view-chip">
+          <div class="detail-hero"><img id="detail-img" src="" alt="" /></div>
+          <div class="detail-body">
+            <span class="detail-kicker" id="detail-kicker"></span>
+            <h3 id="detail-title"></h3>
+            <p class="detail-intro" id="detail-intro"></p>
+
+            <div class="detail-rich">
+              <div class="rich-block"><span class="detail-h">Ye kya hai</span><p id="c-what"></p></div>
+              <div class="rich-block"><span class="detail-h">Log kyun chunte hain</span><p id="c-why"></p></div>
+              <div class="rich-block"><span class="detail-h">Hum kaise banate hain</span><p id="c-how"></p></div>
+            </div>
+
+            <div class="detail-facts">
+              <div id="c-facts" style="display: contents"></div>
+              <div class="bestfor" id="c-best"></div>
+            </div>
+
+            <span class="detail-h" id="opts-head"></span>
+            <ul class="opt-grid" id="c-opts"></ul>
+
+            <span class="detail-h">Kuch examples</span>
+            <div class="detail-mini" id="detail-mini"></div>
+
+            <div class="detail-actions">
+              <button class="cta" type="button" id="detail-add">Meri enquiry me jodo</button>
+              <a class="ghost" id="detail-wa" href="#" target="_blank" rel="noreferrer">WhatsApp →</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-opt" hidden>
+          <div class="detail-hero"><img id="opt-img" src="" alt="" /></div>
+          <div class="detail-body">
+            <button class="detail-up" type="button" id="opt-back"></button>
+            <span class="detail-kicker" id="opt-kicker"></span>
+            <h3 id="opt-title"></h3>
+            <p class="detail-intro" id="opt-what"></p>
+
+            <div class="detail-rich">
+              <div class="rich-block"><span class="detail-h">Ye kaise banta hai</span><p id="opt-how"></p></div>
+              <div class="rich-block"><span class="detail-h">Kahan istemaal hota hai</span><p id="opt-where"></p></div>
+              <div class="rich-block"><span class="detail-h">Jaanne wali baat</span><p id="opt-note"></p></div>
+            </div>
+
+            <div class="detail-facts">
+              <div class="fact"><b>Setup ka time</b><span id="opt-time"></span></div>
+              <div class="fact"><b>Colour aur palette</b><span id="opt-colours"></span></div>
+              <div class="bestfor" id="opt-best"></div>
+            </div>
+
+            <span class="detail-h" id="comes-head"></span>
+            <ul class="comes" id="opt-comes"></ul>
+
+            <span class="detail-h" id="pairs-head"></span>
+            <div class="pairs" id="opt-pairs"></div>
+
+            <div class="detail-actions">
+              <button class="cta" type="button" id="opt-add">Ye option enquiry me jodo</button>
+              <a class="ghost" id="opt-wa" href="#" target="_blank" rel="noreferrer">WhatsApp →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- selection bar -->
+    <div class="selbar">
+      <div class="wrap">
+        <span class="lbl">Tumhari pasand</span>
+        <div class="picked"><span class="empty">Abhi kuch select nahi kiya — upar chips par click karke dekho</span></div>
+        <button class="reset" type="button">clear</button>
+        <button class="cta" type="button">Send on WhatsApp →</button>
+      </div>
+    </div>
+    <script>
+  window.DECOR_DATA = {
+  "Balloon Decor": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Hamari pehli bhasha — layered aur organic, kabhi plain gubbare nahi.",
+    "includes": [
+      "Bubble & confetti balloons",
+      "Jumbo & chrome balloons",
+      "Organic balloon garland",
+      "Balloon wall & cloud",
+      "Number & alphabet balloons",
+      "Balloon arch & columns"
+    ],
+    "photo": "img/balloon-decor.jpg",
+    "gallery": [
+      "img/backdrop-photobooth.jpg",
+      "img/arch-entrance.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "Balloon styling hamari pehchaan hai — layered organic garlands, arches aur colour stories jo camera ke liye banti hain.",
+    "why": "Ye sabse tez tarika hai plain kamre ko celebration banane ka, aur har angle se photo me sundar lagta hai.",
+    "how": "Pehle aapki palette aur venue ki roshni dekhte hain, silhouette banate hain, phir site par premium latex, chrome aur jumbo gubbare matched tones me lagate hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan chalta hai",
+        "Andar aur bahar"
+      ],
+      [
+        "Kitne din",
+        "2–3 din"
+      ]
+    ],
+    "bestFor": [
+      "Birthday",
+      "Baby Shower",
+      "Shaadi",
+      "Corporate"
+    ],
+    "options": {
+      "Bubble & confetti balloons": {
+        "what": "Transparent gubbare — andar confetti, pankh, ya kuch bhi nahi.",
+        "how": "Pehle sookha confetti daalte hain, phir gubbara inflate karke seal karte hain — taki kuch neeche baith na jaaye.",
+        "where": "Garland me mila dete hain, look halka karne ke liye.",
+        "note": "Bahut kam extra kharch me luxury feel — kam se kam ek size me zaroor maangein.",
+        "pick": "Jab palette soft ho aur look halka aur hawaadar chahiye.",
+        "time": "20 minute",
+        "colours": "Transparent gubbare — gold, silver ya pastel confetti ke saath",
+        "best": [
+          "Baby Shower",
+          "Engagement",
+          "Bridal Shower"
+        ],
+        "comes": [
+          "Sookha confetti filling",
+          "Dheere inflation, kuch neeche nahi baithta",
+          "Sealed finish",
+          "Main garland me mixed"
+        ],
+        "pairs": [
+          "Organic balloon garland",
+          "Premium Finishes",
+          "Floral Decor"
+        ]
+      },
+      "Jumbo & chrome balloons": {
+        "what": "Bade size ke gubbare, mirror jaisi metallic chamak ke saath.",
+        "how": "Chrome gubbare dheere aur barabar inflate karte hain — taki surface par koi daag ya nishaan na aaye.",
+        "where": "Garland, cloud aur arch me statement piece ki tarah.",
+        "note": "Inhe jaldi deflate nahi karna — poori baat hi unki chamak hai.",
+        "pick": "Jab photos flash ya tez roshni me lene ki hon.",
+        "time": "30 minute",
+        "colours": "Chrome gold · silver · rose gold · pearl white",
+        "best": [
+          "Engagement",
+          "Anniversary",
+          "Luxury Birthday"
+        ],
+        "comes": [
+          "Chrome aur pearl jumbo gubbare",
+          "Dheere inflate karke flawless finish",
+          "Chhupi suspension strings",
+          "Site par haath se placement"
+        ],
+        "pairs": [
+          "Organic balloon garland",
+          "Premium Finishes",
+          "Backdrop / Photo Booth"
+        ]
+      },
+      "Organic balloon garland": {
+        "what": "Alag-alag size ke gubbare ki layered, free-flowing garland.",
+        "how": "Teen se paanch size ke gubbare exact diameter me inflate karke clusters me pin karte hain — taki surface kabhi flat na lage.",
+        "where": "Deewar, arch, backdrop ke kinare ya seedhi ke saath.",
+        "note": "Sabse versatile balloon style — aapki koi bhi colour combination chalti hai.",
+        "pick": "Jab deewar par bina kisi sakht dhaanche ke sabse zyada impact chahiye.",
+        "time": "45–60 minute",
+        "colours": "Ivory · blush · sage · chrome gold · pastel mix",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "House Warming"
+        ],
+        "comes": [
+          "Teen se paanch size ke gubbare",
+          "Matching chrome accents",
+          "Chhupi fixing aur hooks",
+          "Site par finishing aur safai"
+        ],
+        "pairs": [
+          "Balloon wall & cloud",
+          "Backdrop / Photo Booth",
+          "Drapes & Fabric"
+        ]
+      },
+      "Balloon wall & cloud": {
+        "what": "Ghana balloon wall ya hawa me tairta cluster.",
+        "how": "Frame par ek-ek row gubbare chadhaate hain jab tak surface solid na ho jaaye.",
+        "where": "Backdrop, selfie corner, cake ke peeche.",
+        "note": "Ye bhaari hota hai — deewar ya stand chahiye, sirf hook se kaam nahi chalta.",
+        "pick": "Jab photo ke liye solid aur poora background chahiye.",
+        "time": "60–90 minute",
+        "colours": "Ek tone, ombre ya mixed palette",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "Corporate"
+        ],
+        "comes": [
+          "Deewar ya frame par mounting",
+          "Ek-ek row karke build",
+          "Colour blocking",
+          "Stability ke liye solid base"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Premium Finishes"
+        ]
+      },
+      "Number & alphabet balloons": {
+        "what": "Bade numbers aur letters — foil se, ya gubbare se banaye hue.",
+        "how": "Shape kitna bada aur kitna sharp chahiye, uske hisaab se foil ya balloon-frame choose karte hain.",
+        "where": "Milestone — pehla birthday, 25vi anniversary, shop opening.",
+        "note": "Shape ka poora faisla photo me hota hai, isliye edges sharp rakhte hain.",
+        "pick": "Milestone ke liye — jahan number ya naam har photo me padhna zaroori ho.",
+        "time": "30 minute",
+        "colours": "Foil metallic, ya aapki palette me balloon se bane",
+        "best": [
+          "Pehla Birthday",
+          "25vi Anniversary",
+          "Shop Opening"
+        ],
+        "comes": [
+          "Foil ya balloon se bane letters",
+          "Chhupa support",
+          "Backdrop ke saath pairing",
+          "Din ki roshni me alignment check"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Balloon wall & cloud",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Balloon arch & columns": {
+        "what": "Bana-banaya arch ya do pillars, fixed height aur width me.",
+        "how": "Chhupa hua frame shape sambhalta hai aur uspar andar se bahar tak gubbare layer hote hain.",
+        "where": "Entrance gate, stage ke side, photo frame aur darwaze.",
+        "note": "Sabse achha wahan jahan venue me pehle se sajane layak darwaza ho.",
+        "pick": "Jab entrance ko apna ek alag moment dena ho.",
+        "time": "60–90 minute",
+        "colours": "Do ya teen tone ki palette",
+        "best": [
+          "Shaadi",
+          "Grand Opening",
+          "Birthday"
+        ],
+        "comes": [
+          "Chhupa hua rigid frame",
+          "Andar se bahar balloon layering",
+          "Hawa ke liye weighted base",
+          "Mehmaan wali side par saaf finish"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Custom Signage",
+          "Arch / Entrance Gate"
+        ]
+      }
+    }
+  },
+  "Floral Decor": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Taaza phool, florist ke andaaz me — sirf rakh diye nahi, sajaye hue.",
+    "includes": [
+      "Flower & petal walkway",
+      "Fresh flower wall",
+      "Floral arch & pillars",
+      "Rose & orchid arrangements",
+      "Table centrepieces",
+      "Hanging & ceiling florals"
+    ],
+    "photo": "img/floral-decor.jpg",
+    "gallery": [
+      "img/arch-entrance.jpg",
+      "img/mandap-pandal.jpg",
+      "img/floral-decor.jpg"
+    ],
+    "what": "Taaza phool, florist ke andaaz me — bhare hue, khushbudar, sirf rakh diye nahi.",
+    "why": "Phool wahi do cheezein dete hain jo gubbare nahi de sakte: khushbu aur narmi.",
+    "how": "Phool usi din taaza aate hain, taiyaar kiye jaate hain, phir venue ki roshni me site par sajaye jaate hain — taki mehmaan aane tak kuch bhi thaka na lage.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan chalta hai",
+        "Chhaya wali jagah"
+      ],
+      [
+        "Kitne din",
+        "Usi din tak"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Ring Ceremony",
+      "Anniversary",
+      "Devotional"
+    ],
+    "options": {
+      "Flower & petal walkway": {
+        "what": "Petal aur phoolon se saja raasta.",
+        "how": "Petals usi din gradient me bichate hain — entry ke paas colour zyada.",
+        "where": "Entry, mandap ka raasta, proposal ki jagah.",
+        "note": "Geela farsh phisalta hai — hum floor sambhalte hain taki kisi ko sambhal ke chalna na pade.",
+        "pick": "Jab entry ya aisle me drama chahiye.",
+        "time": "45 minute",
+        "colours": "Rose · white · traditional ke liye marigold",
+        "best": [
+          "Shaadi",
+          "Proposal",
+          "Grand Entry"
+        ],
+        "comes": [
+          "Taaza petals bichana",
+          "Gradient colour planning",
+          "Phisalne se bachav",
+          "Function ke baad safai"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Arch / Entrance Gate",
+          "Lighting Decor"
+        ]
+      },
+      "Fresh flower wall": {
+        "what": "Taaza phoolon ki poori deewar, ek-ek panel karke bani.",
+        "how": "Har phool ko site par water-fed frame me wire karte hain — taki pehle se aakhri mehmaan tak taaza rahe.",
+        "where": "Backdrop, photo corner aur stage ke aage.",
+        "note": "Ye usi din banti hai — taaza bani flower wall kabhi thaki hui nahi lagti.",
+        "pick": "Jab photo zone hi poore event ka highlight ho.",
+        "time": "2–3 ghante",
+        "colours": "White · blush · peach · mausam ke phool",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Engagement"
+        ],
+        "comes": [
+          "Paani wala frame",
+          "Taaza phool site par wire",
+          "Peeche green backing, gaps nahi dikhte",
+          "Gire petals ki safai"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      },
+      "Floral arch & pillars": {
+        "what": "Phoolon se bhara arch, ya do floral pillars.",
+        "how": "Phool chhupe hue frame par lagate hain aur upar se neeche finish karte hain — taki koi fixing dikhe na.",
+        "where": "Entrance, mandap ke side, aisle ke end, stage corner.",
+        "note": "Pillars me aksar poore arch se zyada phool mil jaate hain, kam paise me.",
+        "pick": "Jab mehmaan iske neeche se guzrenge, sirf dekhenge nahi.",
+        "time": "2–3 ghante",
+        "colours": "Classic white-green ya aapki bridal palette",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Chhupa structural frame",
+          "Upar se neeche floral finishing",
+          "Weighted base",
+          "Shaam me paani chhidak kar taaza rakhte hain"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Drapes & Fabric"
+        ]
+      },
+      "Rose & orchid arrangements": {
+        "what": "Ghani, mehngi arrangements — aapke chune hue phoolon me.",
+        "how": "Phool taiyaar karke unchai ke tiers me sajate hain — taki har seat se arrangement bhara hua lage.",
+        "where": "Centrepiece, plinth, gift table aur cake table.",
+        "note": "Khushbu yahan design ka hissa hai, side effect nahi.",
+        "pick": "Jab table sirf sundar nahi, mehnga dikhna chahiye.",
+        "time": "1–2 ghante",
+        "colours": "Ivory · rose · orchid purple · green",
+        "best": [
+          "Anniversary",
+          "Shaadi",
+          "Corporate Dinner"
+        ],
+        "comes": [
+          "Taiyaar kiye taaza phool",
+          "Vase ya plinth styling",
+          "Tiers me arrangement",
+          "Backup phool saath rakhte hain"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar",
+          "Lighting Decor"
+        ]
+      },
+      "Table centrepieces": {
+        "what": "Nichli arrangements jo baat-cheet rok dein na.",
+        "how": "Baithne par aankh ki unchai se neeche rakhte hain, aur sabse uncha hissa hamesha beech me.",
+        "where": "Dining table, guest table, bar counter.",
+        "note": "Ye tablecloth chunne se pehle plan karte hain — taki dono match karein.",
+        "pick": "Jab mehmaan ko table ke paar aaram se baat karni ho.",
+        "time": "45 minute",
+        "colours": "Aapke linen aur crockery se match",
+        "best": [
+          "Shaadi",
+          "Anniversary",
+          "Corporate Dinner"
+        ],
+        "comes": [
+          "Neeche wale arrangements",
+          "Vessels ki styling",
+          "Ek jaise repeat sets",
+          "Table-by-table placement"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar",
+          "Lighting Decor"
+        ]
+      },
+      "Hanging & ceiling florals": {
+        "what": "Upar latakte hue phool, sabke raaste se hat ke.",
+        "how": "Wire aur proper rigging arrangement ko sar ki unchai se upar safe rakhta hai — mehmaan aane se pehle test karte hain.",
+        "where": "Chhat, chandelier, aisle aur mandap ke upar.",
+        "note": "Farsh par kuch nahi aata — chhoti jagah ke liye perfect.",
+        "pick": "Jab farsh already bhara ho aur phir bhi impact badhana ho.",
+        "time": "1–3 ghante",
+        "colours": "Halke white, green aur pastel",
+        "best": [
+          "Reception",
+          "Shaadi",
+          "Corporate"
+        ],
+        "comes": [
+          "Rigging aur safety wire",
+          "Latakte arrangements",
+          "Fixed hanging height",
+          "Mehmaan aane se pehle safety test"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Lighting Decor",
+          "Mandap & Pandal"
+        ]
+      }
+    }
+  },
+  "Drapes & Fabric": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Kapda ordinary kamre ko set bana deta hai — soft, lamba aur cinematic.",
+    "includes": [
+      "Floating fabric ceiling",
+      "Ceiling & tent draping",
+      "Table & chair draping",
+      "Gathered backdrop drapes",
+      "Sheer & chiffon drapes",
+      "Satin & velvet panels"
+    ],
+    "photo": "img/drapes-lighting.jpg",
+    "gallery": [
+      "img/drapes-lighting.jpg",
+      "img/mandap-pandal.jpg",
+      "img/backdrop-photobooth.jpg"
+    ],
+    "what": "Kapda hi kamre ko hall ki jagah set banata hai.",
+    "why": "Jo dikhana nahi chahte wo chhupa deta hai, aur jo dikhana chahte ho usko frame karta hai.",
+    "how": "Pehle venue ki unchai naapte hain, phir sheer, satin ya velvet se ceiling tak drape karte hain — taki fold saaf aur pakka lage.",
+    "facts": [
+      [
+        "Setup ka time",
+        "2–3 ghante"
+      ],
+      [
+        "Kahan chalta hai",
+        "Koi bhi indoor venue"
+      ],
+      [
+        "Hataya jata hai",
+        "Usi raat"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Reception",
+      "Corporate",
+      "Baby Shower"
+    ],
+    "options": {
+      "Floating fabric ceiling": {
+        "what": "Hawa me latka kapda — har panel ke beech jagah.",
+        "how": "Panels alag-alag gehrai par latkate hain — taki latke hue nahi, tairte hue lagein.",
+        "where": "Unchi chhat, mandap aur terrace setup.",
+        "note": "Kapde ke peeche warm light ho to sabse khoobsurat lagta hai.",
+        "pick": "Jab venue me unchai ho aur usko use karna ho.",
+        "time": "2–3 ghante",
+        "colours": "White · ivory · halke pastel",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Mandap"
+        ],
+        "comes": [
+          "Alag-alag gehrai par panels",
+          "Chhupi rigging",
+          "Depth planning",
+          "Light ke liye taiyaar finish"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Ceiling & Hanging Decor",
+          "Mandap & Pandal"
+        ]
+      },
+      "Ceiling & tent draping": {
+        "what": "Poori chhat par narm canopy ki tarah kapda.",
+        "how": "Kamre bhar me tension me stretch karte hain aur kinaron par pin karte hain — taki kahin latke na.",
+        "where": "Terrace function, hall, pandal aur aangan.",
+        "note": "Kisi bhi chhat ke liye, paise ke hisaab se sabse bada visual change.",
+        "pick": "Jab ek hi change se poore kamre ko uthana ho.",
+        "time": "2–3 ghante",
+        "colours": "Ek ivory tone, ya two-tone",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Haldi aur Mehndi"
+        ],
+        "comes": [
+          "Poore kamre par canopy",
+          "Kinaron par pinning",
+          "Tension testing",
+          "Raat me light check"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Ceiling & Hanging Decor",
+          "Mandap & Pandal"
+        ]
+      },
+      "Table & chair draping": {
+        "what": "Linen, runner aur sashes se saji tables.",
+        "how": "Har table ka naap lete hain aur lagane se pehle press karte hain; sashes sab chairs par barabar bandhte hain.",
+        "where": "Dining table, lounge aur head table.",
+        "note": "Venue ka stock use karne ki jagah drapes aur napkins aapki palette se match karte hain.",
+        "pick": "Jab venue ka apna linen photos me thaka hua lage.",
+        "time": "1–2 ghante",
+        "colours": "Palette se match karta linen aur sashes",
+        "best": [
+          "Shaadi",
+          "Corporate",
+          "Anniversary"
+        ],
+        "comes": [
+          "Fitted linen",
+          "Runners aur napkins",
+          "Sashes barabar bandhe hue",
+          "Lagane se pehle press"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Floral Decor",
+          "Premium Finishes"
+        ]
+      },
+      "Gathered backdrop drapes": {
+        "what": "Beech me ikattha kapda — classic curtain feel.",
+        "how": "Kapda centre point par ikattha karke fix karte hain, phir dono taraf barabar failate hain.",
+        "where": "Cake, couple, stage aur mandap ke peeche.",
+        "note": "Gathering ki unchai poore backdrop ka character tay karti hai.",
+        "pick": "Jab cake ya couple ke peeche classic frame chahiye.",
+        "time": "1–2 ghante",
+        "colours": "Koi bhi ek tone, gold tie ke saath",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Reception"
+        ],
+        "comes": [
+          "Beech me gather styling",
+          "Dono taraf barabar failav",
+          "Gold tie ya brooch detail",
+          "Photo angle check"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Backdrop / Photo Booth",
+          "Floral Decor"
+        ]
+      },
+      "Sheer & chiffon drapes": {
+        "what": "Halka, tairta kapda jo sakht deewaron ko narm kar deta hai.",
+        "how": "Chhupe support par chaude, barabar folds me drape karte hain, phir site par steam karte hain.",
+        "where": "Backdrop, stage ke side, chhat aur entrance.",
+        "note": "Ye ek change hi aam hall ko set bana deta hai.",
+        "pick": "Jab hall plain lage aur budget me sabse zyada kaam chahiye.",
+        "time": "2 ghante",
+        "colours": "White · ivory · blush · champagne",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Corporate"
+        ],
+        "comes": [
+          "Chhat se farsh tak draping",
+          "Chhupa support",
+          "Barabar folds",
+          "Site par steam finishing"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Backdrop / Photo Booth",
+          "Ceiling & Hanging Decor"
+        ]
+      },
+      "Satin & velvet panels": {
+        "what": "Bhaari fabrics — gehrai aur rich sheen ke saath.",
+        "how": "Naap ke hisaab se panel banate hain aur site par steam karte hain, kyunki bhaari kapda har crease dikha deta hai.",
+        "where": "Formal backdrop, lounge aur VIP corner.",
+        "note": "Ise kabhi jaldi me nahi karna — camera par creases dugni dikhti hain.",
+        "pick": "Jab formal setting me backdrop rich dikhna chahiye.",
+        "time": "2–3 ghante",
+        "colours": "Ivory · burgundy · emerald · navy",
+        "best": [
+          "Shaadi",
+          "Corporate",
+          "Reception"
+        ],
+        "comes": [
+          "Naap ke hisaab se panels",
+          "Steam kiya hua finish",
+          "Neeche weight wala hem",
+          "Baad me sambhal kar hatana"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Lighting Decor": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Sabse bada upgrade — roshni hi decide karti hai setup kitna premium lagega.",
+    "includes": [
+      "Candles & lanterns",
+      "Pathway & tree lighting",
+      "Warm uplighters",
+      "Neon-style light pieces",
+      "Chandeliers & pendants",
+      "Fairy & string lights"
+    ],
+    "photo": "img/drapes-lighting.jpg",
+    "gallery": [
+      "img/drapes-lighting.jpg",
+      "img/cold-pyro.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "Setup kitna premium lagega ye roshni tay karti hai — kisi bhi doosri cheez se zyada.",
+    "why": "Warm light photos me sabko achha dikhati hai; tez light mehnga decor bhi kharab kar deti hai.",
+    "how": "Light sabse aakhir me lagate hain, jab decor khada ho jaata hai — taki har fixture wahi roshan kare jo roshan hona chahiye.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan chalta hai",
+        "Andar aur terrace"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Reception",
+      "Anniversary",
+      "Corporate",
+      "Engagement"
+    ],
+    "options": {
+      "Candles & lanterns": {
+        "what": "Asli ya safe candles aur lanterns — farsh aur table level par.",
+        "how": "Lantern ya glass ke andar rakhte hain — taki kapde aur bachchon ke paas safe rahein.",
+        "where": "Walkway, tabletop, mandap ke steps aur proposal setup.",
+        "note": "Lau se zyada romantic kuch photo me nahi aata — hum ise chhodte nahi, safe banate hain.",
+        "pick": "Jab bada setup banaye bina romance chahiye.",
+        "time": "30 minute",
+        "colours": "Amber glow, glass aur brass ke saath",
+        "best": [
+          "Proposal",
+          "Anniversary",
+          "Shaadi"
+        ],
+        "comes": [
+          "Lantern ya glass housing",
+          "Hawa se bachav",
+          "Kapde se door safe placement",
+          "Shaam bhar dekhbhal"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Walkway & Aisle Decor",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Pathway & tree lighting": {
+        "what": "Lights jo mehmaanon ko raasta dikhati hain.",
+        "how": "Barabar antar par lagate hain aur andhera hone ke baad test karte hain — taki raasta saaf dikhe, aankh na chubhe.",
+        "where": "Entry, driveway, garden, terrace aur walkway.",
+        "note": "Isi se outdoor venue safe, grand aur mukammal lagta hai.",
+        "pick": "Jab mehmaanon ko andhere me raasta dhundhna ho.",
+        "time": "1 ghanta",
+        "colours": "Warm white, kabhi amber",
+        "best": [
+          "Shaadi",
+          "Outdoor Event",
+          "Reception"
+        ],
+        "comes": [
+          "Barabar antar par placement",
+          "Mausam-safe cabling",
+          "Andhera hone ke baad testing",
+          "Ped ke tane par wrapping"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Arch / Entrance Gate",
+          "Greenery & Foliage"
+        ]
+      },
+      "Warm uplighters": {
+        "what": "Farsh par rakhi lights, jo deewar aur drapes par upar ki taraf chalti hain.",
+        "how": "Decor khada hone ke baad har unit ko haath se aim aur dim karte hain — full brightness par kabhi nahi chhodte.",
+        "where": "Stage wall, backdrop, pillar aur ped ke tane.",
+        "note": "Sirf uplighting poore hall ka rang badal sakti hai.",
+        "pick": "Jab hall camera par thanda ya flat lage.",
+        "time": "45 minute",
+        "colours": "Amber · warm white · magenta accent",
+        "best": [
+          "Shaadi",
+          "Corporate",
+          "Reception"
+        ],
+        "comes": [
+          "Farsh par units",
+          "Haath se aiming aur dimming",
+          "Cable safety covers",
+          "Ek standby unit"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Stage & Front Truss",
+          "Backdrop / Photo Booth"
+        ]
+      },
+      "Neon-style light pieces": {
+        "what": "Chamakte light shapes aur lettering — naam, tareekh, symbols.",
+        "how": "Order par banate hain aur event se pehle test karte hain — taki glow barabar ho, koi dark spot na rahe.",
+        "where": "Backdrop, entrance, proposal aur cake table.",
+        "note": "Photo me warm white sabse achha padhta hai; coloured light aksar phiki lagti hai.",
+        "pick": "Jab naam ya tareekh photos me chamakna chahiye.",
+        "time": "30 minute",
+        "colours": "Warm white · gold glow · ice blue",
+        "best": [
+          "Proposal",
+          "Birthday",
+          "Corporate"
+        ],
+        "comes": [
+          "Order par banayi lettering",
+          "Chhupi power wiring",
+          "Glow barabar hai ya nahi — test",
+          "Stand ya hang mounting"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal"
+        ]
+      },
+      "Chandeliers & pendants": {
+        "what": "Latakti light fixtures, jo decor ka hissa ban jaati hain.",
+        "how": "Proper rigging points se latkate hain aur level karte hain — taki har photo me ek jaisi latkein.",
+        "where": "Mandap, dining area, entrance aur lounge.",
+        "note": "Jahan venue me unchai hai par character nahi, wahan best.",
+        "pick": "Jab venue me unchai ho par character nahi.",
+        "time": "1–2 ghante",
+        "colours": "Crystal · gold · black metal",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Luxury Birthday"
+        ],
+        "comes": [
+          "Rigging aur levelling",
+          "Ek jaisi hanging height",
+          "Symmetry ke liye duplicate fixtures",
+          "Mazboot mounting"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Drapes & Fabric",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Fairy & string lights": {
+        "what": "Warm, chhoti lights — decor me bunni hui.",
+        "how": "Strings ko phool, drapes aur chhat me aise bun dete hain ki koi wire dikhe na.",
+        "where": "Backdrop, chhat, ped, walkway aur table.",
+        "note": "Kisi bhi setup ko warm banane ka sabse sasta tarika — photo zone me double density maangein.",
+        "pick": "Jab har photo me warmth chahiye.",
+        "time": "45–90 minute",
+        "colours": "Warm white (recommended) ya cool white",
+        "best": [
+          "Har mauke",
+          "Shaadi",
+          "Birthday"
+        ],
+        "comes": [
+          "Ghani string wiring",
+          "Chhupe hue cables",
+          "Site par backup sets",
+          "Extension aur safety check"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Floral Decor",
+          "Ceiling & Hanging Decor"
+        ]
+      }
+    }
+  },
+  "Greenery & Foliage": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Patte aur bail wahi taazgi dete hain jo sirf phool nahi de sakte.",
+    "includes": [
+      "Foliage arches",
+      "Palm & monstera styling",
+      "Hanging vines & creepers",
+      "Mogra & jasmine strands",
+      "Green walls & hedges",
+      "Potted & planter setups"
+    ],
+    "photo": "img/greenery-foliage.jpg",
+    "gallery": [
+      "img/greenery-foliage.jpg",
+      "img/floral-decor.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "Patte, bail aur palm wo taazgi dete hain jo sirf phool nahi de sakte.",
+    "why": "Green tez colours ko balance karta hai aur bada setup bhaari nahi lagne deta.",
+    "how": "Foliage ko wire karke phoolon ke peeche layer karte hain — taki dhaancha kahin dikhe na aur green poore function khada rahe.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan chalta hai",
+        "Andar aur bahar"
+      ],
+      [
+        "Kitne din",
+        "2–3 din"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Baby Shower",
+      "Corporate",
+      "Baby Reveal"
+    ],
+    "options": {
+      "Foliage arches": {
+        "what": "Zyada patton se bana arch, thode phoolon ke saath.",
+        "how": "Pehle frame par foliage layer karte hain, phool sabse aakhir me — sirf wahan jahan nazar aayenge.",
+        "where": "Entrance, walkway, proposal aur photo corner.",
+        "note": "Floral arch jitna hi bada lagta hai, par kaafi kam kharch me.",
+        "pick": "Jab floral arch jitna bada chahiye, kam kharch me.",
+        "time": "1–2 ghante",
+        "colours": "Green, white ya mausami accent phoolon ke saath",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "Reception"
+        ],
+        "comes": [
+          "Frame wala arch",
+          "Pehle foliage ki layering",
+          "Accent phool sirf jahan dikhte hain",
+          "Weighted base"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Palm & monstera styling": {
+        "what": "Bade, structured patte — architectural look ke liye.",
+        "how": "Har patte ko alag se wire karte hain — taki apna angle hold kare, shaam bhar latke na.",
+        "where": "Modern venue, statement corner aur entrance.",
+        "note": "Jab theme traditional ki jagah contemporary ho, tab best choice.",
+        "pick": "Jab theme traditional ki jagah contemporary ho.",
+        "time": "45 minute",
+        "colours": "Gehra green, ivory ya terracotta accents ke saath",
+        "best": [
+          "Corporate",
+          "Modern Shaadi",
+          "Anniversary"
+        ],
+        "comes": [
+          "Alag-alag wire kiye patte",
+          "Angle hold karte hain, latakte nahi",
+          "Statement clusters",
+          "Kate stems ki safai"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ]
+      },
+      "Hanging vines & creepers": {
+        "what": "Upar se latakti hui hariyaali.",
+        "how": "Bail ko rigging par layer karke seedha karte hain — taki barabar girein, uljhein na.",
+        "where": "Chhat, arch, tablescape aur mandap ke corner.",
+        "note": "Halki hoti hai aur jaldi lag jaati hai — kam time me aasan.",
+        "pick": "Jab hawa me narmi chahiye bina bade kharch ke.",
+        "time": "30–60 minute",
+        "colours": "Natural green, ya sookhe tones",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "Reception"
+        ],
+        "comes": [
+          "Upar rigging",
+          "Barabar comb ki hui bail",
+          "Alag-alag lambai",
+          "Baad me poori removal"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Floral Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Mogra & jasmine strands": {
+        "what": "Khushbudar phool aur patton ki ladiyan — traditional aur taaza.",
+        "how": "Taazi ladiyan usi din latkate hain aur halka paani chhidakte hain — taki poore function chalein.",
+        "where": "Devotional setup, traditional shaadi aur mandap.",
+        "note": "Yahan khushbu hi main cheez hai, sirf dikhaawa nahi.",
+        "pick": "Jab parampara aur khushbu, dono look jitne zaroori hon.",
+        "time": "45 minute",
+        "colours": "Taaza white, green ke saath",
+        "best": [
+          "Devotional",
+          "Traditional Shaadi",
+          "Pooja aur Havan"
+        ],
+        "comes": [
+          "Usi din latkayi taazi ladiyan",
+          "Halka paani chhidak kar taaza rakhte hain",
+          "Barabar lambai",
+          "Backup ladiyan saath"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Custom Signage"
+        ]
+      },
+      "Green walls & hedges": {
+        "what": "Patton ka solid panel — khada hua ya deewar par laga.",
+        "how": "Asli ya premium artificial foliage frame par itna ghana pin karte hain ki peeche ka backing dikhe hi nahi.",
+        "where": "Backdrop, divider, photo wall aur entrance.",
+        "note": "Ise lagane se jo peeche tha — jo aap nahi dikhana chahte — chhup jaata hai.",
+        "pick": "Jab poora backdrop chahiye jo peeche ki cheezein bhi chhupa de.",
+        "time": "45–90 minute",
+        "colours": "Gehra green, ya mixed tropical green",
+        "best": [
+          "Shaadi",
+          "Baby Shower",
+          "Corporate"
+        ],
+        "comes": [
+          "Frame ya khada hua panel",
+          "Ghani leaf pinning",
+          "Peeche ka backing dikhta nahi",
+          "Jahan theek ho wahan reusable foliage"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Premium Finishes"
+        ]
+      },
+      "Potted & planter setups": {
+        "what": "Saje hue gamlon me paudhe — decor ki tarah.",
+        "how": "Gamlon ko theme ke hisaab se wrap ya paint karte hain, phir jagah par rakhte hain.",
+        "where": "Entry raasta, corner, stage ke side aur waiting area.",
+        "note": "Ye baad me ghar bhi ja sakte hain aur saalon tak kaam aate hain.",
+        "pick": "Jab decor function ke baad bhi kaam aana chahiye.",
+        "time": "30 minute",
+        "colours": "Gold, ivory ya theme colour me wrapped",
+        "best": [
+          "House Warming",
+          "Corporate",
+          "Reception"
+        ],
+        "comes": [
+          "Wrap ya paint kiye gamle",
+          "Healthy paudhe",
+          "Placement layout",
+          "Baad me ghar ke liye handover"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Greenery & Foliage",
+          "Custom Signage"
+        ]
+      }
+    }
+  },
+  "Props & Cutouts": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Mazedaar layer — shapes, panels aur standees jo photos ko interesting banate hain.",
+    "includes": [
+      "Hanging props & mobiles",
+      "Ring & frame props",
+      "3D standees & cut-outs",
+      "Kids props & soft shapes",
+      "Custom-shaped props",
+      "Mirror & sequin panels"
+    ],
+    "photo": "img/props-cutouts.jpg",
+    "gallery": [
+      "img/props-cutouts.jpg",
+      "img/kids-zone.jpg",
+      "img/backdrop-photobooth.jpg"
+    ],
+    "what": "Shapes, panels aur standees — mazedaar layer jo photos ko interesting banati hai.",
+    "why": "Mehmaan ko sirf dekhne ki nahi, khelne ki cheez chahiye.",
+    "how": "Har prop hamari workshop me cut, paint aur finish hota hai, phir aise lagaya jata hai ki mehmaan frame ho, chhupe na.",
+    "facts": [
+      [
+        "Setup ka time",
+        "30–60 minute"
+      ],
+      [
+        "Kahan chalta hai",
+        "Koi bhi venue"
+      ],
+      [
+        "Reusable",
+        "Saalon tak"
+      ]
+    ],
+    "bestFor": [
+      "Birthday",
+      "Kids Party",
+      "Corporate",
+      "College Events"
+    ],
+    "options": {
+      "Hanging props & mobiles": {
+        "what": "Hawa me latkayi gayi cheezein — decor ki tarah.",
+        "how": "Alag-alag unchai par latkate hain — taki gehrai bane, aur hamesha sar se upar.",
+        "where": "Chhat, entry raasta aur tables ke upar.",
+        "note": "Venue me interest add karta hai, aur raaste ka ek kadam bhi nahi rokta.",
+        "pick": "Jab plain chhat par dekhne ke liye kuch chahiye.",
+        "time": "30–45 minute",
+        "colours": "Aapki palette se match",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "Reception"
+        ],
+        "comes": [
+          "Alag-alag unchai par hanging",
+          "Sar ki clearance check",
+          "Kai hanging points",
+          "Balanced visual weight"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Balloon Decor",
+          "Lighting Decor"
+        ]
+      },
+      "Ring & frame props": {
+        "what": "Bade rings aur frames — jinke andar mehmaan khade hote hain.",
+        "how": "Frames ko chhupe base par khada karte hain — taki log sahaara lene par bhi girein na.",
+        "where": "Photo booth, welcome corner aur entrance.",
+        "note": "Couple ki achhi photo pakki — bina dobara pose kiye.",
+        "pick": "Jab mehmaan khud se photo lene lagein, kehna na pade.",
+        "time": "20–30 minute",
+        "colours": "Gold, white ya pastel frames",
+        "best": [
+          "Shaadi",
+          "Baby Shower",
+          "Birthday"
+        ],
+        "comes": [
+          "Bada ring ya frame",
+          "Chhupa hua farsh wala base",
+          "Photo ke liye best angle",
+          "Weight dekar stability check"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal",
+          "Balloon Decor"
+        ]
+      },
+      "3D standees & cut-outs": {
+        "what": "Range hue, khade rehne wale shapes aur figures.",
+        "how": "Har piece hamari workshop me haath se cut, paint aur finish hoti hai — flat print nahi.",
+        "where": "Photo corner, kids area, entrance aur stage ke side.",
+        "note": "Shape ya theme bata dein, order par bana denge.",
+        "pick": "Jab theme bina samjhaye dikhni chahiye.",
+        "time": "30–45 minute",
+        "colours": "Theme palette me painted",
+        "best": [
+          "Kids Birthday",
+          "Theme Party",
+          "Corporate"
+        ],
+        "comes": [
+          "Haath se cut aur painted pieces",
+          "Khade rehne wale bases",
+          "Theme se match colours",
+          "Sambhal ke rakhein to agli baar bhi kaam"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Backdrop / Photo Booth",
+          "Balloon Decor"
+        ]
+      },
+      "Kids props & soft shapes": {
+        "what": "Bachchon ke liye narm, safe, bade shapes.",
+        "how": "Padded ya halke material se bante hain, aur har edge haath se check hota hai.",
+        "where": "Kids zone, play corner aur birthday setup.",
+        "note": "Yahan safety hi design hai — har edge peeda hai, koi exception nahi.",
+        "pick": "Jab bachche kai ghante function me rahenge.",
+        "time": "30–45 minute",
+        "colours": "Pastel, ya theme se match karte bright colours",
+        "best": [
+          "Kids Birthday",
+          "Family Function",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Padded aur halke pieces",
+          "Har edge haath se check",
+          "Saaf karne layak surface",
+          "Safe, neeche wali arrangement"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ]
+      },
+      "Custom-shaped props": {
+        "what": "Aapke apne idea se bani koi bhi cheez.",
+        "how": "Design karte hain, chhota sample banate hain, aapki approval lete hain, phir poora piece finish karte hain.",
+        "where": "Theme party, brand launch aur milestone birthday.",
+        "note": "Jo aap bata sakte ho, hum bana sakte hain — reference bhejein, hum confirm kar denge.",
+        "pick": "Jab idea aapka ho aur readymade kuch kaam na kare.",
+        "time": "2–4 din me ban jata hai",
+        "colours": "Jo shade bolein, reference se match karke",
+        "best": [
+          "Theme Party",
+          "Brand Launch",
+          "Milestone Birthday"
+        ],
+        "comes": [
+          "Pehle design, phir aapki approval",
+          "Zaroorat ho to chhota sample",
+          "Haath se finishing",
+          "Delivery ya site par installation"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Stage & Front Truss"
+        ]
+      },
+      "Mirror & sequin panels": {
+        "what": "Reflect karne wale panels — har light ko dugna kar dete hain.",
+        "how": "Acrylic ya sequin sheets ko safe frame par lagate hain aur mehmaan aane se pehle polish karte hain.",
+        "where": "Backdrop, selfie wall aur lounge corner.",
+        "note": "Chhoti jagah ko kaafi badi dikhane ka smart tarika.",
+        "pick": "Jab chhota venue kaafi bada dikhana ho.",
+        "time": "30 minute",
+        "colours": "Silver · gold · rose-gold panels",
+        "best": [
+          "Engagement",
+          "Birthday",
+          "Corporate"
+        ],
+        "comes": [
+          "Acrylic ya sequin sheets",
+          "Safe chhupa frame",
+          "Mehmaan aane se pehle polish",
+          "Light ki direction dekh kar setting"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Premium Finishes",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Premium Finishes": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Wo chhoti details jo tab nazar aati hain jab baaki sab pehle se perfect ho.",
+    "includes": [
+      "Glitter & confetti detail",
+      "Ribbon & tassel work",
+      "Pearl & bead strands",
+      "Metallic chrome accents",
+      "Sequin & shimmer panels",
+      "Mirror & acrylic accents"
+    ],
+    "photo": "img/premium-finishes.jpg",
+    "gallery": [
+      "img/premium-finishes.jpg",
+      "img/balloon-decor.jpg",
+      "img/cake-dessert.jpg"
+    ],
+    "what": "Pearl, sequin, mirror aur metallic detail — aakhri das percent jo class tay karta hai.",
+    "why": "Yahi farq hai sajaye hue venue aur styled venue me.",
+    "how": "Finish aapki palette se match karte hain, aur lagate hain sabse aakhir me — taki kisi cheez se compete na ho.",
+    "facts": [
+      [
+        "Setup ka time",
+        "30 minute"
+      ],
+      [
+        "Lagta hai",
+        "Sabse aakhir me"
+      ],
+      [
+        "Reuse",
+        "Har setup me"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Engagement",
+      "Anniversary",
+      "Luxury Birthday"
+    ],
+    "options": {
+      "Glitter & confetti detail": {
+        "what": "Decor ke andar kaam kiya hua fine sparkle — upar se chhidka hua nahi.",
+        "how": "Props aur panels par haath se lagate hain — taki density control me rahe aur elegant lage.",
+        "where": "Poore setup me accents ki tarah.",
+        "note": "Jaan-boojh kar subtle rakhte hain — zyada glitter hi decor ko sasta dikhata hai.",
+        "pick": "Jab decor sahi lage par camera par thoda flat lage.",
+        "time": "20 minute",
+        "colours": "Champagne · rose gold · halka silver",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "Anniversary"
+        ],
+        "comes": [
+          "Haath se lagaya glitter",
+          "Controlled density",
+          "Sealed — jhadta nahi",
+          "Props par barabar placement"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Props & Cutouts",
+          "Custom Signage"
+        ]
+      },
+      "Ribbon & tassel work": {
+        "what": "Satin ribbons aur haath se bandhe tassels.",
+        "how": "Naap, steam aur ek-ek karke bandhte hain — taki sab ek hi point tak girein.",
+        "where": "Chairs, cake table, chhoti jagah aur gift table.",
+        "note": "Poora setup kiye bina chhoti jagah sajane ka nafees tarika.",
+        "pick": "Jab jagah chhoti ho par mauka khaas ho.",
+        "time": "Draping ke saath hi",
+        "colours": "Aapki palette ka satin, gold thread ke saath",
+        "best": [
+          "Birthday",
+          "Baby Shower",
+          "House Warming"
+        ],
+        "comes": [
+          "Naape hue ribbons",
+          "Steam ki hui lambai",
+          "Haath se bandhe tassels",
+          "Har jagah ek jaisi lambai"
+        ],
+        "pairs": [
+          "Drapes & Fabric",
+          "Tablescape & Lounge",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Pearl & bead strands": {
+        "what": "Latki hui pearl aur moti ki ladiyan.",
+        "how": "Sahi lambai me string karke narm loops me pin karte hain — taki poori width par ek jaise latkein.",
+        "where": "Backdrop, table ke kinare, cake table aur arch.",
+        "note": "Chhoti si detail, par photos kaafi mehngi dikhne lagti hain.",
+        "pick": "Jab close-up photos me setup mehnga dikhna chahiye.",
+        "time": "20–30 minute",
+        "colours": "Ivory pearl · champagne · gold",
+        "best": [
+          "Shaadi",
+          "Engagement",
+          "Anniversary"
+        ],
+        "comes": [
+          "Sahi lambai me strung",
+          "Narm, barabar loops",
+          "Pin se lagaya, tape se nahi",
+          "Poori width par match"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Cake Table & Dessert Bar",
+          "Floral Decor"
+        ]
+      },
+      "Metallic chrome accents": {
+        "what": "Gold, silver aur rose-gold metallic touches — poore setup me.",
+        "how": "Chrome gubbare, painted props aur foil detail ke roop me — sab ek doosre se match karke.",
+        "where": "Garland, table, signage aur centrepiece.",
+        "note": "Metal aapki palette se match karte hain — trend se nahi.",
+        "pick": "Jab palette soft ho aur ek metallic lift chahiye.",
+        "time": "20 minute",
+        "colours": "Gold · silver · rose gold — sirf ek metal",
+        "best": [
+          "Shaadi",
+          "Engagement",
+          "Luxury Birthday"
+        ],
+        "comes": [
+          "Chrome gubbare",
+          "Painted props",
+          "Foil detailing",
+          "Poore setup me ek hi metal"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Premium Finishes",
+          "Cake Table & Dessert Bar"
+        ]
+      },
+      "Sequin & shimmer panels": {
+        "what": "Sequin wala kapda — kisi bhi angle se light pakadta hai.",
+        "how": "Light ki direction dekh kar panel banate aur pin karte hain — taki shimmer barabar ho, patchy na lage.",
+        "where": "Statement wall, booth aur stage ke aage.",
+        "note": "White light se zyada, warm uplighting me best lagta hai.",
+        "pick": "Jab venue ki roshni warm ho aur use pakadna bane.",
+        "time": "30 minute",
+        "colours": "Gold · champagne · silver · blush",
+        "best": [
+          "Reception",
+          "Corporate",
+          "Birthday"
+        ],
+        "comes": [
+          "Size ke hisaab se panels",
+          "Light ki direction ka plan",
+          "Barabar shimmer, patchy nahi",
+          "Events ke beech sambhal kar storage"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ]
+      },
+      "Mirror & acrylic accents": {
+        "what": "Reflect karne wale acrylic shapes aur panels.",
+        "how": "Shape me cut karke polish karte hain aur aise fix karte hain ki aage se koi fixing dikhe na.",
+        "where": "Backdrop, signage, tablescape aur entrance.",
+        "note": "Jo corners waise andhere reh jaate, wahan chup-chaap light pahuncha deta hai.",
+        "pick": "Jab light lagane ke baad bhi venue ke corners andhere rahen.",
+        "time": "20–30 minute",
+        "colours": "Mirror silver, gold ya tinted acrylic",
+        "best": [
+          "Corporate",
+          "Shaadi",
+          "Reception"
+        ],
+        "comes": [
+          "Shape me kate pieces",
+          "Polished edges",
+          "Chhupi fixing",
+          "Light ko reflect karne wali placement"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Tablescape & Lounge"
+        ]
+      }
+    }
+  },
+  "Custom Signage": {
+    "kicker": "ELEMENTS · kis cheez se banate hain",
+    "intro": "Light ya acrylic me likhi personal cheezein — customer ke apne shabd.",
+    "includes": [
+      "Hashtag & quote boards",
+      "Acrylic & mirror boards",
+      "Custom text of your choice",
+      "Table & menu signage",
+      "Welcome boards",
+      "Neon-style name boards"
+    ],
+    "photo": "img/custom-signage.jpg",
+    "gallery": [
+      "img/custom-signage.jpg",
+      "img/backdrop-photobooth.jpg",
+      "img/marry-me-proposal.jpg"
+    ],
+    "what": "Aapke apne shabd, light ya acrylic me — naam, tareekh, welcome.",
+    "why": "Personalised board hi wo detail hai jiski sabse zyada photo banti hai.",
+    "how": "Lettering aapke font aur colour me design karte hain, banate hain, aur aise light karte hain ki photo me saaf padhe.",
+    "facts": [
+      [
+        "Ban jata hai",
+        "1–2 din"
+      ],
+      [
+        "Delivery",
+        "Site par"
+      ],
+      [
+        "Reuse",
+        "Baad me bhi"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Birthday",
+      "Proposal",
+      "Corporate"
+    ],
+    "options": {
+      "Hashtag & quote boards": {
+        "what": "Board — aapka hashtag ya pasandeeda line.",
+        "how": "Lettering design, cut aur frame karte hain — peeche wale backdrop ke hisaab se.",
+        "where": "Photo corner, stage aur entrance.",
+        "note": "Setup me inki photo sabse zyada banti hai.",
+        "pick": "Jab mehmaan khud celebration post karein.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Mirror, black ya ivory, gold lettering ke saath",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Corporate"
+        ],
+        "comes": [
+          "Aapka hashtag ya line",
+          "Frame wala finish",
+          "Photo ke liye sahi placement",
+          "Backdrop ke saath angle check"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ]
+      },
+      "Acrylic & mirror boards": {
+        "what": "Saaf printed ya cut boards, stands ke saath.",
+        "how": "Chhupa stand banate hain — taki board table ke upar tairta hua lage.",
+        "where": "Welcome table, gift table aur photo corner.",
+        "note": "Inme se zyadatar baad me ghar bhi ja sakte hain, dobara kaam aate hain.",
+        "pick": "Jab kuch aisa chahiye jo function ke baad ghar le jaa sakein.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Clear acrylic, mirror ya frosted",
+        "best": [
+          "Shaadi",
+          "Corporate",
+          "House Warming"
+        ],
+        "comes": [
+          "Chhupa stand — board tairta hua lagta hai",
+          "Print ya cut lettering",
+          "Polished edges",
+          "Event ke baad handover"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Tablescape & Lounge",
+          "Premium Finishes"
+        ]
+      },
+      "Custom text of your choice": {
+        "what": "Koi bhi shabd, kisi bhi style me.",
+        "how": "Aapke saath design karte hain, aapki approval lete hain, phir order par banate hain.",
+        "where": "Jahan bhi zaroorat ho — entry, stage, table, room.",
+        "note": "Shabd aur mood bata dein, baaki sab hum sambhal lenge.",
+        "pick": "Jab mauke ko aise shabd chahiye jo sirf aap jaante ho.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Koi bhi colour aur material",
+        "best": [
+          "Proposal",
+          "Anniversary",
+          "Farewell"
+        ],
+        "comes": [
+          "Banane se pehle design dikhate hain",
+          "Aapke shabd, bilkul waise",
+          "Aapka chuna material",
+          "Us din hum hi lagate hain"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Marry Me / Proposal",
+          "Surprise Setups"
+        ]
+      },
+      "Table & menu signage": {
+        "what": "Chhote signs — table, menu aur seating ke liye.",
+        "how": "Tablescape ke hisaab se print aur finish karte hain — wahi palette, wahi typeface.",
+        "where": "Dining table, bar aur buffet counter.",
+        "note": "Mehmaanon ko poochhna nahi padta ki kahan baithna hai.",
+        "pick": "Jab mehmaan zyada hon aur seating khud-ba-khud samajh aani chahiye.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Tablescape ke linen se match",
+        "best": [
+          "Shaadi",
+          "Corporate",
+          "Reception"
+        ],
+        "comes": [
+          "Printed cards ya boards",
+          "Seating aur menu sets",
+          "Poore me ek hi typeface",
+          "Mehmaan aane se pehle lagaya gaya"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Floral Decor",
+          "Premium Finishes"
+        ]
+      },
+      "Welcome boards": {
+        "what": "Sajaya hua board — aapka welcome message.",
+        "how": "Aapke font aur colour me design karte hain, phir site par finish karke lagate hain.",
+        "where": "Entrance aur guest table.",
+        "note": "Ye pehli cheez hai jo mehmaan padhta hai — isliye chhota aur sundar rakhte hain.",
+        "pick": "Jab mehmaanon ko lagna chahiye ki wo khaas jagah pahunche hain.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Aapki palette — ivory ya blush me",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Chhota, sundar message",
+          "Aapke font aur colours",
+          "Stand ya easel",
+          "Wahan lagta hai jahan se mehmaan guzarte hain"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Floral Decor"
+        ]
+      },
+      "Neon-style name boards": {
+        "what": "Chamakte light letters — aapke naam ke saath.",
+        "how": "Order par bante hain, delivery se pehle test hote hain, aur chhupi fixing se lagte hain.",
+        "where": "Backdrop, entrance, proposal aur cake table.",
+        "note": "Camera par warm white sabse achha padhta hai — hum aapko farq dikha denge.",
+        "pick": "Jab photo me sabse zyada chamakna aapke naam ko ho.",
+        "time": "1–2 din me ban jata hai",
+        "colours": "Warm white · gold glow · ice blue",
+        "best": [
+          "Shaadi",
+          "Proposal",
+          "Birthday"
+        ],
+        "comes": [
+          "Order par bani lettering",
+          "Delivery se pehle tested",
+          "Chhupi mounting aur cable",
+          "Stand ya deewar ka option"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Marry Me / Proposal",
+          "Lighting Decor"
+        ]
+      }
+    }
+  },
+  "Backdrop / Photo Booth": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Wo deewar jiski har mehmaan photo leta hai — yaadein isi me rehti hain.",
+    "includes": [
+      "Round aur arch backdrops",
+      "Flower + balloon combo",
+      "Sequin aur shimmer wall",
+      "Settee aur stool styling",
+      "Ring-light photo corner",
+      "Selfie aur polaroid corner"
+    ],
+    "photo": "img/backdrop-photobooth.jpg",
+    "gallery": [
+      "img/backdrop-photobooth.jpg",
+      "img/floral-decor.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "Wo deewar jiske saamne har mehmaan khada hokar photo leta hai.",
+    "why": "Decor ka sirf yahi hissa album me hamesha ke liye rehta hai.",
+    "how": "Pehle frame banate hain, uspar phool aur gubbare layer karte hain, phir seating aur light jodte hain — taki har photo me poora lage.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Zaroorat",
+        "Deewar ya stand"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Har mauke",
+      "Birthday",
+      "Baby Shower",
+      "Corporate"
+    ],
+    "options": {}
+  },
+  "Arch / Entrance Gate": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Pehla impression — jisse hokar mehmaan andar aate hain, baaki sab baad me.",
+    "includes": [
+      "Balloon arches",
+      "Floral arches",
+      "Kapde wale gates",
+      "Balloon aur flower ke pillars",
+      "Welcome gate setups",
+      "Entry raaste ki sajawat"
+    ],
+    "photo": "img/arch-entrance.jpg",
+    "gallery": [
+      "img/arch-entrance.jpg",
+      "img/floral-decor.jpg",
+      "img/walkway-aisle.jpg"
+    ],
+    "what": "Wo frame jisse hokar mehmaan andar aate hain — baaki sab baad me dikhta hai.",
+    "why": "Teen second me poori celebration ka andaaza isse lag jaata hai.",
+    "how": "Aapke gate ya driveway ka naap lete hain, phir arch site par banate hain — taki seedha khada rahe aur poore function tikā rahe.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Zaroorat",
+        "8–10 feet jagah"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Reception",
+      "Grand Opening",
+      "Birthday"
+    ],
+    "options": {}
+  },
+  "Mandap & Pandal": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Parampara ka scale, modern finish ke saath — poori rasm ke liye banaya gaya.",
+    "includes": [
+      "Wedding mandap",
+      "Haldi aur mehndi pandal",
+      "Ring ceremony stage",
+      "Draped canopy aur chhat",
+      "Pillars par phool ka kaam",
+      "Pooja aur havan setup"
+    ],
+    "photo": "img/mandap-pandal.jpg",
+    "gallery": [
+      "img/mandap-pandal.jpg",
+      "img/floral-decor.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "Poora traditional dhaancha — pillars, canopy aur draping, khud rasm ke liye.",
+    "why": "Parivaar ko aisa setup chahiye jo rasm ko izzat se sambhale aur camera me bhi premium lage.",
+    "how": "Pehle rasm ke hisaab se plan karte hain — seating, havan, raasta — phir usi plan ke around phool aur drapes sajate hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "3–5 ghante"
+      ],
+      [
+        "Kahan",
+        "Bahar ya garden"
+      ],
+      [
+        "Chalta hai",
+        "Poori rasm"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Haldi",
+      "Mehndi",
+      "Ring Ceremony"
+    ],
+    "options": {}
+  },
+  "Stage & Front Truss": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Main dhaancha — peeche mazboot, aage se khoobsurat.",
+    "includes": [
+      "Front truss aur side panels",
+      "Stage skirting aur steps",
+      "Stage ka layered backdrop",
+      "LED aur light bars",
+      "Ramp aur entry styling",
+      "Award aur function ke stage"
+    ],
+    "photo": "img/stage-truss.jpg",
+    "gallery": [
+      "img/stage-truss.jpg",
+      "img/drapes-lighting.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "Main dhaancha — truss, panels, skirting aur backdrop.",
+    "why": "Har function ko ek focal point chahiye jahan nazar pehle jaaye.",
+    "how": "Truss weight aur safety ke hisaab se rig hota hai, phir drapes, phool aur light bars se sajaya jata hai — taki dhaancha dikhe hi na.",
+    "facts": [
+      [
+        "Setup ka time",
+        "2–4 ghante"
+      ],
+      [
+        "Zaroorat",
+        "Samtal zameen"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Corporate",
+      "Award Night",
+      "Annual Day"
+    ],
+    "options": {}
+  },
+  "Ceiling & Hanging Decor": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Zyaadatar setup aankh ki unchai par ruk jaate hain. Hum upar ki hawa bhi sajate hain.",
+    "includes": [
+      "Ceiling par phool aur patte",
+      "Latakte balloon clouds",
+      "Ceiling rings aur chandelier",
+      "Umbrella aur lantern hangs",
+      "Floating kapda",
+      "Latakti photo strings"
+    ],
+    "photo": "img/ceiling-hanging.jpg",
+    "gallery": [
+      "img/ceiling-hanging.jpg",
+      "img/balloon-decor.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "Aankh ki unchai se upar ki sajawat — jo zyaadatar setup bhool jaate hain.",
+    "why": "Mehmaan andar aate hi upar dekhta hai; saji hui chhat kamre ko dugna bada dikhati hai.",
+    "how": "Chhat ki unchai aur rigging points ka naqsha banate hain, phir phool, gubbare aur lights balanced layers me latkate hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–3 ghante"
+      ],
+      [
+        "Zaroorat",
+        "Rigging points"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Reception",
+      "Shaadi",
+      "Corporate",
+      "Baby Shower"
+    ],
+    "options": {}
+  },
+  "Tablescape & Lounge": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Jahan mehmaan baithte, khaate aur relax karte hain — aaram, par sajaya hua.",
+    "includes": [
+      "Formal table setting",
+      "Cake aur gift table",
+      "Floor par low seating",
+      "Lounge aur sofa corners",
+      "Linen, runner aur cutlery",
+      "Bar aur buffet styling"
+    ],
+    "photo": "img/tablescape-lounge.jpg",
+    "gallery": [
+      "img/tablescape-lounge.jpg",
+      "img/cake-dessert.jpg",
+      "img/ceiling-hanging.jpg"
+    ],
+    "what": "Wo hissa jise mehmaan chhoota hai — tables, seating aur lounge corners.",
+    "why": "Aaraam kisi bhi arch se zyada yaad rehta hai.",
+    "how": "Linen, cutlery aur centrepieces sabse aakhir me lagate hain, ek rhythm me, aur tabletop ke hisaab se light set karte hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan",
+        "Andar"
+      ],
+      [
+        "Lagta hai",
+        "Mehmaan aane se pehle"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Anniversary",
+      "Corporate Dinner",
+      "Baby Shower"
+    ],
+    "options": {}
+  },
+  "Marry Me / Proposal": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Sabse personal setup — chhota, private aur yaadgaar.",
+    "includes": [
+      "Rooftop proposal",
+      "Restaurant aur cafe surprise",
+      "Poolside setup",
+      "Heart aur letters ki sajawat",
+      "Candle aur petal ka raasta",
+      "Custom proposal frames"
+    ],
+    "photo": "img/marry-me-proposal.jpg",
+    "gallery": [
+      "img/marry-me-proposal.jpg",
+      "img/walkway-aisle.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "Private setup — ek sawaal aur ek jawaab ke liye.",
+    "why": "Ye personal lagna chahiye — kiraye ka nahi.",
+    "how": "Jagah dekh kar reveal angle plan karte hain, aur sab kuch aapke pahunchne se pehle chup-chaap taiyaar kar dete hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "45–90 minute"
+      ],
+      [
+        "Kahan",
+        "Rooftop, pool, room"
+      ],
+      [
+        "Hataya jata hai",
+        "Baad me"
+      ]
+    ],
+    "bestFor": [
+      "Proposal",
+      "Anniversary",
+      "Date Night",
+      "Reconciliation"
+    ],
+    "options": {}
+  },
+  "Walkway & Aisle Decor": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Wo raasta jo yaad rehta hai — har kadam sajaya hua.",
+    "includes": [
+      "Petal aur phool ka raasta",
+      "Candles wali aisle",
+      "Lantern aur pillar ki kataar",
+      "Balloon aur patton ki border",
+      "Entrance corridor",
+      "Red-carpet entry"
+    ],
+    "photo": "img/walkway-aisle.jpg",
+    "gallery": [
+      "img/walkway-aisle.jpg",
+      "img/arch-entrance.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "Wo raasta jo mehmaan ko andar le jaata hai — aur jispar couple chalta hai.",
+    "why": "Saji hui walkway kadam-kadam par utsaah badhati hai.",
+    "how": "Raaste ko petals, lanterns aur phoolon se sajate hain — chalne ki jagah hamesha khaali aur safe rakhte hue.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1 ghanta"
+      ],
+      [
+        "Zaroorat",
+        "3–4 feet jagah"
+      ],
+      [
+        "Rakha jata hai",
+        "Chalne ke liye khaali"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Reception",
+      "Proposal",
+      "Grand Entry"
+    ],
+    "options": {}
+  },
+  "Cake Table & Dessert Bar": {
+    "kicker": "STRUCTURES · kahan aur kaise lagate hain",
+    "intro": "Cake cutting hi photo ka moment hota hai — hum usi ke around setup banate hain.",
+    "includes": [
+      "Cake plinth aur stand",
+      "Dessert aur mithai display",
+      "Cupcake aur macaron tower",
+      "Live counter styling",
+      "Candy aur chocolate bar",
+      "Cake table ka backdrop"
+    ],
+    "photo": "img/cake-dessert.jpg",
+    "gallery": [
+      "img/cake-dessert.jpg",
+      "img/premium-finishes.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "Meethi station — cake ke around bani hui.",
+    "why": "Cake cutting hi kisi bhi function ka sabse zyada photographed moment hai.",
+    "how": "Plinth ki unchai set karte hain, dessert display sajate hain, phir light aise dete hain ki cake camera me perfect lage.",
+    "facts": [
+      [
+        "Setup ka time",
+        "45–60 minute"
+      ],
+      [
+        "Zaroorat",
+        "Power point"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Birthday",
+      "Shaadi",
+      "Baby Shower",
+      "Anniversary"
+    ],
+    "options": {}
+  },
+  "Cold Pyro & Fountains": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Wo paanch second jab poori mehfil upar dekhne lagti hai.",
+    "includes": [
+      "Cold pyro fountains",
+      "Entry aur welcome sparks",
+      "Cake cutting ke sparklers",
+      "First dance fountains",
+      "Stage ke side jets",
+      "Indoor-safe sparklers"
+    ],
+    "photo": "img/cold-pyro.jpg",
+    "gallery": [
+      "img/cold-pyro.jpg",
+      "img/stage-truss.jpg",
+      "img/marry-me-proposal.jpg"
+    ],
+    "what": "Cold sparkler fountains — paanch second ka wo moment jab poori mehfil upar dekhti hai.",
+    "why": "Itni chhoti cheez se itna bada reaction aur kahin nahi milta.",
+    "how": "Machines dono taraf lagate hain, indoor safety test karte hain, aur exact cue par fire karte hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "20 minute"
+      ],
+      [
+        "Safety",
+        "Indoor-safe machine"
+      ],
+      [
+        "Effect",
+        "30–60 second"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Reception",
+      "Birthday",
+      "Proposal"
+    ],
+    "options": {}
+  },
+  "Fog, Bubbles & Smoke": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Aisi hawa jo dikhti hai — turant drama, wahi jahan mehmaan khade hain.",
+    "includes": [
+      "Floor par low fog",
+      "Dance floor ka smoke",
+      "Bubble machine",
+      "Dry-ice effects",
+      "Haze aur beam lighting",
+      "Cloud entry"
+    ],
+    "photo": "img/fog-bubbles.jpg",
+    "gallery": [
+      "img/fog-bubbles.jpg",
+      "img/stage-truss.jpg",
+      "img/drapes-lighting.jpg"
+    ],
+    "what": "Aisi hawa jo dikhti hai — low fog, bubbles aur haze.",
+    "why": "Aam zameen bhi stage jaisi lagne lagti hai.",
+    "how": "Machines camera se bahar rakhte hain aur drift control karte hain — taki fog zameen par rahe, mehmaanon par nahi.",
+    "facts": [
+      [
+        "Setup ka time",
+        "20 minute"
+      ],
+      [
+        "Kahan",
+        "Andar, request par"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Reception",
+      "First Dance",
+      "Birthday",
+      "Concert"
+    ],
+    "options": {}
+  },
+  "Confetti & Balloon Drop": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Confetti ki khushi wali bhaag-daud — aur chhat jo gubbare chhod deti hai.",
+    "includes": [
+      "Confetti cannons",
+      "Haath wale confetti",
+      "Ceiling se balloon drop",
+      "Net aur cage release",
+      "Phool ki barsaat",
+      "Streamer launches"
+    ],
+    "photo": "img/confetti-balloon-drop.jpg",
+    "gallery": [
+      "img/confetti-balloon-drop.jpg",
+      "img/ceiling-hanging.jpg",
+      "img/balloon-decor.jpg"
+    ],
+    "what": "Confetti cannons aur chhat se release — jo celebration seedha mehmaanon ke haath me de deta hai.",
+    "why": "Isse bheed khud decoration ban jaati hai.",
+    "how": "Net ya cannons upar rig karte hain, aapki entry ya cake cut par time karte hain, aur turant baad hata dete hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "30–45 minute"
+      ],
+      [
+        "Zaroorat",
+        "Chhat ki unchai"
+      ],
+      [
+        "Moment",
+        "Ek bada moment"
+      ]
+    ],
+    "bestFor": [
+      "Reception",
+      "Birthday",
+      "New Year",
+      "Grand Finale"
+    ],
+    "options": {}
+  },
+  "360° Booth / Selfie Point": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Mehmaan sirf photo nahi lete — wo khud reel ka hissa ban jaate hain.",
+    "includes": [
+      "360° spinning booth",
+      "Classic photo booth",
+      "Selfie aur polaroid corner",
+      "Turant print station",
+      "Reels aur GIF output",
+      "Custom prop box"
+    ],
+    "photo": "img/booth-360.jpg",
+    "gallery": [
+      "img/booth-360.jpg",
+      "img/backdrop-photobooth.jpg",
+      "img/props-cutouts.jpg"
+    ],
+    "what": "Camera jo mehmaanon ke chaaron taraf ghumta hai aur unhe clip bhej deta hai.",
+    "why": "Mehmaan usko share karte hain — aapki celebration venue se bahar bhi pahunch jaati hai.",
+    "how": "Wahan lagate hain jahan line walkway na roke, aur light aur props mehmaan aane se pehle taiyaar rakhte hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "45 minute"
+      ],
+      [
+        "Zaroorat",
+        "8–10 feet jagah"
+      ],
+      [
+        "Chalta hai",
+        "2–4 ghante"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Corporate",
+      "Birthday",
+      "College Event"
+    ],
+    "options": {}
+  },
+  "Kids Zone & Character Fun": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Chhote mehmaan busy rahenge, to unke mummy-papa bhi party enjoy karenge.",
+    "includes": [
+      "Soft play area",
+      "Ball pit aur slides",
+      "Kids gaming zone",
+      "Cartoon characters ki visit",
+      "Tattoo aur face painting",
+      "Art aur craft corner"
+    ],
+    "photo": "img/kids-zone.jpg",
+    "gallery": [
+      "img/kids-zone.jpg",
+      "img/props-cutouts.jpg",
+      "img/booth-360.jpg"
+    ],
+    "what": "Alag jagah jahan bachche bachche reh sakte hain.",
+    "why": "Bachche khush to mummy-papa sach me function enjoy karte hain.",
+    "how": "Ise main seating ke saamne rakhte hain, har edge narm karte hain, aur staff dete hain — taki hosts ko nazar rakhni na pade.",
+    "facts": [
+      [
+        "Setup ka time",
+        "1–2 ghante"
+      ],
+      [
+        "Kahan",
+        "Saamne, corner me"
+      ],
+      [
+        "Chalta hai",
+        "Poora function"
+      ]
+    ],
+    "bestFor": [
+      "Kids Birthday",
+      "Shaadi",
+      "Family Function",
+      "Baby Shower"
+    ],
+    "options": {}
+  },
+  "Sweet Cart & Candy Bar": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Kisi bhi function ka sabse busy corner — bachche aur bade dono ke liye.",
+    "includes": [
+      "Sweet aur candy cart",
+      "Chocolate fountain",
+      "Popcorn aur cotton candy",
+      "Welcome drinks counter",
+      "Dessert jars aur toppings",
+      "Ice-cream counter"
+    ],
+    "photo": "img/sweet-cart.jpg",
+    "gallery": [
+      "img/sweet-cart.jpg",
+      "img/cake-dessert.jpg",
+      "img/kids-zone.jpg"
+    ],
+    "what": "Sajaya hua cart — mithai, jars aur treats ka.",
+    "why": "Har function ka sabse busy corner — har umar ke liye.",
+    "how": "Cart aapki palette me sajta hai, mehmaan aane se pehle bhar diya jata hai, aur poore function refill hota rehta hai.",
+    "facts": [
+      [
+        "Setup ka time",
+        "45 minute"
+      ],
+      [
+        "Kahan",
+        "Entrance ke paas"
+      ],
+      [
+        "Refill",
+        "Poore function"
+      ]
+    ],
+    "bestFor": [
+      "Birthday",
+      "Baby Shower",
+      "Shaadi",
+      "Corporate"
+    ],
+    "options": {}
+  },
+  "Live Entertainment": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Music, rhythm aur performance — jiski baat baad me sab karte hain.",
+    "includes": [
+      "Anchor aur host",
+      "Dhol aur baraat band",
+      "DJ aur sound setup",
+      "Live music ya singer",
+      "Magician aur performers",
+      "Games aur activities"
+    ],
+    "photo": "img/live-entertainment.jpg",
+    "gallery": [
+      "img/live-entertainment.jpg",
+      "img/stage-truss.jpg",
+      "img/cold-pyro.jpg"
+    ],
+    "what": "Anchor, dhol, DJ, magician aur performers.",
+    "why": "Shaam ki energy performers tay karte hain — decor se bhi zyada.",
+    "how": "Har act ko aapke schedule ke around book, brief aur time karte hain — taki rasmon se kuch overlap na ho.",
+    "facts": [
+      [
+        "Booking",
+        "Pehle se"
+      ],
+      [
+        "Kahan",
+        "Koi bhi venue"
+      ],
+      [
+        "Timing",
+        "Aapke schedule par"
+      ]
+    ],
+    "bestFor": [
+      "Shaadi",
+      "Sangeet",
+      "Corporate",
+      "Birthday"
+    ],
+    "options": {}
+  },
+  "Surprise Setups": {
+    "kicker": "EXPERIENCES · extra magic",
+    "intro": "Chhota setup, bada reaction — sab chup-chaap, unke aane se pehle taiyaar.",
+    "includes": [
+      "Room decoration",
+      "Car decoration",
+      "Pet decoration",
+      "Car boot surprise",
+      "Office desk surprise",
+      "Raat me pehle ka setup"
+    ],
+    "photo": "img/surprise-setups.jpg",
+    "gallery": [
+      "img/surprise-setups.jpg",
+      "img/marry-me-proposal.jpg",
+      "img/tablescape-lounge.jpg"
+    ],
+    "what": "Chhote, personal setups — room, car, desk ya pet.",
+    "why": "Jo shabdon me kehna mushkil ho, uske liye sabse aasan tarika.",
+    "how": "Aapke aane se pehle chup-chaap sajate hain, aapke timing ke hisaab se chalte hain, aur moment ke baad sab hata dete hain.",
+    "facts": [
+      [
+        "Setup ka time",
+        "30–45 minute"
+      ],
+      [
+        "Kahan",
+        "Room, car, desk"
+      ],
+      [
+        "Hataya",
+        "Chup-chaap, baad me"
+      ]
+    ],
+    "bestFor": [
+      "Surprise",
+      "Anniversary",
+      "Proposal",
+      "Farewell"
+    ],
+    "options": {}
+  }
+};
+  (function () {
+    var T = {
+  "what": "Ye kya hai",
+  "why": "Log kyun chunte hain",
+  "how": "Hum kaise banate hain",
+  "opts": "Andar ke saare options — kisi bhi ek par tap karke poori detail dekho",
+  "optsPlain": "Andar ke saare options",
+  "ex": "Kuch examples",
+  "back": "← {name} par wapas",
+  "howMade": "Ye kaise banta hai",
+  "whereUsed": "Kahan istemaal hota hai",
+  "note": "Jaanne wali baat",
+  "add": "Meri enquiry me jodo",
+  "addOpt": "Ye option enquiry me jodo",
+  "time": "Setup ka time",
+  "colours": "Colour aur palette",
+  "comes": "Saath me kya milta hai",
+  "pairs": "Inke saath best lagta hai",
+  "added": "✓ Jod diya — hataane ke liye phir dabao",
+  "close": "Band karo",
+  "wa": "Hello Balloon Creation! Mujhe {name} ke baare me aur jaankari chahiye.",
+  "waOpt": "Hello Balloon Creation! Mujhe {chip} — {option} ke baare me aur jaankari chahiye.",
+  "empty": "Abhi kuch select nahi kiya — kisi chip par click karke dekho",
+  "demo": "Demo: WhatsApp par ye message jaayega 👇\n\n\"Hello Balloon Creation! Mujhe chahiye: {list}\"",
+  "demoEmpty": "Demo: pehle kuch chips select karo, phir dekho ye button kya bhejta hai 👆"
+};
+    var D = window.DECOR_DATA || {};
+    var picked = new Map();
+
+    function renderBar() {
+      var box = document.querySelector('.picked');
+      if (!box) return;
+      var list = Array.from(picked.keys());
+      box.innerHTML = list.length
+        ? list.map(function (n) { return '<span class="p">\u2713 ' + n + '</span>'; }).join('')
+        : '<span class="empty">' + T.empty + '</span>';
+    }
+    function setPicked(key, on) {
+      if (on) picked.set(key, true); else picked.delete(key);
+      renderBar();
+      syncChip();
+      syncOpt();
+      syncChips();
+    }
+    // a chip looks chosen when the chip itself, or any option inside it, is picked
+    function chipSelected(name) {
+      if (picked.has(name)) return true;
+      var prefix = name + ' \u00b7 ';
+      return Array.from(picked.keys()).some(function (k) { return k.indexOf(prefix) === 0; });
+    }
+    function syncChips() {
+      document.querySelectorAll('.chip').forEach(function (chip) {
+        var name = chip.querySelector('.nm').textContent.trim();
+        chip.setAttribute('aria-pressed', chipSelected(name) ? 'true' : 'false');
+      });
+    }
+    function chipKey(name) { return name; }
+    function optKey(chip, opt) { return chip + ' \u00b7 ' + opt; }
+
+    var sheet = document.getElementById('detail');
+    var viewChip = document.getElementById('view-chip');
+    var viewOpt = document.getElementById('view-opt');
+    var el = {
+      img: document.getElementById('detail-img'),
+      kicker: document.getElementById('detail-kicker'),
+      title: document.getElementById('detail-title'),
+      intro: document.getElementById('detail-intro'),
+      what: document.getElementById('c-what'),
+      why: document.getElementById('c-why'),
+      how: document.getElementById('c-how'),
+      facts: document.getElementById('c-facts'),
+      best: document.getElementById('c-best'),
+      optsHead: document.getElementById('opts-head'),
+      opts: document.getElementById('c-opts'),
+      mini: document.getElementById('detail-mini'),
+      add: document.getElementById('detail-add'),
+      wa: document.getElementById('detail-wa'),
+      optImg: document.getElementById('opt-img'),
+      optBack: document.getElementById('opt-back'),
+      optKicker: document.getElementById('opt-kicker'),
+      optTitle: document.getElementById('opt-title'),
+      optWhat: document.getElementById('opt-what'),
+      optHow: document.getElementById('opt-how'),
+      optWhere: document.getElementById('opt-where'),
+      optNote: document.getElementById('opt-note'),
+      optTime: document.getElementById('opt-time'),
+      optColours: document.getElementById('opt-colours'),
+      optBest: document.getElementById('opt-best'),
+      optComes: document.getElementById('opt-comes'),
+      comesHead: document.getElementById('comes-head'),
+      pairsHead: document.getElementById('pairs-head'),
+      optPairs: document.getElementById('opt-pairs'),
+      optAdd: document.getElementById('opt-add'),
+      optWa: document.getElementById('opt-wa')
+    };
+    var openChip = null;
+    var openOption = null;
+
+    function waHref(text) {
+      return 'https://wa.me/917489863753?text=' + encodeURIComponent(text);
+    }
+
+    // ---------- level 1: the chip ----------
+    function showChip(name) {
+      var info = D[name];
+      if (!info) return;
+      openChip = name;
+      openOption = null;
+      viewOpt.hidden = true;
+      viewChip.hidden = false;
+      sheet.querySelector('.detail-card').scrollTop = 0;
+      el.img.src = info.photo;
+      el.img.alt = name;
+      el.kicker.textContent = info.kicker;
+      el.title.textContent = name;
+      el.intro.textContent = info.intro;
+      el.what.textContent = info.what || '';
+      el.why.textContent = info.why || '';
+      el.how.textContent = info.how || '';
+      el.facts.innerHTML = (info.facts || []).map(function (f) {
+        return '<div class="fact"><b>' + f[0] + '</b>' + f[1] + '</div>';
+      }).join('');
+      el.best.innerHTML = (info.bestFor || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      var opts = info.options || {};
+      var keys = Object.keys(opts);
+      if (keys.length) {
+        el.optsHead.textContent = T.opts;
+        el.opts.className = 'opt-grid';
+        el.opts.innerHTML = keys.map(function (k) {
+          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' + k +
+            '<span class="arw">\u2192</span></button></li>';
+        }).join('');
+      } else {
+        el.optsHead.textContent = T.optsPlain;
+        el.opts.className = 'plain-list';
+        el.opts.innerHTML = (info.includes || []).map(function (k) { return '<li>' + k + '</li>'; }).join('');
+      }
+      el.mini.innerHTML = (info.gallery || []).map(function (g) {
+        return '<img src="' + g + '" alt="" loading="lazy" />';
+      }).join('');
+      el.wa.href = waHref(T.wa.replace('{name}', name));
+      syncChip();
+      openSheet();
+    }
+
+    function syncChip() {
+      if (!openChip) return;
+      var on = picked.has(chipKey(openChip));
+      el.add.textContent = on ? T.added : T.add;
+      el.add.classList.toggle('on', on);
+    }
+
+    // ---------- level 2: the option inside ----------
+    function showOption(chipName, optName) {
+      var info = (D[chipName] || {}).options || {};
+      var o = info[optName];
+      if (!o) return;
+      openOption = { chip: chipName, name: optName };
+      viewChip.hidden = true;
+      viewOpt.hidden = false;
+      sheet.querySelector('.detail-card').scrollTop = 0;
+      el.optImg.src = D[chipName].photo;
+      el.optImg.alt = chipName + ' — ' + optName;
+      el.optBack.textContent = T.back.replace('{name}', chipName);
+      el.optKicker.textContent = chipName;
+      el.optTitle.textContent = optName;
+      el.optWhat.textContent = o.what || '';
+      el.optHow.textContent = o.how || '';
+      el.optWhere.textContent = o.where || '';
+      el.optNote.textContent = o.note || '';
+      el.optTime.textContent = o.time || '';
+      el.optColours.textContent = o.colours || '';
+      el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      el.comesHead.textContent = T.comes;
+      el.comesHead.style.display = (o.comes || []).length ? 'block' : 'none';
+      el.optComes.innerHTML = (o.comes || []).map(function (c) { return '<li>' + c + '</li>'; }).join('');
+      el.pairsHead.textContent = T.pairs;
+      el.pairsHead.style.display = (o.pairs || []).length ? 'block' : 'none';
+      el.optPairs.innerHTML = (o.pairs || []).map(function (n) {
+        return D[n] ? '<button type="button" data-chip="' + n + '">' + n + ' →</button>'
+                    : '<button type="button">' + n + '</button>';
+      }).join('');
+      el.optWa.href = waHref(T.waOpt.replace('{chip}', chipName).replace('{option}', optName));
+      syncOpt();
+      el.optAdd.focus();
+    }
+
+    function syncOpt() {
+      if (!openOption) return;
+      var on = picked.has(optKey(openOption.chip, openOption.name));
+      el.optAdd.textContent = on ? T.added : T.addOpt;
+      el.optAdd.classList.toggle('on', on);
+    }
+
+    // ---------- wiring ----------
+    function openSheet() {
+      sheet.hidden = false;
+      document.body.classList.add('locked');
+      el.add.focus();
+    }
+    function closeSheet() {
+      sheet.hidden = true;
+      document.body.classList.remove('locked');
+      viewChip.hidden = false;
+      viewOpt.hidden = true;
+      openOption = null;
+    }
+
+    document.querySelectorAll('.chip').forEach(function (chip) {
+      chip.setAttribute('aria-pressed', 'false');
+      chip.setAttribute('aria-expanded', 'false');
+      chip.addEventListener('click', function () {
+        var name = chip.querySelector('.nm').textContent.trim();
+        chip.setAttribute('aria-expanded', 'true');
+        showChip(name);
+      });
+    });
+
+    el.opts.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-opt]') : null;
+      if (btn && openChip) showOption(openChip, btn.getAttribute('data-opt'));
+    });
+    el.optBack.addEventListener('click', function () { if (openChip) showChip(openChip); });
+    el.optPairs.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-chip]') : null;
+      if (b) showChip(b.getAttribute('data-chip'));
+    });
+    el.add.addEventListener('click', function () {
+      if (openChip) setPicked(chipKey(openChip), !picked.has(chipKey(openChip)));
+    });
+    el.optAdd.addEventListener('click', function () {
+      if (openOption) {
+        var k = optKey(openOption.chip, openOption.name);
+        setPicked(k, !picked.has(k));
+      }
+    });
+    sheet.addEventListener('click', function (e) {
+      if (e.target.hasAttribute && e.target.hasAttribute('data-close')) closeSheet();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || sheet.hidden) return;
+      if (openOption) showChip(openOption.chip); else closeSheet();
+    });
+
+    var reset = document.querySelector('.reset');
+    if (reset) reset.addEventListener('click', function () {
+      picked.clear();
+      renderBar();
+      syncChip();
+      syncOpt();
+      syncChips();
+    });
+    var barCta = document.querySelector('.selbar .cta');
+    if (barCta) barCta.addEventListener('click', function () {
+      var list = Array.from(picked.keys());
+      alert(list.length ? T.demo.replace('{list}', list.join(', ')) : T.demoEmpty);
+    });
+
+    document.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+        document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('on'); });
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.dataset.p).classList.add('on');
+      });
+    });
+  })();
+</script>
+  </body>
+</html>

@@ -48,10 +48,6 @@
   --fluid-cream: oklch(.98 .025 90);
   --fluid-warm: oklch(.82 .105 82);
   --fluid-deep: oklch(.67 .10 76);
-  --silver-light: oklch(.99 .005 250);
-  --silver-shadow: 0 0 4px oklch(.93 .01 250 / .7);
-  --silver-spark: linear-gradient(135deg, oklch(.62 .015 250), var(--silver-light) 45%, oklch(.74 .015 250) 75%, var(--silver-light));
-  --silver-trail: linear-gradient(to top, oklch(.72 .015 250 / .8), transparent);
   --gold-trail: linear-gradient(to top, var(--fluid-warm), transparent);
   --royal-background: linear-gradient(125deg, var(--background), var(--secondary) 55%, var(--champagne));
   --royal-band: linear-gradient(115deg, var(--secondary), var(--background) 55%, oklch(.94 .035 25));
@@ -355,7 +351,7 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .aura-lines { display: grid; position: relative; isolation: isolate; }
 .aura-sizer, .aura-line { grid-area: 1/1; }
 .aura-sizer { visibility: hidden; }
-.liquid-gold, .star-dust { position: absolute; inset: -25% 0; z-index: -1; pointer-events: none; }
+.liquid-gold { position: absolute; inset: -25% 0; z-index: -1; pointer-events: none; }
 .liquid-gold { overflow: hidden; opacity: 0; mask-image: linear-gradient(90deg, transparent, var(--foreground) 14%, var(--foreground) 86%, transparent); }
 .liquid-gold svg { position: absolute; width: 160%; height: 100%; max-width: none; left: -45%; top: 0; filter: blur(1px); }
 .fluid-cream { stop-color: var(--fluid-cream); }
@@ -363,23 +359,14 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .fluid-deep { stop-color: var(--fluid-deep); }
 .fluid-thread { fill: none; stroke: var(--fluid-warm); stroke-width: 2; opacity: .5; }
 .fluid-thread-fine { stroke: var(--fluid-cream); stroke-width: 1; }
-.star-dust { inset: -20px 0 0; overflow: hidden; }
-.star-dust b { position: absolute; top: 0; width: var(--s); height: 100%; opacity: 0; }
-.star-dust b::before { content: ''; position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: var(--silver-spark); box-shadow: var(--silver-shadow); }
-.star-dust b.gold::before { background: var(--metallic-gold); }
 @media (prefers-reduced-motion:no-preference) {
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
-  .star-dust b { animation: dust-fall 2s linear both; }
-  .star-dust b::before { animation: dust-twinkle .7s ease-in-out infinite alternate; }
-  .star-dust b:nth-child(3n)::before { animation-duration: .45s; }
 }
 @keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes aura-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }
 @keyframes fluid-in { from { opacity: 0; } to { opacity: .34; } }
 @keyframes fluid-flow { from { transform: translateX(0); } to { transform: translateX(25%); } }
-@keyframes dust-fall { 0% { opacity: 0; transform: translate(0,-8px); } 8%,90% { opacity: 1; } 100% { opacity: 0; transform: translate(7px,100%); } }
-@keyframes dust-twinkle { from { opacity: .35; transform: scale(.55); } to { opacity: 1; transform: scale(1.25); } }
 
 /* Embla owns the single track transform and pointer gestures. */
 .category-section { padding-block: 52px 35px; border-bottom: 1px solid var(--border); background: var(--category-glass); }
