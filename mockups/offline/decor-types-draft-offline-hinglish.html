@@ -126,6 +126,8 @@
       .detail-kicker { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
       .detail-body h3 { font-size: 34px; margin: 8px 0 9px; }
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+      .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
+      .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -510,6 +512,7 @@
             <span class="detail-kicker" id="opt-kicker"></span>
             <h3 id="opt-title"></h3>
             <p class="detail-intro" id="opt-what"></p>
+            <p class="opt-pick" id="opt-pick" style="display: none"><b>Kab pick karein</b><span id="opt-pick-text"></span></p>
 
             <div class="detail-rich">
               <div class="rich-block"><span class="detail-h">Ye kaise banta hai</span><p id="opt-how"></p></div>
@@ -3936,12 +3939,12 @@
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Wo paanch second jab poori mehfil upar dekhne lagti hai.",
     "includes": [
-      "Cold pyro fountains",
-      "Entry aur welcome sparks",
-      "Cake cutting ke sparklers",
-      "First dance fountains",
-      "Stage ke side jets",
-      "Indoor-safe sparklers"
+      "Stage & truss pyro",
+      "Entrance gate pyro",
+      "Cake moment sparklers",
+      "Couple dance pyro",
+      "Pillar & podium pyro",
+      "Fountain & fan walls"
     ],
     "photo": "img/cold-pyro.jpg",
     "gallery": [
@@ -3972,18 +3975,175 @@
       "Birthday",
       "Proposal"
     ],
-    "options": {}
+    "options": {
+      "Stage & truss pyro": {
+        "what": "Cold sparkler machine stage aur truss ke kinaron par lagti hain — cue par chandi jaisi sparkle ki barsaat.",
+        "how": "Dono taraf ek hi height par mount hoti hain, thoda bahar ki taraf jhukti hain, aur mehmaan aane se pehle test hoti hain — left aur right bilkul same.",
+        "where": "Reception, sangeet stage, award night aur concert style function.",
+        "note": "Sparkle thandi hoti hai — dhuaan ki smell nahi, farsh par nishaan nahi, log bilkul paas khade reh sakte hain.",
+        "pick": "Jab bada stage moment chahiye, par patakhe ya tez awaaz nahi chahiye.",
+        "time": "30 minute setup",
+        "colours": "Silver-white sparkle, gold unit bhi mil jayegi",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Award Night"
+        ],
+        "comes": [
+          "Char se chhe sparkler unit",
+          "Clamp, stand aur cabling",
+          "Operator aur remote trigger",
+          "Safety check aur clearance"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Entrance gate pyro": {
+        "what": "Gate ke dono taraf khade sparkler fountain — couple ke andar aate hi fire ho jaate hain.",
+        "how": "Machine gate ke pillars ke peeche chhup jaati hai, phoolon se dhak jaati hai, aur couple ke pahunchne se ek-do second pehle trigger hoti hai.",
+        "where": "Baraat welcome, reception entry, birthday grand entry aur bride entry.",
+        "note": "Sab kuch timing ka khel hai — family ke saath entry ek baar rehearse karte hain taaki sparkle kadam rakhne par peak par ho.",
+        "pick": "Jab poori shaam ka main moment entry hi ho.",
+        "time": "25 minute setup",
+        "colours": "Warm gold sparkle, lagbhag har gate par suit karti hai",
+        "best": [
+          "Baraat Welcome",
+          "Reception Entry",
+          "Bride Entry"
+        ],
+        "comes": [
+          "Do sparkler unit",
+          "Chhupe huye stand aur cabling",
+          "Family ke saath cue practice",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/fabric-gate.jpg"
+      },
+      "Cake moment sparklers": {
+        "what": "Chhoti sparkler units jo cake cutting ke photo ko roshan kar deti hain.",
+        "how": "Ek unit cake table ke peeche lagti hai, upar ki taraf jhuki hui, aur chaku cake ko lagte hi fire hoti hai — cake par kuch nahi girta.",
+        "where": "Birthday cake cutting, anniversary, engagement aur baby shower.",
+        "note": "Birthday ke sabse zyada photo isi 10 second me bante hain — sparkle se cake background se alag dikhta hai.",
+        "pick": "Jab tumhare zyada photo cake table ke aas paas hi bante hon.",
+        "time": "15 minute setup",
+        "colours": "Silver ya gold sparkle",
+        "best": [
+          "Birthday",
+          "Anniversary",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Ek se do sparkler unit",
+          "Table ke peeche chhupa stand",
+          "Photographer ke saath cue",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Lighting Decor",
+          "Custom Signage"
+        ],
+        "img": "img/cake-dessert.jpg"
+      },
+      "Couple dance pyro": {
+        "what": "First dance ya ring exchange ke waqt couple ke dono taraf uthte sparkler fountain.",
+        "how": "Unit dance floor ke do kono par lagti hain, camera frame ke bahar rehti hain, aur choreographer ke chune beat par fire hoti hain.",
+        "where": "First dance, ring exchange, couple entry aur sangeet performance.",
+        "note": "Lamba show nahi, chhote bursts karte hain — taaki dance floor dikhta rahe aur photo clear aaye.",
+        "pick": "Jab couple ka apna performance ho jise mehmaan dekh rahe hon.",
+        "time": "30 minute setup",
+        "colours": "Gehre floor par silver-white sparkle",
+        "best": [
+          "First Dance",
+          "Ring Exchange",
+          "Sangeet"
+        ],
+        "comes": [
+          "Do sparkler unit",
+          "Floor ke corner stands",
+          "Music ke saath sync practice",
+          "Remote wala operator"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Stage & Front Truss",
+          "Lighting Decor"
+        ],
+        "img": "img/cold-pyro.jpg"
+      },
+      "Pillar & podium pyro": {
+        "what": "Mandap ke pillars ya podium ke andar chhupi sparkler units — structure ke saath upar ki taraf fire.",
+        "how": "Unit phoolon wale pillar ke andar lagti hai, sirf nozzle bahar dikhta hai — sparkle aisa lagta hai jaise phoolon se nikla ho.",
+        "where": "Mandap ke kinare, award podium, ring ceremony stage aur announcement moment.",
+        "note": "Chhupi hone ki wajah se mehmaan effect dekhta hai, machine nahi — isi se cheez mehngi lagti hai.",
+        "pick": "Jab structure hero ho aur usko jinda karna ho.",
+        "time": "35 minute setup",
+        "colours": "Phoolon ke saath gold sparkle",
+        "best": [
+          "Shaadi",
+          "Award Night",
+          "Ring Ceremony"
+        ],
+        "comes": [
+          "Do se char chhupi units",
+          "Chhupane wala mounting hardware",
+          "Host ke saath cue planning",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/mandap-pandal.jpg"
+      },
+      "Fountain & fan walls": {
+        "what": "Ek line me lagi sparkler units — stage ya couple ke peeche sparkle ki wall ya fan ban jaati hai.",
+        "how": "Char se aath units barabar gap par lagti hain aur andar ki taraf jhuki hoti hain — sab ek saath ek chaudi curtain bana deti hain.",
+        "where": "Bade stage, sangeet backdrop, reception couple seating aur grand finale.",
+        "note": "Iske liye unit ke peeche do metre khali jagah chahiye — venue ka layout pehle check karte hain.",
+        "pick": "Jab hall bada ho aur sirf ek jodi fountain chhoti lagegi.",
+        "time": "45 minute setup",
+        "colours": "Silver-white, gold ya mix",
+        "best": [
+          "Reception",
+          "Sangeet",
+          "Grand Finale"
+        ],
+        "comes": [
+          "Char se aath sparkler unit",
+          "Line-up stands aur cabling",
+          "Venue layout ka check",
+          "Master remote wala operator"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Premium Finishes"
+        ],
+        "img": "img/cold-pyro.jpg"
+      }
+    }
   },
   "Fog, Bubbles & Smoke": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Aisi hawa jo dikhti hai — turant drama, wahi jahan mehmaan khade hain.",
     "includes": [
-      "Floor par low fog",
-      "Dance floor ka smoke",
-      "Bubble machine",
-      "Dry-ice effects",
-      "Haze aur beam lighting",
-      "Cloud entry"
+      "Low-lying fog carpet",
+      "First dance fog",
+      "Bubble machine showers",
+      "Haze & light beams",
+      "Dry-ice ring walk",
+      "Entry smoke blasts"
     ],
     "photo": "img/fog-bubbles.jpg",
     "gallery": [
@@ -4014,18 +4174,175 @@
       "Birthday",
       "Concert"
     ],
-    "options": {}
+    "options": {
+      "Low-lying fog carpet": {
+        "what": "Bhari fog jo farsh par phailti hai aur takhno tak hi rehti hai — log baadalon par chalte lagte hain.",
+        "how": "Low-fog machine camera se hatke lagti hai, chiller pipe ke saath — fog farsh par roll karti hai, chehron par nahi uthti.",
+        "where": "Dance floor, entry, stage ke kinare aur photo area.",
+        "note": "Farsh smooth hona chahiye aur hawa tez nahi — khurdure patthar ya tez hawa me fog jaldi toot jaati hai.",
+        "pick": "Jab farsh ko bilkul alag jagah jaisa dikhana ho.",
+        "time": "30 minute setup",
+        "colours": "Safed fog, jo bhi light colour daalo wahi pakadta hai",
+        "best": [
+          "Reception",
+          "First Dance",
+          "Birthday"
+        ],
+        "comes": [
+          "Low-fog machine aur chiller",
+          "Pipe aur floor tray",
+          "Poori show ka fog fluid",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/fog-bubbles.jpg"
+      },
+      "First dance fog": {
+        "what": "Dheere dheere banti fog jo first dance se pehle shuru hoti hai aur couple ke pairon ke aas paas rehti hai.",
+        "how": "Machine kinaron se slow speed par chalti hai — fog music se pehle pahunch jaati hai aur poore gaane tak rehti hai.",
+        "where": "First dance, sangeet performance aur couple entry.",
+        "note": "Pehle hi shuru kar dete hain — der se aayi fog video me jaldi bhari lagti hai.",
+        "pick": "Jab couple ka dance hi wo hissa ho jise sab record karte hain.",
+        "time": "25 minute setup",
+        "colours": "Safed, warm ya blue light ke saath",
+        "best": [
+          "First Dance",
+          "Sangeet",
+          "Reception"
+        ],
+        "comes": [
+          "Kinare wali fog machine",
+          "DJ ke saath timing plan",
+          "Poore gaane ka fluid",
+          "Cue wala operator"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Stage & Front Truss",
+          "Live Entertainment"
+        ],
+        "img": "img/marry-me-proposal.jpg"
+      },
+      "Bubble machine showers": {
+        "what": "Machine jo hawa me bubbles bhar deti hain — dance floor ya entry ke upar.",
+        "how": "Do units kinaron par lagti hain, upar aur tirchhi — bubbles tairte hain, chehre par nahi girte.",
+        "where": "Reception, cake cutting, bacchon ke party aur photo booth.",
+        "note": "Bubbles aur khula khana saath nahi chalta — buffet se theek door rakhte hain.",
+        "pick": "Jab bacche aur photo, stage jitne hi zaroori hon.",
+        "time": "20 minute setup",
+        "colours": "Transparent bubbles, warm ya gold light me best lagti hain",
+        "best": [
+          "Kids Party",
+          "Reception",
+          "Cake Cutting"
+        ],
+        "comes": [
+          "Do bubble machine",
+          "Poori shaam ka bubble fluid",
+          "Kinare ki placement aur cabling",
+          "Cue wala operator"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Walkway & Aisle Decor",
+          "Lighting Decor"
+        ],
+        "img": "img/fog-bubbles.jpg"
+      },
+      "Haze & light beams": {
+        "what": "Patla sa haze jo har light beam ko hawa me dikhata hai — laser, spot ya moving head.",
+        "how": "Chhota hazer sabse low setting par lagatar chalta hai — hawa roshni se bhara lagta hai, dhuaan nahi banta.",
+        "where": "Sangeet night, DJ floor, concert style stage aur award evening.",
+        "note": "Haze dheere dheere tables par baithta hai — isliye setting low rakhte hain aur dinner shuru hote hi band kar dete hain.",
+        "pick": "Jab pehle se moving lights ho aur unko dikhana ho.",
+        "time": "20 minute setup",
+        "colours": "Bina rang — lights ke apne rang dikhata hai",
+        "best": [
+          "Sangeet",
+          "DJ Night",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Hazer aur fluid",
+          "Low setting ka run plan",
+          "DJ ke saath cue sheet",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Stage & Front Truss",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Dry-ice ring walk": {
+        "what": "Ring exchange ya vow wali jagah par halki dry-ice fog ki chadar, beech me saaf raasta.",
+        "how": "Fog kinaron ki low tray me hoti hai, couple ka raasta khula rakhte hain — koi tray me kadam na rakhe.",
+        "where": "Ring exchange, vow moment aur pooja stage.",
+        "note": "Dry ice aam fog se zyada thandi hoti hai — jahan bacche ya pets nange paon chal rahe hon wahan use nahi karte.",
+        "pick": "Jab moment formal ho aur burst ki jagah shaant drama chahiye.",
+        "time": "35 minute setup",
+        "colours": "Safed fog, gehre ya lakdi ke farsh par",
+        "best": [
+          "Ring Ceremony",
+          "Shaadi",
+          "Engagement"
+        ],
+        "comes": [
+          "Dry-ice machine aur tray",
+          "Safe raaste ki marking",
+          "Gloves aur handling kit",
+          "Site par operator"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Walkway & Aisle Decor"
+        ],
+        "img": "img/mandap-pandal.jpg"
+      },
+      "Entry smoke blasts": {
+        "what": "Darwaze ke dono taraf se chhote seedhe smoke ke burst — entry ke waqt.",
+        "how": "Do units frame ke bahar khadi hoti hain aur jaldi se jodi me fire karti hain — darwaza baadalon me khula lagta hai.",
+        "where": "Grand entry, baraat welcome, birthday entry aur reveal moment.",
+        "note": "Do-teen baar fire karte hain, lagatar nahi — ek lamba blast usko hi chhupa deta hai jise dekhna tha.",
+        "pick": "Jab entry me dhamaka chahiye par patakhe allowed nahi.",
+        "time": "25 minute setup",
+        "colours": "Safed smoke, warm light me best",
+        "best": [
+          "Grand Entry",
+          "Baraat",
+          "Birthday"
+        ],
+        "comes": [
+          "Do smoke unit",
+          "Frame se bahar placement",
+          "Entry ke liye fluid",
+          "Remote wala operator"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Cold Pyro & Fountains",
+          "Lighting Decor"
+        ],
+        "img": "img/arch-entrance.jpg"
+      }
+    }
   },
   "Confetti & Balloon Drop": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Confetti ki khushi wali bhaag-daud — aur chhat jo gubbare chhod deti hai.",
     "includes": [
-      "Confetti cannons",
-      "Haath wale confetti",
-      "Ceiling se balloon drop",
-      "Net aur cage release",
-      "Phool ki barsaat",
-      "Streamer launches"
+      "Confetti cannon bursts",
+      "Cue-timed confetti drops",
+      "Balloon drop nets",
+      "Ceiling balloon cascades",
+      "Confetti & petal mix",
+      "Slow-fall confetti showers"
     ],
     "photo": "img/confetti-balloon-drop.jpg",
     "gallery": [
@@ -4056,18 +4373,175 @@
       "New Year",
       "Grand Finale"
     ],
-    "options": {}
+    "options": {
+      "Confetti cannon bursts": {
+        "what": "Haath wale aur mounted cannon jo bheed ke upar tez confetti ka burst karte hain.",
+        "how": "Do se chhe cannon floor ke aas paas lagte hain aur count par saath fire hote hain, sar ki height se upar nishana.",
+        "where": "Grand entry, cake cutting, jeet ka announcement aur first dance.",
+        "note": "Andar kaagaz ka confetti aur bahar bade streamers — isse decide hota hai kitni safai lagegi.",
+        "pick": "Jab turant, bhari reaction chahiye bina light ya sound gear ke.",
+        "time": "20 minute setup",
+        "colours": "Gold-white, multi-colour ya petals ke saath",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Do se chhe cannon",
+          "Us moment ka confetti",
+          "Placement aur aiming ka check",
+          "Count par fire karne wali team"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Stage & Front Truss",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/confetti-balloon-drop.jpg"
+      },
+      "Cue-timed confetti drops": {
+        "what": "Chhat se confetti theek usi line par girna jab gaana ka wo hissa ya photo ka moment aaye.",
+        "how": "Stage ya dance floor ke upar release point lagate hain aur DJ ya anchor ke signal par trigger karte hain.",
+        "where": "First dance, cake cutting, couple entry aur award reveal.",
+        "note": "Ek sahi timing wala drop paanch random se better hai — cue ek baar rehearse karte hain.",
+        "pick": "Jab timing quantity se zyada maayne rakhti ho.",
+        "time": "40 minute setup",
+        "colours": "Gold, safed ya couple ki theme colour",
+        "best": [
+          "First Dance",
+          "Reception",
+          "Award Night"
+        ],
+        "comes": [
+          "Chhat ka release rig",
+          "DJ ke saath cue rehearsal",
+          "Ek drop ka confetti",
+          "Trigger wala operator"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/confetti-balloon-drop.jpg"
+      },
+      "Balloon drop nets": {
+        "what": "Balloons se bhari jaali jo bheed ke upar khulti hai — balloons baarish jaise girte hain.",
+        "how": "Jaali us support se latkate hain jo wazan utha sake, site par bharte hain, aur host ek rassi kheench kar kholta hai.",
+        "where": "Birthday, new year party, reception aur sangeet finale.",
+        "note": "Confirm karne se pehle chhat ya truss ka wazan check karte hain — bhari jaali dikhne se bhaari hoti hai.",
+        "pick": "Jab mehmaan khade hain aur pakadne ke liye taiyar hon.",
+        "time": "50 minute setup",
+        "colours": "Theme colours, aam taur par do-teen saath",
+        "best": [
+          "Birthday",
+          "New Year",
+          "Sangeet"
+        ],
+        "comes": [
+          "Jaali aur rigging",
+          "Drop ke balloons",
+          "Chhat ka load check",
+          "Bharne aur kholne wali team"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Ceiling & Hanging Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/ceiling-hanging.jpg"
+      },
+      "Ceiling balloon cascades": {
+        "what": "Chhat se balloons dheere dheere cascade me chhoote hain — bhare drop ki tarah nahi.",
+        "how": "Balloons dance floor ke upar halki line par string kar dete hain aur gruppo me chhodte hain — poora ek minute lagta hai girne me.",
+        "where": "Cake table moment, birthday countdown aur photo wale event.",
+        "note": "Slow cascade ki photo acchi aati hai aur bacchon ke saath kaafi safe hoti hai.",
+        "pick": "Jab crowd mixed ho aur moment lamba chahiye.",
+        "time": "45 minute setup",
+        "colours": "Theme ke do-teen shade",
+        "best": [
+          "Birthday",
+          "Reception",
+          "Family Event"
+        ],
+        "comes": [
+          "String ki hui balloon lines",
+          "Chhat ka support rigging",
+          "Staged release ka plan",
+          "Release sambhalne wali team"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Balloon Decor",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/balloon-decor.jpg"
+      },
+      "Confetti & petal mix": {
+        "what": "Confetti me asli ya sukhe phoolon ki pankhudiyaan mili hui — girna zyada soft aur premium lagta hai.",
+        "how": "Kaagaz ka confetti petal ke saath ek hi load me mix karte hain — giraawat plastic jaisi nahi lagti.",
+        "where": "Shaadi, engagement, baby shower aur luxury birthday.",
+        "note": "Taaza petal kaagaz se bhari hoti hai — mix halka rakhte hain taaki kuch bhi guchha ban ke na gire.",
+        "pick": "Jab event elegant ho aur confetti bhi usi jaisa chahiye.",
+        "time": "30 minute setup",
+        "colours": "Ivory, blush ya marigold petal ke saath safed confetti",
+        "best": [
+          "Shaadi",
+          "Engagement",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Petal aur confetti ka mix",
+          "Cannon ya chhat se drop",
+          "Tumhare decor se colour matching",
+          "Load aur fire karne wali team"
+        ],
+        "pairs": [
+          "Floral Decor",
+          "Walkway & Aisle Decor",
+          "Premium Finishes"
+        ],
+        "img": "img/walkway-aisle.jpg"
+      },
+      "Slow-fall confetti showers": {
+        "what": "Halka confetti jo hawa me rukta hai aur dheere girta hai — photo aur video ke liye.",
+        "how": "Khaas slow-fall confetti use karte hain fan wale release ke saath — seedha girne ki jagah tairta hai.",
+        "where": "First dance, couple shoot, cake table aur reveal moment.",
+        "note": "Wo kamra best hai jahan darwaze par tez hawa na ho — hawa isko side me le jaati hai.",
+        "pick": "Jab photo crowd ke reaction se zyada important ho.",
+        "time": "35 minute setup",
+        "colours": "Safed, gold ya pearl finish",
+        "best": [
+          "Shaadi",
+          "Couple Shoot",
+          "Reception"
+        ],
+        "comes": [
+          "Slow-fall confetti",
+          "Fan wala release rig",
+          "Photo angle ke hisaab se placement",
+          "Cue wala operator"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Marry Me / Proposal"
+        ],
+        "img": "img/backdrop-photobooth.jpg"
+      }
+    }
   },
   "360° Booth / Selfie Point": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Mehmaan sirf photo nahi lete — wo khud reel ka hissa ban jaate hain.",
     "includes": [
-      "360° spinning booth",
-      "Classic photo booth",
-      "Selfie aur polaroid corner",
-      "Turant print station",
-      "Reels aur GIF output",
-      "Custom prop box"
+      "360° spinner booth",
+      "Slo-mo video clips",
+      "Ring-light selfie corner",
+      "Instant print photo booth",
+      "Prop & sign station",
+      "QR photo sharing wall"
     ],
     "photo": "img/booth-360.jpg",
     "gallery": [
@@ -4098,18 +4572,175 @@
       "Birthday",
       "College Event"
     ],
-    "options": {}
+    "options": {
+      "360° spinner booth": {
+        "what": "Camera wala arm jo mehmaanon ke chaaron taraf ghoomta hai jab wo pose karte hain — ek smooth round me poora video.",
+        "how": "Arm ek stable platform par lagta hai, usi par lights hoti hain, aur mehmaan marked spot par khada hota hai — har clip ka frame same.",
+        "where": "Reception, sangeet night, birthday aur college event.",
+        "note": "Aath se das feet ka khula circle aur paas me power point chahiye — dance floor ke corner best rehte hain.",
+        "pick": "Jab mehmaan apne saath kuch share karne layak le jaayein.",
+        "time": "45 minute setup",
+        "colours": "Platform ke peeche backdrop ka colour tumhari marzi",
+        "best": [
+          "Shaadi",
+          "Corporate Event",
+          "Birthday"
+        ],
+        "comes": [
+          "360° arm aur platform",
+          "Booth ki lighting",
+          "Poori shaam ka attendant",
+          "Event ke baad edited clips"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Slo-mo video clips": {
+        "what": "Mehmaanon ke slow-motion clips — ek spin me shoot hote hain aur seedha unke phone par pahunch jaate hain.",
+        "how": "Clip high frame rate me record hoti hai, edit me slow ki jaati hai, aur kuch minute me QR ya link se share ho jaati hai.",
+        "where": "Reception, cocktail, sangeet aur corporate shaam.",
+        "note": "Best clip tab banta hai jab mehmaan hilta hai — halka sa ghoomna ya dupatta ka spin kaafi hai.",
+        "pick": "Jab share karna printed photo se zyada zaroori ho.",
+        "time": "45 minute setup",
+        "colours": "Colour ka khel nahi — lighting kamre ke hisaab se set hoti hai",
+        "best": [
+          "Reception",
+          "Cocktail",
+          "College Event"
+        ],
+        "comes": [
+          "High frame rate recording",
+          "Usi shaam ki editing",
+          "QR ya link se delivery",
+          "Pose batane wala attendant"
+        ],
+        "pairs": [
+          "360° Booth / Selfie Point",
+          "Live Entertainment",
+          "Lighting Decor"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Ring-light selfie corner": {
+        "what": "Roshan selfie corner — ring light, sajaya hua wall aur phone holder, jise koi bhi use kar sake.",
+        "how": "Ring light phone stand ke peeche hoti hai — chehre par barabar roshni, aur peeche tumhara sajaya hua wall.",
+        "where": "Reception, birthday, baby shower aur corporate shaam.",
+        "note": "Corner ko apna power point chahiye aur music se thoda door — selfie video me log bolte hain.",
+        "pick": "Jab poori shaam photo chahiye par photographer wahan khada na rahe.",
+        "time": "30 minute setup",
+        "colours": "Warm white light, backdrop tumhari theme colour me",
+        "best": [
+          "Birthday",
+          "Reception",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Ring light aur phone stand",
+          "Sajaya hua selfie backdrop",
+          "Hashtag wala sign",
+          "Power aur cabling"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Lighting Decor"
+        ],
+        "img": "img/halo-corner.jpg"
+      },
+      "Instant print photo booth": {
+        "what": "Aisa booth jahan pose karne ke ek minute me mehmaan ke haath me chhapi photo hoti hai.",
+        "how": "Camera ek stand par, paas me printer — aur print theme wale frame ya sleeve ke saath di jaati hai.",
+        "where": "Shaadi, birthday, anniversary aur corporate family day.",
+        "note": "Print paper se bandha hota hai — tumhare saath count plan karte hain aur spare roll ready rakhte hain.",
+        "pick": "Jab bade mehmaan aur family ko chhapi photo pasand aayegi.",
+        "time": "50 minute setup",
+        "colours": "Print frame aur backdrop theme ke hisaab se",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Anniversary"
+        ],
+        "comes": [
+          "Booth camera aur printer",
+          "Print paper aur frame",
+          "Poori shaam ka attendant",
+          "Event ke baad digital copies"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Prop & sign station": {
+        "what": "Photo area ke paas props ki table — topi, chashma, mask, board aur speech bubble.",
+        "how": "Props size ke hisaab se tray me lagte hain aur shaam bhar set ho jaate hain, paas me mirror — mehmaan pose se pehle dekh lete hain.",
+        "where": "Har photo booth, selfie corner aur 360° setup ke saath.",
+        "note": "Haath me dandi wale props wide shot me best lagte hain; mask close selfie ke liye behtar hai.",
+        "pick": "Jab mehmaanon ko photo ke liye thoda push chahiye.",
+        "time": "20 minute setup",
+        "colours": "Props theme ke hisaab se chunte hain",
+        "best": [
+          "Birthday",
+          "Shaadi",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Theme ka prop set",
+          "Board aur speech bubble",
+          "Tray aur ek mirror",
+          "Set karte rehne wali team"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ],
+        "img": "img/props-cutouts.jpg"
+      },
+      "QR photo sharing wall": {
+        "what": "Chhapa hua ya LED wall jispar QR code hota hai — mehmaan scan karke apni photo ek shared album me daal dete hain.",
+        "how": "QR tumhare apne album se juda hota hai, aur wahi QR signage aur table card par bhi print hota hai.",
+        "where": "Shaadi, corporate event aur bade birthday.",
+        "note": "Ek album ka matlab hai sau photo ek jagah — alag alag phones me bikhri nahi.",
+        "pick": "Jab guest list badi ho aur har angle ki photo chahiye.",
+        "time": "15 minute setup",
+        "colours": "Signage tumhare decor ke palette me",
+        "best": [
+          "Shaadi",
+          "Corporate Event",
+          "Bada Celebration"
+        ],
+        "comes": [
+          "Wall ke liye QR signage",
+          "Album access jo tumhare paas rahe",
+          "QR wale table card",
+          "Theme ke hisaab se signage styling"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Backdrop / Photo Booth",
+          "Reception desks"
+        ],
+        "img": "img/custom-signage.jpg"
+      }
+    }
   },
   "Kids Zone & Character Fun": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Chhote mehmaan busy rahenge, to unke mummy-papa bhi party enjoy karenge.",
     "includes": [
-      "Soft play area",
-      "Ball pit aur slides",
-      "Kids gaming zone",
-      "Cartoon characters ki visit",
-      "Tattoo aur face painting",
-      "Art aur craft corner"
+      "Ball pool & soft play",
+      "Character meet & greet",
+      "Face paint & tattoo corner",
+      "Games & activity host",
+      "Kids craft & colour table",
+      "Cartoon & movie corner"
     ],
     "photo": "img/kids-zone.jpg",
     "gallery": [
@@ -4140,18 +4771,175 @@
       "Family Function",
       "Baby Shower"
     ],
-    "options": {}
+    "options": {
+      "Ball pool & soft play": {
+        "what": "Narm mat wala play area — ball pool, soft blocks aur chhota slide, chhote bacchon ke liye.",
+        "how": "Pehle soft mat bichhate hain, phir pool, slide aur blocks lagate hain — andar-bahar aane ka saaf raasta chhodte hain.",
+        "where": "Shaadi, birthday, family function aur corporate family day.",
+        "note": "Zone ko hamesha dance floor aur buffet se door rakhte hain — bacchon ko jagah mile aur parents apni jagah se dekh sakein.",
+        "pick": "Jab guest list me chhote bacchon wale family zyada hon.",
+        "time": "1 ghanta setup",
+        "colours": "Bright primary colour ya pastel, theme ke hisaab se",
+        "best": [
+          "Birthday",
+          "Shaadi",
+          "Family Function"
+        ],
+        "comes": [
+          "Ball pool aur balls",
+          "Soft mat aur blocks",
+          "Chhota slide aur play pieces",
+          "Zone dekhne wala attendant"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Balloon Decor",
+          "Backdrop / Photo Booth"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Character meet & greet": {
+        "what": "Costume wala character — cartoon hero, pari ya superhero — jo aata hai, bacchon ke saath khelta hai aur photo ke liye pose karta hai.",
+        "how": "Character fix time par aata hai, pehle bacchon ke saath waqt deta hai, phir cake cutting me photo ke liye judta hai.",
+        "where": "Birthday party, bacchon ka event, school function aur family day.",
+        "note": "Surprise tab best chalta hai jab bacchon ko pehle na bataya jaaye — parents aam taur par chup rakhte hain.",
+        "pick": "Jab birthday wala baccha teen se nau saal ke beech ho.",
+        "time": "30 minute setup",
+        "colours": "Character ka costume theme ke hisaab se",
+        "best": [
+          "Birthday",
+          "School Event",
+          "Family Day"
+        ],
+        "comes": [
+          "Costume wala performer",
+          "Fix arrival time",
+          "Bacchon ke saath photo session",
+          "Cake cutting me appearance"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Props & Cutouts",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Face paint & tattoo corner": {
+        "what": "Chhoti table jahan bacche face paint ya cartoon tattoo karwate hain, aur waiting me maze karte hain.",
+        "how": "Do artist saath kaam karte hain aur queue rope lagti hai — bheed nahi, line banti hai.",
+        "where": "Birthday, shaadi, baby shower aur family function.",
+        "note": "Skin-friendly colour use karte hain aur shaam ke end ke liye soap wala wash kit ready rakhte hain.",
+        "pick": "Jab bacche zyada hon aur ek shaant corner poori shaam chalta rahe.",
+        "time": "30 minute setup",
+        "colours": "Bright face colours; glitter sirf bolne par",
+        "best": [
+          "Birthday",
+          "Shaadi",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Do artist apne kit ke saath",
+          "Table, kursi aur mirror",
+          "Bacchon ke liye design menu",
+          "Hatane ke liye wash kit"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Games & activity host": {
+        "what": "Ek host jo simple games karata hai — passing the parcel, dance freeze, quiz round — bacchon aur bade dono ke liye.",
+        "how": "Host DJ ke saath timed plan par chalta hai — dinner aur main moments ke beech ka gap games se bhar jaata hai.",
+        "where": "Birthday, sangeet night, family function aur corporate family day.",
+        "note": "Games kamre ki age group dekh kar chunte hain — toddlers aur teenagers ek hi round nahi khelte.",
+        "pick": "Jab shaam me waiting time ho jise kuch maze se bharna ho.",
+        "time": "20 minute setup",
+        "colours": "Colour ka khel nahi; props theme ke hisaab se",
+        "best": [
+          "Birthday",
+          "Sangeet",
+          "Family Function"
+        ],
+        "comes": [
+          "Poori shaam ka activity host",
+          "Game props aur chhote prizes",
+          "DJ ke saath timed plan",
+          "Age group ke hisaab se rounds"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Kids craft & colour table": {
+        "what": "Table par colouring sheet, crayon, clay aur sticker craft — bacche jab chahein baith jaayein.",
+        "how": "Shaam bhar sheet aur craft box bharate rehte hain, aur banayi hui cheezein table ke paas chhoti display line par lag jaati hain.",
+        "where": "Shaadi, birthday, baby shower aur family event.",
+        "note": "Ye kamre ka sabse shaant corner hai — kids zone ke paas best chalta hai, party ke beech me nahi.",
+        "pick": "Jab ek corner chahiye jo chhote bacchon ko lambi der busy rakhe.",
+        "time": "20 minute setup",
+        "colours": "Crayon aur kaagaz theme colours me",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Colouring sheet aur crayon",
+          "Clay aur craft box",
+          "Bacchon ki table aur kursi",
+          "Banayi cheezon ki display line"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Custom Signage",
+          "Balloon Decor"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Cartoon & movie corner": {
+        "what": "Screen ke saath cushion aur mat wala corner jahan bacche thak jaane par cartoon dekh kar baith jaate hain.",
+        "how": "Chhoti screen low volume par chalti hai, aage soft seating hoti hai, aur stage-speaker se ulti taraf lagti hai.",
+        "where": "Shaadi, lambi reception, family function aur corporate family day.",
+        "note": "Awaaz jaan-boojh kar low rehti hai — ye corner aaram ke liye hai, hall me shor badhane ke liye nahi.",
+        "pick": "Jab function der tak chale aur chhote bacchon ko shaant jagah chahiye.",
+        "time": "40 minute setup",
+        "colours": "Cushion aur mat theme colours me",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Family Function"
+        ],
+        "comes": [
+          "Screen aur player",
+          "Cushion aur floor mat",
+          "Bacchon ke liye cartoon content",
+          "Shaam bhar supervision"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/low-seating.jpg"
+      }
+    }
   },
   "Sweet Cart & Candy Bar": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Kisi bhi function ka sabse busy corner — bachche aur bade dono ke liye.",
     "includes": [
-      "Sweet aur candy cart",
-      "Chocolate fountain",
-      "Popcorn aur cotton candy",
-      "Welcome drinks counter",
-      "Dessert jars aur toppings",
-      "Ice-cream counter"
+      "Classic sweet cart",
+      "Candy jar wall",
+      "Chocolate fountain bar",
+      "Cotton candy station",
+      "Popcorn & snack bar",
+      "Sweet cones & favours"
     ],
     "photo": "img/sweet-cart.jpg",
     "gallery": [
@@ -4182,18 +4970,175 @@
       "Shaadi",
       "Corporate"
     ],
-    "options": {}
+    "options": {
+      "Classic sweet cart": {
+        "what": "Sajayi hui cart jispar mithai, chocolate aur sweets — tumhare decor se matching.",
+        "how": "Cart par phool, kapda aur sign lagta hai, aur sweets tier me lagti hain — har shelf bhari aur haath pahunchne layak.",
+        "where": "Shaadi, engagement, birthday aur corporate celebration.",
+        "note": "Guest number dekh kar sweets ka count plan karte hain — cart aakhri ghante tak bhara rehta hai.",
+        "pick": "Jab ek aisi jagah chahiye jahan bacche aur bade dono aayein.",
+        "time": "45 minute setup",
+        "colours": "Cart ki styling theme colour me, phoolon ke saath",
+        "best": [
+          "Shaadi",
+          "Engagement",
+          "Birthday"
+        ],
+        "comes": [
+          "Sajayi hui sweet cart",
+          "Jar, tray aur tiered stand",
+          "Shaam bhar ke liye saji sweets",
+          "Serve aur refill wala attendant"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Floral Decor",
+          "Custom Signage"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Candy jar wall": {
+        "what": "Glass jars ki shelf, alag alag candy se bhari hui, cart ke peeche wall ki tarah lagi.",
+        "how": "Jar frame par fix hote hain, har ek par label, aur chamach ya scoop latka hota hai — mehmaan khud le lete hain.",
+        "where": "Birthday, shaadi, baby shower aur corporate event.",
+        "note": "Jar do height par lagte hain — niche wale bacchon ke liye, upar wale bade ke liye.",
+        "pick": "Jab corner mehmaan aane se pehle hi bhara aur rangeen dikhna chahiye.",
+        "time": "40 minute setup",
+        "colours": "Safed ya lakdi ki shelf par candy ke rang",
+        "best": [
+          "Birthday",
+          "Shaadi",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Jar wall ka frame aur shelf",
+          "Jar me mix candies",
+          "Label aur scoop",
+          "Shaam ke liye refill stock"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Backdrop / Photo Booth",
+          "Custom Signage"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Chocolate fountain bar": {
+        "what": "Behta hua chocolate fountain — saath me fruit, marshmallow, wafer aur dip karne ki sticks.",
+        "how": "Fountain level table par chalta hai aur chaaron taraf bowls ka circle hota hai — mehmaan dip karke aage badh jaate hain, bheed nahi banti.",
+        "where": "Reception, birthday, anniversary aur corporate shaam.",
+        "note": "Stable table aur power point chahiye, aur paas me wipe station rakhte hain — haath chipakne na lagein.",
+        "pick": "Jab dessert counter live aur chalta hua attraction lagna chahiye.",
+        "time": "45 minute setup",
+        "colours": "Milk, dark ya white chocolate",
+        "best": [
+          "Reception",
+          "Birthday",
+          "Anniversary"
+        ],
+        "comes": [
+          "Chocolate fountain unit",
+          "Fruit, marshmallow aur wafer platter",
+          "Skewer aur bowl",
+          "Attendant aur wipe station"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Tablescape & Lounge",
+          "Sweet Cart & Candy Bar"
+        ],
+        "img": "img/dessert-display.jpg"
+      },
+      "Cotton candy station": {
+        "what": "Live budhiya-ka-baal counter jahan taaza candy floss banti hai aur dandi par haath me di jaati hai.",
+        "how": "Machine side table par lagti hai, aage queue line hoti hai, aur colour order par banti hai — mehmaan apna chunta hai.",
+        "where": "Birthday, shaadi, carnival aur family function.",
+        "note": "Bacche jaldi khinche aate hain — isliye baraat ya couple ke entry raaste se door lagate hain.",
+        "pick": "Jab aisa live counter chahiye jo bacche yaad rakhein.",
+        "time": "40 minute setup",
+        "colours": "Pink, blue, yellow ya mix floss",
+        "best": [
+          "Birthday",
+          "Shaadi",
+          "Family Function"
+        ],
+        "comes": [
+          "Cotton candy machine",
+          "Sugar aur flavour ka stock",
+          "Stick aur cone",
+          "Poori shaam ka operator"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Popcorn & snack bar": {
+        "what": "Snack counter — taaza popcorn, nachos, fries aur cup me thandi drinks.",
+        "how": "Do warmer saath chalte hain aur cups pehle se stack hote hain — mehmaanon ki line kuch minute me clear ho jaati hai.",
+        "where": "Birthday, college event, sangeet night aur corporate shaam.",
+        "note": "Garama-garam snack ko dessert counter se door rakhte hain — dono counter ki apni bheed rahe.",
+        "pick": "Jab event lamba ho aur mehmaanon ko khane ke beech kuch chahiye.",
+        "time": "40 minute setup",
+        "colours": "Snack bar ki styling theme colour me",
+        "best": [
+          "Birthday",
+          "College Event",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Popcorn aur snack warmer",
+          "Cup, box aur napkin",
+          "Shaam ke liye refill stock",
+          "Counter attendant"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Tablescape & Lounge",
+          "Live Entertainment"
+        ],
+        "img": "img/tablescape-lounge.jpg"
+      },
+      "Sweet cones & favours": {
+        "what": "Sweet cone, chhote jar ya box jo mehmaanon ko return gift ki tarah diye jaate hain.",
+        "how": "Event se pehle pack kar lete hain aur exit ya sweet counter ke paas tray me stack kar dete hain — mehmaan jaate waqt ek utha lete hain.",
+        "where": "Shaadi, birthday, baby shower aur corporate event.",
+        "note": "Thank you wala signboard lagane se poori tray soch-samajh kar rakhi hui lagti hai, bachi hui nahi.",
+        "pick": "Jab mehmaan haath me kuch le kar jaayein.",
+        "time": "30 minute setup",
+        "colours": "Cone ka wrap aur ribbon theme colour me",
+        "best": [
+          "Shaadi",
+          "Birthday",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Packed sweet cone ya box",
+          "Tray aur stand ka display",
+          "Thank you sign",
+          "Shaam ke liye refill tray"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Custom Signage",
+          "Premium Finishes"
+        ],
+        "img": "img/sweet-cart.jpg"
+      }
+    }
   },
   "Live Entertainment": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Music, rhythm aur performance — jiski baat baad me sab karte hain.",
     "includes": [
-      "Anchor aur host",
-      "Dhol aur baraat band",
-      "DJ aur sound setup",
-      "Live music ya singer",
-      "Magician aur performers",
-      "Games aur activities"
+      "Live band acoustic sets",
+      "Dhol & baraat entry",
+      "Anchor & emcee",
+      "Folk & dance performers",
+      "Magic & illusion show",
+      "DJ & sound setup"
     ],
     "photo": "img/live-entertainment.jpg",
     "gallery": [
@@ -4224,18 +5169,175 @@
       "Corporate",
       "Birthday"
     ],
-    "options": {}
+    "options": {
+      "Live band acoustic sets": {
+        "what": "Do se char musician live bajate hain — guitar, keys, vocals — entry aur dinner ke waqt.",
+        "how": "Band chhote platform par lagti hai, mehmaan aane se pehle sound check hota hai, aur itna halka bajati hai ki baat-cheet ruke na.",
+        "where": "Wedding dinner, cocktail hour, anniversary aur corporate shaam.",
+        "note": "Acoustic set khamoshi bharta hai par chhaata nahi — jab log kha rahe hon to ye sabse safe live act hai.",
+        "pick": "Jab live music chahiye par shaam abhi shaant ho.",
+        "time": "1 ghanta setup",
+        "colours": "Stage ki styling tumhare decor palette me",
+        "best": [
+          "Shaadi",
+          "Cocktail",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Do se char musician",
+          "Sound system aur mic",
+          "Mehmaan aane se pehle sound check",
+          "Tumhare saath plan ki hui set list"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Dhol & baraat entry": {
+        "what": "Dhol wale jo baraat ko lead karte hain aur gate tak energy banaye rakhte hain.",
+        "how": "Do se char dhol baraat ke saath chalte hain, ek hi beat par, aur signal par theek entry point par ruk jaate hain.",
+        "where": "Baraat, groom entry, sangeet procession aur jeet wali celebration.",
+        "note": "Venue se pehle poochhte hain ki gate par dhol allowed hai ya nahi aur sound kitne baje band karna hai.",
+        "pick": "Jab entry tez, traditional aur logon se bhari hui lagni chahiye.",
+        "time": "30 minute setup",
+        "colours": "Dhol ke cover aur sash theme colour me",
+        "best": [
+          "Baraat",
+          "Shaadi",
+          "Sangeet"
+        ],
+        "comes": [
+          "Do se char dhol wale",
+          "Chalne ka matching routine",
+          "Sajaye huye dhol cover",
+          "Event manager ke saath cue"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Cold Pyro & Fountains",
+          "Live Entertainment"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Anchor & emcee": {
+        "what": "Host jo poori shaam chalata hai — mehmaan ko welcome, moments announce karna aur programme aage badhate rehna.",
+        "how": "Running order pehle anchor ke saath share karte hain — har entry, dance aur speech sahi slot me pahunchti hai.",
+        "where": "Shaadi, reception, birthday aur corporate event.",
+        "note": "Achha anchor hi wajah hai ki dinner aur cake ke beech dead time nahi banta.",
+        "pick": "Jab shaam me bahut se moments announce karne wale hon.",
+        "time": "30 minute setup",
+        "colours": "Anchor ki dress event palette se matching",
+        "best": [
+          "Shaadi",
+          "Reception",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Poori shaam ka anchor",
+          "Tumhare saath bana running order",
+          "Mic aur sound coordination",
+          "Family aur guest coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Stage & Front Truss",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Folk & dance performers": {
+        "what": "Group performance — Ghoomar, Bhangra, Lavani ya local folk dance — shaam ke fix slot par.",
+        "how": "Troupe apna set plan ke hisaab se karti hai, marked stage area par, aur DJ ke paas unka music track pehle se hota hai.",
+        "where": "Sangeet night, wedding function, cultural shaam aur corporate celebration.",
+        "note": "Set se pehle stage khali rakhte hain, aur performance dinner serve hone se pehle khatam hoti hai.",
+        "pick": "Jab aisi performance chahiye jise mehmaan agle din tak yaad rakhein.",
+        "time": "45 minute setup",
+        "colours": "Traditional costume; light usi hisaab se",
+        "best": [
+          "Sangeet",
+          "Shaadi",
+          "Corporate Event"
+        ],
+        "comes": [
+          "Performers ki troupe",
+          "Act ke costume aur props",
+          "DJ ko diya music track",
+          "Stage plan aur rehearsal slot"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Magic & illusion show": {
+        "what": "Close-up ya stage magician jo mehmaanon ke liye bees se tees minute ka set karta hai.",
+        "how": "Magician pehle tables par close-up karta hai, phir mic aur spotlight ke saath chhota stage set.",
+        "where": "Birthday, corporate shaam, family function aur bacchon ka party.",
+        "note": "Close-up magic dinner ke waqt best chalti hai — mehmaan baith chuke hote hain aur chhote gruppo me hote hain.",
+        "pick": "Jab aisa entertainment chahiye jise bada stage ya tez sound na chahiye.",
+        "time": "30 minute setup",
+        "colours": "Stage light warm ya blue tone me",
+        "best": [
+          "Birthday",
+          "Corporate Event",
+          "Kids Party"
+        ],
+        "comes": [
+          "Poori shaam ka magician",
+          "Close-up aur stage set",
+          "Props aur illusion kit",
+          "Mic aur spotlight coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Kids Zone & Character Fun",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "DJ & sound setup": {
+        "what": "DJ console, proper speaker, mic aur lights — poori shaam ke liye, entry music se aakhri dance tak.",
+        "how": "Console stage ke side me lagta hai, speakers barabar awaaz ke liye lagte hain, aur playlist tumhare must-play aur no-play list se banti hai.",
+        "where": "Reception, sangeet night, birthday aur corporate party.",
+        "note": "Sound check mehmaan aane se pehle hota hai — aur uske baad adjust bhi, kyunki bhara hua hall awaaz ko alag soakh leta hai.",
+        "pick": "Jab poori function me music chalega, sirf ek slot me nahi.",
+        "time": "1.5 ghanta setup",
+        "colours": "DJ console ki lighting tumhari theme me",
+        "best": [
+          "Reception",
+          "Sangeet",
+          "Corporate Party"
+        ],
+        "comes": [
+          "DJ aur console",
+          "Speaker, mic aur light",
+          "Tumhare saath banayi playlist",
+          "Anchor aur artist coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/stage-truss.jpg"
+      }
+    }
   },
   "Surprise Setups": {
     "kicker": "EXPERIENCES · extra magic",
     "intro": "Chhota setup, bada reaction — sab chup-chaap, unke aane se pehle taiyaar.",
     "includes": [
-      "Room decoration",
-      "Car decoration",
-      "Pet decoration",
-      "Car boot surprise",
-      "Office desk surprise",
-      "Raat me pehle ka setup"
+      "Room & hotel surprises",
+      "Car & driveway reveals",
+      "Restaurant table surprises",
+      "Office & workspace surprises",
+      "Terrace & rooftop setups",
+      "Cake & gift reveal setups"
     ],
     "photo": "img/surprise-setups.jpg",
     "gallery": [
@@ -4266,7 +5368,164 @@
       "Proposal",
       "Farewell"
     ],
-    "options": {}
+    "options": {
+      "Room & hotel surprises": {
+        "what": "Sajaya hua kamra — balloons, phool, candles aur photo strings — uske andar aane se pehle tayyar.",
+        "how": "Hotel ya family ke saath chupchap setup karte hain aur fix time se tees minute pehle kaam khatam kar dete hain.",
+        "where": "Hotel room, ghar ka bedroom, anniversary aur birthday.",
+        "note": "Chhat par tape aur candle ki jagah hotel ke rules se check karte hain — kuch kamre me khuli aag allowed nahi.",
+        "pick": "Jab reveal private ho, sirf ek-do logon ke liye.",
+        "time": "1 ghanta setup",
+        "colours": "Red-rose, pastel ya gold theme",
+        "best": [
+          "Anniversary",
+          "Birthday",
+          "Proposal"
+        ],
+        "comes": [
+          "Balloons aur phool",
+          "Candle ya LED candle",
+          "Photo string aur letter board",
+          "Entry se pehle chupchap setup"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Balloon Decor",
+          "Ceiling & Hanging Decor"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Car & driveway reveals": {
+        "what": "Sajayi hui gaadi — balloons, ribbon aur ek message — wahan khadi jahan wo pehle dekhega.",
+        "how": "Driveway ya parking me balloon cluster aur name plate lagti hai, aur reveal ke baad ribbon haath me di jaati hai.",
+        "where": "Birthday, anniversary, graduation day aur wedding day ka first look.",
+        "note": "Paint par sirf ribbon aur balloon-safe tape lagti hai — chipakne wala kuch gaadi par nahi chhoda jaata.",
+        "pick": "Jab surprise seedha darwaze ke bahar taiyar khada ho.",
+        "time": "45 minute setup",
+        "colours": "Balloon ke rang uske pasand ke hisaab se",
+        "best": [
+          "Birthday",
+          "Anniversary",
+          "Graduation"
+        ],
+        "comes": [
+          "Gaadi par balloon decoration",
+          "Ribbon aur name plate",
+          "Driveway ki styling",
+          "Family ke saath photo moment"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Custom Signage",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Restaurant table surprises": {
+        "what": "Book ki hui table balloons, phool, cake aur message ke saath saji hui — couple ya family ke pahunchne se pehle.",
+        "how": "Restaurant ke saath timing coordinate karte hain, shaant corner me table sajate hain, aur cake main course khatam hone tak chhupa rehta hai.",
+        "where": "Anniversary, proposal, birthday aur family dinner.",
+        "note": "Corner table hamesha beech wali table se better chalti hai — reveal personal rehta hai aur photo saaf aati hai.",
+        "pick": "Jab celebration chhote gruppo ka dinner ho.",
+        "time": "40 minute setup",
+        "colours": "Romantic red, safed ya pastel phool",
+        "best": [
+          "Anniversary",
+          "Proposal",
+          "Birthday"
+        ],
+        "comes": [
+          "Table ki styling aur centrepiece",
+          "Balloon aur phool ke touch",
+          "Venue ke saath cake ka arrangement",
+          "Message card aur candle"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Marry Me / Proposal",
+          "Floral Decor"
+        ],
+        "img": "img/tablescape-lounge.jpg"
+      },
+      "Office & workspace surprises": {
+        "what": "Office ka desk ya cabin birthday, farewell ya work anniversary ke liye sajaya hua — team ke andar aane se pehle tayyar.",
+        "how": "Subah jaldi ya office band hone ke baad, building ki permission se setup karte hain — decoration uske desk aur darwaze tak.",
+        "where": "Corporate office, clinic, studio aur shop floor.",
+        "note": "Ek desk aur ek wall tak rakhte hain — office me aam taur par chhat ya glass door par kuch allowed nahi hota.",
+        "pick": "Jab celebration ko working day ke andar hi karna ho.",
+        "time": "45 minute setup",
+        "colours": "Company ke colour ya uski pasand",
+        "best": [
+          "Corporate Event",
+          "Farewell",
+          "Work Anniversary"
+        ],
+        "comes": [
+          "Desk aur cabin ki decoration",
+          "Balloon, banner aur photo props",
+          "Cake table ka arrangement",
+          "Subah jaldi ya after-hours setup"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Balloon Decor",
+          "Cake Table & Dessert Bar"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Terrace & rooftop setups": {
+        "what": "Terrace ya rooftop lights, balloons aur seating ke saath sajaya hua — private celebration ke liye.",
+        "how": "Pehle lighting lagti hai, phir seating aur decor, aur setup khatam karne se pehle hawa aur power point check karte hain.",
+        "where": "Ghar ki terrace, rooftop cafe, farmhouse ka deck aur poolside floor.",
+        "note": "Jo bhi halka ho usme wazan daalte hain — candle glass ke andar, aur balloon cluster stand par bandhte hain, railing par nahi.",
+        "pick": "Jab celebration khuli jagah me ho aur ghar se alag lage.",
+        "time": "1.5 ghanta setup",
+        "colours": "Warm fairy lights ke saath dark ya pastel palette",
+        "best": [
+          "Proposal",
+          "Anniversary",
+          "Birthday"
+        ],
+        "comes": [
+          "Fairy light aur lantern setup",
+          "Balloon aur phool ki styling",
+          "Seating aur table arrangement",
+          "Hawa se safe weighting"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Marry Me / Proposal",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/marry-me-proposal.jpg"
+      },
+      "Cake & gift reveal setups": {
+        "what": "Cake aur gifts curtain ke peeche ya cover ke niche — chune huye moment par reveal.",
+        "how": "Reveal corner light curtain ya sajaye board se banate hain, cake cue tak chhupa rehta hai, aur cover kheenchne wali rassi family ko de dete hain.",
+        "where": "Milestone birthday, anniversary, baby shower aur family function.",
+        "note": "Reveal ke waqt uski nazar corner par honi chahiye — seating aise plan karte hain ki moment chhoot na jaaye.",
+        "pick": "Jab cake aur gift poori shaam ke centre me hon.",
+        "time": "40 minute setup",
+        "colours": "Reveal board aur cover theme colour me",
+        "best": [
+          "Birthday",
+          "Anniversary",
+          "Baby Shower"
+        ],
+        "comes": [
+          "Reveal corner aur cover",
+          "Cake stand aur table styling",
+          "Gift table ka arrangement",
+          "Family ke saath cue plan"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Premium Finishes",
+          "Lighting Decor"
+        ],
+        "img": "img/surprise-setups.jpg"
+      }
+    }
   }
 };
   (function () {
@@ -4287,6 +5546,7 @@
   "colours": "Colour aur palette",
   "comes": "Saath me kya milta hai",
   "pairs": "Inke saath best lagta hai",
+  "pick": "Kab pick karein",
   "added": "✓ Jod diya — hataane ke liye phir dabao",
   "close": "Band karo",
   "wa": "Hello Balloon Creation! Mujhe {name} ke baare me aur jaankari chahiye.",
@@ -4354,6 +5614,8 @@
       optHow: document.getElementById('opt-how'),
       optWhere: document.getElementById('opt-where'),
       optNote: document.getElementById('opt-note'),
+      optPick: document.getElementById('opt-pick'),
+      optPickText: document.getElementById('opt-pick-text'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -4439,6 +5701,8 @@
       el.optHow.textContent = o.how || '';
       el.optWhere.textContent = o.where || '';
       el.optNote.textContent = o.note || '';
+      el.optPickText.textContent = o.pick || '';
+      el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
       el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');

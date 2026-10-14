@@ -126,6 +126,8 @@
       .detail-kicker { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
       .detail-body h3 { font-size: 34px; margin: 8px 0 9px; }
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+      .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
+      .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -510,6 +512,7 @@
             <span class="detail-kicker" id="opt-kicker"></span>
             <h3 id="opt-title"></h3>
             <p class="detail-intro" id="opt-what"></p>
+            <p class="opt-pick" id="opt-pick" style="display: none"><b>When to pick it</b><span id="opt-pick-text"></span></p>
 
             <div class="detail-rich">
               <div class="rich-block"><span class="detail-h">How it is made</span><p id="opt-how"></p></div>
@@ -3936,12 +3939,12 @@
     "kicker": "The Experiences · the extra magic",
     "intro": "The five-second moment that makes the entire venue look up.",
     "includes": [
-      "Cold pyro fountains",
-      "Entry & welcome sparks",
-      "Cake-cutting sparklers",
-      "First-dance fountains",
-      "Stage-side jets",
-      "Indoor-safe sparklers"
+      "Stage & truss pyro",
+      "Entrance gate pyro",
+      "Cake moment sparklers",
+      "Couple dance pyro",
+      "Pillar & podium pyro",
+      "Fountain & fan walls"
     ],
     "photo": "img/cold-pyro.jpg",
     "gallery": [
@@ -3972,18 +3975,175 @@
       "Birthdays",
       "Proposals"
     ],
-    "options": {}
+    "options": {
+      "Stage & truss pyro": {
+        "what": "Cold sparkler machines clamped on the stage and truss edges, firing a tall shower of silver sparks on cue.",
+        "how": "Units are mounted at the same height on both sides, angled slightly outward, and test-fired before guests arrive so the left and right match exactly.",
+        "where": "Receptions, sangeet stages, award nights and concert-style functions.",
+        "note": "The sparkle is cold — no smoke smell, no burn marks on the floor, and people can stand right next to it.",
+        "pick": "Choose this when you want a big stage moment without crackers or loud sound.",
+        "time": "30 mins setup",
+        "colours": "Silver-white sparkle, gold-tinted units on request",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Award Nights"
+        ],
+        "comes": [
+          "Four to six sparkler units",
+          "Clamps, stands and cabling",
+          "Operator with remote trigger",
+          "Safety check and clearance"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Entrance gate pyro": {
+        "what": "Two sparkler fountains standing at the entrance gate that fire as the couple walks in.",
+        "how": "Machines sit behind the gate pillars, hidden by flowers, and are triggered a second or two before the couple reaches the door.",
+        "where": "Baraat welcome, reception entry, birthday grand entries and bride entry.",
+        "note": "Timing is everything — we rehearse the entry once with the family so the sparkle peaks exactly on the step-in.",
+        "pick": "Choose this when the entry is the moment you have planned the whole evening around.",
+        "time": "25 mins setup",
+        "colours": "Warm gold sparkle, matches most gates",
+        "best": [
+          "Baraat Welcome",
+          "Reception Entry",
+          "Bride Entry"
+        ],
+        "comes": [
+          "Two sparkler units",
+          "Hidden stands and cabling",
+          "Cue practice with the family",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Walkway & Aisle Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/fabric-gate.jpg"
+      },
+      "Cake moment sparklers": {
+        "what": "Small handheld-style sparklers that light up the cake cutting photo.",
+        "how": "One unit is placed behind the cake table, angled up, and fired as the knife touches the cake — the cake itself is never sprayed.",
+        "where": "Birthday cake cuttings, anniversaries, engagements and baby showers.",
+        "note": "This is the most photographed ten seconds of a birthday — the sparkle lifts the cake out of the background.",
+        "pick": "Choose this when your photos mostly come from the cake table.",
+        "time": "15 mins setup",
+        "colours": "Silver or gold sparkle",
+        "best": [
+          "Birthdays",
+          "Anniversaries",
+          "Baby Showers"
+        ],
+        "comes": [
+          "One to two sparkler units",
+          "Hidden stand behind the table",
+          "Cue with the photographer",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Lighting Decor",
+          "Custom Signage"
+        ],
+        "img": "img/cake-dessert.jpg"
+      },
+      "Couple dance pyro": {
+        "what": "Sparkler fountains that rise on both sides of the couple during their first dance or ring exchange.",
+        "how": "Units are placed on the two corners of the dance floor, kept outside the camera frame, and fired on the beat the choreographer chooses.",
+        "where": "First dances, ring exchanges, couple entries and sangeet performances.",
+        "note": "We fire short bursts rather than one long show, so the dance floor stays visible and the photos stay clear.",
+        "pick": "Choose this when the couple has a planned performance the guests are watching.",
+        "time": "30 mins setup",
+        "colours": "Silver-white sparkle on a dark floor",
+        "best": [
+          "First Dance",
+          "Ring Exchange",
+          "Sangeet"
+        ],
+        "comes": [
+          "Two sparkler units",
+          "Floor corner stands",
+          "Music-sync practice",
+          "Operator with remote"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Stage & Front Truss",
+          "Lighting Decor"
+        ],
+        "img": "img/cold-pyro.jpg"
+      },
+      "Pillar & podium pyro": {
+        "what": "Sparkler units hidden inside mandap pillars or beside the podium, firing upward along the structure.",
+        "how": "Units go inside the floral pillars with only the nozzle showing, so the sparkle seems to come out of the flowers.",
+        "where": "Mandap sides, award podiums, ring ceremony stages and announcement moments.",
+        "note": "Because they are hidden, guests see the effect but never the machine — which is what makes it look costly.",
+        "pick": "Choose this when the structure is the hero and you want it to come alive.",
+        "time": "35 mins setup",
+        "colours": "Gold-tinted sparkle against florals",
+        "best": [
+          "Weddings",
+          "Award Nights",
+          "Ring Ceremony"
+        ],
+        "comes": [
+          "Two to four hidden units",
+          "Concealed mounting hardware",
+          "Cue planning with the host",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/mandap-pandal.jpg"
+      },
+      "Fountain & fan walls": {
+        "what": "A row of sparkler units set in a line to make a wall or fan of sparkle behind the stage or couple.",
+        "how": "Four to eight units are set at equal gaps and angled inward, firing together as one wide curtain.",
+        "where": "Large stages, sangeet backdrops, reception couple seating and grand finales.",
+        "note": "This needs a clear two-metre gap behind the unit — we check the hall layout before promising it.",
+        "pick": "Choose this when the room is big and a single pair of fountains will look small.",
+        "time": "45 mins setup",
+        "colours": "Silver-white, gold, or mixed",
+        "best": [
+          "Receptions",
+          "Sangeet",
+          "Grand Finales"
+        ],
+        "comes": [
+          "Four to eight sparkler units",
+          "Line-up stands and cabling",
+          "Layout check of the venue",
+          "Operator with master remote"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Premium Finishes"
+        ],
+        "img": "img/cold-pyro.jpg"
+      }
+    }
   },
   "Fog, Bubbles & Smoke": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Air you can see — instant drama right where guests are standing.",
     "includes": [
-      "Low-lying fog",
-      "Dance-floor smoke",
-      "Bubble machines",
-      "Dry-ice effects",
-      "Haze & beam lighting",
-      "Cloud entries"
+      "Low-lying fog carpet",
+      "First dance fog",
+      "Bubble machine showers",
+      "Haze & light beams",
+      "Dry-ice ring walk",
+      "Entry smoke blasts"
     ],
     "photo": "img/fog-bubbles.jpg",
     "gallery": [
@@ -4014,18 +4174,175 @@
       "Birthdays",
       "Concerts"
     ],
-    "options": {}
+    "options": {
+      "Low-lying fog carpet": {
+        "what": "Heavy fog that spreads on the floor and stays ankle-high, so people seem to walk on clouds.",
+        "how": "A low-fog machine is placed off-camera with a chiller pipe, so the fog rolls along the ground instead of rising into faces.",
+        "where": "Dance floors, entrances, stage edges and photo areas.",
+        "note": "The floor must be smooth and the room fairly still — on rough stone or in heavy wind the fog breaks up quickly.",
+        "pick": "Choose this when you want the floor to look like a different place.",
+        "time": "30 mins setup",
+        "colours": "White fog, catches whatever light colour you use",
+        "best": [
+          "Receptions",
+          "First Dances",
+          "Birthdays"
+        ],
+        "comes": [
+          "Low-fog machine and chiller",
+          "Pipe and floor tray",
+          "Fog fluid for the show",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Walkway & Aisle Decor",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/fog-bubbles.jpg"
+      },
+      "First dance fog": {
+        "what": "A slow fog build-up that starts before the first dance and settles around the couple's feet.",
+        "how": "The machine runs at low speed from the sides so the fog arrives before the music and stays through the song.",
+        "where": "First dances, sangeet performances and couple entries.",
+        "note": "We start it early — fog that arrives late looks rushed in the video.",
+        "pick": "Choose this when the couple's dance is the part everyone films.",
+        "time": "25 mins setup",
+        "colours": "White with warm or blue light",
+        "best": [
+          "First Dance",
+          "Sangeet",
+          "Receptions"
+        ],
+        "comes": [
+          "Side fog machines",
+          "Timing plan with the DJ",
+          "Fluid for the full song",
+          "Operator on cue"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Stage & Front Truss",
+          "Live Entertainment"
+        ],
+        "img": "img/marry-me-proposal.jpg"
+      },
+      "Bubble machine showers": {
+        "what": "Machines that fill the air with floating bubbles over the dance floor or entry.",
+        "how": "Two units are set on the sides, aimed up and across, so the bubbles drift instead of hitting people in the face.",
+        "where": "Receptions, cake cuttings, kids' parties and photo booths.",
+        "note": "Bubbles and open food counters do not mix — we keep them at a good distance from the buffet.",
+        "pick": "Choose this when children and photos matter as much as the stage.",
+        "time": "20 mins setup",
+        "colours": "Clear bubbles, look best under warm or gold light",
+        "best": [
+          "Kids Parties",
+          "Receptions",
+          "Cake Cuttings"
+        ],
+        "comes": [
+          "Two bubble machines",
+          "Bubble fluid for the evening",
+          "Side placement and cabling",
+          "Operator on cue"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Walkway & Aisle Decor",
+          "Lighting Decor"
+        ],
+        "img": "img/fog-bubbles.jpg"
+      },
+      "Haze & light beams": {
+        "what": "A thin haze that makes every light beam — laser, spot or moving head — visible in the air.",
+        "how": "A small hazer runs continuously at the lowest setting, so the air looks light-filled without turning into smoke.",
+        "where": "Sangeet nights, DJ floors, concert-style stages and award evenings.",
+        "note": "Haze settles on tables slowly, so we keep the setting low and cut it when dinner starts.",
+        "pick": "Choose this when you already have moving lights and want them to be seen.",
+        "time": "20 mins setup",
+        "colours": "Colourless — shows the lights' own colours",
+        "best": [
+          "Sangeet",
+          "DJ Nights",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Hazer and fluid",
+          "Low-setting run plan",
+          "Cue sheet with the DJ",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Stage & Front Truss",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Dry-ice ring walk": {
+        "what": "A shallow bed of dry-ice fog across the ring exchange or vow area, with a clean path through the middle.",
+        "how": "Fog is placed in low trays along the sides, and the couple's path is kept clear so no one steps into the tray.",
+        "where": "Ring exchanges, vow moments and pooja stages.",
+        "note": "Dry ice is colder than normal fog, so it is never used where children or pets are walking barefoot close by.",
+        "pick": "Choose this when the moment is formal and you want calm drama instead of a burst.",
+        "time": "35 mins setup",
+        "colours": "White fog over a dark or wooden floor",
+        "best": [
+          "Ring Ceremony",
+          "Weddings",
+          "Engagements"
+        ],
+        "comes": [
+          "Dry-ice machine and trays",
+          "Safe path marking",
+          "Gloves and handling kit",
+          "Operator on site"
+        ],
+        "pairs": [
+          "Mandap & Pandal",
+          "Floral Decor",
+          "Walkway & Aisle Decor"
+        ],
+        "img": "img/mandap-pandal.jpg"
+      },
+      "Entry smoke blasts": {
+        "what": "Short vertical bursts of smoke on both sides of the doorway as the guest of honour enters.",
+        "how": "Two units stand just outside the frame and fire in a quick pair, so the entrance looks like a doorway in the clouds.",
+        "where": "Grand entries, baraat welcomes, birthday entrances and reveal moments.",
+        "note": "We fire in twos or threes, never continuously — one long blast hides the person you came to see.",
+        "pick": "Choose this when the entry needs a bang but crackers are not allowed.",
+        "time": "25 mins setup",
+        "colours": "White smoke, best against warm light",
+        "best": [
+          "Grand Entries",
+          "Baraat",
+          "Birthdays"
+        ],
+        "comes": [
+          "Two smoke units",
+          "Frame-out placement",
+          "Fluid for the entry",
+          "Operator with remote"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Cold Pyro & Fountains",
+          "Lighting Decor"
+        ],
+        "img": "img/arch-entrance.jpg"
+      }
+    }
   },
   "Confetti & Balloon Drop": {
     "kicker": "The Experiences · the extra magic",
     "intro": "The happy chaos of confetti — and a ceiling that gives way.",
     "includes": [
-      "Confetti cannons",
-      "Hand-held confetti",
-      "Ceiling balloon drop",
-      "Net & cage releases",
-      "Petal showers",
-      "Streamer launches"
+      "Confetti cannon bursts",
+      "Cue-timed confetti drops",
+      "Balloon drop nets",
+      "Ceiling balloon cascades",
+      "Confetti & petal mix",
+      "Slow-fall confetti showers"
     ],
     "photo": "img/confetti-balloon-drop.jpg",
     "gallery": [
@@ -4056,18 +4373,175 @@
       "New Year",
       "Grand Finales"
     ],
-    "options": {}
+    "options": {
+      "Confetti cannon bursts": {
+        "what": "Hand-held and mounted cannons that shoot a fast burst of confetti over the crowd.",
+        "how": "Two to six cannons are placed around the floor and fired together on the count, aimed above head height.",
+        "where": "Grand entries, cake cuttings, winning announcements and first dances.",
+        "note": "We use paper confetti indoors and bigger streamers outdoors — it decides how much clean-up follows.",
+        "pick": "Choose this when you want a loud, instant reaction with no electricity or sound gear.",
+        "time": "20 mins setup",
+        "colours": "Gold-white, multi-colour or mixed with petals",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Two to six cannons",
+          "Confetti for the moment",
+          "Placement and aiming check",
+          "Crew to fire on count"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Stage & Front Truss",
+          "Photography moments"
+        ],
+        "img": "img/confetti-balloon-drop.jpg"
+      },
+      "Cue-timed confetti drops": {
+        "what": "Confetti released from the ceiling exactly on a chosen line of the song or the moment of a photo.",
+        "how": "We rig a release point above the stage or dance floor and trigger it on a signal from the DJ or the anchor.",
+        "where": "First dances, cake cuttings, couple entries and award reveals.",
+        "note": "One perfectly timed drop beats five random ones — we always rehearse the cue once.",
+        "pick": "Choose this when the timing matters more than the quantity.",
+        "time": "40 mins setup",
+        "colours": "Gold, white or the couple's theme colour",
+        "best": [
+          "First Dance",
+          "Receptions",
+          "Award Nights"
+        ],
+        "comes": [
+          "Ceiling release rig",
+          "Cue rehearsal with the DJ",
+          "Confetti load for one drop",
+          "Operator on the trigger"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/confetti-balloon-drop.jpg"
+      },
+      "Balloon drop nets": {
+        "what": "A net full of balloons opened above the crowd, so balloons fall like rain.",
+        "how": "The net is hung from a support point that can take the weight, filled on site, and opened with a rope the host pulls.",
+        "where": "Birthdays, new year parties, receptions and sangeet finales.",
+        "note": "We check the ceiling or truss can hold the load before confirming — a full net is heavier than it looks.",
+        "pick": "Choose this when the guests are standing and ready to catch.",
+        "time": "50 mins setup",
+        "colours": "Theme colours, usually two or three together",
+        "best": [
+          "Birthdays",
+          "New Year",
+          "Sangeet"
+        ],
+        "comes": [
+          "Net and rigging",
+          "Balloons for the drop",
+          "Load check of the ceiling",
+          "Crew to fill and open"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Ceiling & Hanging Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/ceiling-hanging.jpg"
+      },
+      "Ceiling balloon cascades": {
+        "what": "Balloons released from the ceiling in a slow cascade rather than a heavy drop.",
+        "how": "Balloons are strung on a light line above the dance floor and released in groups, so they fall over a full minute.",
+        "where": "Cake table moments, birthday countdowns and photo-first events.",
+        "note": "Slower cascades photograph better and are much safer with children on the floor.",
+        "pick": "Choose this when the crowd is mixed and you want the moment to last longer.",
+        "time": "45 mins setup",
+        "colours": "Two or three shades of the theme",
+        "best": [
+          "Birthdays",
+          "Receptions",
+          "Family Events"
+        ],
+        "comes": [
+          "Strung balloon lines",
+          "Ceiling support rigging",
+          "Staged release plan",
+          "Crew to manage the release"
+        ],
+        "pairs": [
+          "Ceiling & Hanging Decor",
+          "Balloon Decor",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/balloon-decor.jpg"
+      },
+      "Confetti & petal mix": {
+        "what": "Confetti mixed with real or dried flower petals for a softer, more premium fall.",
+        "how": "Paper confetti is blended with petals in the same load, so the fall looks textured instead of plastic.",
+        "where": "Weddings, engagements, baby showers and luxury birthdays.",
+        "note": "Fresh petals are heavier than paper — we keep the mix light so nothing falls as a clump.",
+        "pick": "Choose this when the event is elegant and you want the confetti to match.",
+        "time": "30 mins setup",
+        "colours": "Ivory, blush or marigold petals with white confetti",
+        "best": [
+          "Weddings",
+          "Engagements",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Petal-confetti mix",
+          "Cannons or ceiling drop",
+          "Colour matching to your decor",
+          "Crew to load and fire"
+        ],
+        "pairs": [
+          "Floral Decor",
+          "Walkway & Aisle Decor",
+          "Premium Finishes"
+        ],
+        "img": "img/walkway-aisle.jpg"
+      },
+      "Slow-fall confetti showers": {
+        "what": "Light confetti that hangs in the air and falls slowly, made for photos and videos.",
+        "how": "Special light-fall confetti is used with a fan-assisted release, so it floats instead of dropping straight down.",
+        "where": "First dances, couple shoots, cake tables and reveal moments.",
+        "note": "Best in a room without a strong draft near the doors — moving air takes it sideways.",
+        "pick": "Choose this when the photos matter more than the crowd reaction.",
+        "time": "35 mins setup",
+        "colours": "White, gold or pearl finish",
+        "best": [
+          "Weddings",
+          "Couple Shoots",
+          "Receptions"
+        ],
+        "comes": [
+          "Slow-fall confetti",
+          "Fan-assisted release rig",
+          "Placement for photo angles",
+          "Operator on the cue"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Marry Me / Proposal"
+        ],
+        "img": "img/backdrop-photobooth.jpg"
+      }
+    }
   },
   "360° Booth / Selfie Point": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Guests don't just take pictures — they become part of the reel.",
     "includes": [
-      "360° spinning booth",
-      "Classic photo booth",
-      "Selfie & polaroid corner",
-      "Instant print station",
-      "Reels & GIF output",
-      "Custom prop box"
+      "360° spinner booth",
+      "Slo-mo video clips",
+      "Ring-light selfie corner",
+      "Instant print photo booth",
+      "Prop & sign station",
+      "QR photo sharing wall"
     ],
     "photo": "img/booth-360.jpg",
     "gallery": [
@@ -4098,18 +4572,175 @@
       "Birthdays",
       "College Events"
     ],
-    "options": {}
+    "options": {
+      "360° spinner booth": {
+        "what": "A camera arm that spins around the guests while they pose, filming everything in one smooth round.",
+        "how": "The arm is set on a stable platform with lights on it, and the guest stands on a marked spot so every clip frames the same way.",
+        "where": "Receptions, sangeet nights, birthdays and college events.",
+        "note": "It needs a clear eight to ten feet circle and a power point nearby — corners of dance floors work best.",
+        "pick": "Choose this when you want guests to leave with something to share.",
+        "time": "45 mins setup",
+        "colours": "Backdrop colour is your choice behind the platform",
+        "best": [
+          "Weddings",
+          "Corporate Events",
+          "Birthdays"
+        ],
+        "comes": [
+          "360° arm and platform",
+          "On-booth lighting",
+          "Attendant for the evening",
+          "Edited clips after the event"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Slo-mo video clips": {
+        "what": "Slow-motion clips of the guests, filmed in one spin and sent straight to their phone.",
+        "how": "The clip is recorded in high frame rate and slowed down in the edit, then shared by QR or a link within minutes.",
+        "where": "Receptions, cocktails, sangeet and corporate evenings.",
+        "note": "The best clips come from guests who move — a small twirl or a spin of the dupatta is enough.",
+        "pick": "Choose this when sharing speed matters more than printed photos.",
+        "time": "45 mins setup",
+        "colours": "Not colour-led; lighting is tuned to the room",
+        "best": [
+          "Receptions",
+          "Cocktails",
+          "College Events"
+        ],
+        "comes": [
+          "High-frame-rate recording",
+          "Same-evening editing",
+          "QR or link delivery",
+          "Attendant to guide the pose"
+        ],
+        "pairs": [
+          "360° Booth / Selfie Point",
+          "Live Entertainment",
+          "Lighting Decor"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Ring-light selfie corner": {
+        "what": "A lit selfie spot with a ring light, a styled wall and a phone holder that anyone can use.",
+        "how": "The ring light sits behind the phone stand, so faces are lit evenly and the backdrop behind is the decorated wall.",
+        "where": "Receptions, birthdays, baby showers and corporate evenings.",
+        "note": "The corner needs its own power point and a little distance from the music — guests speak in selfie videos.",
+        "pick": "Choose this when you want photos taken all evening without a photographer standing there.",
+        "time": "30 mins setup",
+        "colours": "Warm white light, backdrop in your theme colours",
+        "best": [
+          "Birthdays",
+          "Receptions",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Ring light and phone stand",
+          "Styled selfie backdrop",
+          "Sign with a hashtag",
+          "Power and cabling"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Custom Signage",
+          "Lighting Decor"
+        ],
+        "img": "img/halo-corner.jpg"
+      },
+      "Instant print photo booth": {
+        "what": "A booth where guests get a printed photo in their hands within a minute of posing.",
+        "how": "The camera is set on a stand with a printer beside it, and prints are handed over with a themed frame or sleeve.",
+        "where": "Weddings, birthdays, anniversaries and corporate family days.",
+        "note": "Prints are limited by paper, so we plan a count with you and keep a spare roll ready.",
+        "pick": "Choose this when older guests and family will value a printed photo.",
+        "time": "50 mins setup",
+        "colours": "Print frame and backdrop to match the theme",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Booth camera and printer",
+          "Print paper and frames",
+          "Attendant for the evening",
+          "Digital copies after the event"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ],
+        "img": "img/booth-360.jpg"
+      },
+      "Prop & sign station": {
+        "what": "A table of props — hats, glasses, masks, boards and speech bubbles — next to the photo area.",
+        "how": "Props are sorted by size on trays and restocked through the evening, with a mirror close by so guests check before posing.",
+        "where": "Every photo booth, selfie corner and 360° setup.",
+        "note": "Props with a stick in hand look best in wide shots; masks are better for tight selfies.",
+        "pick": "Choose this when guests need a little push to loosen up in photos.",
+        "time": "20 mins setup",
+        "colours": "Props chosen to match the theme",
+        "best": [
+          "Birthdays",
+          "Weddings",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Prop set for the theme",
+          "Boards and speech bubbles",
+          "Trays and a mirror",
+          "Crew for restocking"
+        ],
+        "pairs": [
+          "Backdrop / Photo Booth",
+          "Props & Cutouts",
+          "Custom Signage"
+        ],
+        "img": "img/props-cutouts.jpg"
+      },
+      "QR photo sharing wall": {
+        "what": "A printed or LED wall that shows a QR code guests scan to send their photos to one shared album.",
+        "how": "The QR links to an album you own, and it is printed on the signage and on the table cards too.",
+        "where": "Weddings, corporate events and large birthdays.",
+        "note": "One album link means you get hundreds of guest photos in one place, not scattered across phones.",
+        "pick": "Choose this when the guest list is big and you want every angle of the event.",
+        "time": "15 mins setup",
+        "colours": "Signage to match your decor palette",
+        "best": [
+          "Weddings",
+          "Corporate Events",
+          "Big Celebrations"
+        ],
+        "comes": [
+          "QR signage for the wall",
+          "Album access that you control",
+          "Table cards with the QR",
+          "Signage styling to the theme"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Backdrop / Photo Booth",
+          "Reception desks"
+        ],
+        "img": "img/custom-signage.jpg"
+      }
+    }
   },
   "Kids Zone & Character Fun": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Keeps the little ones busy, so their parents can enjoy the party too.",
     "includes": [
-      "Soft play area",
-      "Ball pit & slides",
-      "Kids gaming zone",
-      "Character visits",
-      "Tattoo & face painting",
-      "Art & craft corner"
+      "Ball pool & soft play",
+      "Character meet & greet",
+      "Face paint & tattoo corner",
+      "Games & activity host",
+      "Kids craft & colour table",
+      "Cartoon & movie corner"
     ],
     "photo": "img/kids-zone.jpg",
     "gallery": [
@@ -4140,18 +4771,175 @@
       "Family Functions",
       "Baby Showers"
     ],
-    "options": {}
+    "options": {
+      "Ball pool & soft play": {
+        "what": "A padded play area with a ball pool, soft blocks and a small slide for younger children.",
+        "how": "The zone is laid with soft mats first, then the pool, slides and blocks are arranged with a clear walkway in and out.",
+        "where": "Weddings, birthdays, family functions and corporate family days.",
+        "note": "The zone is always placed away from the dance floor and the buffet, so children have room and parents can see them from their seats.",
+        "pick": "Choose this when the guest list has many families with small children.",
+        "time": "1 hour setup",
+        "colours": "Bright primary colours or pastels to match the theme",
+        "best": [
+          "Birthdays",
+          "Weddings",
+          "Family Functions"
+        ],
+        "comes": [
+          "Ball pool with balls",
+          "Soft mats and blocks",
+          "Mini slide and play pieces",
+          "Attendant to watch the zone"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Balloon Decor",
+          "Backdrop / Photo Booth"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Character meet & greet": {
+        "what": "A costumed character — cartoon hero, fairy or superhero — who walks in, plays with the children and poses for photos.",
+        "how": "The character arrives at a fixed time, spends time with the children first and then joins the cake cutting for photos.",
+        "where": "Birthday parties, kids' events, school functions and family days.",
+        "note": "The surprise works best when children are not told in advance — parents usually keep it quiet.",
+        "pick": "Choose this when the birthday child is between three and nine years old.",
+        "time": "30 mins setup",
+        "colours": "Character costume matched to the theme",
+        "best": [
+          "Birthdays",
+          "School Events",
+          "Family Days"
+        ],
+        "comes": [
+          "Costumed performer",
+          "Fixed arrival time",
+          "Photo session with children",
+          "Cake-cutting appearance"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Props & Cutouts",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Face paint & tattoo corner": {
+        "what": "A small table where children get face painting or cartoon tattoos done while they wait.",
+        "how": "Two artists work side by side with a queue rope, so waiting children have a line instead of a crowd.",
+        "where": "Birthdays, weddings, baby showers and family functions.",
+        "note": "We use skin-friendly colours and keep a soapy wash kit ready for the end of the evening.",
+        "pick": "Choose this when there are many children and you want one calm corner working all evening.",
+        "time": "30 mins setup",
+        "colours": "Bright face colours; glitter only on request",
+        "best": [
+          "Birthdays",
+          "Weddings",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Two artists with kits",
+          "Table, chairs and mirror",
+          "Design menu for children",
+          "Wash kit for removal"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Games & activity host": {
+        "what": "A host who runs simple games — passing the parcel, dance freeze, quiz rounds — for children and adults both.",
+        "how": "The host works to a timed plan with the DJ, so games fill the gaps between dinner and the main moments.",
+        "where": "Birthdays, sangeet nights, family functions and corporate family days.",
+        "note": "Games are picked for the age group in the room, so toddlers and teenagers are not playing the same round.",
+        "pick": "Choose this when the evening has waiting time that needs filling with something fun.",
+        "time": "20 mins setup",
+        "colours": "Not colour-led; props matched to the theme",
+        "best": [
+          "Birthdays",
+          "Sangeet",
+          "Family Functions"
+        ],
+        "comes": [
+          "Activity host for the evening",
+          "Game props and small prizes",
+          "Timed plan with the DJ",
+          "Age-group round planning"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Kids craft & colour table": {
+        "what": "A table with colouring sheets, crayons, clay and sticker crafts that children can pick up any time.",
+        "how": "Sheets and craft boxes are refilled through the evening, and finished work goes on a small display line beside the table.",
+        "where": "Weddings, birthdays, baby showers and family events.",
+        "note": "This is the quietest corner in the room — it works best beside the kids' zone, not in the middle of the party.",
+        "pick": "Choose this when you want a corner that keeps small children busy for long stretches.",
+        "time": "20 mins setup",
+        "colours": "Crayons and paper in theme colours",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Colouring sheets and crayons",
+          "Clay and craft boxes",
+          "Kids' table and chairs",
+          "Display line for finished work"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Custom Signage",
+          "Balloon Decor"
+        ],
+        "img": "img/kids-zone.jpg"
+      },
+      "Cartoon & movie corner": {
+        "what": "A screen with cushions and mats where children can sit and watch cartoons when they are tired.",
+        "how": "A small screen plays at low volume with soft seating in front, angled away from the main stage and speakers.",
+        "where": "Weddings, long receptions, family functions and corporate family days.",
+        "note": "The sound stays low on purpose — this corner is for resting, not for adding noise to the hall.",
+        "pick": "Choose this when the function runs late and small children need a calm place.",
+        "time": "40 mins setup",
+        "colours": "Cushions and mats in theme colours",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Family Functions"
+        ],
+        "comes": [
+          "Screen and player",
+          "Cushions and floor mats",
+          "Cartoon content for children",
+          "Supervision through the evening"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/low-seating.jpg"
+      }
+    }
   },
   "Sweet Cart & Candy Bar": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Always the busiest corner of any celebration — for kids and grown-ups alike.",
     "includes": [
-      "Sweet & candy cart",
-      "Chocolate fountain",
-      "Popcorn & cotton candy",
-      "Welcome drinks counter",
-      "Dessert jars & toppings",
-      "Ice-cream counter"
+      "Classic sweet cart",
+      "Candy jar wall",
+      "Chocolate fountain bar",
+      "Cotton candy station",
+      "Popcorn & snack bar",
+      "Sweet cones & favours"
     ],
     "photo": "img/sweet-cart.jpg",
     "gallery": [
@@ -4182,18 +4970,175 @@
       "Weddings",
       "Corporate"
     ],
-    "options": {}
+    "options": {
+      "Classic sweet cart": {
+        "what": "A decorated cart loaded with mithai, chocolates and sweets, styled to match your decor.",
+        "how": "The cart is dressed with flowers, fabric and a sign, and sweets are arranged in tiers so every shelf is filled and reachable.",
+        "where": "Weddings, engagements, birthdays and corporate celebrations.",
+        "note": "We plan the sweet count against guest numbers, so the cart stays full until the last hour.",
+        "pick": "Choose this when you want one spot that both children and elders walk up to.",
+        "time": "45 mins setup",
+        "colours": "Cart styling in theme colours with floral accents",
+        "best": [
+          "Weddings",
+          "Engagements",
+          "Birthdays"
+        ],
+        "comes": [
+          "Styled sweet cart",
+          "Jars, trays and tiered stands",
+          "Sweets arranged for the evening",
+          "Attendant to serve and refill"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Floral Decor",
+          "Custom Signage"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Candy jar wall": {
+        "what": "A shelf of glass jars filled with different candies, arranged as a wall behind the cart.",
+        "how": "Jars are fixed on a frame with labels on each, and spoons or scoops are hung so guests can help themselves.",
+        "where": "Birthdays, weddings, baby showers and corporate events.",
+        "note": "Jars are set at two heights — lower ones for children, higher ones for adults.",
+        "pick": "Choose this when the corner should look full and colourful even before guests arrive.",
+        "time": "40 mins setup",
+        "colours": "Candy colours on a white or wooden shelf",
+        "best": [
+          "Birthdays",
+          "Weddings",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Jar wall frame and shelves",
+          "Assorted candies in jars",
+          "Labels and scoops",
+          "Refill stock for the evening"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Backdrop / Photo Booth",
+          "Custom Signage"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Chocolate fountain bar": {
+        "what": "A flowing chocolate fountain with fruit, marshmallows, wafers and sticks to dip.",
+        "how": "The fountain runs on a level table with bowls around it in a circle, so guests dip and move on without crowding.",
+        "where": "Receptions, birthdays, anniversaries and corporate evenings.",
+        "note": "It needs a stable table and a power point, and we keep a wipe station beside it for sticky hands.",
+        "pick": "Choose this when the dessert counter should be a live, moving attraction.",
+        "time": "45 mins setup",
+        "colours": "Milk, dark or white chocolate",
+        "best": [
+          "Receptions",
+          "Birthdays",
+          "Anniversaries"
+        ],
+        "comes": [
+          "Chocolate fountain unit",
+          "Fruit, marshmallow and wafer platters",
+          "Skewers and bowls",
+          "Attendant and wipe station"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Tablescape & Lounge",
+          "Sweet Cart & Candy Bar"
+        ],
+        "img": "img/dessert-display.jpg"
+      },
+      "Cotton candy station": {
+        "what": "A live budhiya-ka-baal counter where candy floss is spun fresh and handed over on a stick.",
+        "how": "The machine is placed on a side table with a queue line, and colours are spun to order so guests choose their own.",
+        "where": "Birthdays, weddings, carnivals and family functions.",
+        "note": "It draws children in quickly, so we set it away from the entry path of the baraat or the couple.",
+        "pick": "Choose this when you want a live counter that children remember.",
+        "time": "40 mins setup",
+        "colours": "Pink, blue, yellow or mixed floss",
+        "best": [
+          "Birthdays",
+          "Weddings",
+          "Family Functions"
+        ],
+        "comes": [
+          "Cotton candy machine",
+          "Sugar and flavour stock",
+          "Sticks and cones",
+          "Operator for the evening"
+        ],
+        "pairs": [
+          "Kids Zone & Character Fun",
+          "Sweet Cart & Candy Bar",
+          "Balloon Decor"
+        ],
+        "img": "img/sweet-cart.jpg"
+      },
+      "Popcorn & snack bar": {
+        "what": "A snack counter with fresh popcorn, nachos, fries and cold drinks in cups.",
+        "how": "Two warmers run side by side with cups stacked ready, so a queue of guests clears in a few minutes.",
+        "where": "Birthdays, college events, sangeet nights and corporate evenings.",
+        "note": "Warm snacks are kept away from the dessert counter, so both counters have their own crowd.",
+        "pick": "Choose this when the event is long and guests need something between meals.",
+        "time": "40 mins setup",
+        "colours": "Snack bar styling in theme colours",
+        "best": [
+          "Birthdays",
+          "College Events",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Popcorn and snack warmers",
+          "Cups, boxes and napkins",
+          "Refill stock for the evening",
+          "Counter attendant"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Tablescape & Lounge",
+          "Live Entertainment"
+        ],
+        "img": "img/tablescape-lounge.jpg"
+      },
+      "Sweet cones & favours": {
+        "what": "Sweet cones, small jars or boxes packed as return gifts for guests.",
+        "how": "We pack them before the event and stack them on a tray beside the exit or the sweet counter, so guests pick one while leaving.",
+        "where": "Weddings, birthdays, baby showers and corporate events.",
+        "note": "A signboard saying thank you makes the whole tray look intentional instead of leftover stock.",
+        "pick": "Choose this when you want guests to leave with something in hand.",
+        "time": "30 mins setup",
+        "colours": "Cone wraps and ribbons in theme colours",
+        "best": [
+          "Weddings",
+          "Birthdays",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Packed sweet cones or boxes",
+          "Tray and stand display",
+          "Thank-you sign",
+          "Refill trays for the evening"
+        ],
+        "pairs": [
+          "Sweet Cart & Candy Bar",
+          "Custom Signage",
+          "Premium Finishes"
+        ],
+        "img": "img/sweet-cart.jpg"
+      }
+    }
   },
   "Live Entertainment": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Sound, rhythm and performance — the part everyone talks about later.",
     "includes": [
-      "Anchor & host",
-      "Dhol & baraat band",
-      "DJ & sound setup",
-      "Live music or singer",
-      "Magician & performers",
-      "Games & activities"
+      "Live band acoustic sets",
+      "Dhol & baraat entry",
+      "Anchor & emcee",
+      "Folk & dance performers",
+      "Magic & illusion show",
+      "DJ & sound setup"
     ],
     "photo": "img/live-entertainment.jpg",
     "gallery": [
@@ -4224,18 +5169,175 @@
       "Corporate",
       "Birthdays"
     ],
-    "options": {}
+    "options": {
+      "Live band acoustic sets": {
+        "what": "Two to four musicians playing live — guitar, keys, vocals — through the entry and dinner hours.",
+        "how": "The band is set on a small platform with a sound check before guests arrive, playing softly enough for conversation.",
+        "where": "Wedding dinners, cocktail hours, anniversaries and corporate evenings.",
+        "note": "An acoustic set fills silence without taking over — it is the safest live act when people are eating.",
+        "pick": "Choose this when you want live music but the evening is still calm.",
+        "time": "1 hour setup",
+        "colours": "Stage styling in your decor palette",
+        "best": [
+          "Weddings",
+          "Cocktails",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Two to four musicians",
+          "Sound system and mics",
+          "Sound check before guests",
+          "Set list planned with you"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Dhol & baraat entry": {
+        "what": "Dhol players who lead the baraat and build the energy right up to the gate.",
+        "how": "Two to four dhols walk with the baraat, keeping to the same beat, and stop exactly at the entry point on a signal.",
+        "where": "Baraat, groom entries, sangeet processions and victory-style celebrations.",
+        "note": "We always check with the venue whether dhol is allowed at the gate and what time the sound must stop.",
+        "pick": "Choose this when the entry should feel loud, traditional and full of people.",
+        "time": "30 mins setup",
+        "colours": "Dhol covers and sashes in theme colours",
+        "best": [
+          "Baraat",
+          "Weddings",
+          "Sangeet"
+        ],
+        "comes": [
+          "Two to four dhol players",
+          "Matching routine for the walk",
+          "Styled dhol covers",
+          "Cue with the event manager"
+        ],
+        "pairs": [
+          "Arch / Entrance Gate",
+          "Cold Pyro & Fountains",
+          "Live Entertainment"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Anchor & emcee": {
+        "what": "A host who runs the evening — welcomes guests, calls the moments and keeps the programme moving.",
+        "how": "We share the running order with the anchor in advance, so every entry, dance and speech lands in the right slot.",
+        "where": "Weddings, receptions, birthdays and corporate events.",
+        "note": "A good anchor is the reason a function does not have dead time between dinner and the cake.",
+        "pick": "Choose this when the evening has many moments that need announcing.",
+        "time": "30 mins setup",
+        "colours": "Anchor's outfit matched to the event palette",
+        "best": [
+          "Weddings",
+          "Receptions",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Anchor for the full evening",
+          "Running order built with you",
+          "Mic and sound coordination",
+          "Family and guest coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Stage & Front Truss",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "Folk & dance performers": {
+        "what": "A group performance — Ghoomar, Bhangra, Lavani or a local folk dance — for a fixed slot in the evening.",
+        "how": "The troupe performs for its planned set, on a marked stage area with their own music track ready with the DJ.",
+        "where": "Sangeet nights, wedding functions, cultural evenings and corporate celebrations.",
+        "note": "We keep the stage clear before the set, and the performance is timed to finish before dinner is served.",
+        "pick": "Choose this when you want a performance that guests will talk about the next day.",
+        "time": "45 mins setup",
+        "colours": "Traditional costumes; stage light to match",
+        "best": [
+          "Sangeet",
+          "Weddings",
+          "Corporate Events"
+        ],
+        "comes": [
+          "Troupe of performers",
+          "Costumes and props for the act",
+          "Music track handed to the DJ",
+          "Stage plan and rehearsal slot"
+        ],
+        "pairs": [
+          "Stage & Front Truss",
+          "Lighting Decor",
+          "Live Entertainment"
+        ],
+        "img": "img/stage-truss.jpg"
+      },
+      "Magic & illusion show": {
+        "what": "A close-up or stage magician who performs for guests in a set of twenty to thirty minutes.",
+        "how": "The magician works the tables for close-up magic and then does a short stage set with a mic and a spotlight.",
+        "where": "Birthdays, corporate evenings, family functions and kids' parties.",
+        "note": "Close-up magic works best during dinner, when guests are seated and already in small groups.",
+        "pick": "Choose this when you want entertainment that does not need a big stage or loud sound.",
+        "time": "30 mins setup",
+        "colours": "Stage light in warm or blue tones",
+        "best": [
+          "Birthdays",
+          "Corporate Events",
+          "Kids Parties"
+        ],
+        "comes": [
+          "Magician for the evening",
+          "Close-up and stage set",
+          "Props and illusion kit",
+          "Mic and spotlight coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Kids Zone & Character Fun",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/live-entertainment.jpg"
+      },
+      "DJ & sound setup": {
+        "what": "A DJ console with proper speakers, mics and lights for the full evening, from entry music to the last dance.",
+        "how": "The console is set on the side of the stage, speakers are placed for even sound, and the playlist is built with your must-play and no-play list.",
+        "where": "Receptions, sangeet nights, birthdays and corporate parties.",
+        "note": "Sound is checked before guests arrive — and adjusted after, because a hall full of people absorbs sound differently.",
+        "pick": "Choose this when music will run through the whole function, not just one slot.",
+        "time": "1.5 hours setup",
+        "colours": "DJ console lighting in your theme",
+        "best": [
+          "Receptions",
+          "Sangeet",
+          "Corporate Parties"
+        ],
+        "comes": [
+          "DJ and console",
+          "Speakers, mics and lights",
+          "Playlist built with you",
+          "Anchor and artist coordination"
+        ],
+        "pairs": [
+          "Live Entertainment",
+          "Lighting Decor",
+          "Stage & Front Truss"
+        ],
+        "img": "img/stage-truss.jpg"
+      }
+    }
   },
   "Surprise Setups": {
     "kicker": "The Experiences · the extra magic",
     "intro": "Small setups, huge reactions — quietly finished before they walk in.",
     "includes": [
-      "Room decoration",
-      "Car decoration",
-      "Pet decoration",
-      "Car boot surprises",
-      "Office desk surprises",
-      "Night-before setups"
+      "Room & hotel surprises",
+      "Car & driveway reveals",
+      "Restaurant table surprises",
+      "Office & workspace surprises",
+      "Terrace & rooftop setups",
+      "Cake & gift reveal setups"
     ],
     "photo": "img/surprise-setups.jpg",
     "gallery": [
@@ -4266,7 +5368,164 @@
       "Proposals",
       "Farewells"
     ],
-    "options": {}
+    "options": {
+      "Room & hotel surprises": {
+        "what": "A decorated room — balloons, flowers, candles and photo strings — arranged before the person walks in.",
+        "how": "We set up quietly with the hotel or family helping with keys, and finish thirty minutes before the agreed time.",
+        "where": "Hotel rooms, home bedrooms, anniversaries and birthdays.",
+        "note": "Ceiling tapes and candle placement are checked against hotel rules — some rooms do not allow open flame.",
+        "pick": "Choose this when the reveal should be private, just for one or two people.",
+        "time": "1 hour setup",
+        "colours": "Red-rose, pastel or gold themes",
+        "best": [
+          "Anniversaries",
+          "Birthdays",
+          "Proposals"
+        ],
+        "comes": [
+          "Balloons and flowers",
+          "Candles or LED candles",
+          "Photo strings and letter board",
+          "Quiet setup before the entry"
+        ],
+        "pairs": [
+          "Marry Me / Proposal",
+          "Balloon Decor",
+          "Ceiling & Hanging Decor"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Car & driveway reveals": {
+        "what": "A decorated car with balloons, ribbons and a message, parked where the person will see it first.",
+        "how": "The car is decorated in the driveway or parking spot with balloon clusters and a name plate, and the ribbon is handed over after the reveal.",
+        "where": "Birthdays, anniversaries, graduation days and wedding-day first looks.",
+        "note": "Only ribbon and balloon-safe tapes are used on the paint — nothing sticky is left on the body.",
+        "pick": "Choose this when the surprise should be waiting right outside the door.",
+        "time": "45 mins setup",
+        "colours": "Balloon colours matched to the person's favourite",
+        "best": [
+          "Birthdays",
+          "Anniversaries",
+          "Graduations"
+        ],
+        "comes": [
+          "Car balloon decoration",
+          "Ribbon and name plate",
+          "Driveway styling",
+          "Photo moment with the family"
+        ],
+        "pairs": [
+          "Balloon Decor",
+          "Custom Signage",
+          "Confetti & Balloon Drop"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Restaurant table surprises": {
+        "what": "A booked table styled with balloons, florals, a cake and a message before the couple or family arrives.",
+        "how": "We coordinate with the restaurant on timing, set the table in a quiet corner, and keep the cake hidden until the main course ends.",
+        "where": "Anniversaries, proposals, birthdays and family dinners.",
+        "note": "A corner table always works better than a centre table — the reveal stays personal and photos stay clean.",
+        "pick": "Choose this when the celebration is a dinner for a small group.",
+        "time": "40 mins setup",
+        "colours": "Romantic reds, whites or florals in pastel",
+        "best": [
+          "Anniversaries",
+          "Proposals",
+          "Birthdays"
+        ],
+        "comes": [
+          "Table styling and centrepiece",
+          "Balloon and floral touches",
+          "Cake arrangement with the venue",
+          "Message card and candles"
+        ],
+        "pairs": [
+          "Tablescape & Lounge",
+          "Marry Me / Proposal",
+          "Floral Decor"
+        ],
+        "img": "img/tablescape-lounge.jpg"
+      },
+      "Office & workspace surprises": {
+        "what": "A desk or cabin decorated for a birthday, farewell or work anniversary, ready before the team walks in.",
+        "how": "We set up early morning or after hours with building permission, keeping the decoration to the person's desk and door.",
+        "where": "Corporate offices, clinics, studios and shop floors.",
+        "note": "Keep it to one desk and one wall — offices usually do not allow anything on the ceiling or the glass doors.",
+        "pick": "Choose this when the celebration has to fit inside a working day.",
+        "time": "45 mins setup",
+        "colours": "Company colours or the person's favourite",
+        "best": [
+          "Corporate Events",
+          "Farewells",
+          "Work Anniversaries"
+        ],
+        "comes": [
+          "Desk and cabin decoration",
+          "Balloons, banner and photo props",
+          "Cake table arrangement",
+          "Early morning or after-hours setup"
+        ],
+        "pairs": [
+          "Custom Signage",
+          "Balloon Decor",
+          "Cake Table & Dessert Bar"
+        ],
+        "img": "img/surprise-setups.jpg"
+      },
+      "Terrace & rooftop setups": {
+        "what": "A terrace or rooftop styled with lights, balloons and seating for a private celebration.",
+        "how": "We lay the lighting first, then seating and decor, and check the wind and power point before the setup is finished.",
+        "where": "Home terraces, rooftop cafes, farmhouse decks and poolside floors.",
+        "note": "Anything loose is weighted down — candles go inside glass, and balloon clusters are tied to stands, not railings.",
+        "pick": "Choose this when you want the celebration to feel open and away from the house.",
+        "time": "1.5 hours setup",
+        "colours": "Warm fairy lights with a dark or pastel palette",
+        "best": [
+          "Proposals",
+          "Anniversaries",
+          "Birthdays"
+        ],
+        "comes": [
+          "Fairy light and lantern setup",
+          "Balloon and floral styling",
+          "Seating and table arrangement",
+          "Wind-safe weighting of decor"
+        ],
+        "pairs": [
+          "Lighting Decor",
+          "Marry Me / Proposal",
+          "Tablescape & Lounge"
+        ],
+        "img": "img/marry-me-proposal.jpg"
+      },
+      "Cake & gift reveal setups": {
+        "what": "A cake and gifts arranged behind a curtain or under a cover, revealed at the chosen moment.",
+        "how": "We build the reveal corner with a light curtain or a decorated board, hide the cake until the cue, and hand the cover pull to the family.",
+        "where": "Milestone birthdays, anniversaries, baby showers and family functions.",
+        "note": "The person should be facing the corner when it opens — we plan the seating so the reveal is seen, not missed.",
+        "pick": "Choose this when the cake and gift are the centre of the whole evening.",
+        "time": "40 mins setup",
+        "colours": "Reveal board and cover in theme colours",
+        "best": [
+          "Birthdays",
+          "Anniversaries",
+          "Baby Showers"
+        ],
+        "comes": [
+          "Reveal corner and cover",
+          "Cake stand and table styling",
+          "Gift table arrangement",
+          "Cue plan with the family"
+        ],
+        "pairs": [
+          "Cake Table & Dessert Bar",
+          "Premium Finishes",
+          "Lighting Decor"
+        ],
+        "img": "img/surprise-setups.jpg"
+      }
+    }
   }
 };
   (function () {
@@ -4287,6 +5546,7 @@
   "colours": "Colour & palette",
   "comes": "What comes with it",
   "pairs": "Pairs beautifully with",
+  "pick": "When to pick it",
   "added": "✓ Added — tap again to remove",
   "close": "Close",
   "wa": "Hello Balloon Creation! I would like to know more about {name}.",
@@ -4354,6 +5614,8 @@
       optHow: document.getElementById('opt-how'),
       optWhere: document.getElementById('opt-where'),
       optNote: document.getElementById('opt-note'),
+      optPick: document.getElementById('opt-pick'),
+      optPickText: document.getElementById('opt-pick-text'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -4439,6 +5701,8 @@
       el.optHow.textContent = o.how || '';
       el.optWhere.textContent = o.where || '';
       el.optNote.textContent = o.note || '';
+      el.optPickText.textContent = o.pick || '';
+      el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
       el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');

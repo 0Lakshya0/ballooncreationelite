@@ -28,6 +28,8 @@ for _mod, _attr in (
     ("_d3b_deep", "OPTS_B"),
     ("_d3c_deep", "OPTS_C"),
     ("_d3d_deep", "OPTS_D"),
+    ("_d3e_deep", "OPTS_E"),
+    ("_d3f_deep", "OPTS_F"),
 ):
     try:
         _m = __import__(_mod)
@@ -72,6 +74,8 @@ CSS = """      /* ---------- detail sheet (chip click -> option click) ---------
       .detail-kicker { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
       .detail-body h3 { font-size: 34px; margin: 8px 0 9px; }
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+      .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
+      .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -163,6 +167,7 @@ MARKUP = """    <!-- detail sheet: click a chip, then click any option inside it
             <span class="detail-kicker" id="opt-kicker"></span>
             <h3 id="opt-title"></h3>
             <p class="detail-intro" id="opt-what"></p>
+            <p class="opt-pick" id="opt-pick" style="display: none"><b>__pick__</b><span id="opt-pick-text"></span></p>
 
             <div class="detail-rich">
               <div class="rich-block"><span class="detail-h">__howMade__</span><p id="opt-how"></p></div>
@@ -257,6 +262,8 @@ SCRIPT = """<script>
       optHow: document.getElementById('opt-how'),
       optWhere: document.getElementById('opt-where'),
       optNote: document.getElementById('opt-note'),
+      optPick: document.getElementById('opt-pick'),
+      optPickText: document.getElementById('opt-pick-text'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -342,6 +349,8 @@ SCRIPT = """<script>
       el.optHow.textContent = o.how || '';
       el.optWhere.textContent = o.where || '';
       el.optNote.textContent = o.note || '';
+      el.optPickText.textContent = o.pick || '';
+      el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
       el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
@@ -450,7 +459,7 @@ LABELS = {
         back="\u2190 Back to {name}", howMade="How it is made", whereUsed="Where it is used",
         note="Good to know", add="Add to my enquiry", addOpt="Add this option to my enquiry",
         time="Setup time", colours="Colour & palette", comes="What comes with it",
-        pairs="Pairs beautifully with",
+        pairs="Pairs beautifully with", pick="When to pick it",
         added="\u2713 Added — tap again to remove", close="Close",
         wa="Hello Balloon Creation! I would like to know more about {name}.",
         waOpt="Hello Balloon Creation! I would like to know more about {chip} — {option}.",
@@ -465,7 +474,7 @@ LABELS = {
         back="\u2190 {name} par wapas", howMade="Ye kaise banta hai", whereUsed="Kahan istemaal hota hai",
         note="Jaanne wali baat", add="Meri enquiry me jodo", addOpt="Ye option enquiry me jodo",
         time="Setup ka time", colours="Colour aur palette", comes="Saath me kya milta hai",
-        pairs="Inke saath best lagta hai",
+        pairs="Inke saath best lagta hai", pick="Kab pick karein",
         added="\u2713 Jod diya — hataane ke liye phir dabao", close="Band karo",
         wa="Hello Balloon Creation! Mujhe {name} ke baare me aur jaankari chahiye.",
         waOpt="Hello Balloon Creation! Mujhe {chip} — {option} ke baare me aur jaankari chahiye.",
