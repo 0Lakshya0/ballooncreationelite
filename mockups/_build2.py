@@ -76,6 +76,20 @@ CSS = """      /* ---------- detail sheet (chip click -> option click) ---------
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
       .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
       .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+      .detail-facts.rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+      .fact-card { border: 1px solid var(--border); border-radius: 6px; background: oklch(1 0 0 / 0.6); padding: 12px 13px; }
+      .fact-card > b { display: block; margin-bottom: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+      .fact-lead { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.6; }
+      .fact-photo { display: block; width: 100%; height: 78px; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px; object-fit: cover; }
+      .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border: 1px solid var(--border); border-radius: 20px; background: var(--secondary); font-size: 10.5px; line-height: 1.35; }
+      .mini-chip img { display: block; width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+      .mini-chip .pc-dot { display: block; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1px oklch(0 0 0 / 0.14); }
+      #c-opts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      #c-opts .opt-card { flex-direction: column; align-items: stretch; gap: 0; padding: 0 0 10px; overflow: hidden; }
+      #c-opts .opt-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      #c-opts .opt-card .opt-card-t { display: flex; align-items: center; gap: 8px; padding: 9px 12px 0; }
+      #c-opts .opt-card .arw { margin-left: auto; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -109,6 +123,8 @@ CSS = """      /* ---------- detail sheet (chip click -> option click) ---------
       .cta.on { background: var(--secondary); box-shadow: none; }
       @media (max-width: 860px) {
         .detail-rich, .detail-rich.two { grid-template-columns: 1fr; gap: 16px; }
+        .detail-facts.rich { grid-template-columns: 1fr; }
+        #c-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .opt-grid { grid-template-columns: 1fr; }
       }
       @media (max-width: 760px) {
@@ -175,11 +191,25 @@ MARKUP = """    <!-- detail sheet: click a chip, then click any option inside it
               <div class="rich-block"><span class="detail-h">__note__</span><p id="opt-note"></p></div>
             </div>
 
-            <div class="detail-facts">
-              <div class="fact"><b>__time__</b><span id="opt-time"></span></div>
-              <div class="fact"><b>__colours__</b><span id="opt-colours"></span></div>
-              <div class="bestfor" id="opt-best"></div>
+            <div class="detail-facts rich">
+              <div class="fact-card">
+                <b>__time__</b>
+                <span class="fact-lead" id="opt-time"></span>
+                <img class="fact-photo" id="opt-time-img" src="" alt="" loading="lazy" />
+              </div>
+              <div class="fact-card">
+                <b>__colours__</b>
+                <span class="fact-lead" id="opt-colours"></span>
+                <div class="chip-row" id="opt-palette"></div>
+              </div>
+              <div class="fact-card">
+                <b>__bestForLabel__</b>
+                <div class="chip-row" id="opt-best"></div>
+              </div>
             </div>
+
+            <span class="detail-h">__ex__</span>
+            <div class="detail-mini" id="opt-ex"></div>
 
             <span class="detail-h" id="comes-head"></span>
             <ul class="comes" id="opt-comes"></ul>
@@ -264,6 +294,9 @@ SCRIPT = """<script>
       optNote: document.getElementById('opt-note'),
       optPick: document.getElementById('opt-pick'),
       optPickText: document.getElementById('opt-pick-text'),
+      optTimeImg: document.getElementById('opt-time-img'),
+      optPalette: document.getElementById('opt-palette'),
+      optEx: document.getElementById('opt-ex'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -308,8 +341,11 @@ SCRIPT = """<script>
         el.optsHead.textContent = T.opts;
         el.opts.className = 'opt-grid';
         el.opts.innerHTML = keys.map(function (k) {
-          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' + k +
-            '<span class="arw">\\u2192</span></button></li>';
+          var im = (opts[k] && opts[k].img) || D[name].photo || '';
+          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' +
+            '<img src="' + im + '" alt="" loading="lazy" />' +
+            '<span class="opt-card-t">' + k +
+            '<span class="arw">\\u2192</span></span></button></li>';
         }).join('');
       } else {
         el.optsHead.textContent = T.optsPlain;
@@ -353,7 +389,19 @@ SCRIPT = """<script>
       el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
-      el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      el.optTimeImg.src = D[chipName].photo || o.img || '';
+      el.optTimeImg.alt = chipName + ' setup';
+      el.optPalette.innerHTML = (o.palette || []).map(function (p) {
+        return '<span class="mini-chip"><img src="' + p.img + '" alt="" loading="lazy" />' +
+          '<i class="pc-dot" style="background:' + p.c + '"></i>' + p.t + '</span>';
+      }).join('');
+      el.optBest.innerHTML = (o.best || []).map(function (b, i) {
+        var im = ((o.bestPhotos || [])[i] || {}).img || '';
+        return '<span class="mini-chip"><img src="' + im + '" alt="" loading="lazy" />' + b + '</span>';
+      }).join('');
+      el.optEx.innerHTML = (o.ex || []).map(function (g) {
+        return '<img src="' + g + '" alt="" loading="lazy" />';
+      }).join('');
       el.comesHead.textContent = T.comes;
       el.comesHead.style.display = (o.comes || []).length ? 'block' : 'none';
       el.optComes.innerHTML = (o.comes || []).map(function (c) { return '<li>' + c + '</li>'; }).join('');
@@ -460,6 +508,7 @@ LABELS = {
         note="Good to know", add="Add to my enquiry", addOpt="Add this option to my enquiry",
         time="Setup time", colours="Colour & palette", comes="What comes with it",
         pairs="Pairs beautifully with", pick="When to pick it",
+        bestForLabel="Best for",
         added="\u2713 Added — tap again to remove", close="Close",
         wa="Hello Balloon Creation! I would like to know more about {name}.",
         waOpt="Hello Balloon Creation! I would like to know more about {chip} — {option}.",
@@ -475,6 +524,7 @@ LABELS = {
         note="Jaanne wali baat", add="Meri enquiry me jodo", addOpt="Ye option enquiry me jodo",
         time="Setup ka time", colours="Colour aur palette", comes="Saath me kya milta hai",
         pairs="Inke saath best lagta hai", pick="Kab pick karein",
+        bestForLabel="Kis liye best",
         added="\u2713 Jod diya — hataane ke liye phir dabao", close="Band karo",
         wa="Hello Balloon Creation! Mujhe {name} ke baare me aur jaankari chahiye.",
         waOpt="Hello Balloon Creation! Mujhe {chip} — {option} ke baare me aur jaankari chahiye.",
@@ -489,6 +539,12 @@ try:
     from _d4_photos import OPTION_PHOTOS
 except ImportError:
     OPTION_PHOTOS = {}
+
+try:
+    from _d5_extras import palette_parts, tag_photo
+except ImportError:  # extras not written yet
+    palette_parts = lambda _t: []
+    tag_photo = lambda _t, fb: fb
 
 
 def build_data(lang: str, old: dict) -> dict:
@@ -511,10 +567,27 @@ def build_data(lang: str, old: dict) -> dict:
         else:
             entry["options"] = {}
         # each option shows its own image where we have one, else the chip photo
+        chip_photo = entry.get("photo") or ""
+        chip_file = chip_photo.split("/")[-1]
+        gallery = [g for g in (entry.get("gallery") or []) if g]
         for opt_name, opt in entry["options"].items():
             photo = (OPTION_PHOTOS.get(name) or {}).get(opt_name)
-            if photo:
-                opt["img"] = "img/" + photo
+            opt["img"] = ("img/" + photo) if photo else chip_photo
+            # colour & palette: the single line becomes two or three choices, each with a photo
+            opt["palette"] = [
+                {"t": part["t"], "c": part["c"], "img": "img/" + part["img"]}
+                for part in palette_parts(opt.get("colours", ""))
+            ]
+            # best-for: a photo next to every occasion tag
+            opt["bestPhotos"] = [
+                {"t": tag, "img": "img/" + tag_photo(tag, chip_file)} for tag in (opt.get("best") or [])
+            ]
+            # a short example strip for this exact option
+            ex = []
+            for cand in [opt["img"], chip_photo] + gallery:
+                if cand and cand not in ex:
+                    ex.append(cand)
+            opt["ex"] = ex[:3]
         out[name] = entry
     return out
 

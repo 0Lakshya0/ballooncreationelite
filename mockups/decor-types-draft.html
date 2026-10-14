@@ -128,6 +128,20 @@
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
       .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
       .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+      .detail-facts.rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+      .fact-card { border: 1px solid var(--border); border-radius: 6px; background: oklch(1 0 0 / 0.6); padding: 12px 13px; }
+      .fact-card > b { display: block; margin-bottom: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+      .fact-lead { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.6; }
+      .fact-photo { display: block; width: 100%; height: 78px; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px; object-fit: cover; }
+      .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border: 1px solid var(--border); border-radius: 20px; background: var(--secondary); font-size: 10.5px; line-height: 1.35; }
+      .mini-chip img { display: block; width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+      .mini-chip .pc-dot { display: block; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1px oklch(0 0 0 / 0.14); }
+      #c-opts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      #c-opts .opt-card { flex-direction: column; align-items: stretch; gap: 0; padding: 0 0 10px; overflow: hidden; }
+      #c-opts .opt-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      #c-opts .opt-card .opt-card-t { display: flex; align-items: center; gap: 8px; padding: 9px 12px 0; }
+      #c-opts .opt-card .arw { margin-left: auto; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -161,6 +175,8 @@
       .cta.on { background: var(--secondary); box-shadow: none; }
       @media (max-width: 860px) {
         .detail-rich, .detail-rich.two { grid-template-columns: 1fr; gap: 16px; }
+        .detail-facts.rich { grid-template-columns: 1fr; }
+        #c-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .opt-grid { grid-template-columns: 1fr; }
       }
       @media (max-width: 760px) {
@@ -520,11 +536,25 @@
               <div class="rich-block"><span class="detail-h">Good to know</span><p id="opt-note"></p></div>
             </div>
 
-            <div class="detail-facts">
-              <div class="fact"><b>Setup time</b><span id="opt-time"></span></div>
-              <div class="fact"><b>Colour & palette</b><span id="opt-colours"></span></div>
-              <div class="bestfor" id="opt-best"></div>
+            <div class="detail-facts rich">
+              <div class="fact-card">
+                <b>Setup time</b>
+                <span class="fact-lead" id="opt-time"></span>
+                <img class="fact-photo" id="opt-time-img" src="" alt="" loading="lazy" />
+              </div>
+              <div class="fact-card">
+                <b>Colour & palette</b>
+                <span class="fact-lead" id="opt-colours"></span>
+                <div class="chip-row" id="opt-palette"></div>
+              </div>
+              <div class="fact-card">
+                <b>Best for</b>
+                <div class="chip-row" id="opt-best"></div>
+              </div>
             </div>
+
+            <span class="detail-h">A few examples</span>
+            <div class="detail-mini" id="opt-ex"></div>
 
             <span class="detail-h" id="comes-head"></span>
             <ul class="comes" id="opt-comes"></ul>
@@ -617,7 +647,33 @@
           "Backdrop / Photo Booth",
           "Drapes & Fabric"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · sage · chrome gold · pastel mix",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Balloon arch & columns": {
         "what": "A structured arch or pair of pillars, built to a fixed height and width.",
@@ -643,7 +699,38 @@
           "Custom Signage",
           "Arch / Entrance Gate"
         ],
-        "img": "img/balloon-arch.jpg"
+        "img": "img/balloon-arch.jpg",
+        "palette": [
+          {
+            "t": "Two-tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Three-tone palettes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-arch.jpg",
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Jumbo & chrome balloons": {
         "what": "Oversized balloons with a mirror-like metallic finish.",
@@ -669,7 +756,33 @@
           "Premium Finishes",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Chrome gold · silver · rose gold · pearl white",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Engagements",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Luxury Birthdays",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Balloon wall & cloud": {
         "what": "A dense wall or a floating cluster of balloons.",
@@ -695,7 +808,43 @@
           "Props & Cutouts",
           "Premium Finishes"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Single tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ombre",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mixed palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/balloon-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Bubble & confetti balloons": {
         "what": "Clear balloons filled with confetti, feathers, or nothing at all.",
@@ -721,7 +870,43 @@
           "Premium Finishes",
           "Floral Decor"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Clear with gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Pastel confetti",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Bridal Showers",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Number & alphabet balloons": {
         "what": "Large numbers and letters, either inflated foil or built from balloons.",
@@ -747,7 +932,38 @@
           "Balloon wall & cloud",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Foil metallic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Or balloon-built in your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "1st Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "25th Anniversary",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Shop Openings",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -816,7 +1032,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "White · blush · peach · seasonal blooms",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Rose & orchid arrangements": {
         "what": "Dense, high-value arrangements in the flowers you choose.",
@@ -842,7 +1084,33 @@
           "Cake Table & Dessert Bar",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory · rose · orchid purple · green",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Dinners",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Floral arch & pillars": {
         "what": "A flower-covered arch, or a pair of floral pillars.",
@@ -868,7 +1136,38 @@
           "Walkway & Aisle Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Classic white-green",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Your bridal palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Hanging & ceiling florals": {
         "what": "Flowers suspended from above, out of everyone's way.",
@@ -894,7 +1193,38 @@
           "Lighting Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Soft whites",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Greens and pastels",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Table centrepieces": {
         "what": "Low arrangements that never block conversation.",
@@ -920,7 +1250,33 @@
           "Cake Table & Dessert Bar",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Matched to your linen and crockery",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Corporate Dinners",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Flower & petal walkway": {
         "what": "A pathway dressed in petals and blooms.",
@@ -946,7 +1302,33 @@
           "Arch / Entrance Gate",
           "Lighting Decor"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Rose · white · marigold for traditional setups",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Grand Entries",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       }
     }
   },
@@ -1015,7 +1397,33 @@
           "Backdrop / Photo Booth",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · blush · champagne",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Satin & velvet panels": {
         "what": "Heavier fabrics with depth and a rich sheen.",
@@ -1041,7 +1449,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Ivory · burgundy · emerald · navy",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Ceiling & tent draping": {
         "what": "Fabric covering the whole ceiling in a soft canopy.",
@@ -1067,7 +1501,38 @@
           "Ceiling & Hanging Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Single ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or two-tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Haldi & Mehndi",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Gathered backdrop drapes": {
         "what": "Centrally gathered fabric for a classic curtain feel.",
@@ -1093,7 +1558,33 @@
           "Backdrop / Photo Booth",
           "Floral Decor"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Any single tone with a gold tie",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Table & chair draping": {
         "what": "Dressed linen, runners and sashes.",
@@ -1119,7 +1610,33 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Palette-matched linen and sashes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Floating fabric ceiling": {
         "what": "Fabric suspended with visible air between each panel.",
@@ -1145,7 +1662,33 @@
           "Ceiling & Hanging Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · soft pastels",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Mandap",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -1214,7 +1757,38 @@
           "Floral Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Warm white (recommended)",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Cool white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "All Occasions",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Warm uplighters": {
         "what": "Lights placed on the floor, aimed upward at walls and drapes.",
@@ -1240,7 +1814,33 @@
           "Stage & Front Truss",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Amber · warm white · magenta accent",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Chandeliers & pendants": {
         "what": "Hanging light fixtures that become part of the decor.",
@@ -1266,7 +1866,33 @@
           "Drapes & Fabric",
           "Tablescape & Lounge"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Crystal · gold · black metal",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Luxury Birthdays",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Neon-style light pieces": {
         "what": "Glowing light shapes and lettering — names, dates, symbols.",
@@ -1292,7 +1918,33 @@
           "Backdrop / Photo Booth",
           "Marry Me / Proposal"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Warm white · gold glow · ice blue",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Pathway & tree lighting": {
         "what": "Lights that guide guests along a route.",
@@ -1318,7 +1970,38 @@
           "Arch / Entrance Gate",
           "Greenery & Foliage"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Warm white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Occasionally amber",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Outdoor Events",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Candles & lanterns": {
         "what": "Real or safe candles and lanterns, at floor and table level.",
@@ -1344,7 +2027,33 @@
           "Walkway & Aisle Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Amber glow with glass and brass",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -1413,7 +2122,38 @@
           "Props & Cutouts",
           "Premium Finishes"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Deep green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Or mixed tropical greens",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Hanging vines & creepers": {
         "what": "Trailing greenery that falls from above.",
@@ -1439,7 +2179,38 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Natural green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Or dried-look tones",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Palm & monstera styling": {
         "what": "Large structured leaves used for an architectural look.",
@@ -1465,7 +2236,38 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Deep green with ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Terracotta accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Modern Weddings",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Mogra & jasmine strands": {
         "what": "Fragrant flower and leaf strands, traditional and fresh.",
@@ -1491,7 +2293,33 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Fresh white with green",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Traditional Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Pooja & Havan",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Potted & planter setups": {
         "what": "Plants in dressed pots, used as decor.",
@@ -1517,7 +2345,43 @@
           "Greenery & Foliage",
           "Custom Signage"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Wrapped in gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Your theme colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Foliage arches": {
         "what": "An arch built mostly from leaves, with minimal flowers.",
@@ -1543,7 +2407,38 @@
           "Walkway & Aisle Decor",
           "Lighting Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Green with white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Seasonal accent flowers",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -1612,7 +2507,33 @@
           "Backdrop / Photo Booth",
           "Balloon Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Painted to your theme palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Birthdays",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Themed Parties",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Mirror & sequin panels": {
         "what": "Reflective panels that catch and multiply every light.",
@@ -1638,7 +2559,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Silver · gold · rose-gold panels",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Engagements",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Ring & frame props": {
         "what": "Large rings and frames that guests stand inside.",
@@ -1664,7 +2611,43 @@
           "Marry Me / Proposal",
           "Balloon Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Pastel frames",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Kids props & soft shapes": {
         "what": "Soft, safe, oversized shapes for children.",
@@ -1690,7 +2673,38 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Pastels",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Or theme-matched brights",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Birthdays",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Family Functions",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Hanging props & mobiles": {
         "what": "Objects suspended in the air as decor.",
@@ -1716,7 +2730,33 @@
           "Balloon Decor",
           "Lighting Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Matched to your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Custom-shaped props": {
         "what": "Anything built to your own idea.",
@@ -1742,7 +2782,38 @@
           "Custom Signage",
           "Stage & Front Truss"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Any shade you name",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Matched to a reference",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Themed Parties",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Brand Launches",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Milestone Birthdays",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -1811,7 +2882,33 @@
           "Cake Table & Dessert Bar",
           "Floral Decor"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Ivory pearl · champagne · gold",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Sequin & shimmer panels": {
         "what": "Fabric covered in sequins that catches light from any angle.",
@@ -1837,7 +2934,33 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Gold · champagne · silver · blush",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Metallic chrome accents": {
         "what": "Gold, silver and rose-gold metallic touches across the setup.",
@@ -1863,7 +2986,38 @@
           "Premium Finishes",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Gold · silver · rose gold",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "One metal only",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Luxury Birthdays",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Mirror & acrylic accents": {
         "what": "Reflective acrylic shapes and panels.",
@@ -1889,7 +3043,43 @@
           "Custom Signage",
           "Tablescape & Lounge"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Mirror silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Tinted acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Glitter & confetti detail": {
         "what": "Fine sparkle worked into the decor itself, not thrown over it.",
@@ -1915,7 +3105,33 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Champagne · rose gold · subtle silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Ribbon & tassel work": {
         "what": "Satin ribbons and hand-tied tassels.",
@@ -1941,7 +3157,38 @@
           "Tablescape & Lounge",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Satin in your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "With gold thread",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       }
     }
   },
@@ -2010,7 +3257,33 @@
           "Marry Me / Proposal",
           "Lighting Decor"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Warm white · gold glow · ice blue",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Acrylic & mirror boards": {
         "what": "Clean printed or cut boards on stands.",
@@ -2036,7 +3309,43 @@
           "Tablescape & Lounge",
           "Premium Finishes"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Clear acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Frosted",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Welcome boards": {
         "what": "A styled board carrying your welcome message.",
@@ -2062,7 +3371,43 @@
           "Walkway & Aisle Decor",
           "Floral Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "In ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Hashtag & quote boards": {
         "what": "A board with your hashtag or a line you love.",
@@ -2088,7 +3433,43 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Black",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ivory with gold lettering",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Table & menu signage": {
         "what": "Small signs for tables, menus and seating.",
@@ -2114,7 +3495,33 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Matched to the tablescape linen",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Custom text of your choice": {
         "what": "Any words, in any style you want.",
@@ -2140,7 +3547,33 @@
           "Marry Me / Proposal",
           "Surprise Setups"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Any colour and material you choose",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Farewells",
+            "img": "img/low-seating.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       }
     }
   },
@@ -2209,7 +3642,38 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/round-backdrop.jpg"
+        "img": "img/round-backdrop.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · white with a gold",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Chrome edge",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/round-backdrop.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Floral + balloon combos": {
         "what": "Flowers and balloons combined in one composition — softness with colour.",
@@ -2235,7 +3699,43 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Ivory and sage ·",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "A bold two-tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Sequin & shimmer walls": {
         "what": "A wall of sequin-covered fabric that catches every light in the room.",
@@ -2261,7 +3761,33 @@
           "Backdrop / Photo Booth",
           "Premium Finishes"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Champagne · gold · silver · blush",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Settee & stool styling": {
         "what": "The seat that makes the backdrop a full photo set, not just a wall.",
@@ -2287,7 +3813,43 @@
           "Tablescape & Lounge",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Velvet in a jewel tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Ring-light photo corner": {
         "what": "A lit ring that gives every phone camera a flattering, even light.",
@@ -2313,7 +3875,38 @@
           "Props & Cutouts",
           "Lighting Decor"
         ],
-        "img": "img/halo-corner.jpg"
+        "img": "img/halo-corner.jpg",
+        "palette": [
+          {
+            "t": "Warm white halo",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "With a neutral background",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/halo-corner.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Selfie & polaroid corners": {
         "what": "A corner designed for instant, printed or handheld photos.",
@@ -2339,7 +3932,33 @@
           "Backdrop / Photo Booth",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Matched to the main setup",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "College Events",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -2408,7 +4027,43 @@
           "Walkway & Aisle Decor",
           "Custom Signage"
         ],
-        "img": "img/balloon-arch.jpg"
+        "img": "img/balloon-arch.jpg",
+        "palette": [
+          {
+            "t": "Two",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Three tone palettes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Chrome accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-arch.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Floral arches": {
         "what": "An arch dressed entirely in flowers and greenery.",
@@ -2434,7 +4089,38 @@
           "Walkway & Aisle Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "White-green classic",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or your bridal palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Fabric & drape gates": {
         "what": "An entrance created from gathered and draped fabric instead of structure.",
@@ -2460,7 +4146,33 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · champagne · deep jewel tones",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Balloon + flower columns": {
         "what": "Matching pillars that carry both balloons and blooms.",
@@ -2486,7 +4198,33 @@
           "Floral Decor",
           "Arch / Entrance Gate"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "Two-tone with matching metal accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Welcome gate setups": {
         "what": "A full gate — structure, signage, flowers and often a drink or sweet tray.",
@@ -2512,7 +4250,33 @@
           "Floral Decor",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Matched to your invitation card palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Pathway entry decor": {
         "what": "Decor that carries the entrance theme along the route guests walk.",
@@ -2538,7 +4302,33 @@
           "Lighting Decor",
           "Greenery & Foliage"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Repeating your entry palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -2607,7 +4397,38 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Ivory and gold classic",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or your wedding palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Haldi & mehndi pandal": {
         "what": "A bright, open, colourful setup for the daytime haldi and mehndi functions.",
@@ -2633,7 +4454,33 @@
           "Drapes & Fabric",
           "Tablescape & Lounge"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Marigold · yellow · pink · mirror accents",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Ring ceremony stage": {
         "what": "A smaller, elegant stage for the engagement and ring exchange.",
@@ -2659,7 +4506,38 @@
           "Floral Decor",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Pastels",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "With one metallic accent",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Draped canopies & roofs": {
         "what": "Fabric stretched overhead to create a ceiling where there was none.",
@@ -2685,7 +4563,38 @@
           "Lighting Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Single ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or white with coloured lining",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Pillar floral work": {
         "what": "Florals climbing each mandap pillar from base to capital.",
@@ -2711,7 +4620,38 @@
           "Mandap & Pandal",
           "Lighting Decor"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "White and cream with green",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or marigold for daytime",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/mandap-pandal.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Pooja & havan setups": {
         "what": "A respectful, clean setup for the ritual itself — pooja, havan or chowki.",
@@ -2737,7 +4677,38 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Traditional red",
+            "c": "#c0392b",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Yellow and white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Griha Pravesh",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Satsang & Chowki",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       }
     }
   },
@@ -2806,7 +4777,43 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Black frame with ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Deep-tone dressing",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Stage skirting & steps": {
         "what": "The base and steps of the stage, finished so the structure below disappears.",
@@ -2832,7 +4839,38 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Matching your drapes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "The venue carpet",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Annual Days",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Layered stage backdrop": {
         "what": "A backdrop built in layers — fabric behind, florals and props in front.",
@@ -2858,7 +4896,33 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Tonal layers in ivory and champagne",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "LED & light bars": {
         "what": "Slim lighting bars that outline the stage and wash it with colour.",
@@ -2884,7 +4948,33 @@
           "Stage & Front Truss",
           "Drapes & Fabric"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Amber · magenta · ice blue · pure white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Ramp & entry styling": {
         "what": "The walk guests and the couple take on to the stage, dressed for the camera.",
@@ -2910,7 +5000,33 @@
           "Stage & Front Truss",
           "Lighting Decor"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Carpet matched to the drapes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Award & function stages": {
         "what": "A stage planned for performances, speeches, trophies and photographs.",
@@ -2936,7 +5052,43 @@
           "Custom Signage",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Institutional elegant",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Navy",
+            "c": "#2b3a5c",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ivory, gold",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Annual Days",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "College Events",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -3005,7 +5157,38 @@
           "Lighting Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Soft whites and greens",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or seasonal blooms",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Hanging balloon clouds": {
         "what": "Clusters of balloons floating above the guests' heads.",
@@ -3031,7 +5214,38 @@
           "Ceiling & Hanging Decor",
           "Lighting Decor"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Two",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Three tone with chrome accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Ceiling rings & chandeliers": {
         "what": "Round hoops and chandelier-style fixtures suspended overhead.",
@@ -3057,7 +5271,38 @@
           "Lighting Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Black metal with warm bulbs",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Luxury Birthdays",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Umbrella & lantern hangs": {
         "what": "Colourful umbrellas or lanterns suspended upside down overhead.",
@@ -3083,7 +5328,38 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Brights for daytime",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory and gold for evening",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Kids Birthdays",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Floating fabric": {
         "what": "Fabric panels hung at staggered depths so they appear to float.",
@@ -3109,7 +5385,33 @@
           "Lighting Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · soft pastels",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Hanging photo strings": {
         "what": "Strings of photographs hung above the guests.",
@@ -3135,7 +5437,38 @@
           "Custom Signage",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Neutral twine",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold clips",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Milestone Birthdays",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       }
     }
   },
@@ -3204,7 +5537,38 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory linen with gold cutlery",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or a colour-block theme",
+            "c": "#b98a5e",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Dinners",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Cake & gift tables": {
         "what": "The tables where the cake is cut and gifts are stacked.",
@@ -3230,7 +5594,33 @@
           "Backdrop / Photo Booth",
           "Premium Finishes"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Matched to the backdrop and cake",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Low floor seating": {
         "what": "Casual sofa-and-cushion seating at floor level.",
@@ -3256,7 +5646,38 @@
           "Props & Cutouts",
           "Lighting Decor"
         ],
-        "img": "img/low-seating.jpg"
+        "img": "img/low-seating.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush and gold with textured cushions",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "House Warmings",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/low-seating.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Lounge & sofa corners": {
         "what": "Comfortable corners for guests who want to sit and talk.",
@@ -3282,7 +5703,38 @@
           "Lighting Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Velvet",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Linen in your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Linen, runners & cutlery": {
         "what": "The clothes and tools of the table — fabric, runners and metal.",
@@ -3308,7 +5760,33 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "One palette across all tables",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Bar & buffet styling": {
         "what": "The service counters, dressed so they read as part of the decor.",
@@ -3334,7 +5812,33 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Matching your main palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       }
     }
   },
@@ -3403,7 +5907,38 @@
           "Drapes & Fabric",
           "Marry Me / Proposal"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Warm white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush and gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Date Nights",
+            "img": "img/candle-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Restaurant & cafe surprises": {
         "what": "A setup inside a restaurant or cafe, usually without the guest knowing.",
@@ -3429,7 +5964,38 @@
           "Cake Table & Dessert Bar",
           "Custom Signage"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Ivory and candlelight",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Poolside setups": {
         "what": "A setup beside a pool, planned carefully around water.",
@@ -3455,7 +6021,38 @@
           "Floral Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush and floating candle tones",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Pre-Wedding",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Heart & letter styling": {
         "what": "Shapes and single letters made from petals, balloons or props.",
@@ -3481,7 +6078,38 @@
           "Balloon Decor",
           "Lighting Decor"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Rose and white petals",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Or balloon colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Candle & petal paths": {
         "what": "A glowing path that leads the guest to the moment.",
@@ -3507,7 +6135,33 @@
           "Lighting Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Amber glow with rose and white petals",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Custom proposal frames": {
         "what": "A frame or board built with your words or your date on it.",
@@ -3533,7 +6187,43 @@
           "Marry Me / Proposal",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Painted wood",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Reconciliations",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       }
     }
   },
@@ -3602,7 +6292,38 @@
           "Arch / Entrance Gate",
           "Lighting Decor"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "White and marigold for traditional setups",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Grand Entries",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Candle-lit aisles": {
         "what": "An aisle lined with candles on both sides.",
@@ -3628,7 +6349,38 @@
           "Walkway & Aisle Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Amber glow against dark carpet",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lawn",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Lantern & pillar rows": {
         "what": "Standing lanterns or floral pillars marking both sides of the path.",
@@ -3654,7 +6406,38 @@
           "Arch / Entrance Gate",
           "Greenery & Foliage"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Black",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Gold metal with warm bulbs",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Balloon & foliage borders": {
         "what": "Low borders of balloons and greenery edging the walkway.",
@@ -3680,7 +6463,33 @@
           "Greenery & Foliage",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Balloon tones matched to the foliage",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Entrance corridors": {
         "what": "The walk from the gate to the hall, decorated so the arrival feels grand.",
@@ -3706,7 +6515,33 @@
           "Lighting Decor",
           "Custom Signage"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Repeating your entry palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/walkway-aisle.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Red-carpet entries": {
         "what": "A carpet entry with rope, florals and spotlights.",
@@ -3732,7 +6567,38 @@
           "Stage & Front Truss",
           "Custom Signage"
         ],
-        "img": "img/red-carpet-entry.jpg"
+        "img": "img/red-carpet-entry.jpg",
+        "palette": [
+          {
+            "t": "Deep red with gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Or ivory for a modern look",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Grand Openings",
+            "img": "img/red-carpet-entry.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/red-carpet-entry.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       }
     }
   },
@@ -3801,7 +6667,43 @@
           "Lighting Decor",
           "Floral Decor"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Mirror acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Dessert & sweets display": {
         "what": "A staged display of desserts, sweets and jars in varying heights.",
@@ -3827,7 +6729,33 @@
           "Sweet Cart & Candy Bar",
           "Premium Finishes"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Ivory and gold vessels with your palette",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Cupcake & macaron towers": {
         "what": "Standing towers of cupcakes or macarons as a centrepiece.",
@@ -3853,7 +6781,33 @@
           "Sweet Cart & Candy Bar",
           "Premium Finishes"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Icing colours matched to your palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Live counter styling": {
         "what": "Live counters for desserts, drinks or ice cream, dressed as part of the decor.",
@@ -3879,7 +6833,33 @@
           "Custom Signage",
           "Lighting Decor"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Matched to the main palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Candy & chocolate bars": {
         "what": "A bar of candy jars, chocolates and toppings.",
@@ -3905,7 +6885,33 @@
           "Kids Zone & Character Fun",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Clear jars so the colours do the talking",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Cake table backdrop": {
         "what": "A small backdrop behind the cake so the cut has a frame behind it.",
@@ -3931,7 +6937,33 @@
           "Floral Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Matching the main setup",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       }
     }
   },
@@ -4000,7 +7032,38 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Silver-white sparkle",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold-tinted units on request",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Entrance gate pyro": {
         "what": "Two sparkler fountains standing at the entrance gate that fire as the couple walks in.",
@@ -4026,7 +7089,38 @@
           "Walkway & Aisle Decor",
           "Live Entertainment"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Warm gold sparkle",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Matches most gates",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baraat Welcome",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Reception Entry",
+            "img": "img/red-carpet-entry.jpg"
+          },
+          {
+            "t": "Bride Entry",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Cake moment sparklers": {
         "what": "Small handheld-style sparklers that light up the cake cutting photo.",
@@ -4052,7 +7146,38 @@
           "Lighting Decor",
           "Custom Signage"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold sparkle",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Couple dance pyro": {
         "what": "Sparkler fountains that rise on both sides of the couple during their first dance or ring exchange.",
@@ -4078,7 +7203,33 @@
           "Stage & Front Truss",
           "Lighting Decor"
         ],
-        "img": "img/cold-pyro.jpg"
+        "img": "img/cold-pyro.jpg",
+        "palette": [
+          {
+            "t": "Silver-white sparkle on a dark floor",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Ring Exchange",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Pillar & podium pyro": {
         "what": "Sparkler units hidden inside mandap pillars or beside the podium, firing upward along the structure.",
@@ -4104,7 +7255,33 @@
           "Floral Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Gold-tinted sparkle against florals",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Fountain & fan walls": {
         "what": "A row of sparkler units set in a line to make a wall or fan of sparkle behind the stage or couple.",
@@ -4130,7 +7307,43 @@
           "Lighting Decor",
           "Premium Finishes"
         ],
-        "img": "img/cold-pyro.jpg"
+        "img": "img/cold-pyro.jpg",
+        "palette": [
+          {
+            "t": "Silver-white",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Or mixed",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Grand Finales",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       }
     }
   },
@@ -4199,7 +7412,38 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/fog-bubbles.jpg"
+        "img": "img/fog-bubbles.jpg",
+        "palette": [
+          {
+            "t": "White fog",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Catches whatever light colour you use",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "First Dances",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "First dance fog": {
         "what": "A slow fog build-up that starts before the first dance and settles around the couple's feet.",
@@ -4225,7 +7469,38 @@
           "Stage & Front Truss",
           "Live Entertainment"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "White with warm",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blue light",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Bubble machine showers": {
         "what": "Machines that fill the air with floating bubbles over the dance floor or entry.",
@@ -4251,7 +7526,43 @@
           "Walkway & Aisle Decor",
           "Lighting Decor"
         ],
-        "img": "img/fog-bubbles.jpg"
+        "img": "img/fog-bubbles.jpg",
+        "palette": [
+          {
+            "t": "Clear bubbles",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Look best under warm",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold light",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Parties",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Cake Cuttings",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Haze & light beams": {
         "what": "A thin haze that makes every light beam — laser, spot or moving head — visible in the air.",
@@ -4277,7 +7588,38 @@
           "Stage & Front Truss",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Colourless",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Shows the lights' own colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "DJ Nights",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/fog-bubbles.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Dry-ice ring walk": {
         "what": "A shallow bed of dry-ice fog across the ring exchange or vow area, with a clean path through the middle.",
@@ -4303,7 +7645,38 @@
           "Floral Decor",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "White fog over a dark",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Wooden floor",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Entry smoke blasts": {
         "what": "Short vertical bursts of smoke on both sides of the doorway as the guest of honour enters.",
@@ -4329,7 +7702,38 @@
           "Cold Pyro & Fountains",
           "Lighting Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "White smoke",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Best against warm light",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Grand Entries",
+            "img": "img/red-carpet-entry.jpg"
+          },
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       }
     }
   },
@@ -4398,7 +7802,43 @@
           "Stage & Front Truss",
           "Photography moments"
         ],
-        "img": "img/confetti-balloon-drop.jpg"
+        "img": "img/confetti-balloon-drop.jpg",
+        "palette": [
+          {
+            "t": "Gold-white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Multi-colour",
+            "c": "#c86fa8",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Mixed with petals",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Cue-timed confetti drops": {
         "what": "Confetti released from the ceiling exactly on a chosen line of the song or the moment of a photo.",
@@ -4424,7 +7864,43 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/confetti-balloon-drop.jpg"
+        "img": "img/confetti-balloon-drop.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "The couple's theme colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Award Nights",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Balloon drop nets": {
         "what": "A net full of balloons opened above the crowd, so balloons fall like rain.",
@@ -4450,7 +7926,43 @@
           "Ceiling & Hanging Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Usually two",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Three together",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "New Year",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Ceiling balloon cascades": {
         "what": "Balloons released from the ceiling in a slow cascade rather than a heavy drop.",
@@ -4476,7 +7988,38 @@
           "Balloon Decor",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Two",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Three shades of the theme",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Family Events",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Confetti & petal mix": {
         "what": "Confetti mixed with real or dried flower petals for a softer, more premium fall.",
@@ -4502,7 +8045,43 @@
           "Walkway & Aisle Decor",
           "Premium Finishes"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Marigold petals with white confetti",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Slow-fall confetti showers": {
         "what": "Light confetti that hangs in the air and falls slowly, made for photos and videos.",
@@ -4528,7 +8107,43 @@
           "Lighting Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pearl finish",
+            "c": "#efe9e3",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Couple Shoots",
+            "img": "img/halo-corner.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       }
     }
   },
@@ -4597,7 +8212,33 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Backdrop colour is your choice behind the platform",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Slo-mo video clips": {
         "what": "Slow-motion clips of the guests, filmed in one spin and sent straight to their phone.",
@@ -4623,7 +8264,38 @@
           "Live Entertainment",
           "Lighting Decor"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Not colour-led",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lighting is tuned to the room",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Cocktails",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "College Events",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Ring-light selfie corner": {
         "what": "A lit selfie spot with a ring light, a styled wall and a phone holder that anyone can use.",
@@ -4649,7 +8321,38 @@
           "Custom Signage",
           "Lighting Decor"
         ],
-        "img": "img/halo-corner.jpg"
+        "img": "img/halo-corner.jpg",
+        "palette": [
+          {
+            "t": "Warm white light",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Backdrop in your theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/halo-corner.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Instant print photo booth": {
         "what": "A booth where guests get a printed photo in their hands within a minute of posing.",
@@ -4675,7 +8378,33 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Print frame and backdrop to match the theme",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Prop & sign station": {
         "what": "A table of props — hats, glasses, masks, boards and speech bubbles — next to the photo area.",
@@ -4701,7 +8430,33 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Props chosen to match the theme",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "QR photo sharing wall": {
         "what": "A printed or LED wall that shows a QR code guests scan to send their photos to one shared album.",
@@ -4727,7 +8482,33 @@
           "Backdrop / Photo Booth",
           "Reception desks"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Signage to match your decor palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Big Celebrations",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -4796,7 +8577,38 @@
           "Balloon Decor",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Bright primary colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pastels to match the theme",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Family Functions",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Character meet & greet": {
         "what": "A costumed character — cartoon hero, fairy or superhero — who walks in, plays with the children and poses for photos.",
@@ -4822,7 +8634,33 @@
           "Props & Cutouts",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Character costume matched to the theme",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "School Events",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Family Days",
+            "img": "img/low-seating.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Face paint & tattoo corner": {
         "what": "A small table where children get face painting or cartoon tattoos done while they wait.",
@@ -4848,7 +8686,38 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Bright face colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Glitter only on request",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Games & activity host": {
         "what": "A host who runs simple games — passing the parcel, dance freeze, quiz rounds — for children and adults both.",
@@ -4874,7 +8743,38 @@
           "Kids Zone & Character Fun",
           "Sweet Cart & Candy Bar"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Not colour-led",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Props matched to the theme",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Family Functions",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Kids craft & colour table": {
         "what": "A table with colouring sheets, crayons, clay and sticker crafts that children can pick up any time.",
@@ -4900,7 +8800,33 @@
           "Custom Signage",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Crayons and paper in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Cartoon & movie corner": {
         "what": "A screen with cushions and mats where children can sit and watch cartoons when they are tired.",
@@ -4926,7 +8852,33 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/low-seating.jpg"
+        "img": "img/low-seating.jpg",
+        "palette": [
+          {
+            "t": "Cushions and mats in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Family Functions",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/low-seating.jpg",
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg"
+        ]
       }
     }
   },
@@ -4995,7 +8947,33 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Cart styling in theme colours with floral accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Engagements",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Candy jar wall": {
         "what": "A shelf of glass jars filled with different candies, arranged as a wall behind the cart.",
@@ -5021,7 +8999,38 @@
           "Backdrop / Photo Booth",
           "Custom Signage"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Candy colours on a white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Wooden shelf",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Chocolate fountain bar": {
         "what": "A flowing chocolate fountain with fruit, marshmallows, wafers and sticks to dip.",
@@ -5047,7 +9056,43 @@
           "Tablescape & Lounge",
           "Sweet Cart & Candy Bar"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Milk",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Dark",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "White chocolate",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Cotton candy station": {
         "what": "A live budhiya-ka-baal counter where candy floss is spun fresh and handed over on a stick.",
@@ -5073,7 +9118,43 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Pink",
+            "c": "#e79ab2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Blue",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Yellow, mixed floss",
+            "c": "#e8c547",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Family Functions",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Popcorn & snack bar": {
         "what": "A snack counter with fresh popcorn, nachos, fries and cold drinks in cups.",
@@ -5099,7 +9180,33 @@
           "Tablescape & Lounge",
           "Live Entertainment"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Snack bar styling in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "College Events",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Sweet cones & favours": {
         "what": "Sweet cones, small jars or boxes packed as return gifts for guests.",
@@ -5125,7 +9232,33 @@
           "Custom Signage",
           "Premium Finishes"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Cone wraps and ribbons in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       }
     }
   },
@@ -5194,7 +9327,33 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Stage styling in your decor palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Cocktails",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Dhol & baraat entry": {
         "what": "Dhol players who lead the baraat and build the energy right up to the gate.",
@@ -5220,7 +9379,33 @@
           "Cold Pyro & Fountains",
           "Live Entertainment"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Dhol covers and sashes in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Anchor & emcee": {
         "what": "A host who runs the evening — welcomes guests, calls the moments and keeps the programme moving.",
@@ -5246,7 +9431,33 @@
           "Stage & Front Truss",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Anchor's outfit matched to the event palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Folk & dance performers": {
         "what": "A group performance — Ghoomar, Bhangra, Lavani or a local folk dance — for a fixed slot in the evening.",
@@ -5272,7 +9483,38 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Traditional costumes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Stage light to match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Weddings",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/live-entertainment.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Magic & illusion show": {
         "what": "A close-up or stage magician who performs for guests in a set of twenty to thirty minutes.",
@@ -5298,7 +9540,38 @@
           "Kids Zone & Character Fun",
           "Tablescape & Lounge"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Stage light in warm",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Blue tones",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Kids Parties",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "DJ & sound setup": {
         "what": "A DJ console with proper speakers, mics and lights for the full evening, from entry music to the last dance.",
@@ -5324,7 +9597,33 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "DJ console lighting in your theme",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Receptions",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate Parties",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/live-entertainment.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -5393,7 +9692,43 @@
           "Balloon Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Red-rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Gold themes",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Car & driveway reveals": {
         "what": "A decorated car with balloons, ribbons and a message, parked where the person will see it first.",
@@ -5419,7 +9754,33 @@
           "Custom Signage",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Balloon colours matched to the person's favourite",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Graduations",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Restaurant table surprises": {
         "what": "A booked table styled with balloons, florals, a cake and a message before the couple or family arrives.",
@@ -5445,7 +9806,43 @@
           "Marry Me / Proposal",
           "Floral Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Romantic reds",
+            "c": "#c0392b",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Whites",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Florals in pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Office & workspace surprises": {
         "what": "A desk or cabin decorated for a birthday, farewell or work anniversary, ready before the team walks in.",
@@ -5471,7 +9868,38 @@
           "Balloon Decor",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Company colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "The person's favourite",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate Events",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Farewells",
+            "img": "img/low-seating.jpg"
+          },
+          {
+            "t": "Work Anniversaries",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Terrace & rooftop setups": {
         "what": "A terrace or rooftop styled with lights, balloons and seating for a private celebration.",
@@ -5497,7 +9925,38 @@
           "Marry Me / Proposal",
           "Tablescape & Lounge"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Warm fairy lights with a dark",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pastel palette",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposals",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/surprise-setups.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Cake & gift reveal setups": {
         "what": "A cake and gifts arranged behind a curtain or under a cover, revealed at the chosen moment.",
@@ -5523,7 +9982,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Reveal board and cover in theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthdays",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversaries",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Baby Showers",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       }
     }
   }
@@ -5547,6 +10032,7 @@
   "comes": "What comes with it",
   "pairs": "Pairs beautifully with",
   "pick": "When to pick it",
+  "bestForLabel": "Best for",
   "added": "✓ Added — tap again to remove",
   "close": "Close",
   "wa": "Hello Balloon Creation! I would like to know more about {name}.",
@@ -5616,6 +10102,9 @@
       optNote: document.getElementById('opt-note'),
       optPick: document.getElementById('opt-pick'),
       optPickText: document.getElementById('opt-pick-text'),
+      optTimeImg: document.getElementById('opt-time-img'),
+      optPalette: document.getElementById('opt-palette'),
+      optEx: document.getElementById('opt-ex'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -5660,8 +10149,11 @@
         el.optsHead.textContent = T.opts;
         el.opts.className = 'opt-grid';
         el.opts.innerHTML = keys.map(function (k) {
-          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' + k +
-            '<span class="arw">\u2192</span></button></li>';
+          var im = (opts[k] && opts[k].img) || D[name].photo || '';
+          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' +
+            '<img src="' + im + '" alt="" loading="lazy" />' +
+            '<span class="opt-card-t">' + k +
+            '<span class="arw">\u2192</span></span></button></li>';
         }).join('');
       } else {
         el.optsHead.textContent = T.optsPlain;
@@ -5705,7 +10197,19 @@
       el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
-      el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      el.optTimeImg.src = D[chipName].photo || o.img || '';
+      el.optTimeImg.alt = chipName + ' setup';
+      el.optPalette.innerHTML = (o.palette || []).map(function (p) {
+        return '<span class="mini-chip"><img src="' + p.img + '" alt="" loading="lazy" />' +
+          '<i class="pc-dot" style="background:' + p.c + '"></i>' + p.t + '</span>';
+      }).join('');
+      el.optBest.innerHTML = (o.best || []).map(function (b, i) {
+        var im = ((o.bestPhotos || [])[i] || {}).img || '';
+        return '<span class="mini-chip"><img src="' + im + '" alt="" loading="lazy" />' + b + '</span>';
+      }).join('');
+      el.optEx.innerHTML = (o.ex || []).map(function (g) {
+        return '<img src="' + g + '" alt="" loading="lazy" />';
+      }).join('');
       el.comesHead.textContent = T.comes;
       el.comesHead.style.display = (o.comes || []).length ? 'block' : 'none';
       el.optComes.innerHTML = (o.comes || []).map(function (c) { return '<li>' + c + '</li>'; }).join('');

@@ -128,6 +128,20 @@
       .detail-intro { margin: 0 0 20px; max-width: 640px; font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
       .opt-pick { margin: 0 0 20px; padding: 11px 15px; border-left: 3px solid var(--gold); background: oklch(0.97 0.032 86 / 0.8); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.75; color: var(--muted-foreground); max-width: 640px; }
       .opt-pick b { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+      .detail-facts.rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+      .fact-card { border: 1px solid var(--border); border-radius: 6px; background: oklch(1 0 0 / 0.6); padding: 12px 13px; }
+      .fact-card > b { display: block; margin-bottom: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+      .fact-lead { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.6; }
+      .fact-photo { display: block; width: 100%; height: 78px; margin-top: 10px; border: 1px solid var(--border); border-radius: 4px; object-fit: cover; }
+      .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border: 1px solid var(--border); border-radius: 20px; background: var(--secondary); font-size: 10.5px; line-height: 1.35; }
+      .mini-chip img { display: block; width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+      .mini-chip .pc-dot { display: block; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1px oklch(0 0 0 / 0.14); }
+      #c-opts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      #c-opts .opt-card { flex-direction: column; align-items: stretch; gap: 0; padding: 0 0 10px; overflow: hidden; }
+      #c-opts .opt-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+      #c-opts .opt-card .opt-card-t { display: flex; align-items: center; gap: 8px; padding: 9px 12px 0; }
+      #c-opts .opt-card .arw { margin-left: auto; }
       .detail-h { display: block; margin: 22px 0 11px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose-gold); }
       .detail-rich { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
       .detail-rich.two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -161,6 +175,8 @@
       .cta.on { background: var(--secondary); box-shadow: none; }
       @media (max-width: 860px) {
         .detail-rich, .detail-rich.two { grid-template-columns: 1fr; gap: 16px; }
+        .detail-facts.rich { grid-template-columns: 1fr; }
+        #c-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .opt-grid { grid-template-columns: 1fr; }
       }
       @media (max-width: 760px) {
@@ -520,11 +536,25 @@
               <div class="rich-block"><span class="detail-h">Jaanne wali baat</span><p id="opt-note"></p></div>
             </div>
 
-            <div class="detail-facts">
-              <div class="fact"><b>Setup ka time</b><span id="opt-time"></span></div>
-              <div class="fact"><b>Colour aur palette</b><span id="opt-colours"></span></div>
-              <div class="bestfor" id="opt-best"></div>
+            <div class="detail-facts rich">
+              <div class="fact-card">
+                <b>Setup ka time</b>
+                <span class="fact-lead" id="opt-time"></span>
+                <img class="fact-photo" id="opt-time-img" src="" alt="" loading="lazy" />
+              </div>
+              <div class="fact-card">
+                <b>Colour aur palette</b>
+                <span class="fact-lead" id="opt-colours"></span>
+                <div class="chip-row" id="opt-palette"></div>
+              </div>
+              <div class="fact-card">
+                <b>Kis liye best</b>
+                <div class="chip-row" id="opt-best"></div>
+              </div>
             </div>
+
+            <span class="detail-h">Kuch examples</span>
+            <div class="detail-mini" id="opt-ex"></div>
 
             <span class="detail-h" id="comes-head"></span>
             <ul class="comes" id="opt-comes"></ul>
@@ -617,7 +647,33 @@
           "Backdrop / Photo Booth",
           "Drapes & Fabric"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · sage · chrome gold · pastel mix",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Balloon arch & columns": {
         "what": "Bana-banaya arch ya do pillars, fixed height aur width me.",
@@ -643,7 +699,38 @@
           "Custom Signage",
           "Arch / Entrance Gate"
         ],
-        "img": "img/balloon-arch.jpg"
+        "img": "img/balloon-arch.jpg",
+        "palette": [
+          {
+            "t": "Do",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Teen tone ki palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Grand Opening",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-arch.jpg",
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Jumbo & chrome balloons": {
         "what": "Bade size ke gubbare, mirror jaisi metallic chamak ke saath.",
@@ -669,7 +756,33 @@
           "Premium Finishes",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Chrome gold · silver · rose gold · pearl white",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Engagement",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Luxury Birthday",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Balloon wall & cloud": {
         "what": "Ghana balloon wall ya hawa me tairta cluster.",
@@ -695,7 +808,43 @@
           "Props & Cutouts",
           "Premium Finishes"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Ek tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ombre",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mixed palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/balloon-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Bubble & confetti balloons": {
         "what": "Transparent gubbare — andar confetti, pankh, ya kuch bhi nahi.",
@@ -721,7 +870,43 @@
           "Premium Finishes",
           "Floral Decor"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Transparent gubbare",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Silver, pastel confetti ke saath",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baby Shower",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Bridal Shower",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Number & alphabet balloons": {
         "what": "Bade numbers aur letters — foil se, ya gubbare se banaye hue.",
@@ -747,7 +932,38 @@
           "Balloon wall & cloud",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Foil metallic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Aapki palette me balloon se bane",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Pehla Birthday",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "25vi Anniversary",
+            "img": "img/balloon-decor.jpg"
+          },
+          {
+            "t": "Shop Opening",
+            "img": "img/balloon-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/balloon-decor.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -816,7 +1032,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "White · blush · peach · mausam ke phool",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Rose & orchid arrangements": {
         "what": "Ghani, mehngi arrangements — aapke chune hue phoolon me.",
@@ -842,7 +1084,33 @@
           "Cake Table & Dessert Bar",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory · rose · orchid purple · green",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversary",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Corporate Dinner",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Floral arch & pillars": {
         "what": "Phoolon se bhara arch, ya do floral pillars.",
@@ -868,7 +1136,38 @@
           "Walkway & Aisle Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Classic white-green",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Aapki bridal palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Hanging & ceiling florals": {
         "what": "Upar latakte hue phool, sabke raaste se hat ke.",
@@ -894,7 +1193,43 @@
           "Lighting Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Halke white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Table centrepieces": {
         "what": "Nichli arrangements jo baat-cheet rok dein na.",
@@ -920,7 +1255,38 @@
           "Cake Table & Dessert Bar",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Aapke linen",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Crockery se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Corporate Dinner",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Flower & petal walkway": {
         "what": "Petal aur phoolon se saja raasta.",
@@ -946,7 +1312,33 @@
           "Arch / Entrance Gate",
           "Lighting Decor"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Rose · white · traditional ke liye marigold",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Grand Entry",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg"
+        ]
       }
     }
   },
@@ -1015,7 +1407,33 @@
           "Backdrop / Photo Booth",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · blush · champagne",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Satin & velvet panels": {
         "what": "Bhaari fabrics — gehrai aur rich sheen ke saath.",
@@ -1041,7 +1459,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Ivory · burgundy · emerald · navy",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Ceiling & tent draping": {
         "what": "Poori chhat par narm canopy ki tarah kapda.",
@@ -1067,7 +1511,38 @@
           "Ceiling & Hanging Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Ek ivory tone",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Two-tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Haldi aur Mehndi",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Gathered backdrop drapes": {
         "what": "Beech me ikattha kapda — classic curtain feel.",
@@ -1093,7 +1568,38 @@
           "Backdrop / Photo Booth",
           "Floral Decor"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Koi bhi ek tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold tie ke saath",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Table & chair draping": {
         "what": "Linen, runner aur sashes se saji tables.",
@@ -1119,7 +1625,38 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Palette se match karta linen",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Sashes",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg"
+        ]
       },
       "Floating fabric ceiling": {
         "what": "Hawa me latka kapda — har panel ke beech jagah.",
@@ -1145,7 +1682,33 @@
           "Ceiling & Hanging Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · halke pastel",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Mandap",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -1214,7 +1777,38 @@
           "Floral Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Warm white (recommended)",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Cool white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Har mauke",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Warm uplighters": {
         "what": "Farsh par rakhi lights, jo deewar aur drapes par upar ki taraf chalti hain.",
@@ -1240,7 +1834,33 @@
           "Stage & Front Truss",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Amber · warm white · magenta accent",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Chandeliers & pendants": {
         "what": "Latakti light fixtures, jo decor ka hissa ban jaati hain.",
@@ -1266,7 +1886,33 @@
           "Drapes & Fabric",
           "Tablescape & Lounge"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Crystal · gold · black metal",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Luxury Birthday",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Neon-style light pieces": {
         "what": "Chamakte light shapes aur lettering — naam, tareekh, symbols.",
@@ -1292,7 +1938,33 @@
           "Backdrop / Photo Booth",
           "Marry Me / Proposal"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Warm white · gold glow · ice blue",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Pathway & tree lighting": {
         "what": "Lights jo mehmaanon ko raasta dikhati hain.",
@@ -1318,7 +1990,38 @@
           "Arch / Entrance Gate",
           "Greenery & Foliage"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Warm white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Kabhi amber",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Outdoor Event",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Candles & lanterns": {
         "what": "Asli ya safe candles aur lanterns — farsh aur table level par.",
@@ -1344,7 +2047,43 @@
           "Walkway & Aisle Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Amber glow",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Glass",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Brass ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -1413,7 +2152,38 @@
           "Props & Cutouts",
           "Premium Finishes"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Gehra green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Mixed tropical green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Hanging vines & creepers": {
         "what": "Upar se latakti hui hariyaali.",
@@ -1439,7 +2209,38 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Natural green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Sookhe tones",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Palm & monstera styling": {
         "what": "Bade, structured patte — architectural look ke liye.",
@@ -1465,7 +2266,43 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Gehra green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Terracotta accents ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Modern Shaadi",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Mogra & jasmine strands": {
         "what": "Khushbudar phool aur patton ki ladiyan — traditional aur taaza.",
@@ -1491,7 +2328,38 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Taaza white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Green ke saath",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Traditional Shaadi",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Pooja aur Havan",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Potted & planter setups": {
         "what": "Saje hue gamlon me paudhe — decor ki tarah.",
@@ -1517,7 +2385,43 @@
           "Greenery & Foliage",
           "Custom Signage"
         ],
-        "img": "img/greenery-foliage.jpg"
+        "img": "img/greenery-foliage.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Theme colour me wrapped",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "ex": [
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Foliage arches": {
         "what": "Zyada patton se bana arch, thode phoolon ke saath.",
@@ -1543,7 +2447,43 @@
           "Walkway & Aisle Decor",
           "Lighting Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Mausami accent phoolon ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/greenery-foliage.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -1612,7 +2552,33 @@
           "Backdrop / Photo Booth",
           "Balloon Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Theme palette me painted",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Birthday",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Theme Party",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Mirror & sequin panels": {
         "what": "Reflect karne wale panels — har light ko dugna kar dete hain.",
@@ -1638,7 +2604,33 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Silver · gold · rose-gold panels",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Engagement",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Ring & frame props": {
         "what": "Bade rings aur frames — jinke andar mehmaan khade hote hain.",
@@ -1664,7 +2656,43 @@
           "Marry Me / Proposal",
           "Balloon Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Pastel frames",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/props-cutouts.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Kids props & soft shapes": {
         "what": "Bachchon ke liye narm, safe, bade shapes.",
@@ -1690,7 +2718,38 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Theme se match karte bright colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Birthday",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Family Function",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/props-cutouts.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Hanging props & mobiles": {
         "what": "Hawa me latkayi gayi cheezein — decor ki tarah.",
@@ -1716,7 +2775,33 @@
           "Balloon Decor",
           "Lighting Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Aapki palette se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/props-cutouts.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Custom-shaped props": {
         "what": "Aapke apne idea se bani koi bhi cheez.",
@@ -1742,7 +2827,38 @@
           "Custom Signage",
           "Stage & Front Truss"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Jo shade bolein",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Reference se match karke",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Theme Party",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Brand Launch",
+            "img": "img/props-cutouts.jpg"
+          },
+          {
+            "t": "Milestone Birthday",
+            "img": "img/props-cutouts.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/kids-zone.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -1811,7 +2927,33 @@
           "Cake Table & Dessert Bar",
           "Floral Decor"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Ivory pearl · champagne · gold",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Sequin & shimmer panels": {
         "what": "Sequin wala kapda — kisi bhi angle se light pakadta hai.",
@@ -1837,7 +2979,33 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Gold · champagne · silver · blush",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Metallic chrome accents": {
         "what": "Gold, silver aur rose-gold metallic touches — poore setup me.",
@@ -1863,7 +3031,38 @@
           "Premium Finishes",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Gold · silver · rose gold",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Sirf ek metal",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Luxury Birthday",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Mirror & acrylic accents": {
         "what": "Reflect karne wale acrylic shapes aur panels.",
@@ -1889,7 +3088,43 @@
           "Custom Signage",
           "Tablescape & Lounge"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Mirror silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Tinted acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Glitter & confetti detail": {
         "what": "Decor ke andar kaam kiya hua fine sparkle — upar se chhidka hua nahi.",
@@ -1915,7 +3150,33 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Champagne · rose gold · halka silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Ribbon & tassel work": {
         "what": "Satin ribbons aur haath se bandhe tassels.",
@@ -1941,7 +3202,38 @@
           "Tablescape & Lounge",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Aapki palette ka satin",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold thread ke saath",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/balloon-decor.jpg",
+          "img/cake-dessert.jpg"
+        ]
       }
     }
   },
@@ -2010,7 +3302,33 @@
           "Marry Me / Proposal",
           "Lighting Decor"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Warm white · gold glow · ice blue",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/custom-signage.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Acrylic & mirror boards": {
         "what": "Saaf printed ya cut boards, stands ke saath.",
@@ -2036,7 +3354,43 @@
           "Tablescape & Lounge",
           "Premium Finishes"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Clear acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Frosted",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Welcome boards": {
         "what": "Sajaya hua board — aapka welcome message.",
@@ -2062,7 +3416,43 @@
           "Walkway & Aisle Decor",
           "Floral Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Aapki palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush me",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/custom-signage.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Hashtag & quote boards": {
         "what": "Board — aapka hashtag ya pasandeeda line.",
@@ -2088,7 +3478,43 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Black",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ivory, gold lettering ke saath",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Table & menu signage": {
         "what": "Chhote signs — table, menu aur seating ke liye.",
@@ -2114,7 +3540,33 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Tablescape ke linen se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/custom-signage.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Custom text of your choice": {
         "what": "Koi bhi shabd, kisi bhi style me.",
@@ -2140,7 +3592,38 @@
           "Marry Me / Proposal",
           "Surprise Setups"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Koi bhi colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Material",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/custom-signage.jpg"
+          },
+          {
+            "t": "Farewell",
+            "img": "img/custom-signage.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       }
     }
   },
@@ -2209,7 +3692,43 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/round-backdrop.jpg"
+        "img": "img/round-backdrop.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Chrome edge ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/round-backdrop.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Floral + balloon combos": {
         "what": "Phool aur gubbare ek hi composition me — narmi ke saath colour.",
@@ -2235,7 +3754,43 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Sage ·, bold two-tone",
+            "c": "#9caf88",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Sequin & shimmer walls": {
         "what": "Sequin wale kapde ki deewar — kamre ki har light ko pakad leti hai.",
@@ -2261,7 +3816,33 @@
           "Backdrop / Photo Booth",
           "Premium Finishes"
         ],
-        "img": "img/sequin-wall.jpg"
+        "img": "img/sequin-wall.jpg",
+        "palette": [
+          {
+            "t": "Champagne · gold · silver · blush",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/sequin-wall.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Settee & stool styling": {
         "what": "Wo seat jo backdrop ko sirf deewar se poora photo set bana deti hai.",
@@ -2287,7 +3868,43 @@
           "Tablescape & Lounge",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Velvet ka gehra tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Ring-light photo corner": {
         "what": "Chamakta hua ring — jo har phone camera ko barabar aur achhi light deta hai.",
@@ -2313,7 +3930,38 @@
           "Props & Cutouts",
           "Lighting Decor"
         ],
-        "img": "img/halo-corner.jpg"
+        "img": "img/halo-corner.jpg",
+        "palette": [
+          {
+            "t": "Warm white halo",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Neutral background ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/halo-corner.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Selfie & polaroid corners": {
         "what": "Ek corner — turant chhapne wali ya haath me lene wali photos ke liye.",
@@ -2339,7 +3987,33 @@
           "Backdrop / Photo Booth",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Main setup se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/backdrop-photobooth.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "College Event",
+            "img": "img/backdrop-photobooth.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -2408,7 +4082,43 @@
           "Walkway & Aisle Decor",
           "Custom Signage"
         ],
-        "img": "img/balloon-arch.jpg"
+        "img": "img/balloon-arch.jpg",
+        "palette": [
+          {
+            "t": "Do",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Teen tone ki palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Chrome accents",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Grand Opening",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-arch.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Floral arches": {
         "what": "Poora phoolon aur hariyaali se saja hua arch.",
@@ -2434,7 +4144,38 @@
           "Walkway & Aisle Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Classic white-green",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Aapki bridal palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Fabric & drape gates": {
         "what": "Kapde se bana entrance — dhaanche ki jagah draping se.",
@@ -2460,7 +4201,33 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Ivory · blush · champagne · gehra jewel tone",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Balloon + flower columns": {
         "what": "Ek jaise pillars — jinme gubbare aur phool dono hote hain.",
@@ -2486,7 +4253,38 @@
           "Floral Decor",
           "Arch / Entrance Gate"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "Two-tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Matching metal accents ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/arch-entrance.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Welcome gate setups": {
         "what": "Poora gate — dhaancha, signage, phool aur aksar drink ya mithai ki tray.",
@@ -2512,7 +4310,33 @@
           "Floral Decor",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Aapke invitation card ki palette se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Grand Opening",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Pathway entry decor": {
         "what": "Aisi sajawat jo entrance ka theme poore raaste par le chalti hai.",
@@ -2538,7 +4362,33 @@
           "Lighting Decor",
           "Greenery & Foliage"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Entry ki palette repeat",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Grand Opening",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/floral-decor.jpg"
+        ]
       }
     }
   },
@@ -2607,7 +4457,43 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Classic ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Aapki wedding palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Haldi & mehndi pandal": {
         "what": "Raushan, khula aur rangeen setup — din ke haldi aur mehndi function ke liye.",
@@ -2633,7 +4519,33 @@
           "Drapes & Fabric",
           "Tablescape & Lounge"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Marigold · yellow · pink · mirror accents",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Ring ceremony stage": {
         "what": "Chhota, elegant stage — engagement aur ring exchange ke liye.",
@@ -2659,7 +4571,38 @@
           "Floral Decor",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Ek metallic accent ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Draped canopies & roofs": {
         "what": "Upar tana hua kapda — jahan chhat hi nahi thi wahan chhat bana dete hain.",
@@ -2685,7 +4628,38 @@
           "Lighting Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Ek ivory tone",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "White with coloured lining",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg"
+        ]
       },
       "Pillar floral work": {
         "what": "Har mandap pillar par neeche se upar tak phoolon ka kaam.",
@@ -2711,7 +4685,43 @@
           "Mandap & Pandal",
           "Lighting Decor"
         ],
-        "img": "img/floral-decor.jpg"
+        "img": "img/floral-decor.jpg",
+        "palette": [
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Cream",
+            "c": "#f2e6cf",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Green ke saath, din ke liye marigold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/mandap-pandal.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/floral-decor.jpg",
+          "img/mandap-pandal.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Pooja & havan setups": {
         "what": "Rasm ke liye sammaan ke saath saaf setup — pooja, havan ya chowki.",
@@ -2737,7 +4747,43 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Traditional red",
+            "c": "#c0392b",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Yellow",
+            "c": "#e8c547",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Devotional",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Griha Pravesh",
+            "img": "img/arch-entrance.jpg"
+          },
+          {
+            "t": "Satsang aur Chowki",
+            "img": "img/mandap-pandal.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/floral-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       }
     }
   },
@@ -2806,7 +4852,43 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Black frame",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold, gehra tone dressing ke saath",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Stage skirting & steps": {
         "what": "Stage ka base aur steps — aise finish kiye hue ki neeche ka dhaancha dikhe hi na.",
@@ -2832,7 +4914,38 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Drapes se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Venue ke carpet se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Annual Day",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Layered stage backdrop": {
         "what": "Layers me bana backdrop — peeche kapda, aage phool aur props.",
@@ -2858,7 +4971,38 @@
           "Floral Decor",
           "Lighting Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Champagne ke tonal layers",
+            "c": "#e6d3ab",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "LED & light bars": {
         "what": "Patli light bars — jo stage ko outline karti hain aur rang se bhar deti hain.",
@@ -2884,7 +5028,33 @@
           "Stage & Front Truss",
           "Drapes & Fabric"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Amber · magenta · ice blue · pure white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Ramp & entry styling": {
         "what": "Wo raasta jo mehmaan aur couple stage tak lete hain — camera ke liye saja hua.",
@@ -2910,7 +5080,33 @@
           "Stage & Front Truss",
           "Lighting Decor"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Carpet drapes se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Award & function stages": {
         "what": "Aisa stage jo performance, speech, trophy aur photo ke liye plan kiya gaya ho.",
@@ -2936,7 +5132,43 @@
           "Custom Signage",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Institutional elegant",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Navy",
+            "c": "#2b3a5c",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Ivory, gold",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Annual Day",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "College Event",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -3005,7 +5237,43 @@
           "Lighting Decor",
           "Mandap & Pandal"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Halke white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Green",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          },
+          {
+            "t": "Mausami phool",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Hanging balloon clouds": {
         "what": "Gubbon ke clusters — mehmaanon ke sar ke upar tairte hue.",
@@ -3031,7 +5299,43 @@
           "Ceiling & Hanging Decor",
           "Lighting Decor"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Do",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Teen tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Chrome accents ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/ceiling-hanging.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Ceiling rings & chandeliers": {
         "what": "Gol hoops aur chandelier jaise fixtures — upar latke hue.",
@@ -3057,7 +5361,43 @@
           "Lighting Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/ceiling-rings.jpg"
+        "img": "img/ceiling-rings.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Black metal",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Warm bulbs ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Luxury Birthday",
+            "img": "img/ceiling-hanging.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-rings.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Umbrella & lantern hangs": {
         "what": "Rangeen chhatriyan ya lanterns — ulta latkaye hue upar.",
@@ -3083,7 +5423,43 @@
           "Drapes & Fabric",
           "Lighting Decor"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Din ke liye bright",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Shaam ke liye ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Kids Birthday",
+            "img": "img/ceiling-hanging.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Floating fabric": {
         "what": "Kapde ke panels alag-alag gehrai par latke hue — lagta hai jaise tair rahe hain.",
@@ -3109,7 +5485,33 @@
           "Lighting Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/drapes-lighting.jpg"
+        "img": "img/drapes-lighting.jpg",
+        "palette": [
+          {
+            "t": "White · ivory · halke pastel",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/drapes-lighting.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Hanging photo strings": {
         "what": "Photos ki string — mehmaanon ke upar latki hui.",
@@ -3135,7 +5537,38 @@
           "Custom Signage",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Neutral twine",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold clips",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversary",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Milestone Birthday",
+            "img": "img/ceiling-hanging.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/ceiling-hanging.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       }
     }
   },
@@ -3204,7 +5637,38 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Ivory linen gold cutlery ke saath",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Colour-block theme",
+            "c": "#b98a5e",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Corporate Dinner",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Cake & gift tables": {
         "what": "Wo tables jahan cake katta hai aur gifts rakhe jaate hain.",
@@ -3230,7 +5694,38 @@
           "Backdrop / Photo Booth",
           "Premium Finishes"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Backdrop",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Cake se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Low floor seating": {
         "what": "Farsh par aaram wali sofa aur cushion seating.",
@@ -3256,7 +5751,43 @@
           "Props & Cutouts",
           "Lighting Decor"
         ],
-        "img": "img/low-seating.jpg"
+        "img": "img/low-seating.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Gold, textured cushions ke saath",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Haldi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Mehndi",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "House Warming",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/low-seating.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Lounge & sofa corners": {
         "what": "Aaram ke corners — un mehmaanon ke liye jo baith kar baat karna chahte hain.",
@@ -3282,7 +5813,38 @@
           "Lighting Decor",
           "Premium Finishes"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Velvet",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Linen aapki palette me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Linen, runners & cutlery": {
         "what": "Table ke kapde aur saamaan — linen, runners aur metal.",
@@ -3308,7 +5870,33 @@
           "Floral Decor",
           "Premium Finishes"
         ],
-        "img": "img/premium-finishes.jpg"
+        "img": "img/premium-finishes.jpg",
+        "palette": [
+          {
+            "t": "Saari tables par ek palette",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/premium-finishes.jpg",
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Bar & buffet styling": {
         "what": "Service counters — aise sajaye hue ki wo decor ka hissa lagein.",
@@ -3334,7 +5922,33 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Main palette se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/tablescape-lounge.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/tablescape-lounge.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/cake-dessert.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       }
     }
   },
@@ -3403,7 +6017,43 @@
           "Drapes & Fabric",
           "Marry Me / Proposal"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Warm white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Date Night",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Restaurant & cafe surprises": {
         "what": "Restaurant ya cafe ke andar setup — mehmaan ko pata na chale, aisa.",
@@ -3429,7 +6079,43 @@
           "Cake Table & Dessert Bar",
           "Custom Signage"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Candlelight",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Poolside setups": {
         "what": "Pool ke kinare setup — paani ko dhyan me rakh kar plan kiya hua.",
@@ -3455,7 +6141,43 @@
           "Floral Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Floating candle ke tone",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Pre-Wedding",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Heart & letter styling": {
         "what": "Shapes aur ek-do letters — petals, gubbon ya props se bane.",
@@ -3481,7 +6203,43 @@
           "Balloon Decor",
           "Lighting Decor"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "White petals",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Balloon ke rang",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Candle & petal paths": {
         "what": "Chamakta hua raasta — jo mehmaan ko moment tak le jaata hai.",
@@ -3507,7 +6265,43 @@
           "Lighting Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Amber glow",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "White petals ke saath",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       },
       "Custom proposal frames": {
         "what": "Frame ya board — aapke shabdon ya tareekh ke saath.",
@@ -3533,7 +6327,43 @@
           "Marry Me / Proposal",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mirror",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Painted wood",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Reconciliation",
+            "img": "img/marry-me-proposal.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/walkway-aisle.jpg"
+        ]
       }
     }
   },
@@ -3602,7 +6432,43 @@
           "Arch / Entrance Gate",
           "Lighting Decor"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "White",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Traditional ke liye marigold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Grand Entry",
+            "img": "img/walkway-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Candle-lit aisles": {
         "what": "Aisle ke dono taraf candles ki kataar.",
@@ -3628,7 +6494,43 @@
           "Walkway & Aisle Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/candle-aisle.jpg"
+        "img": "img/candle-aisle.jpg",
+        "palette": [
+          {
+            "t": "Amber glow",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gehra carpet",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lawn ke saamne",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/walkway-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/candle-aisle.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Lantern & pillar rows": {
         "what": "Khade lanterns ya floral pillars — raaste ke dono taraf.",
@@ -3654,7 +6556,43 @@
           "Arch / Entrance Gate",
           "Greenery & Foliage"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Black",
+            "c": "#2b2b2b",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Gold metal",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Warm bulbs ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Grand Opening",
+            "img": "img/walkway-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Balloon & foliage borders": {
         "what": "Walkway ke kinare neeche wali borders — gubbare aur hariyaali ki.",
@@ -3680,7 +6618,33 @@
           "Greenery & Foliage",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Balloon ke tone foliage se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/walkway-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       },
       "Entrance corridors": {
         "what": "Gate se hall tak ka raasta — aise saja ki pahunchna grand lage.",
@@ -3706,7 +6670,33 @@
           "Lighting Decor",
           "Custom Signage"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Entry ki palette repeat",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/walkway-aisle.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Red-carpet entries": {
         "what": "Carpet entry — rope, phool aur spotlight ke saath.",
@@ -3732,7 +6722,38 @@
           "Stage & Front Truss",
           "Custom Signage"
         ],
-        "img": "img/red-carpet-entry.jpg"
+        "img": "img/red-carpet-entry.jpg",
+        "palette": [
+          {
+            "t": "Gehra red gold ke saath",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Modern look ke liye ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Grand Opening",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/walkway-aisle.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/walkway-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/red-carpet-entry.jpg",
+          "img/walkway-aisle.jpg",
+          "img/arch-entrance.jpg"
+        ]
       }
     }
   },
@@ -3801,7 +6822,43 @@
           "Lighting Decor",
           "Floral Decor"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Mirror acrylic",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Dessert & sweets display": {
         "what": "Desserts, mithai aur jars ka display — alag-alag unchai par saja hua.",
@@ -3827,7 +6884,43 @@
           "Sweet Cart & Candy Bar",
           "Premium Finishes"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold vessels",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Aapki palette ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Cupcake & macaron towers": {
         "what": "Cupcake ya macaron ke khade towers — centrepiece ki tarah.",
@@ -3853,7 +6946,33 @@
           "Sweet Cart & Candy Bar",
           "Premium Finishes"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Icing ke rang aapki palette se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Live counter styling": {
         "what": "Live counters — dessert, drinks ya ice cream ke, decor ka hissa bane hue.",
@@ -3879,7 +6998,33 @@
           "Custom Signage",
           "Lighting Decor"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Main palette se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Corporate",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Candy & chocolate bars": {
         "what": "Candy jars, chocolates aur toppings ka bar.",
@@ -3905,7 +7050,38 @@
           "Kids Zone & Character Fun",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Saaf jars",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Rang khud bolenge",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       },
       "Cake table backdrop": {
         "what": "Cake ke peeche chhota backdrop — taki cut ke peeche frame ho.",
@@ -3931,7 +7107,33 @@
           "Floral Decor",
           "Drapes & Fabric"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Main setup se match",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/cake-dessert.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/cake-dessert.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/cake-dessert.jpg",
+          "img/premium-finishes.jpg"
+        ]
       }
     }
   },
@@ -4000,7 +7202,38 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Silver-white sparkle",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold unit bhi mil jayegi",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/cold-pyro.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Entrance gate pyro": {
         "what": "Gate ke dono taraf khade sparkler fountain — couple ke andar aate hi fire ho jaate hain.",
@@ -4026,7 +7259,38 @@
           "Walkway & Aisle Decor",
           "Live Entertainment"
         ],
-        "img": "img/fabric-gate.jpg"
+        "img": "img/fabric-gate.jpg",
+        "palette": [
+          {
+            "t": "Warm gold sparkle",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lagbhag har gate par suit karti hai",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baraat Welcome",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Reception Entry",
+            "img": "img/red-carpet-entry.jpg"
+          },
+          {
+            "t": "Bride Entry",
+            "img": "img/arch-entrance.jpg"
+          }
+        ],
+        "ex": [
+          "img/fabric-gate.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Cake moment sparklers": {
         "what": "Chhoti sparkler units jo cake cutting ke photo ko roshan kar deti hain.",
@@ -4052,7 +7316,38 @@
           "Lighting Decor",
           "Custom Signage"
         ],
-        "img": "img/cake-dessert.jpg"
+        "img": "img/cake-dessert.jpg",
+        "palette": [
+          {
+            "t": "Silver",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold sparkle",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/cold-pyro.jpg"
+          }
+        ],
+        "ex": [
+          "img/cake-dessert.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Couple dance pyro": {
         "what": "First dance ya ring exchange ke waqt couple ke dono taraf uthte sparkler fountain.",
@@ -4078,7 +7373,33 @@
           "Stage & Front Truss",
           "Lighting Decor"
         ],
-        "img": "img/cold-pyro.jpg"
+        "img": "img/cold-pyro.jpg",
+        "palette": [
+          {
+            "t": "Gehre floor par silver-white sparkle",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Ring Exchange",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Pillar & podium pyro": {
         "what": "Mandap ke pillars ya podium ke andar chhupi sparkler units — structure ke saath upar ki taraf fire.",
@@ -4104,7 +7425,33 @@
           "Floral Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Phoolon ke saath gold sparkle",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Fountain & fan walls": {
         "what": "Ek line me lagi sparkler units — stage ya couple ke peeche sparkle ki wall ya fan ban jaati hai.",
@@ -4130,7 +7477,43 @@
           "Lighting Decor",
           "Premium Finishes"
         ],
-        "img": "img/cold-pyro.jpg"
+        "img": "img/cold-pyro.jpg",
+        "palette": [
+          {
+            "t": "Silver-white",
+            "c": "#c9ccd1",
+            "img": "img/sequin-wall.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mix",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/cold-pyro.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Grand Finale",
+            "img": "img/cold-pyro.jpg"
+          }
+        ],
+        "ex": [
+          "img/cold-pyro.jpg",
+          "img/stage-truss.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       }
     }
   },
@@ -4199,7 +7582,38 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/fog-bubbles.jpg"
+        "img": "img/fog-bubbles.jpg",
+        "palette": [
+          {
+            "t": "Safed fog",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Jo bhi light colour daalo wahi pakadta hai",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "First dance fog": {
         "what": "Dheere dheere banti fog jo first dance se pehle shuru hoti hai aur couple ke pairon ke aas paas rehti hai.",
@@ -4225,7 +7639,43 @@
           "Stage & Front Truss",
           "Live Entertainment"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Safed",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Warm",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Blue light ke saath",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Bubble machine showers": {
         "what": "Machine jo hawa me bubbles bhar deti hain — dance floor ya entry ke upar.",
@@ -4251,7 +7701,43 @@
           "Walkway & Aisle Decor",
           "Lighting Decor"
         ],
-        "img": "img/fog-bubbles.jpg"
+        "img": "img/fog-bubbles.jpg",
+        "palette": [
+          {
+            "t": "Transparent bubbles",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Warm",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Gold light me best lagti hain",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Kids Party",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Cake Cutting",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Haze & light beams": {
         "what": "Patla sa haze jo har light beam ko hawa me dikhata hai — laser, spot ya moving head.",
@@ -4277,7 +7763,38 @@
           "Stage & Front Truss",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Bina rang",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lights ke apne rang dikhata hai",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "DJ Night",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/fog-bubbles.jpg",
+          "img/drapes-lighting.jpg"
+        ]
       },
       "Dry-ice ring walk": {
         "what": "Ring exchange ya vow wali jagah par halki dry-ice fog ki chadar, beech me saaf raasta.",
@@ -4303,7 +7820,43 @@
           "Floral Decor",
           "Walkway & Aisle Decor"
         ],
-        "img": "img/mandap-pandal.jpg"
+        "img": "img/mandap-pandal.jpg",
+        "palette": [
+          {
+            "t": "Safed fog",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gehre",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lakdi ke farsh par",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Ring Ceremony",
+            "img": "img/candle-aisle.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/mandap-pandal.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       },
       "Entry smoke blasts": {
         "what": "Darwaze ke dono taraf se chhote seedhe smoke ke burst — entry ke waqt.",
@@ -4329,7 +7882,38 @@
           "Cold Pyro & Fountains",
           "Lighting Decor"
         ],
-        "img": "img/arch-entrance.jpg"
+        "img": "img/arch-entrance.jpg",
+        "palette": [
+          {
+            "t": "Safed smoke",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Warm light me best",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Grand Entry",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/fog-bubbles.jpg"
+          }
+        ],
+        "ex": [
+          "img/arch-entrance.jpg",
+          "img/fog-bubbles.jpg",
+          "img/stage-truss.jpg"
+        ]
       }
     }
   },
@@ -4398,7 +7982,43 @@
           "Stage & Front Truss",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/confetti-balloon-drop.jpg"
+        "img": "img/confetti-balloon-drop.jpg",
+        "palette": [
+          {
+            "t": "Gold-white",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Multi-colour",
+            "c": "#c86fa8",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Petals ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Cue-timed confetti drops": {
         "what": "Chhat se confetti theek usi line par girna jab gaana ka wo hissa ya photo ka moment aaye.",
@@ -4424,7 +8044,43 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/confetti-balloon-drop.jpg"
+        "img": "img/confetti-balloon-drop.jpg",
+        "palette": [
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Safed",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Couple ki theme colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "First Dance",
+            "img": "img/fog-bubbles.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Award Night",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Balloon drop nets": {
         "what": "Balloons se bhari jaali jo bheed ke upar khulti hai — balloons baarish jaise girte hain.",
@@ -4450,7 +8106,38 @@
           "Ceiling & Hanging Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/ceiling-hanging.jpg"
+        "img": "img/ceiling-hanging.jpg",
+        "palette": [
+          {
+            "t": "Theme colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Aam taur par do-teen saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "New Year",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/ceiling-hanging.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/balloon-decor.jpg"
+        ]
       },
       "Ceiling balloon cascades": {
         "what": "Chhat se balloons dheere dheere cascade me chhoote hain — bhare drop ki tarah nahi.",
@@ -4476,7 +8163,33 @@
           "Balloon Decor",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/balloon-decor.jpg"
+        "img": "img/balloon-decor.jpg",
+        "palette": [
+          {
+            "t": "Theme ke do-teen shade",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Family Event",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/balloon-decor.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Confetti & petal mix": {
         "what": "Confetti me asli ya sukhe phoolon ki pankhudiyaan mili hui — girna zyada soft aur premium lagta hai.",
@@ -4502,7 +8215,43 @@
           "Walkway & Aisle Decor",
           "Premium Finishes"
         ],
-        "img": "img/walkway-aisle.jpg"
+        "img": "img/walkway-aisle.jpg",
+        "palette": [
+          {
+            "t": "Ivory",
+            "c": "#f6f0e2",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Blush",
+            "c": "#f0c7c2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Marigold petal ke saath safed confetti",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/walkway-aisle.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       },
       "Slow-fall confetti showers": {
         "what": "Halka confetti jo hawa me rukta hai aur dheere girta hai — photo aur video ke liye.",
@@ -4528,7 +8277,43 @@
           "Lighting Decor",
           "Marry Me / Proposal"
         ],
-        "img": "img/backdrop-photobooth.jpg"
+        "img": "img/backdrop-photobooth.jpg",
+        "palette": [
+          {
+            "t": "Safed",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Gold",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pearl finish",
+            "c": "#efe9e3",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Couple Shoot",
+            "img": "img/confetti-balloon-drop.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/confetti-balloon-drop.jpg"
+          }
+        ],
+        "ex": [
+          "img/backdrop-photobooth.jpg",
+          "img/confetti-balloon-drop.jpg",
+          "img/ceiling-hanging.jpg"
+        ]
       }
     }
   },
@@ -4597,7 +8382,33 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Platform ke peeche backdrop ka colour tumhari marzi",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Slo-mo video clips": {
         "what": "Mehmaanon ke slow-motion clips — ek spin me shoot hote hain aur seedha unke phone par pahunch jaate hain.",
@@ -4623,7 +8434,38 @@
           "Live Entertainment",
           "Lighting Decor"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Colour ka khel nahi",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Lighting kamre ke hisaab se set hoti hai",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Cocktail",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "College Event",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Ring-light selfie corner": {
         "what": "Roshan selfie corner — ring light, sajaya hua wall aur phone holder, jise koi bhi use kar sake.",
@@ -4649,7 +8491,38 @@
           "Custom Signage",
           "Lighting Decor"
         ],
-        "img": "img/halo-corner.jpg"
+        "img": "img/halo-corner.jpg",
+        "palette": [
+          {
+            "t": "Warm white light",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Backdrop tumhari theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/halo-corner.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "Instant print photo booth": {
         "what": "Aisa booth jahan pose karne ke ek minute me mehmaan ke haath me chhapi photo hoti hai.",
@@ -4675,7 +8548,38 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/booth-360.jpg"
+        "img": "img/booth-360.jpg",
+        "palette": [
+          {
+            "t": "Print frame",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Backdrop theme ke hisaab se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Prop & sign station": {
         "what": "Photo area ke paas props ki table — topi, chashma, mask, board aur speech bubble.",
@@ -4701,7 +8605,33 @@
           "Props & Cutouts",
           "Custom Signage"
         ],
-        "img": "img/props-cutouts.jpg"
+        "img": "img/props-cutouts.jpg",
+        "palette": [
+          {
+            "t": "Props theme ke hisaab se chunte hain",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       },
       "QR photo sharing wall": {
         "what": "Chhapa hua ya LED wall jispar QR code hota hai — mehmaan scan karke apni photo ek shared album me daal dete hain.",
@@ -4727,7 +8657,33 @@
           "Backdrop / Photo Booth",
           "Reception desks"
         ],
-        "img": "img/custom-signage.jpg"
+        "img": "img/custom-signage.jpg",
+        "palette": [
+          {
+            "t": "Signage tumhare decor ke palette me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/booth-360.jpg"
+          },
+          {
+            "t": "Bada Celebration",
+            "img": "img/booth-360.jpg"
+          }
+        ],
+        "ex": [
+          "img/custom-signage.jpg",
+          "img/booth-360.jpg",
+          "img/backdrop-photobooth.jpg"
+        ]
       }
     }
   },
@@ -4796,7 +8752,43 @@
           "Balloon Decor",
           "Backdrop / Photo Booth"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Bright primary colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Theme ke hisaab se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Family Function",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Character meet & greet": {
         "what": "Costume wala character — cartoon hero, pari ya superhero — jo aata hai, bacchon ke saath khelta hai aur photo ke liye pose karta hai.",
@@ -4822,7 +8814,33 @@
           "Props & Cutouts",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Character ka costume theme ke hisaab se",
+            "c": "#4b7f52",
+            "img": "img/greenery-foliage.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "School Event",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Family Day",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Face paint & tattoo corner": {
         "what": "Chhoti table jahan bacche face paint ya cartoon tattoo karwate hain, aur waiting me maze karte hain.",
@@ -4848,7 +8866,38 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Bright face colours",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Glitter sirf bolne par",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Games & activity host": {
         "what": "Ek host jo simple games karata hai — passing the parcel, dance freeze, quiz round — bacchon aur bade dono ke liye.",
@@ -4874,7 +8923,38 @@
           "Kids Zone & Character Fun",
           "Sweet Cart & Candy Bar"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Colour ka khel nahi",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Props theme ke hisaab se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Family Function",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg"
+        ]
       },
       "Kids craft & colour table": {
         "what": "Table par colouring sheet, crayon, clay aur sticker craft — bacche jab chahein baith jaayein.",
@@ -4900,7 +8980,38 @@
           "Custom Signage",
           "Balloon Decor"
         ],
-        "img": "img/kids-zone.jpg"
+        "img": "img/kids-zone.jpg",
+        "palette": [
+          {
+            "t": "Crayon",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Kaagaz theme colours me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg",
+          "img/booth-360.jpg"
+        ]
       },
       "Cartoon & movie corner": {
         "what": "Screen ke saath cushion aur mat wala corner jahan bacche thak jaane par cartoon dekh kar baith jaate hain.",
@@ -4926,7 +9037,38 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/low-seating.jpg"
+        "img": "img/low-seating.jpg",
+        "palette": [
+          {
+            "t": "Cushion",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Mat theme colours me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/kids-zone.jpg"
+          },
+          {
+            "t": "Family Function",
+            "img": "img/kids-zone.jpg"
+          }
+        ],
+        "ex": [
+          "img/low-seating.jpg",
+          "img/kids-zone.jpg",
+          "img/props-cutouts.jpg"
+        ]
       }
     }
   },
@@ -4995,7 +9137,38 @@
           "Floral Decor",
           "Custom Signage"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Cart ki styling theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Phoolon ke saath",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Engagement",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Candy jar wall": {
         "what": "Glass jars ki shelf, alag alag candy se bhari hui, cart ke peeche wall ki tarah lagi.",
@@ -5021,7 +9194,38 @@
           "Backdrop / Photo Booth",
           "Custom Signage"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Safed",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Lakdi ki shelf par candy ke rang",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Chocolate fountain bar": {
         "what": "Behta hua chocolate fountain — saath me fruit, marshmallow, wafer aur dip karne ki sticks.",
@@ -5047,7 +9251,43 @@
           "Tablescape & Lounge",
           "Sweet Cart & Candy Bar"
         ],
-        "img": "img/dessert-display.jpg"
+        "img": "img/dessert-display.jpg",
+        "palette": [
+          {
+            "t": "Milk",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Dark",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "White chocolate",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/dessert-display.jpg",
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Cotton candy station": {
         "what": "Live budhiya-ka-baal counter jahan taaza candy floss banti hai aur dandi par haath me di jaati hai.",
@@ -5073,7 +9313,43 @@
           "Sweet Cart & Candy Bar",
           "Balloon Decor"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Pink",
+            "c": "#e79ab2",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Blue",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          },
+          {
+            "t": "Yellow, mix floss",
+            "c": "#e8c547",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Family Function",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       },
       "Popcorn & snack bar": {
         "what": "Snack counter — taaza popcorn, nachos, fries aur cup me thandi drinks.",
@@ -5099,7 +9375,33 @@
           "Tablescape & Lounge",
           "Live Entertainment"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Snack bar ki styling theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "College Event",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg"
+        ]
       },
       "Sweet cones & favours": {
         "what": "Sweet cone, chhote jar ya box jo mehmaanon ko return gift ki tarah diye jaate hain.",
@@ -5125,7 +9427,38 @@
           "Custom Signage",
           "Premium Finishes"
         ],
-        "img": "img/sweet-cart.jpg"
+        "img": "img/sweet-cart.jpg",
+        "palette": [
+          {
+            "t": "Cone ka wrap",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Ribbon theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/sweet-cart.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/sweet-cart.jpg"
+          }
+        ],
+        "ex": [
+          "img/sweet-cart.jpg",
+          "img/cake-dessert.jpg",
+          "img/kids-zone.jpg"
+        ]
       }
     }
   },
@@ -5194,7 +9527,33 @@
           "Lighting Decor",
           "Tablescape & Lounge"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Stage ki styling tumhare decor palette me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Cocktail",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Dhol & baraat entry": {
         "what": "Dhol wale jo baraat ko lead karte hain aur gate tak energy banaye rakhte hain.",
@@ -5220,7 +9579,38 @@
           "Cold Pyro & Fountains",
           "Live Entertainment"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Dhol ke cover",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Sash theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Baraat",
+            "img": "img/fabric-gate.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Anchor & emcee": {
         "what": "Host jo poori shaam chalata hai — mehmaan ko welcome, moments announce karna aur programme aage badhate rehna.",
@@ -5246,7 +9636,33 @@
           "Stage & Front Truss",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Anchor ki dress event palette se matching",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Shaadi",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Reception",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Folk & dance performers": {
         "what": "Group performance — Ghoomar, Bhangra, Lavani ya local folk dance — shaam ke fix slot par.",
@@ -5272,7 +9688,38 @@
           "Lighting Decor",
           "Live Entertainment"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "Traditional costume",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Light usi hisaab se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Shaadi",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/live-entertainment.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "Magic & illusion show": {
         "what": "Close-up ya stage magician jo mehmaanon ke liye bees se tees minute ka set karta hai.",
@@ -5298,7 +9745,38 @@
           "Kids Zone & Character Fun",
           "Tablescape & Lounge"
         ],
-        "img": "img/live-entertainment.jpg"
+        "img": "img/live-entertainment.jpg",
+        "palette": [
+          {
+            "t": "Stage light warm",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Blue tone me",
+            "c": "#3b6fa0",
+            "img": "img/drapes-lighting.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Corporate Event",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Kids Party",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/live-entertainment.jpg",
+          "img/stage-truss.jpg",
+          "img/cold-pyro.jpg"
+        ]
       },
       "DJ & sound setup": {
         "what": "DJ console, proper speaker, mic aur lights — poori shaam ke liye, entry music se aakhri dance tak.",
@@ -5324,7 +9802,33 @@
           "Lighting Decor",
           "Stage & Front Truss"
         ],
-        "img": "img/stage-truss.jpg"
+        "img": "img/stage-truss.jpg",
+        "palette": [
+          {
+            "t": "DJ console ki lighting tumhari theme me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Reception",
+            "img": "img/live-entertainment.jpg"
+          },
+          {
+            "t": "Sangeet",
+            "img": "img/stage-truss.jpg"
+          },
+          {
+            "t": "Corporate Party",
+            "img": "img/live-entertainment.jpg"
+          }
+        ],
+        "ex": [
+          "img/stage-truss.jpg",
+          "img/live-entertainment.jpg",
+          "img/cold-pyro.jpg"
+        ]
       }
     }
   },
@@ -5393,7 +9897,43 @@
           "Balloon Decor",
           "Ceiling & Hanging Decor"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Red-rose",
+            "c": "#d98a95",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Pastel",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          },
+          {
+            "t": "Gold theme",
+            "c": "#c9a227",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversary",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Car & driveway reveals": {
         "what": "Sajayi hui gaadi — balloons, ribbon aur ek message — wahan khadi jahan wo pehle dekhega.",
@@ -5419,7 +9959,33 @@
           "Custom Signage",
           "Confetti & Balloon Drop"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Balloon ke rang uske pasand ke hisaab se",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Graduation",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Restaurant table surprises": {
         "what": "Book ki hui table balloons, phool, cake aur message ke saath saji hui — couple ya family ke pahunchne se pehle.",
@@ -5445,7 +10011,43 @@
           "Marry Me / Proposal",
           "Floral Decor"
         ],
-        "img": "img/tablescape-lounge.jpg"
+        "img": "img/tablescape-lounge.jpg",
+        "palette": [
+          {
+            "t": "Romantic red",
+            "c": "#c0392b",
+            "img": "img/marry-me-proposal.jpg"
+          },
+          {
+            "t": "Safed",
+            "c": "#f7f5f1",
+            "img": "img/round-backdrop.jpg"
+          },
+          {
+            "t": "Pastel phool",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Anniversary",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Proposal",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/tablescape-lounge.jpg",
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg"
+        ]
       },
       "Office & workspace surprises": {
         "what": "Office ka desk ya cabin birthday, farewell ya work anniversary ke liye sajaya hua — team ke andar aane se pehle tayyar.",
@@ -5471,7 +10073,38 @@
           "Balloon Decor",
           "Cake Table & Dessert Bar"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Company ke colour",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Uski pasand",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Corporate Event",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Farewell",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Work Anniversary",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Terrace & rooftop setups": {
         "what": "Terrace ya rooftop lights, balloons aur seating ke saath sajaya hua — private celebration ke liye.",
@@ -5497,7 +10130,38 @@
           "Marry Me / Proposal",
           "Tablescape & Lounge"
         ],
-        "img": "img/marry-me-proposal.jpg"
+        "img": "img/marry-me-proposal.jpg",
+        "palette": [
+          {
+            "t": "Warm fairy lights ke saath dark",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Pastel palette",
+            "c": "#e8cfd8",
+            "img": "img/floral-decor.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Proposal",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Birthday",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/marry-me-proposal.jpg",
+          "img/surprise-setups.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       },
       "Cake & gift reveal setups": {
         "what": "Cake aur gifts curtain ke peeche ya cover ke niche — chune huye moment par reveal.",
@@ -5523,7 +10187,38 @@
           "Premium Finishes",
           "Lighting Decor"
         ],
-        "img": "img/surprise-setups.jpg"
+        "img": "img/surprise-setups.jpg",
+        "palette": [
+          {
+            "t": "Reveal board",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          },
+          {
+            "t": "Cover theme colour me",
+            "c": "#cbb79a",
+            "img": "img/premium-finishes.jpg"
+          }
+        ],
+        "bestPhotos": [
+          {
+            "t": "Birthday",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Anniversary",
+            "img": "img/surprise-setups.jpg"
+          },
+          {
+            "t": "Baby Shower",
+            "img": "img/surprise-setups.jpg"
+          }
+        ],
+        "ex": [
+          "img/surprise-setups.jpg",
+          "img/marry-me-proposal.jpg",
+          "img/tablescape-lounge.jpg"
+        ]
       }
     }
   }
@@ -5547,6 +10242,7 @@
   "comes": "Saath me kya milta hai",
   "pairs": "Inke saath best lagta hai",
   "pick": "Kab pick karein",
+  "bestForLabel": "Kis liye best",
   "added": "✓ Jod diya — hataane ke liye phir dabao",
   "close": "Band karo",
   "wa": "Hello Balloon Creation! Mujhe {name} ke baare me aur jaankari chahiye.",
@@ -5616,6 +10312,9 @@
       optNote: document.getElementById('opt-note'),
       optPick: document.getElementById('opt-pick'),
       optPickText: document.getElementById('opt-pick-text'),
+      optTimeImg: document.getElementById('opt-time-img'),
+      optPalette: document.getElementById('opt-palette'),
+      optEx: document.getElementById('opt-ex'),
       optTime: document.getElementById('opt-time'),
       optColours: document.getElementById('opt-colours'),
       optBest: document.getElementById('opt-best'),
@@ -5660,8 +10359,11 @@
         el.optsHead.textContent = T.opts;
         el.opts.className = 'opt-grid';
         el.opts.innerHTML = keys.map(function (k) {
-          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' + k +
-            '<span class="arw">\u2192</span></button></li>';
+          var im = (opts[k] && opts[k].img) || D[name].photo || '';
+          return '<li><button class="opt-card" type="button" data-opt="' + k + '">' +
+            '<img src="' + im + '" alt="" loading="lazy" />' +
+            '<span class="opt-card-t">' + k +
+            '<span class="arw">\u2192</span></span></button></li>';
         }).join('');
       } else {
         el.optsHead.textContent = T.optsPlain;
@@ -5705,7 +10407,19 @@
       el.optPick.style.display = o.pick ? 'block' : 'none';
       el.optTime.textContent = o.time || '';
       el.optColours.textContent = o.colours || '';
-      el.optBest.innerHTML = (o.best || []).map(function (b) { return '<i>' + b + '</i>'; }).join('');
+      el.optTimeImg.src = D[chipName].photo || o.img || '';
+      el.optTimeImg.alt = chipName + ' setup';
+      el.optPalette.innerHTML = (o.palette || []).map(function (p) {
+        return '<span class="mini-chip"><img src="' + p.img + '" alt="" loading="lazy" />' +
+          '<i class="pc-dot" style="background:' + p.c + '"></i>' + p.t + '</span>';
+      }).join('');
+      el.optBest.innerHTML = (o.best || []).map(function (b, i) {
+        var im = ((o.bestPhotos || [])[i] || {}).img || '';
+        return '<span class="mini-chip"><img src="' + im + '" alt="" loading="lazy" />' + b + '</span>';
+      }).join('');
+      el.optEx.innerHTML = (o.ex || []).map(function (g) {
+        return '<img src="' + g + '" alt="" loading="lazy" />';
+      }).join('');
       el.comesHead.textContent = T.comes;
       el.comesHead.style.display = (o.comes || []).length ? 'block' : 'none';
       el.optComes.innerHTML = (o.comes || []).map(function (c) { return '<li>' + c + '</li>'; }).join('');
