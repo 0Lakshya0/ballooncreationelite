@@ -13,9 +13,22 @@ import json
 import pathlib
 import re
 
-from _d1_chips import CHIPS
+from _d1_chips import CHIPS as _CHIPS1
+
+try:
+    from _d1b_chips2 import CHIPS2 as _CHIPS2
+except ImportError:
+    _CHIPS2 = {}
+
+CHIPS = dict(_CHIPS1)
+CHIPS.update(_CHIPS2)
 _DEEP = {}
-for _mod, _attr in (("_d3a_deep", "OPTS_A"), ("_d3b_deep", "OPTS_B")):
+for _mod, _attr in (
+    ("_d3a_deep", "OPTS_A"),
+    ("_d3b_deep", "OPTS_B"),
+    ("_d3c_deep", "OPTS_C"),
+    ("_d3d_deep", "OPTS_D"),
+):
     try:
         _m = __import__(_mod)
         _part = getattr(_m, _attr)
@@ -28,9 +41,13 @@ from _d2_opts import OPTS_G1 as _SHALLOW
 
 # deep copy wins field by field, so a partial deep file still works
 OPTS_G1 = {}
-for _chip in set(_SHALLOW) | set(_DEEP):
+_chip_order = list(_SHALLOW) + [c for c in _DEEP if c not in _SHALLOW]
+for _chip in _chip_order:
     merged = {}
-    for _opt in set(_SHALLOW.get(_chip, {})) | set(_DEEP.get(_chip, {})):
+    _opt_order = list(_SHALLOW.get(_chip, {})) + [
+        o for o in _DEEP.get(_chip, {}) if o not in _SHALLOW.get(_chip, {})
+    ]
+    for _opt in _opt_order:
         entry = dict(_SHALLOW.get(_chip, {}).get(_opt, {}))
         for _lang, _fields in _DEEP.get(_chip, {}).get(_opt, {}).items():
             entry.setdefault(_lang, {}).update(_fields)
@@ -316,7 +333,7 @@ SCRIPT = """<script>
       viewChip.hidden = true;
       viewOpt.hidden = false;
       sheet.querySelector('.detail-card').scrollTop = 0;
-      el.optImg.src = D[chipName].photo;
+      el.optImg.src = o.img || D[chipName].photo;
       el.optImg.alt = chipName + ' — ' + optName;
       el.optBack.textContent = T.back.replace('{name}', chipName);
       el.optKicker.textContent = chipName;
@@ -459,6 +476,12 @@ LABELS = {
 }
 
 
+try:
+    from _d4_photos import OPTION_PHOTOS
+except ImportError:
+    OPTION_PHOTOS = {}
+
+
 def build_data(lang: str, old: dict) -> dict:
     """Merge the new rich copy into the existing per-chip data."""
     out = {}
@@ -472,10 +495,17 @@ def build_data(lang: str, old: dict) -> dict:
             )
         opts = OPTS_G1.get(name, {})
         if opts:
-            entry["options"] = {k: v[lang] for k, v in opts.items()}
-            entry["includes"] = list(opts.keys())
+            # canonical order, straight from the copy files
+            order = list(opts)
+            entry["options"] = {k: opts[k][lang] for k in order}
+            entry["includes"] = order
         else:
             entry["options"] = {}
+        # each option shows its own image where we have one, else the chip photo
+        for opt_name, opt in entry["options"].items():
+            photo = (OPTION_PHOTOS.get(name) or {}).get(opt_name)
+            if photo:
+                opt["img"] = "img/" + photo
         out[name] = entry
     return out
 
@@ -486,10 +516,11 @@ def patch(path: pathlib.Path, lang: str) -> None:
     labels = LABELS[lang]
 
     # 1. styles: swap the whole detail-sheet block
-    start = "      /* ---------- detail sheet (chip click) ---------- */"
     end = "      /* ---------- OPTION B : tabs ---------- */"
-    assert start in text and end in text, "css anchors missing"
-    text = text[: text.index(start)] + CSS + text[text.index(end) :]
+    assert end in text, "css end anchor missing"
+    m = re.search(r"\n\s*/\* -+ detail sheet[^*]*\*/", text)
+    assert m, "css start anchor missing"
+    text = text[: m.start() + 1] + CSS + text[text.index(end) :]
 
     # 2. markup: swap the sheet
     m_start = "    <!-- detail sheet"
