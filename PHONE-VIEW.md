@@ -69,7 +69,7 @@ Run preview from repository root:
 - Dynamic English link **https://clck.ru/3WW92c** also receives the update, subject to branch/raw-page cache.
 - LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are untouched by this revision.
 
-## Visible fades + refined finish — current English snapshot
+## Visible fades + refined finish — earlier English snapshot
 
 - Fresh phone link: **https://clck.ru/3WWdUz**
 - Pins commit `a92bb260b891dd01adffc22214c3994bc3be75bc`.
@@ -78,3 +78,11 @@ Run preview from repository root:
 - Earlier snapshot links (`3WWb2Z`, `3WWbuf`) do not update. The dynamic English link `3WW92c` also receives this build, subject to caches.
 - Keep **Motion on** to view playback; device reduced-motion settings are respected.
 - LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are unchanged.
+
+## Clearer chapter photos — current English snapshot
+
+- Fresh phone link: **https://clck.ru/3WWxXK**
+- Pins commit `e1ed2120b69194c299c240ac98bd577beebb1785`.
+- Only the three mobile 08/09/08 decor header photos change: opacity 44% → 78%. Approved design, 3D flow, colour/button animations and layout remain unchanged.
+- Earlier snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
+- LIVE PREVIEW: **Decor Types — English final · 8090**.
