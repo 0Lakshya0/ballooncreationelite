@@ -431,10 +431,16 @@ body{background:#fcfaf5}
 .section-scope{position:relative;isolation:isolate;overflow:hidden}
 .section-atmosphere{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;border-radius:inherit;contain:strict}
 .section-tone{position:absolute;inset:0;display:block;pointer-events:none;opacity:.3;animation:section-tone-breathe 18s ease-in-out infinite alternate}
-/* 01: opening — broad champagne colour crossfade, only inside the hero. */
+/* Clearly separated colour endpoints: no transparent near-ivory-on-ivory wash. */
+/* 01: cream → champagne → rose-gold → cream, ten-second loop. */
 .scene-hero{background:#fbf5e8}
-.scene-hero .tone-one{background:radial-gradient(ellipse at 82% 30%,#e7c78799,transparent 75%),linear-gradient(120deg,#fffaf0,#f5e5bf);animation:hero-champagne-fade 20s ease-in-out infinite}
-.scene-hero .tone-two{background:linear-gradient(130deg,#fffdf600,#edcfb188);animation:hero-pearl-fade 20s ease-in-out infinite}
+.scene-hero .tone-one{background:linear-gradient(120deg,#f1d394,#e5bf79 68%,#f4dca8);animation:hero-champagne-fade 10s ease-in-out infinite}
+.scene-hero .tone-two{background:linear-gradient(125deg,#f5d6bc,#e9bfa9 72%,#f5debd);animation:hero-pearl-fade 10s ease-in-out infinite}
+/* Keep small copy readable at the deeper gold/rose endpoints. */
+.scene-hero .hero-copy>p,.scene-elements .chapter-head p,.scene-structures .chapter-head p{color:#604b35}
+.scene-hero .atelier-kicker,.scene-hero .hero-footnote,.scene-hero .hero-caption,.scene-hero .hero-index>span{color:#70512b}
+.scene-elements .chapter-heading>span,.scene-structures .chapter-heading>span{color:#70512b}
+.scene-inspiration .inspiration-head>p{color:#644e40}
 /* Collections receive generous frames, rather than one continuous page tint. */
 .groups{gap:32px}
 .group.section-scope{padding:28px;border:1px solid #e6d8c5;border-radius:14px;box-shadow:0 8px 32px #79623e06}
@@ -447,30 +453,30 @@ body{background:#fcfaf5}
 .chip:hover{background:#fffefa}
 /* 02: the elements — pearlescent ivory breathing behind the material cards. */
 .scene-elements{background:#f8f6ed}
-.scene-elements .tone-one{background:radial-gradient(ellipse at 12% 24%,#e6d8b2a3,transparent 62%);animation:elements-pearl-light 14s ease-in-out infinite alternate;animation-delay:-3s}
-.scene-elements .tone-two{background:linear-gradient(115deg,#fffefbd9,transparent 68%);animation:elements-pearl-light 21s ease-in-out infinite alternate-reverse;animation-delay:-8s}
+.scene-elements .tone-one{background:linear-gradient(120deg,#ecd19a,#f4e3bc 65%,#e9c988);animation:elements-pearl-light 4.5s ease-in-out infinite alternate}
+.scene-elements .tone-two{background:linear-gradient(115deg,#fffaf0,transparent 68%);animation:section-tone-breathe 6s ease-in-out infinite alternate-reverse}
 .scene-elements .chapter-image::after{background:linear-gradient(90deg,#f8f6ed,transparent 42%)}
 /* 03: the settings — a warm blush/champagne crossfade, independent of the hero. */
 .scene-structures{background:#f7ebe1}
-.scene-structures .tone-one{background:linear-gradient(115deg,#efd0bb99,#fff3dc55);animation:settings-blush-fade 17s ease-in-out infinite alternate;animation-delay:-6s}
-.scene-structures .tone-two{background:radial-gradient(ellipse at 80% 12%,#efce8b99,transparent 74%);animation:settings-blush-fade 23s ease-in-out infinite alternate-reverse;animation-delay:-11s}
+.scene-structures .tone-one{background:linear-gradient(115deg,#e3b39c,#efd0b4 65%,#dfb392);animation:settings-blush-fade 5.5s ease-in-out infinite alternate}
+.scene-structures .tone-two{background:linear-gradient(140deg,#ebc77e,transparent 80%);animation:section-tone-breathe 7s ease-in-out infinite alternate}
 .scene-structures .chapter-image::after{background:linear-gradient(90deg,#f7ebe1,transparent 42%)}
 /* 04: the magic — a candlelit bronze/chocolate contrast within the same gold palette. */
 .scene-experiences{background:#42372b;border-color:#65503a!important;box-shadow:0 16px 40px #49331e12!important}
-.scene-experiences .tone-one{background:radial-gradient(ellipse at 92% 12%,#b88b4d80,transparent 72%);animation:magic-candlelight 10s ease-in-out infinite alternate;animation-delay:-2s}
-.scene-experiences .tone-two{background:radial-gradient(ellipse at 2% 96%,#c19a5659,transparent 66%);animation:magic-candlelight 15s ease-in-out infinite alternate-reverse;animation-delay:-7s}
+.scene-experiences .tone-one{background:linear-gradient(120deg,#705136,#765536 60%,#4d3828);animation:magic-candlelight 5s ease-in-out infinite alternate}
+.scene-experiences .tone-two{background:linear-gradient(135deg,#c99f5e55,transparent 75%);animation:section-tone-breathe 6.5s ease-in-out infinite alternate-reverse}
 .scene-experiences .chapter-head{border-color:#b9955a50!important}
 .scene-experiences .chapter-heading>span,.scene-experiences .chapter-no{color:#d8b982}
 .scene-experiences .chapter-head h3{color:#fff7e7}
 .scene-experiences .chapter-head h3 em{color:#e5c59a}
-.scene-experiences .chapter-head p{color:#e0d2bc}
+.scene-experiences .chapter-head p{color:#fff4df}
 .scene-experiences .chapter-image::after{background:linear-gradient(90deg,#42372b,transparent 48%)}
 .scene-experiences .chip{background:#fffaf0f5;border-color:#ebd8b6}
 .scene-experiences .chip:hover{background:#fffdf7;border-color:#d7b56f}
 /* 05: inspiration — a softer rose-gold atmosphere framing the photography. */
 .inspiration-section.scene-inspiration{margin-top:76px;padding:44px 34px 34px;border-radius:16px;border:1px solid #e8d8c9;background:#fbf1e7}
-.scene-inspiration .tone-one{background:radial-gradient(ellipse at 90% 20%,#dfb4a16b,transparent 70%);animation:inspiration-rose-fade 22s ease-in-out infinite alternate;animation-delay:-9s}
-.scene-inspiration .tone-two{background:linear-gradient(135deg,#fff9e9aa,transparent 72%);animation:inspiration-rose-fade 27s ease-in-out infinite alternate-reverse;animation-delay:-15s}
+.scene-inspiration .tone-one{background:linear-gradient(130deg,#e4b5a2,#f0d1bb 64%,#e7bda6);animation:inspiration-rose-fade 6s ease-in-out infinite alternate}
+.scene-inspiration .tone-two{background:linear-gradient(135deg,#fff7dd,transparent 72%);animation:section-tone-breathe 8s ease-in-out infinite alternate-reverse}
 .scene-inspiration .inspiration-head{margin-bottom:34px}
 .scene-inspiration .mood-card{box-shadow:0 12px 30px #5a372215}
 .atelier-process{margin-top:58px;padding-block:34px}
@@ -487,16 +493,16 @@ html[data-motion="on"] .chip.motion-reveal.is-visible:hover{transform:translate3
 html:not([data-motion="on"]) .section-tone,html[data-motion-suspended] .section-tone,.section-scope:not([data-inview="true"]) .section-tone{animation-play-state:paused!important}
 html[data-motion="off"] .motion-reveal{opacity:1;transform:none;transition:none}
 html:not([data-motion]) .motion-toggle{display:none}
-@keyframes section-tone-breathe{from{opacity:.2}to{opacity:.8}}
-@keyframes hero-champagne-fade{0%,100%{opacity:.12}42%{opacity:.95}75%{opacity:.3}}
-@keyframes hero-pearl-fade{0%,25%,100%{opacity:.05}70%{opacity:.65}}
-@keyframes elements-pearl-light{from{opacity:.18}to{opacity:.88}}
-@keyframes settings-blush-fade{from{opacity:.15}to{opacity:.85}}
-@keyframes magic-candlelight{from{opacity:.25}to{opacity:.9}}
-@keyframes inspiration-rose-fade{from{opacity:.15}to{opacity:.85}}
+@keyframes section-tone-breathe{from{opacity:0}to{opacity:.16}}
+@keyframes hero-champagne-fade{0%,70%,100%{opacity:0}35%{opacity:1}}
+@keyframes hero-pearl-fade{0%,35%,100%{opacity:0}70%{opacity:1}}
+@keyframes elements-pearl-light{from{opacity:0}to{opacity:1}}
+@keyframes settings-blush-fade{from{opacity:0}to{opacity:1}}
+@keyframes magic-candlelight{from{opacity:0}to{opacity:1}}
+@keyframes inspiration-rose-fade{from{opacity:0}to{opacity:1}}
 @media(max-width:1100px){.group.section-scope{padding:23px}.group.section-scope .chapter-head h3{font-size:35px}}
 @media(max-width:760px){.group.section-scope{padding:19px;border-radius:12px}.group.section-scope .chapter-heading{padding:14px 6px 24px;max-width:77%}.group.section-scope .chapter-head{min-height:195px}.group.section-scope .chapter-head h3{font-size:32px}.group.section-scope .chapter-image{width:36%}.inspiration-section.scene-inspiration{padding:30px 23px 23px;margin-top:56px}.motion-toggle{font-size:7px;padding:7px 9px;min-height:32px}}
-@media(max-width:520px){.group.section-scope{padding:15px}.group.section-scope .chapter-heading{max-width:90%;padding:10px 2px 22px}.group.section-scope .chapter-heading>span{font-size:6px;letter-spacing:.08em}.group.section-scope .chapter-head h3{font-size:32px;max-width:235px}.group.section-scope .chapter-head p{max-width:220px}.group.section-scope .chapter-image{opacity:.44;width:43%;border-radius:60px 3px 3px 3px}.group.section-scope .chapter-count{font-size:5px;right:1px;bottom:28px}.group.section-scope .chips{gap:9px}.group.section-scope .chip{padding:12px 10px}.inspiration-section.scene-inspiration{padding:28px 17px 18px;border-radius:12px}.scene-inspiration .inspiration-head h2{font-size:42px}.scene-experiences .chapter-head p{color:#e0d2bc}.groups{gap:24px}.scene-inspiration .mood-card{border-radius:130px 130px 4px 4px}}
+@media(max-width:520px){.group.section-scope{padding:15px}.group.section-scope .chapter-heading{max-width:90%;padding:10px 2px 22px}.group.section-scope .chapter-heading>span{font-size:6px;letter-spacing:.08em}.group.section-scope .chapter-head h3{font-size:32px;max-width:235px}.group.section-scope .chapter-head p{max-width:220px}.group.section-scope .chapter-image{opacity:.44;width:43%;border-radius:60px 3px 3px 3px}.group.section-scope .chapter-count{font-size:5px;right:1px;bottom:28px}.group.section-scope .chips{gap:9px}.group.section-scope .chip{padding:12px 10px}.inspiration-section.scene-inspiration{padding:28px 17px 18px;border-radius:12px}.scene-inspiration .inspiration-head h2{font-size:42px}.scene-experiences .chapter-head p{color:#fff4df}.groups{gap:24px}.scene-inspiration .mood-card{border-radius:130px 130px 4px 4px}}
 @media(max-width:380px){.hero-copy>.motion-toggle{margin-left:10px}.motion-toggle{gap:4px;padding:7px}.group.section-scope{padding:12px}.group.section-scope .chip{padding:11px 9px}.group.section-scope .chapter-head h3{font-size:30px}}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 

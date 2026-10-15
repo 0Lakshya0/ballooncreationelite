@@ -60,11 +60,11 @@ Font files in `mockups/fonts/` retain their respective SIL Open Font License tex
 
 | Surface | Palette | Treatment |
 | --- | --- | --- |
-| Opening hero | Cream and champagne | 20-second local colour crossfade |
-| The Elements | Pearl ivory | Soft pearlescent breathing light, 14/21-second timings |
-| The Settings | Blush and champagne | Independent warm crossfades, 17/23-second timings |
-| The Magic | Candlelit chocolate and bronze-gold | Slow candlelight colour breathing, 10/15-second timings |
-| Inspiration | Soft rose-gold | Gentle photographic framing wash, 22/27-second timings |
+| Opening hero | Cream and champagne | 10-second cream/gold/rose-gold loop; gold peak at 3.5 seconds |
+| The Elements | Pearl ivory | Soft pearlescent breathing light, 4.5-second alternating fade |
+| The Settings | Blush and champagne | Independent warm crossfades, 5.5-second alternating fade |
+| The Magic | Candlelit chocolate and bronze-gold | Slow candlelight colour breathing, 5-second alternating fade |
+| Inspiration | Soft rose-gold | Gentle photographic framing wash, 6-second alternating fade |
 
 The base page stays a static ivory. Every animated layer is an absolute child of its own isolated, clipped section; there is **no fixed full-page animated layer**. The Magic section uses a dark warm-brown base from the existing brown/gold family for contrast, not an unrelated new theme.
 
@@ -73,3 +73,10 @@ Collection frames have refined padding, borders and image corners; inspiration p
 The Motion on/off control pauses all sections and saves the preference. A **single IntersectionObserver** handles both one-time reveals and visibility-based playback: offscreen sections pause, visible sections play. Hidden tabs pause; reduced-motion users receive static surfaces and visible content. All sections remain readable without JavaScript/IntersectionObserver.
 
 Browser checks covered distinct animation names, section-bound geometry, real opacity changes, offscreen pausing, global pause/resume, reduced-motion, responsive widths 320/390/768/1024/1440 and the detail/enquiry interaction. The HTML regression suite still checks every one of the 25 styles and 150 options.
+
+
+### Stronger, visibly distinct colour endpoints
+
+Primary layers now cover the whole local surface with opaque gradients rather than small, translucent radial tints. Secondary accents are limited to 16% opacity so they do not wash out the primary fade. Endpoints stay within cream/champagne/rose-gold and warm bronze; small-copy contrast is strengthened for the richer phases.
+
+Real Chromium base/peak screenshots at 1440px and 390px were pixel-sampled at exposed section margins. The largest RGB-channel differences were 39–87 levels across the five sections, and natural hero playback reached more than 85% of its gold layer within six seconds. These checks distinguish an actually visible rendered colour change from merely having an animation declaration.

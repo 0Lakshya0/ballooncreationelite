@@ -153,3 +153,17 @@ test('Five independently contained section atmospheres replace the rejected full
   assert(d.querySelector('.hero-copy .motion-toggle'));
  }finally{dom.window.close();}
 });
+
+
+test('Local fades have distinct opaque colour endpoints and shorter visible cycles',()=>{
+ const s=read('_english_motion.py');
+ assert(s.includes('hero-champagne-fade 10s'));
+ assert(s.includes('elements-pearl-light 4.5s'));
+ assert(s.includes('settings-blush-fade 5.5s'));
+ assert(s.includes('magic-candlelight 5s'));
+ assert(s.includes('inspiration-rose-fade 6s'));
+ for(const name of ['hero','elements','structures','experiences','inspiration']){
+  const rule=s.match(new RegExp('\\.scene-'+name+' \\.tone-one\\{([^}]+)\\}'));
+  assert(rule,name);assert(!rule[1].includes('transparent'),name+' primary colour must cover its entire section');
+ }
+});
