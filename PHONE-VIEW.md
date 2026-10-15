@@ -61,10 +61,20 @@ Run preview from repository root:
 - Local LIVE PREVIEW remains **Decor Types — English final · 8090**.
 - Browser WebGL support is needed for the reflected liquid-metal surface. Without it, the warm CSS colour/light animation remains as a graceful fallback.
 
-## Restored shade cycle — current English snapshot
+## Restored shade cycle — earlier English snapshot
 
 - Fresh phone link: **https://clck.ru/3WWbuf**
 - Pins commit `1e2d635b9376a6be4981fb6777fb264b5344a8f2`: approved 3D liquid flow retained, material fades **cream → champagne-gold → rose-gold → cream** with lighter warm shadows.
 - This is an immutable snapshot; the earlier `3WWb2Z` link retains the older bronze-heavy shading.
 - Dynamic English link **https://clck.ru/3WW92c** also receives the update, subject to branch/raw-page cache.
 - LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are untouched by this revision.
+
+## Visible fades + refined finish — current English snapshot
+
+- Fresh phone link: **https://clck.ru/3WWdUz**
+- Pins commit `a92bb260b891dd01adffc22214c3994bc3be75bc`.
+- Native CSS colour fades now composite above the liquid canvas: visible cream → gold → rose → cream, independently timed per section. Hero has a ten-second cycle.
+- Primary liquid folds retained with refined reflections and a small surface ripple. Buttons have travelling shine, hover/tap motion; gaps and planning/signoff surfaces have a warmer coordinated finish.
+- Earlier snapshot links (`3WWb2Z`, `3WWbuf`) do not update. The dynamic English link `3WW92c` also receives this build, subject to caches.
+- Keep **Motion on** to view playback; device reduced-motion settings are respected.
+- LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are unchanged.
