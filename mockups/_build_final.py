@@ -174,12 +174,11 @@ def clean(text: str, lang: str) -> str:
     # 10 — real header + footer + their styles
     text = text.replace("<style>", "<style>\n" + CHROME_CSS, 1)
     header = HEADER.format(
-        sub="Indore &middot; Balloon &amp; Floral Decor",
+        sub="We decorate your happiness",
         wa=WA,
         label=cfg["head_wa"],
     )
     text = text.replace("<body>", "<body>\n" + header, 1)
-    text = text.replace("    <!-- detail sheet", "      <footer class=\"sitefoot\">\n        <div class=\"wrap\">\n          " + (cfg["footer"] % WA) + "\n        </div>\n      </footer>\n\n    <!-- detail sheet", 1)
 
     # 11 — the word "breeze", never "draft"
     text = text.replace("a strong draft near the doors", "a strong breeze near the doors")
@@ -253,6 +252,9 @@ def main() -> int:
     OUT.mkdir(exist_ok=True)
     for lang, cfg in LANGS.items():
         text = clean((ROOT / cfg["src"]).read_text(encoding="utf-8"), lang)
+        if lang == "en":
+            from _english_luxe import enhance
+            text = enhance(text)
         (OUT / cfg["dest"]).write_text(text, encoding="utf-8")
         print(f"  {cfg['dest']}: {len(text) / 1024:.0f} KB (uses the img/ folder)")
 
@@ -267,6 +269,12 @@ def main() -> int:
     # the mockup preview serves mockups/ as its root, so "/" shows the English final page
     (ROOT / "index.html").write_text((OUT / LANGS["en"]["dest"]).read_text(encoding="utf-8"), encoding="utf-8")
     print("  mockups/index.html: preview root = the English final page")
+    # Dedicated English-only preview, separate from the bilingual final page.
+    english_showcase = ROOT / "final-english-showcase"
+    english_showcase.mkdir(exist_ok=True)
+    (english_showcase / "index.html").write_text(
+        (OUT / LANGS["en"]["single"]).read_text(encoding="utf-8"), encoding="utf-8"
+    )
     update_menu()
     return 0
 

@@ -1,0 +1,134 @@
+// Standalone final-page regression checks. Run from the repo root:
+// node --test mockups/tests/english-final.test.cjs
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {JSDOM,VirtualConsole}=require('jsdom');
+const root=path.resolve(__dirname,'..');
+const read=(name)=>fs.readFileSync(path.join(root,name),'utf8');
+function open(name='final/decor-types-final.html',options={}){
+ const errors=[];
+ const console=new VirtualConsole();console.on('jsdomError',e=>errors.push(e.message));
+ const dom=new JSDOM(read(name),{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost:8090/',virtualConsole:console,...options});
+ return {dom,w:dom.window,d:dom.window.document,errors};
+}
+
+test('English page has the new editorial shell, original tagline and no removed footer',()=>{
+ const {dom,d,errors}=open();
+ try{
+  assert.equal(d.querySelectorAll('h1').length,1);
+  assert.match(d.querySelector('h1').textContent,/Some days/);
+  assert.equal(d.querySelector('.brand small').textContent,'We decorate your happiness');
+  assert.equal(d.querySelectorAll('.chapter-head').length,3);
+  assert.equal(d.querySelectorAll('.mood-card').length,3);
+  assert.equal(d.querySelectorAll('footer,.sitefoot,.banner,.note').length,0);
+  assert(!/draft|mockup|preview|placeholder/i.test(d.body.textContent));
+  assert(!d.body.textContent.includes('Tell us your date and venue'));
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
+
+test('All 25 styles and 150 options still open with complete detail and round profile images',()=>{
+ const {dom,d,w,errors}=open();
+ try{
+  const chips=[...d.querySelectorAll('button.chip')];assert.equal(chips.length,25);
+  let options=0;
+  for(const chip of chips){
+   const name=chip.querySelector('.nm').textContent.trim();
+   assert(chip.querySelector('.thumb img'));
+   chip.click();
+   assert.equal(d.querySelector('#detail').hidden,false);
+   assert.equal(d.querySelector('#detail-title').textContent,name);
+   assert(d.querySelector('#c-what').textContent.length>20);
+   const names=Object.keys(w.DECOR_DATA[name].options);
+   for(const optName of names){
+    const button=[...d.querySelectorAll('#c-opts [data-opt]')].find(e=>e.getAttribute('data-opt')===optName);
+    assert(button.querySelector('.opt-thumb img'));
+    button.click();options++;
+    assert.equal(d.querySelector('#view-opt').hidden,false);
+    assert.equal(d.querySelector('#opt-title').textContent,optName);
+    for(const id of ['opt-what','opt-how','opt-where','opt-note','opt-time','opt-colours'])assert(d.getElementById(id).textContent.length>0,`${name}/${optName}: ${id}`);
+    d.querySelector('#opt-back').click();
+    assert.equal(d.querySelector('#view-chip').hidden,false);
+   }
+  }
+  assert.equal(options,150);
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
+
+test('Each inspiration card opens its corresponding original detail sheet',()=>{
+ const {dom,d}=open();
+ try{
+  for(const card of d.querySelectorAll('[data-inspire]')){
+   card.click();assert.equal(d.querySelector('#detail-title').textContent,card.getAttribute('data-inspire'));
+   d.querySelector('.detail-x').click();assert(d.querySelector('#detail').hidden);
+  }
+ }finally{dom.window.close();}
+});
+
+test('Saving options, Escape back navigation, reset and WhatsApp enquiry work',()=>{
+ const {dom,d,w}=open();
+ try{
+  d.querySelector('.chip').click();
+  d.querySelector('#c-opts [data-opt]').click();
+  const option=d.querySelector('#opt-title').textContent;
+  d.querySelector('#opt-add').click();assert(d.querySelector('.picked').textContent.includes(option));
+  let url;w.open=(target)=>{url=target;};d.querySelector('.selbar .cta').click();
+  assert(url.startsWith('https://wa.me/917489863753?text='));assert(decodeURIComponent(url).includes(option));
+  d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert(!d.querySelector('#view-chip').hidden);
+  d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert(d.querySelector('#detail').hidden);
+  d.querySelector('.reset').click();assert(d.querySelector('.picked .empty'));
+ }finally{dom.window.close();}
+});
+
+test('Offline English copy embeds photos/fonts, and internal section links resolve',()=>{
+ const {dom,d,errors}=open('final-english-showcase/index.html');
+ try{
+  for(const image of d.querySelectorAll('.atelier-hero img,.chapter-head img,.mood-card img,.chip img'))assert(image.src.startsWith('data:image/'));
+  d.querySelector('.chip').click();assert(d.querySelector('#detail-img').src.startsWith('data:image/'));
+  for(const link of d.querySelectorAll('a[href^="#"]')){
+   const id=link.getAttribute('href').slice(1);if(id)assert(d.getElementById(id),id);
+  }
+  assert(read('final-english-showcase/index.html').includes('data:font/woff2;base64,'));
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
+
+test('Photo references exist and bilingual final remains on its separate original design',()=>{
+ for(const match of read('final/decor-types-final.html').matchAll(/img\/([a-z0-9-]+\.jpg)/g))assert(fs.existsSync(path.join(root,'img',match[1])),match[1]);
+ const bilingual=read('final-showcase/index.html');
+ assert(bilingual.includes('class="langsw"'));
+ assert(!bilingual.includes('class="atelier-hero"'));
+});
+
+
+test('Motion can be paused and resumed, persists preference, and has a safe observer fallback',()=>{
+ const {dom,d,w,errors}=open();
+ try{
+  assert.equal(d.documentElement.getAttribute('data-motion'),'on');
+  const toggle=d.querySelector('.motion-toggle');assert(toggle);
+  assert.equal(d.querySelector('.atelier-ambient').getAttribute('aria-hidden'),'true');
+  toggle.click();assert.equal(d.documentElement.getAttribute('data-motion'),'off');
+  assert.equal(toggle.getAttribute('aria-pressed'),'true');
+  assert.equal(w.localStorage.getItem('bce-english-motion'),'off');
+  assert([...d.querySelectorAll('.chapter-head,.chip')].every(e=>e.classList.contains('is-visible')));
+  toggle.click();assert.equal(d.documentElement.getAttribute('data-motion'),'on');
+  assert.equal(toggle.getAttribute('aria-pressed'),'false');
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
+
+test('Reduced-motion users receive static, visible content and no enabled motion control',()=>{
+ const {dom,d,errors}=open('final/decor-types-final.html',{beforeParse(w){
+  w.matchMedia=()=>({matches:true,addEventListener(){}});
+ }});
+ try{
+  assert.equal(d.documentElement.getAttribute('data-motion'),'off');
+  assert(d.querySelector('.motion-toggle').disabled);
+  assert.equal(d.querySelector('.motion-toggle span').textContent,'Motion off');
+  assert([...d.querySelectorAll('.chapter-head,.chip')].every(e=>e.classList.contains('is-visible')));
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
