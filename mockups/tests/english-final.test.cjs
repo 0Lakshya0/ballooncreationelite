@@ -109,7 +109,7 @@ test('Motion can be paused and resumed, persists preference, and has a safe obse
  try{
   assert.equal(d.documentElement.getAttribute('data-motion'),'on');
   const toggle=d.querySelector('.motion-toggle');assert(toggle);
-  assert.equal(d.querySelector('.atelier-ambient').getAttribute('aria-hidden'),'true');
+  assert.equal(d.querySelector('.section-atmosphere').getAttribute('aria-hidden'),'true');
   toggle.click();assert.equal(d.documentElement.getAttribute('data-motion'),'off');
   assert.equal(toggle.getAttribute('aria-pressed'),'true');
   assert.equal(w.localStorage.getItem('bce-english-motion'),'off');
@@ -134,15 +134,22 @@ test('Reduced-motion users receive static, visible content and no enabled motion
 });
 
 
-test('Background crossfades only theme colours; rejected ribbons, halos and particles are absent',()=>{
+test('Five independently contained section atmospheres replace the rejected full-page wash',()=>{
  const {dom,d}=open();
  try{
-  assert(d.querySelector('.colour-atmosphere'));
-  assert.equal(d.querySelector('.colour-atmosphere').getAttribute('aria-hidden'),'true');
-  assert.equal(d.querySelectorAll('.colour-layer').length,2);
-  assert(d.querySelector('.colour-champagne'));assert(d.querySelector('.colour-rose'));
-  assert.equal(d.querySelectorAll('.silk-scene,.hero-motion,.hero-spotlight,.ambient-petals,.ambient-light').length,0);
-  assert(!d.querySelector('style').textContent.includes('atelier-photo-pan'));
+  assert.equal(d.querySelectorAll('.section-scope').length,5);
+  assert.equal(d.querySelectorAll('.section-atmosphere').length,5);
+  assert.equal(d.querySelectorAll('.section-tone').length,10);
+  for(const scope of d.querySelectorAll('.section-scope')){
+   assert.equal(scope.querySelector('.section-atmosphere').parentElement,scope);
+   assert.equal(scope.querySelector('.section-atmosphere').getAttribute('aria-hidden'),'true');
+   assert.equal(scope.getAttribute('data-inview'),'true'); // safe no-observer fallback
+  }
+  assert(d.querySelector('#elements.scene-elements'));
+  assert(d.querySelector('#structures.scene-structures'));
+  assert(d.querySelector('#experiences.scene-experiences'));
+  assert(d.querySelector('.inspiration-section.scene-inspiration'));
+  assert.equal(d.querySelectorAll('.atelier-ambient,.colour-atmosphere,.colour-layer,.silk-scene,.hero-motion,.hero-spotlight,.ambient-petals').length,0);
   assert(d.querySelector('.hero-copy .motion-toggle'));
  }finally{dom.window.close();}
 });

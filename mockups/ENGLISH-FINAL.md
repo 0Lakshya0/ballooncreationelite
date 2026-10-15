@@ -54,10 +54,22 @@ Browser checks were also run at desktop and mobile widths using Chromium, with n
 Font files in `mockups/fonts/` retain their respective SIL Open Font License text files.
 
 
-## Theme-colour animation
+## Independent section atmospheres
 
-`_english_motion.py` fades the background through **cream → champagne-gold → soft rose-gold → cream** in a seamless 24-second loop. Two decorative fixed layers animate only opacity. The hero background is transparent so the change is visible there and in the surrounding catalogue area. Text, photos and button colours stay stable and legible.
+`_english_motion.py` contains five independently scoped treatments:
 
-The previous ribbons, travelling glints, orbiting halo, floating petals and continuous photo movements are removed. `_english_cinematic.py` is no longer imported or rendered.
+| Surface | Palette | Treatment |
+| --- | --- | --- |
+| Opening hero | Cream and champagne | 20-second local colour crossfade |
+| The Elements | Pearl ivory | Soft pearlescent breathing light, 14/21-second timings |
+| The Settings | Blush and champagne | Independent warm crossfades, 17/23-second timings |
+| The Magic | Candlelit chocolate and bronze-gold | Slow candlelight colour breathing, 10/15-second timings |
+| Inspiration | Soft rose-gold | Gentle photographic framing wash, 22/27-second timings |
 
-The **Motion on/off** control beside the hero eyebrow pauses the colour fade at its current phase and remembers the preference. Hidden tabs pause automatically; reduced-motion users see a static cream background. One-time scroll reveals remain, with readable fallbacks if JavaScript or IntersectionObserver is unavailable.
+The base page stays a static ivory. Every animated layer is an absolute child of its own isolated, clipped section; there is **no fixed full-page animated layer**. The Magic section uses a dark warm-brown base from the existing brown/gold family for contrast, not an unrelated new theme.
+
+Collection frames have refined padding, borders and image corners; inspiration photography has its own softly framed surface. Text, photos, controls and enquiry content remain stable. Ribbons, particles and moving halos remain removed.
+
+The Motion on/off control pauses all sections and saves the preference. A **single IntersectionObserver** handles both one-time reveals and visibility-based playback: offscreen sections pause, visible sections play. Hidden tabs pause; reduced-motion users receive static surfaces and visible content. All sections remain readable without JavaScript/IntersectionObserver.
+
+Browser checks covered distinct animation names, section-bound geometry, real opacity changes, offscreen pausing, global pause/resume, reduced-motion, responsive widths 320/390/768/1024/1440 and the detail/enquiry interaction. The HTML regression suite still checks every one of the 25 styles and 150 options.

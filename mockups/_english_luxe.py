@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 import base64
 from pathlib import Path
-from _english_motion import AMBIENT, TOGGLE, CSS as MOTION_CSS, SCRIPT as MOTION_SCRIPT
+from _english_motion import AMBIENT, TOGGLE, decorate, CSS as MOTION_CSS, SCRIPT as MOTION_SCRIPT
 
 HERO = '''
     <main id="main-content">
@@ -313,6 +313,7 @@ def enhance(text: str) -> str:
     text = text.replace('</header>', '</header>\n' + HERO, 1)
     text = text.replace('    <!-- detail sheet:', CLOSING + '\n    <!-- detail sheet:', 1)
     text = text.replace(' THE ART OF CELEBRATING</span>', ' THE ART OF CELEBRATING</span>' + TOGGLE, 1)
+    text = decorate(text)
     # Bundle fonts so the look is consistent without Google Fonts/network access.
     fonts = ""
     for family, display, styles in [
