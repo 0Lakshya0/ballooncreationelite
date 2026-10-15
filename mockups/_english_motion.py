@@ -6,6 +6,7 @@ No fixed/global animated background, ribbons, particles or animation library.
 """
 from __future__ import annotations
 from _english_fluid import CSS as FLUID_CSS
+from _english_liquid_gold import CSS as LIQUID_CSS, SCRIPT as LIQUID_SCRIPT
 
 AMBIENT = ''  # Deliberately no page-wide animated layer.
 
@@ -29,7 +30,7 @@ def decorate(text: str) -> str:
         assert original in text, original
         text = text.replace(original, replacement, 1)
     import re
-    layer = '<div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>'
+    layer = '<div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>'
     text, count = re.subn(r'<(?:section|article)\b[^>]*class="[^"]*section-scope[^"]*"[^>]*>', lambda m: m.group(0) + layer, text)
     assert count == 7, count
     return text
@@ -117,7 +118,7 @@ html:not([data-motion]) .motion-toggle{display:none}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 '''
 
-CSS += FLUID_CSS
+CSS += FLUID_CSS + LIQUID_CSS
 
 SCRIPT = r'''
 <script>
@@ -143,12 +144,14 @@ SCRIPT = r'''
       toggle.disabled=reduced;
     }
     if(off)revealAll();
+    window.dispatchEvent(new Event('bce:motionchange'));
   }
   if('IntersectionObserver' in window){
     observer=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.target.classList.contains('section-scope')){
           entry.target.setAttribute('data-inview',entry.isIntersecting?'true':'false');
+          window.dispatchEvent(new Event('bce:motionchange'));
         }else if(entry.isIntersecting){
           entry.target.classList.add('is-visible');observer.unobserve(entry.target);
         }
@@ -171,7 +174,7 @@ SCRIPT = r'''
     apply();
   });
   if(preference){if(preference.addEventListener)preference.addEventListener('change',apply);else if(preference.addListener)preference.addListener(apply);}
-  function visibility(){root.toggleAttribute('data-motion-suspended',document.hidden);}
+  function visibility(){root.toggleAttribute('data-motion-suspended',document.hidden);window.dispatchEvent(new Event('bce:motionchange'));}
   document.addEventListener('visibilitychange',visibility);
   window.addEventListener('pagehide',function(){if(observer)observer.disconnect();});
   window.addEventListener('pageshow',function(e){if(e.persisted){revealAll();if(observer)scopes.forEach(function(el){observer.observe(el);});visibility();}});
@@ -179,3 +182,5 @@ SCRIPT = r'''
 })();
 </script>
 '''
+
+SCRIPT += LIQUID_SCRIPT

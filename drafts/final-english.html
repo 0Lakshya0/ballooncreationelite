@@ -553,6 +553,19 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
 @media(max-width:520px){.discovery-panel{padding:26px 17px 0}.discovery-panel .collection-intro h2{font-size:46px}.discovery-panel .collection-nav a{padding-block:18px;font-size:8px;gap:6px}.discovery-panel .collection-nav a span{font-size:13px}.atelier-process.scene-process{padding:28px 22px;border-radius:12px}.atelier-process.scene-process>div:not(.section-atmosphere){border-bottom-color:#d5b887}.atelier-process.scene-process>div:last-child{border:0}.fluid-sheen{opacity:.8}}
 @media(prefers-reduced-motion:reduce){.fluid-field *{animation:none!important;transform:none}.fluid-lobe{opacity:.35}}
 
+.liquid-gold-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;pointer-events:none}
+.liquid-veil{position:absolute;inset:0;display:none;pointer-events:none;background:linear-gradient(105deg,#fff3d7d6 0%,#fff0cfd1 34%,#fff0c77a 58%,#ffedbd26 100%)}
+.liquid-ready .liquid-gold-canvas{opacity:.94}
+.liquid-ready .liquid-veil{display:block}
+.liquid-ready .fluid-lobe,.liquid-ready .fluid-sheen{display:none}
+.scene-experiences .liquid-veil{background:linear-gradient(105deg,#312416d9,#392b1b80 50%,#392b1b33)}
+.scene-experiences.liquid-ready .liquid-gold-canvas{opacity:.88}
+.liquid-ready .hero-copy>p,.liquid-ready .chapter-head p{color:#493622}
+.scene-experiences.liquid-ready .chapter-head p{color:#fff4df}
+.scene-inspiration .liquid-veil{background:linear-gradient(105deg,#ffeedfba,#ffeddb70 60%,#ffecd53d)}
+.scene-process .liquid-veil,.scene-discovery .liquid-veil{background:linear-gradient(110deg,#fff1d6c4,#fff1d699 65%,#fff1d666)}
+@media(max-width:520px){.liquid-veil{background:linear-gradient(110deg,#fff2d7d9,#fff0d2b5 65%,#ffedc76b)}.scene-experiences .liquid-veil{background:linear-gradient(110deg,#312416df,#392b1b99 70%,#392b1b55)}}
+
 </style>
   </head>
   <body>
@@ -566,7 +579,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
     </header>
 
     <main id="main-content">
-    <section class="atelier-hero section-scope scene-hero" aria-labelledby="hero-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
+    <section class="atelier-hero section-scope scene-hero" aria-labelledby="hero-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
       <div class="wrap hero-layout">
         <div class="hero-copy">
           <span class="atelier-kicker"><span></span> THE ART OF CELEBRATING</span><button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause section animations" title="Pause section animations"><svg class="motion-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3v10M10.5 3v10" stroke="currentColor" stroke-width="1.3"/></svg><span>Motion on</span></button>
@@ -600,7 +613,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
     <div class="wrap">
       <!-- decor types -->
       <section class="block">
-<section class="discovery-panel section-scope scene-discovery" aria-label="Explore the collections"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>        <div class="head collection-intro" id="collections">
+<section class="discovery-panel section-scope scene-discovery" aria-label="Explore the collections"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>        <div class="head collection-intro" id="collections">
           <div><span class="atelier-kicker">THE DECOR COLLECTIONS</span>
           <h2>Find your kind<br>of <em>beautiful.</em></h2></div>
           <div class="collection-note"><p>Start with the details you love. Explore the materials, discover your setting, then add that extra spark.</p><span>25 decor styles <b>·</b> 150 ways to make them yours</span></div>
@@ -610,7 +623,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
 </section>
         <div class="groups">
           <!-- group 1 -->
-          <article class="group section-scope scene-elements" id="elements" aria-labelledby="elements-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
+          <article class="group section-scope scene-elements" id="elements" aria-labelledby="elements-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">01</b>THE PALETTE OF YOUR CELEBRATION</span><h3 id="elements-title">It starts with <em>the details.</em></h3><p>Balloons, blooms, fabrics and light. Meet the beautiful ingredients that bring your vision to life.</p></div><div class="chapter-image"><img data-img="floral-decor.jpg" alt="Soft floral arrangements in an elegant celebration setting" loading="lazy" width="640" height="1147"></div><span class="chapter-count">08 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img data-img="balloon-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Balloon Decor</span><span class="ds">Organic garlands, jumbo &amp; chrome balloons</span></span><span class="tick">✓</span></button>
@@ -625,7 +638,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
           </article>
 
           <!-- group 2 -->
-          <article class="group section-scope scene-structures" id="structures" aria-labelledby="structures-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
+          <article class="group section-scope scene-structures" id="structures" aria-labelledby="structures-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">02</b>A SETTING TO FALL IN LOVE WITH</span><h3 id="structures-title">Give your moment <em>its stage.</em></h3><p>A grand entrance. An intimate corner. A picture-perfect backdrop. Find a setting made for your story.</p></div><div class="chapter-image"><img data-img="mandap-pandal.jpg" alt="Draped floral mandap with warm lanterns" loading="lazy" width="640" height="1147"></div><span class="chapter-count">09 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img data-img="backdrop-photobooth.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Backdrop / Photo Booth</span><span class="ds">Our most requested setup</span></span><span class="tick">✓</span></button>
@@ -641,7 +654,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
           </article>
 
           <!-- group 3 -->
-          <article class="group section-scope scene-experiences" id="experiences" aria-labelledby="experiences-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
+          <article class="group section-scope scene-experiences" id="experiences" aria-labelledby="experiences-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">03</b>THE FINISHING TOUCH</span><h3 id="experiences-title">Make it <em>unforgettable.</em></h3><p>The joyful surprises and little bursts of wonder that turn a beautiful gathering into a memory.</p></div><div class="chapter-image"><img data-img="cold-pyro.jpg" alt="Celebration fountains lighting up an event" loading="lazy" width="640" height="1147"></div><span class="chapter-count">08 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img data-img="cold-pyro.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cold Pyro &amp; Fountains</span><span class="ds">Entries, cake cutting &amp; first dances</span></span><span class="tick">✓</span></button>
@@ -667,7 +680,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
     </div>
 
 
-    <section class="inspiration-section wrap section-scope scene-inspiration" aria-labelledby="inspiration-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
+    <section class="inspiration-section wrap section-scope scene-inspiration" aria-labelledby="inspiration-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
       <div class="inspiration-head"><div><span class="atelier-kicker">A MOOD FOR EVERY MOMENT</span><h2 id="inspiration-title">What does your<br><em>happy look like?</em></h2></div><p>There’s no one way to celebrate.<br>Here are a few beautiful places to start.</p></div>
       <div class="inspiration-grid">
         <button class="mood-card" type="button" data-inspire="Balloon Decor"><img data-img="round-backdrop.jpg" alt="Soft pastel balloon backdrop for a joyful birthday celebration" loading="lazy" width="640" height="960"><span class="mood-shade"></span><span class="mood-copy"><small>FOR THE JOYFUL LITTLE THINGS</small><strong>A little playful.</strong><span>Explore balloon decor <b aria-hidden="true">↗</b></span></span></button>
@@ -675,7 +688,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
         <button class="mood-card" type="button" data-inspire="Lighting Decor"><img data-img="candle-aisle.jpg" alt="A glowing candlelit walkway with warm ambient lighting" loading="lazy" width="640" height="960"><span class="mood-shade"></span><span class="mood-copy"><small>FOR A NIGHT TO REMEMBER</small><strong>A little magical.</strong><span>Discover the glow <b aria-hidden="true">↗</b></span></span></button>
       </div>
     </section>
-    <section class="atelier-process wrap section-scope scene-process" aria-label="How to create your celebration"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div><div><span>01 / DISCOVER</span><h3>Follow your inspiration.</h3><p>Open a style and explore every detail.</p></div><div><span>02 / MAKE IT YOURS</span><h3>Save what you love.</h3><p>Add your favourite styles to your enquiry.</p></div><div><span>03 / LET’S CREATE</span><h3>Bring it all together.</h3><p>Send your selection and let’s plan the magic.</p></div></section>
+    <section class="atelier-process wrap section-scope scene-process" aria-label="How to create your celebration"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><canvas class="liquid-gold-canvas" aria-hidden="true" role="presentation"></canvas><span class="liquid-veil"></span><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div><div><span>01 / DISCOVER</span><h3>Follow your inspiration.</h3><p>Open a style and explore every detail.</p></div><div><span>02 / MAKE IT YOURS</span><h3>Save what you love.</h3><p>Add your favourite styles to your enquiry.</p></div><div><span>03 / LET’S CREATE</span><h3>Bring it all together.</h3><p>Send your selection and let’s plan the magic.</p></div></section>
     <div class="atelier-signoff wrap"><span>We decorate your happiness</span><a href="#top" aria-label="Back to the top">BACK TO TOP ↑</a></div>
     </main>
 
@@ -10564,12 +10577,14 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
       toggle.disabled=reduced;
     }
     if(off)revealAll();
+    window.dispatchEvent(new Event('bce:motionchange'));
   }
   if('IntersectionObserver' in window){
     observer=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.target.classList.contains('section-scope')){
           entry.target.setAttribute('data-inview',entry.isIntersecting?'true':'false');
+          window.dispatchEvent(new Event('bce:motionchange'));
         }else if(entry.isIntersecting){
           entry.target.classList.add('is-visible');observer.unobserve(entry.target);
         }
@@ -10592,11 +10607,129 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
     apply();
   });
   if(preference){if(preference.addEventListener)preference.addEventListener('change',apply);else if(preference.addListener)preference.addListener(apply);}
-  function visibility(){root.toggleAttribute('data-motion-suspended',document.hidden);}
+  function visibility(){root.toggleAttribute('data-motion-suspended',document.hidden);window.dispatchEvent(new Event('bce:motionchange'));}
   document.addEventListener('visibilitychange',visibility);
   window.addEventListener('pagehide',function(){if(observer)observer.disconnect();});
   window.addEventListener('pageshow',function(e){if(e.persisted){revealAll();if(observer)scopes.forEach(function(el){observer.observe(el);});visibility();}});
   apply();visibility();
+})();
+</script>
+
+<script>
+(function(){
+  'use strict';
+  if(!('WebGLRenderingContext' in window))return;
+  var root=document.documentElement;
+  var states=Array.from(document.querySelectorAll('.section-scope')).map(function(scope,index){
+    return {scope:scope,canvas:scope.querySelector('.liquid-gold-canvas'),gl:null,time:index*2.7,phase:index*.9,disabled:false,registered:false,frame:0};
+  });
+  var request=0,last=0;
+  var vertex='attribute vec2 aPosition;varying vec2 vUv;void main(){vUv=aPosition*.5+.5;gl_Position=vec4(aPosition,0.,1.);}';
+  var fragment=`
+precision mediump float;
+varying vec2 vUv;
+uniform vec2 uResolution;
+uniform float uTime;
+uniform float uPhase;
+// A continuous, folded surface: height and analytical derivatives.
+vec3 surface(vec2 p,float t){
+  float w1=p.x*2.15+sin(p.y*1.25+t*.28)*.86-t*.46;
+  float w2=p.y*2.8+p.x*.52+t*.39;
+  float w3=p.x*4.35-p.y*2.25+sin(p.x*.93+t*.21)*.62-t*.24;
+  float h=.48*sin(w1)+.25*sin(w2)+.115*sin(w3);
+  float dx=.48*cos(w1)*2.15+.25*cos(w2)*.52+.115*cos(w3)*(4.35+.5766*cos(p.x*.93+t*.21));
+  float dy=.48*cos(w1)*1.075*cos(p.y*1.25+t*.28)+.25*cos(w2)*2.8-.115*cos(w3)*2.25;
+  return vec3(h,dx,dy);
+}
+void main(){
+  float t=uTime*.8+uPhase;
+  float aspect=uResolution.x/uResolution.y;
+  vec2 p=(vUv-.5)*vec2(3.8*max(aspect,1.),3.8/max(aspect,1.));
+  p+=vec2(uPhase*.25,-t*.11);
+  vec3 field=surface(p,t);
+  vec3 normal=normalize(vec3(-field.y*.9,-field.z*.9,1.));
+  vec3 eye=normalize(vec3(-p*.12,2.8-field.x*.12));
+  vec3 reflected=reflect(-eye,normal);
+  float fresnel=pow(1.-max(dot(normal,eye),0.),3.);
+  // Warm studio reflections, not a rainbow gradient.
+  float broad=.5+.5*sin(reflected.x*5.2+reflected.y*3.8+field.x*.55);
+  float shade=.5+.5*sin(uTime*.22+uPhase*.7);
+  vec3 bronze=mix(vec3(.16,.075,.018),vec3(.22,.095,.04),shade);
+  vec3 gold=mix(vec3(.92,.58,.13),vec3(.87,.46,.25),shade*.7);
+  vec3 champagne=vec3(1.,.91,.65);
+  vec3 metal=mix(bronze,gold,smoothstep(.07,.88,broad));
+  vec2 box1=vec2((reflected.y-.35)*3.7,(reflected.x+.12)*1.4);
+  vec2 box2=vec2((reflected.x-.68)*8.,(reflected.y+.16)*2.2);
+  float softbox=exp(-dot(box1,box1));
+  float edgebox=exp(-dot(box2,box2));
+  float highlight=pow(max(dot(reflected,normalize(vec3(-.45,.8,1.))),0.),36.);
+  float diffuse=.72+.28*max(dot(normal,normalize(vec3(-.4,.75,1.2))),0.);
+  metal*=diffuse;
+  metal=mix(metal,champagne,clamp(softbox*.82+edgebox*.6,0.,.94));
+  metal+=champagne*highlight*.42+gold*fresnel*.18;
+  // Gentle curvature shadow makes the valleys and raised folds read as volume.
+  metal*=.86+.14*smoothstep(-.65,.6,field.x);
+  metal=pow(clamp(metal,0.,1.),vec3(.88));
+  gl_FragColor=vec4(metal,1.);
+}`;
+  function shader(gl,type,source){
+    var s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){gl.deleteShader(s);return null;}return s;
+  }
+  function init(state){
+    if(state.disabled||!state.canvas)return false;
+    try{
+      var gl=state.canvas.getContext('webgl',{alpha:false,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false,powerPreference:'low-power'});
+      if(!gl){state.disabled=true;state.canvas.dataset.renderer='fallback';return false;}
+      var high=gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,gl.HIGH_FLOAT);
+      var source=high&&high.precision>0?fragment.replace('precision mediump float;','precision highp float;'):fragment;
+      var vs=shader(gl,gl.VERTEX_SHADER,vertex),fs=shader(gl,gl.FRAGMENT_SHADER,source);
+      if(!vs||!fs){if(vs)gl.deleteShader(vs);if(fs)gl.deleteShader(fs);state.disabled=true;state.canvas.dataset.renderer='fallback';return false;}
+      var program=gl.createProgram();gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);gl.deleteShader(vs);gl.deleteShader(fs);
+      if(!gl.getProgramParameter(program,gl.LINK_STATUS)){gl.deleteProgram(program);state.disabled=true;state.canvas.dataset.renderer='fallback';return false;}
+      gl.useProgram(program);
+      var buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+      var attr=gl.getAttribLocation(program,'aPosition');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);
+      state.gl=gl;state.program=program;state.uniforms={resolution:gl.getUniformLocation(program,'uResolution'),time:gl.getUniformLocation(program,'uTime'),phase:gl.getUniformLocation(program,'uPhase')};
+      state.scope.classList.add('liquid-ready');state.canvas.dataset.renderer='webgl';
+      if(!state.registered){
+        state.canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();state.disabled=true;state.gl=null;state.scope.classList.remove('liquid-ready');state.canvas.dataset.renderer='fallback';});
+        state.canvas.addEventListener('webglcontextrestored',function(){state.disabled=false;state.gl=null;wake();});state.registered=true;
+      }
+      return true;
+    }catch(e){state.disabled=true;state.scope.classList.remove('liquid-ready');state.canvas.dataset.renderer='fallback';return false;}
+  }
+  function allowed(){return root.getAttribute('data-motion')==='on'&&!document.hidden;}
+  function active(state){return !state.disabled&&state.scope.getAttribute('data-inview')==='true';}
+  function draw(state,dt){
+    if(!state.gl&&!init(state))return false;
+    var gl=state.gl,rect=state.scope.getBoundingClientRect();
+    // Intentionally capped resolution and frame rate; not devicePixelRatio-scaled.
+    var width=Math.max(1,Math.min(800,Math.round(rect.width*.7)));
+    var height=Math.max(1,Math.min(900,Math.round(rect.height*.6)));
+    if(state.canvas.width!==width||state.canvas.height!==height){state.canvas.width=width;state.canvas.height=height;gl.viewport(0,0,width,height);}
+    state.time+=dt;gl.useProgram(state.program);
+    gl.uniform2f(state.uniforms.resolution,width,height);gl.uniform1f(state.uniforms.time,state.time);gl.uniform1f(state.uniforms.phase,state.phase);
+    gl.drawArrays(gl.TRIANGLES,0,6);state.frame++;state.canvas.dataset.frame=String(state.frame);return true;
+  }
+  function tick(now){
+    request=0;if(!allowed()){last=0;return;}
+    var visible=states.filter(active);if(!visible.length){last=0;return;}
+    if(last&&now-last<33){request=requestAnimationFrame(tick);return;}
+    var dt=last?Math.min((now-last)/1000,.12):0;last=now;
+    var painted=false;visible.forEach(function(state){painted=draw(state,dt)||painted;});
+    if(painted)request=requestAnimationFrame(tick);else last=0;
+  }
+  function wake(){
+    if(!allowed()){if(request)cancelAnimationFrame(request);request=0;last=0;return;}
+    if(!request){last=0;request=requestAnimationFrame(tick);}
+  }
+  window.addEventListener('bce:motionchange',wake);
+  window.addEventListener('resize',wake,{passive:true});
+  document.addEventListener('visibilitychange',wake);
+  window.addEventListener('pagehide',function(){if(request)cancelAnimationFrame(request);request=0;last=0;});
+  window.addEventListener('pageshow',wake);
+  wake();
 })();
 </script>
 

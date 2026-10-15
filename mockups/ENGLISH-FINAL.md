@@ -56,7 +56,7 @@ Font files in `mockups/fonts/` retain their respective SIL Open Font License tex
 
 ## Independent section atmospheres
 
-`_english_motion.py` contains seven independently scoped treatments:
+`_english_motion.py` contains seven independently scoped surfaces. The CSS treatments below remain the fallback; supported browsers now use the liquid-gold renderer described below:
 
 | Surface | Palette | Treatment |
 | --- | --- | --- |
@@ -86,8 +86,24 @@ Real Chromium base/peak screenshots at 1440px and 390px were pixel-sampled at ex
 
 ## Fluid light and gentle depth
 
-`_english_fluid.py` supplies local rounded-gradient light volumes. Three decorative layers per scene use transform-only perspective/translation/rotation to suggest flowing light and slight 3D depth, while the stronger colour fades remain unchanged. There is no WebGL, blur filter, canvas, continuous JavaScript frame loop, particle field or ribbon geometry.
+`_english_fluid.py` supplies local rounded-gradient light volumes. Three decorative layers per scene use transform-only perspective/translation/rotation to suggest flowing light and slight 3D depth, while the stronger colour fades remain unchanged. This CSS fallback itself has no WebGL or frame loop. The supported-browser primary renderer is described below.
 
 The discovery heading/menu and planning steps now each have their own independently observed scene. White card surfaces are warm translucent champagne with an inset light edge and restrained drop shadow; header, enquiry bar, connective margins and signoff are theme-matched too. Foreground text/cards do not tilt. Selected chips retain a distinct warm-gold state.
 
 All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduced-motion gets static highlights. Browser checks confirm seven scenes, changing 3D transform matrices, visibility-based pausing, responsive widths and working detail/enquiry controls.
+
+
+## Reflective liquid-gold renderer
+
+`_english_liquid_gold.py` now provides the primary supported-browser effect. Each local surface has a WebGL canvas that reconstructs a continuous flowing height field, its analytical surface normals and view-dependent studio reflections. Curvature shadows and specular highlights give the raised folds/valleys visible metallic depth. A changing warm material blend shifts yellow gold toward champagne and rose-gold. This is a procedural 3D-surface effect, **not** a physical-fluid solver or a claim to reproduce a specific advertisement.
+
+- No external texture, video, shader library or dependency is downloaded.
+- Only visible scenes initialize a context; one shared requestAnimationFrame loop draws active scenes at a maximum of about 30 FPS.
+- Backing dimensions are capped at 800 × 900 and do not scale with devicePixelRatio.
+- Saved Motion off, offscreen sections and hidden tabs stop rendering; resume continues the prior state rather than restarting it.
+- Reduced-motion startup retains static CSS surfaces without initializing the animated renderer.
+- Unsupported WebGL, compile/link failure and context loss gracefully restore the existing CSS colour/light treatment.
+- High-precision fragment shading is used when available, with a mediump fallback.
+- A warm foreground veil and stronger paragraph colours keep copy separate from the reflections; photos, option thumbnails and buttons are not distorted.
+
+Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 12 passing checks, including all 25 styles and 150 options.

@@ -183,3 +183,19 @@ test('Former white slots are warm local scenes with background-only fluid depth'
   }
  }finally{dom.window.close();}
 });
+
+
+test('Liquid gold uses local WebGL canvases with procedural surface lighting and a CSS fallback',()=>{
+ const {dom,d,errors}=open();
+ try{
+  assert.equal(d.querySelectorAll('.liquid-gold-canvas').length,7);
+  for(const canvas of d.querySelectorAll('.liquid-gold-canvas')){
+   assert(canvas.closest('.section-atmosphere[aria-hidden="true"]'));
+   assert(canvas.closest('.fluid-field').querySelector('.fluid-gold'));
+  }
+  const source=read('_english_liquid_gold.py');
+  for(const marker of ['reflect(-eye,normal)','gl.drawArrays','uTime','webglcontextlost','bce:motionchange'])assert(source.includes(marker),marker);
+  assert(!d.querySelector('.liquid-ready')); // jsdom has no WebGL: safe CSS surface remains.
+  assert.deepEqual(errors,[]);
+ }finally{dom.window.close();}
+});
