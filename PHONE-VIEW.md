@@ -79,10 +79,19 @@ Run preview from repository root:
 - Keep **Motion on** to view playback; device reduced-motion settings are respected.
 - LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are unchanged.
 
-## Clearer chapter photos — current English snapshot
+## Clearer chapter photos — earlier English snapshot
 
 - Fresh phone link: **https://clck.ru/3WWxXK**
 - Pins commit `e1ed2120b69194c299c240ac98bd577beebb1785`.
 - Only the three mobile 08/09/08 decor header photos change: opacity 44% → 78%. Approved design, 3D flow, colour/button animations and layout remain unchanged.
 - Earlier snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
 - LIVE PREVIEW: **Decor Types — English final · 8090**.
+
+## Photo-island shoreline — current English snapshot
+
+- Fresh phone link: **https://clck.ru/3WWxxL**
+- Pins commit `2209e4e2c7c275a858e501887aa3660ae5e2c715`.
+- The three decor header photos act as islands: local liquid bends around their actual outlines, with contact crests and outward receding wakes. Photos/text stay stable; 78% mobile photo opacity, existing colour fades and buttons are retained.
+- Art-directed shoreline effect, not a physical ocean simulation. Motion on is needed for playback; reduced-motion is respected.
+- Earlier immutable snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
+- LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page untouched.
