@@ -22,9 +22,22 @@ Internet chahiye (draft GitHub se load hota hai). Login/internet ka koi jhanjhat
 `mockups/offline/decor-types-draft-offline.html` — ek hi file, photos andar. Download karke
 phone me le jao (WhatsApp par khud ko bhej do) aur Chrome me kholo.
 
+
+## Trial page (final look, English)
+
+Ek hi link — koi login nahi, koi draft wording nahi. Ye page real page jaisa banta hai:
+
+| Kya | Short link |
+| --- | --- |
+| Trial page (Decor Types, final look) | https://clck.ru/3WW92c |
+
+Offline copy: `mockups/final/decor-types-final-single.html` (photos andar, internet ki zaroorat nahi)
+
 ## Ye short links kahan jaate hain (full URL)
 
 `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/arena/f5dd0ec5-ballooncreationelite/drafts/<file>`
+
+(trial page = `drafts/final-english.html`)
 
 Short links branch ke latest version par point karte hain, to har naye build ke saath
 apne aap update ho jaate hain.
