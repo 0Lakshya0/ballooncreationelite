@@ -208,6 +208,10 @@ def main() -> int:
     PUBLISH.mkdir(exist_ok=True)
     (PUBLISH / "final-english.html").write_text(single, encoding="utf-8")
     print("  drafts/final-english.html: published copy for the phone link")
+
+    # the mockup preview serves mockups/ as its root, so "/" shows the final page
+    (ROOT / "index.html").write_text(text, encoding="utf-8")
+    print("  mockups/index.html: preview root = the final page (menu lives at menu.html)")
     return 0
 
 
