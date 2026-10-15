@@ -56,17 +56,19 @@ Font files in `mockups/fonts/` retain their respective SIL Open Font License tex
 
 ## Independent section atmospheres
 
-`_english_motion.py` contains five independently scoped treatments:
+`_english_motion.py` contains seven independently scoped treatments:
 
 | Surface | Palette | Treatment |
 | --- | --- | --- |
 | Opening hero | Cream and champagne | 10-second cream/gold/rose-gold loop; gold peak at 3.5 seconds |
+| Discovery heading/navigation | Warm champagne | Independent 5-second local fade |
 | The Elements | Pearl ivory | Soft pearlescent breathing light, 4.5-second alternating fade |
 | The Settings | Blush and champagne | Independent warm crossfades, 5.5-second alternating fade |
 | The Magic | Candlelit chocolate and bronze-gold | Slow candlelight colour breathing, 5-second alternating fade |
 | Inspiration | Soft rose-gold | Gentle photographic framing wash, 6-second alternating fade |
+| Planning steps | Warm amber/champagne | Independent 6.5-second fade |
 
-The base page stays a static ivory. Every animated layer is an absolute child of its own isolated, clipped section; there is **no fixed full-page animated layer**. The Magic section uses a dark warm-brown base from the existing brown/gold family for contrast, not an unrelated new theme.
+The connective page canvas is a static warm cream/champagne, with no unstyled white introduction or planning-step slot. Every animated layer is an absolute child of its own isolated, clipped section; there is **no fixed full-page animated layer**. The Magic section uses a dark warm-brown base from the existing brown/gold family for contrast, not an unrelated new theme.
 
 Collection frames have refined padding, borders and image corners; inspiration photography has its own softly framed surface. Text, photos, controls and enquiry content remain stable. Ribbons, particles and moving halos remain removed.
 
@@ -80,3 +82,12 @@ Browser checks covered distinct animation names, section-bound geometry, real op
 Primary layers now cover the whole local surface with opaque gradients rather than small, translucent radial tints. Secondary accents are limited to 16% opacity so they do not wash out the primary fade. Endpoints stay within cream/champagne/rose-gold and warm bronze; small-copy contrast is strengthened for the richer phases.
 
 Real Chromium base/peak screenshots at 1440px and 390px were pixel-sampled at exposed section margins. The largest RGB-channel differences were 39–87 levels across the five sections, and natural hero playback reached more than 85% of its gold layer within six seconds. These checks distinguish an actually visible rendered colour change from merely having an animation declaration.
+
+
+## Fluid light and gentle depth
+
+`_english_fluid.py` supplies local rounded-gradient light volumes. Three decorative layers per scene use transform-only perspective/translation/rotation to suggest flowing light and slight 3D depth, while the stronger colour fades remain unchanged. There is no WebGL, blur filter, canvas, continuous JavaScript frame loop, particle field or ribbon geometry.
+
+The discovery heading/menu and planning steps now each have their own independently observed scene. White card surfaces are warm translucent champagne with an inset light edge and restrained drop shadow; header, enquiry bar, connective margins and signoff are theme-matched too. Foreground text/cards do not tilt. Selected chips retain a distinct warm-gold state.
+
+All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduced-motion gets static highlights. Browser checks confirm seven scenes, changing 3D transform matrices, visibility-based pausing, responsive widths and working detail/enquiry controls.

@@ -5,6 +5,7 @@ One IntersectionObserver handles both one-time reveals and viewport pausing.
 No fixed/global animated background, ribbons, particles or animation library.
 """
 from __future__ import annotations
+from _english_fluid import CSS as FLUID_CSS
 
 AMBIENT = ''  # Deliberately no page-wide animated layer.
 
@@ -13,19 +14,24 @@ TOGGLE = '''<button type="button" class="motion-toggle" aria-pressed="false" ari
 
 def decorate(text: str) -> str:
     """Keep each atmosphere physically inside the section it belongs to."""
+    # The former white introduction/navigation now has its own contained scene.
+    start = text.index('        <div class="head collection-intro"')
+    end = text.index('        <div class="groups">', start)
+    text = text[:start] + '<section class="discovery-panel section-scope scene-discovery" aria-label="Explore the collections">' + text[start:end] + '</section>\n' + text[end:]
     for original, replacement in [
         ('class="atelier-hero"', 'class="atelier-hero section-scope scene-hero"'),
         ('class="group" id="elements"', 'class="group section-scope scene-elements" id="elements"'),
         ('class="group" id="structures"', 'class="group section-scope scene-structures" id="structures"'),
         ('class="group" id="experiences"', 'class="group section-scope scene-experiences" id="experiences"'),
         ('class="inspiration-section wrap"', 'class="inspiration-section wrap section-scope scene-inspiration"'),
+        ('class="atelier-process wrap"', 'class="atelier-process wrap section-scope scene-process"'),
     ]:
         assert original in text, original
         text = text.replace(original, replacement, 1)
     import re
-    layer = '<div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>'
+    layer = '<div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>'
     text, count = re.subn(r'<(?:section|article)\b[^>]*class="[^"]*section-scope[^"]*"[^>]*>', lambda m: m.group(0) + layer, text)
-    assert count == 5, count
+    assert count == 7, count
     return text
 
 
@@ -111,6 +117,8 @@ html:not([data-motion]) .motion-toggle{display:none}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 '''
 
+CSS += FLUID_CSS
+
 SCRIPT = r'''
 <script>
 (function(){
@@ -120,7 +128,7 @@ SCRIPT = r'''
   var paused=false;
   try{paused=localStorage.getItem('bce-english-motion')==='off';}catch(e){}
   var observer=null;
-  var targets=Array.from(document.querySelectorAll('.collection-intro,.collection-nav,.chapter-head,.chip,.inspiration-head,.mood-card,.atelier-process>div'));
+  var targets=Array.from(document.querySelectorAll('.collection-intro,.collection-nav,.chapter-head,.chip,.inspiration-head,.mood-card,.atelier-process>div:not(.section-atmosphere)'));
   var scopes=Array.from(document.querySelectorAll('.section-scope'));
   function revealAll(){targets.forEach(function(el){el.classList.add('is-visible');});}
   function apply(){

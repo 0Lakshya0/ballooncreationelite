@@ -506,6 +506,53 @@ html:not([data-motion]) .motion-toggle{display:none}
 @media(max-width:380px){.hero-copy>.motion-toggle{margin-left:10px}.motion-toggle{gap:4px;padding:7px}.group.section-scope{padding:12px}.group.section-scope .chip{padding:11px 9px}.group.section-scope .chapter-head h3{font-size:30px}}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 
+/* Warm connective canvas replaces the unstyled white slots; it does not animate. */
+body{background:linear-gradient(140deg,#f5e6cb,#faeedb 55%,#f1ddbe)}
+.sitehead{background:#fff3dcf2;border-bottom-color:#ddc397}
+.selbar{background:#fff2daf5;border-top-color:#d8bc8e}
+.discovery-panel{padding:32px 30px 0;margin-bottom:32px;border-radius:16px;border:1px solid #dfc59d;background:#f6e7cd;box-shadow:inset 0 1px 0 #fff8e7d9,0 12px 36px #7550270a}
+.discovery-panel .collection-intro{margin-bottom:26px}
+.discovery-panel .collection-nav{margin-bottom:0;border-top-color:#d7bb8e;border-bottom:0}
+.discovery-panel .collection-nav a{border-right-color:#d7bb8e;padding-block:21px}
+.scene-discovery .tone-one{background:linear-gradient(120deg,#efd19b,#f4deb5 65%,#e9c689);animation:discovery-gold-fade 5s ease-in-out infinite alternate}
+.scene-discovery .tone-two{background:linear-gradient(140deg,#f7e1be,transparent 75%);animation:section-tone-breathe 7s ease-in-out infinite alternate-reverse}
+.atelier-process.scene-process{background:#f3e0c0;border:1px solid #d9bd93;border-radius:14px;padding:34px 30px;box-shadow:inset 0 1px 0 #fff6dfd9,0 10px 30px #7752290a}
+.scene-process .tone-one{background:linear-gradient(125deg,#ead0a1,#f3dfbc 65%,#e8c58e);animation:process-amber-fade 6.5s ease-in-out infinite alternate}
+.scene-process .tone-two{background:linear-gradient(140deg,#f2d4b2,transparent 78%);animation:section-tone-breathe 8s ease-in-out infinite alternate}
+.atelier-process>.section-atmosphere{padding:0;border:0}
+.atelier-process p{color:#685035}
+.atelier-process span{color:#77562e}
+.atelier-signoff{border-top:1px solid #dcc197;margin-top:26px}
+/* Soft raised material, not tilting text/cards. The geometry stays stable. */
+.group.section-scope{box-shadow:inset 0 1px 0 #fff8e3b3,0 15px 34px #77512b12;border-color:#d9bd91}
+.scene-experiences{box-shadow:inset 0 1px 0 #d7b37f45,0 18px 38px #49331e21!important}
+.inspiration-section.scene-inspiration{box-shadow:inset 0 1px 0 #fff6e0c9,0 15px 34px #77512b10}
+.chip,.scene-experiences .chip{background:linear-gradient(135deg,#fff5e5f7,#f3e2c7f2);border-color:#e0c79f;box-shadow:inset 0 1px 0 #fffaf0eb,0 4px 10px #7250300b}
+.chip .ds{color:#6f5b42}
+.chip[aria-pressed="true"],.scene-experiences .chip[aria-pressed="true"]{background:linear-gradient(135deg,#edd09e,#f4e3bc);border-color:#9f7134;box-shadow:inset 0 1px 0 #fff9e6,0 4px 12px #79512612}
+.chip:hover,.scene-experiences .chip:hover{background:linear-gradient(135deg,#fff5df,#f0dbb8);border-color:#b28b53;box-shadow:inset 0 1px 0 #fffaf0,0 10px 24px #65421920}
+.opt-card{background:linear-gradient(140deg,#fff4df,#f5e6cb);box-shadow:inset 0 1px 0 #fff9e9}
+.hero-main-photo,.mood-card{box-shadow:0 16px 34px #63432019}
+/* Each scene owns clipped, rounded colour volumes. No effect crosses a boundary. */
+.fluid-field{position:absolute;inset:0;pointer-events:none;overflow:hidden;contain:strict}
+.fluid-lobe,.fluid-sheen{position:absolute;display:block;pointer-events:none;transform-origin:center}
+.fluid-gold{width:95%;height:155%;left:-42%;top:-32%;border-radius:50%;background:radial-gradient(ellipse at 58% 48%,#ac752f40 0%,#eec06a3d 25%,#f9dc9824 47%,transparent 68%);animation:fluid-gold-volume 9s ease-in-out infinite alternate}
+.fluid-rose{width:100%;height:150%;right:-48%;bottom:-46%;border-radius:50%;background:radial-gradient(ellipse at 45% 42%,#b4725440 0%,#e9b19245 25%,#efc6a126 47%,transparent 68%);animation:fluid-rose-volume 12s ease-in-out infinite alternate;animation-delay:-4s}
+.fluid-sheen{width:115%;height:125%;left:-12%;top:-32%;background:radial-gradient(ellipse at 40% 45%,#fff8de75 0%,#fff7de30 30%,transparent 64%);animation:fluid-surface-light 11s ease-in-out infinite alternate;animation-delay:-3s}
+.scene-experiences .fluid-gold{background:radial-gradient(ellipse,#e8b6643b 0%,#af793329 38%,transparent 67%)}
+.scene-experiences .fluid-rose{opacity:.45}
+.scene-experiences .fluid-sheen{background:radial-gradient(ellipse,#ffe0a426,transparent 64%)}
+.scene-discovery .fluid-gold,.scene-process .fluid-gold{opacity:.8}
+html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-field *,.section-scope:not([data-inview="true"]) .fluid-field *{animation-play-state:paused!important}
+@keyframes discovery-gold-fade{from{opacity:0}to{opacity:1}}
+@keyframes process-amber-fade{from{opacity:0}to{opacity:.85}}
+@keyframes fluid-gold-volume{from{transform:perspective(700px) translate3d(-7%,-6%,0) rotate(-11deg) rotateY(-8deg) scale(.93)}to{transform:perspective(700px) translate3d(20%,12%,0) rotate(10deg) rotateY(8deg) scale(1.12)}}
+@keyframes fluid-rose-volume{from{transform:perspective(700px) translate3d(8%,10%,0) rotate(9deg) rotateX(-6deg) scale(1.04)}to{transform:perspective(700px) translate3d(-21%,-12%,0) rotate(-12deg) rotateX(8deg) scale(.92)}}
+@keyframes fluid-surface-light{from{transform:translate3d(-9%,3%,0) rotate(-7deg)}to{transform:translate3d(18%,16%,0) rotate(8deg)}}
+@media(max-width:760px){.discovery-panel{padding:25px 21px 0;margin-bottom:26px;border-radius:12px}.atelier-process.scene-process{padding:28px 23px}.fluid-gold,.fluid-rose{width:130%;height:130%}.fluid-gold{left:-60%;top:-15%}.fluid-rose{right:-70%;bottom:-20%}.fluid-sheen{width:145%;left:-35%}}
+@media(max-width:520px){.discovery-panel{padding:26px 17px 0}.discovery-panel .collection-intro h2{font-size:46px}.discovery-panel .collection-nav a{padding-block:18px;font-size:8px;gap:6px}.discovery-panel .collection-nav a span{font-size:13px}.atelier-process.scene-process{padding:28px 22px;border-radius:12px}.atelier-process.scene-process>div:not(.section-atmosphere){border-bottom-color:#d5b887}.atelier-process.scene-process>div:last-child{border:0}.fluid-sheen{opacity:.8}}
+@media(prefers-reduced-motion:reduce){.fluid-field *{animation:none!important;transform:none}.fluid-lobe{opacity:.35}}
+
 </style>
   </head>
   <body>
@@ -519,7 +566,7 @@ html:not([data-motion]) .motion-toggle{display:none}
     </header>
 
     <main id="main-content">
-    <section class="atelier-hero section-scope scene-hero" aria-labelledby="hero-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>
+    <section class="atelier-hero section-scope scene-hero" aria-labelledby="hero-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
       <div class="wrap hero-layout">
         <div class="hero-copy">
           <span class="atelier-kicker"><span></span> THE ART OF CELEBRATING</span><button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause section animations" title="Pause section animations"><svg class="motion-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3v10M10.5 3v10" stroke="currentColor" stroke-width="1.3"/></svg><span>Motion on</span></button>
@@ -553,16 +600,17 @@ html:not([data-motion]) .motion-toggle{display:none}
     <div class="wrap">
       <!-- decor types -->
       <section class="block">
-        <div class="head collection-intro" id="collections">
+<section class="discovery-panel section-scope scene-discovery" aria-label="Explore the collections"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>        <div class="head collection-intro" id="collections">
           <div><span class="atelier-kicker">THE DECOR COLLECTIONS</span>
           <h2>Find your kind<br>of <em>beautiful.</em></h2></div>
           <div class="collection-note"><p>Start with the details you love. Explore the materials, discover your setting, then add that extra spark.</p><span>25 decor styles <b>·</b> 150 ways to make them yours</span></div>
         </div>
         <nav class="collection-nav" aria-label="Decor collections"><a href="#elements"><span>01</span> The elements <b>↗</b></a><a href="#structures"><span>02</span> The settings <b>↗</b></a><a href="#experiences"><span>03</span> The magic <b>↗</b></a></nav>
 
+</section>
         <div class="groups">
           <!-- group 1 -->
-          <article class="group section-scope scene-elements" id="elements" aria-labelledby="elements-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>
+          <article class="group section-scope scene-elements" id="elements" aria-labelledby="elements-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">01</b>THE PALETTE OF YOUR CELEBRATION</span><h3 id="elements-title">It starts with <em>the details.</em></h3><p>Balloons, blooms, fabrics and light. Meet the beautiful ingredients that bring your vision to life.</p></div><div class="chapter-image"><img src="img/floral-decor.jpg" alt="Soft floral arrangements in an elegant celebration setting" loading="lazy" width="640" height="1147"></div><span class="chapter-count">08 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/balloon-decor.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Balloon Decor</span><span class="ds">Organic garlands, jumbo &amp; chrome balloons</span></span><span class="tick">✓</span></button>
@@ -577,7 +625,7 @@ html:not([data-motion]) .motion-toggle{display:none}
           </article>
 
           <!-- group 2 -->
-          <article class="group section-scope scene-structures" id="structures" aria-labelledby="structures-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>
+          <article class="group section-scope scene-structures" id="structures" aria-labelledby="structures-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">02</b>A SETTING TO FALL IN LOVE WITH</span><h3 id="structures-title">Give your moment <em>its stage.</em></h3><p>A grand entrance. An intimate corner. A picture-perfect backdrop. Find a setting made for your story.</p></div><div class="chapter-image"><img src="img/mandap-pandal.jpg" alt="Draped floral mandap with warm lanterns" loading="lazy" width="640" height="1147"></div><span class="chapter-count">09 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/backdrop-photobooth.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Backdrop / Photo Booth</span><span class="ds">Our most requested setup</span></span><span class="tick">✓</span></button>
@@ -593,7 +641,7 @@ html:not([data-motion]) .motion-toggle{display:none}
           </article>
 
           <!-- group 3 -->
-          <article class="group section-scope scene-experiences" id="experiences" aria-labelledby="experiences-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>
+          <article class="group section-scope scene-experiences" id="experiences" aria-labelledby="experiences-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
           <div class="chapter-head"><div class="chapter-heading"><span><b class="chapter-no">03</b>THE FINISHING TOUCH</span><h3 id="experiences-title">Make it <em>unforgettable.</em></h3><p>The joyful surprises and little bursts of wonder that turn a beautiful gathering into a memory.</p></div><div class="chapter-image"><img src="img/cold-pyro.jpg" alt="Celebration fountains lighting up an event" loading="lazy" width="640" height="1147"></div><span class="chapter-count">08 DECOR STYLES</span></div>
             <div class="chips">
               <button class="chip" aria-pressed="false"><span class="thumb"><img src="img/cold-pyro.jpg" alt="" loading="lazy" /></span><span class="txt"><span class="nm">Cold Pyro &amp; Fountains</span><span class="ds">Entries, cake cutting &amp; first dances</span></span><span class="tick">✓</span></button>
@@ -619,7 +667,7 @@ html:not([data-motion]) .motion-toggle{display:none}
     </div>
 
 
-    <section class="inspiration-section wrap section-scope scene-inspiration" aria-labelledby="inspiration-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span></div>
+    <section class="inspiration-section wrap section-scope scene-inspiration" aria-labelledby="inspiration-title"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div>
       <div class="inspiration-head"><div><span class="atelier-kicker">A MOOD FOR EVERY MOMENT</span><h2 id="inspiration-title">What does your<br><em>happy look like?</em></h2></div><p>There’s no one way to celebrate.<br>Here are a few beautiful places to start.</p></div>
       <div class="inspiration-grid">
         <button class="mood-card" type="button" data-inspire="Balloon Decor"><img src="img/round-backdrop.jpg" alt="Soft pastel balloon backdrop for a joyful birthday celebration" loading="lazy" width="640" height="960"><span class="mood-shade"></span><span class="mood-copy"><small>FOR THE JOYFUL LITTLE THINGS</small><strong>A little playful.</strong><span>Explore balloon decor <b aria-hidden="true">↗</b></span></span></button>
@@ -627,7 +675,7 @@ html:not([data-motion]) .motion-toggle{display:none}
         <button class="mood-card" type="button" data-inspire="Lighting Decor"><img src="img/candle-aisle.jpg" alt="A glowing candlelit walkway with warm ambient lighting" loading="lazy" width="640" height="960"><span class="mood-shade"></span><span class="mood-copy"><small>FOR A NIGHT TO REMEMBER</small><strong>A little magical.</strong><span>Discover the glow <b aria-hidden="true">↗</b></span></span></button>
       </div>
     </section>
-    <section class="atelier-process wrap" aria-label="How to create your celebration"><div><span>01 / DISCOVER</span><h3>Follow your inspiration.</h3><p>Open a style and explore every detail.</p></div><div><span>02 / MAKE IT YOURS</span><h3>Save what you love.</h3><p>Add your favourite styles to your enquiry.</p></div><div><span>03 / LET’S CREATE</span><h3>Bring it all together.</h3><p>Send your selection and let’s plan the magic.</p></div></section>
+    <section class="atelier-process wrap section-scope scene-process" aria-label="How to create your celebration"><div class="section-atmosphere" aria-hidden="true"><span class="section-tone tone-one"></span><span class="section-tone tone-two"></span><div class="fluid-field"><span class="fluid-lobe fluid-gold"></span><span class="fluid-lobe fluid-rose"></span><span class="fluid-sheen"></span></div></div><div><span>01 / DISCOVER</span><h3>Follow your inspiration.</h3><p>Open a style and explore every detail.</p></div><div><span>02 / MAKE IT YOURS</span><h3>Save what you love.</h3><p>Add your favourite styles to your enquiry.</p></div><div><span>03 / LET’S CREATE</span><h3>Bring it all together.</h3><p>Send your selection and let’s plan the magic.</p></div></section>
     <div class="atelier-signoff wrap"><span>We decorate your happiness</span><a href="#top" aria-label="Back to the top">BACK TO TOP ↑</a></div>
     </main>
 
@@ -10501,7 +10549,7 @@ html:not([data-motion]) .motion-toggle{display:none}
   var paused=false;
   try{paused=localStorage.getItem('bce-english-motion')==='off';}catch(e){}
   var observer=null;
-  var targets=Array.from(document.querySelectorAll('.collection-intro,.collection-nav,.chapter-head,.chip,.inspiration-head,.mood-card,.atelier-process>div'));
+  var targets=Array.from(document.querySelectorAll('.collection-intro,.collection-nav,.chapter-head,.chip,.inspiration-head,.mood-card,.atelier-process>div:not(.section-atmosphere)'));
   var scopes=Array.from(document.querySelectorAll('.section-scope'));
   function revealAll(){targets.forEach(function(el){el.classList.add('is-visible');});}
   function apply(){

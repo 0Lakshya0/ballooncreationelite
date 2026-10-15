@@ -134,12 +134,12 @@ test('Reduced-motion users receive static, visible content and no enabled motion
 });
 
 
-test('Five independently contained section atmospheres replace the rejected full-page wash',()=>{
+test('Seven independently contained section atmospheres replace the rejected full-page wash',()=>{
  const {dom,d}=open();
  try{
-  assert.equal(d.querySelectorAll('.section-scope').length,5);
-  assert.equal(d.querySelectorAll('.section-atmosphere').length,5);
-  assert.equal(d.querySelectorAll('.section-tone').length,10);
+  assert.equal(d.querySelectorAll('.section-scope').length,7);
+  assert.equal(d.querySelectorAll('.section-atmosphere').length,7);
+  assert.equal(d.querySelectorAll('.section-tone').length,14);
   for(const scope of d.querySelectorAll('.section-scope')){
    assert.equal(scope.querySelector('.section-atmosphere').parentElement,scope);
    assert.equal(scope.querySelector('.section-atmosphere').getAttribute('aria-hidden'),'true');
@@ -166,4 +166,20 @@ test('Local fades have distinct opaque colour endpoints and shorter visible cycl
   const rule=s.match(new RegExp('\\.scene-'+name+' \\.tone-one\\{([^}]+)\\}'));
   assert(rule,name);assert(!rule[1].includes('transparent'),name+' primary colour must cover its entire section');
  }
+});
+
+
+test('Former white slots are warm local scenes with background-only fluid depth',()=>{
+ const {dom,d}=open();
+ try{
+  assert(d.querySelector('.discovery-panel.scene-discovery .collection-intro'));
+  assert(d.querySelector('.discovery-panel.scene-discovery .collection-nav'));
+  assert(d.querySelector('.atelier-process.scene-process'));
+  assert.equal(d.querySelectorAll('.fluid-field').length,7);
+  for(const field of d.querySelectorAll('.fluid-field')){
+   assert(field.closest('.section-atmosphere[aria-hidden="true"]'));
+   assert.equal(field.querySelectorAll('.fluid-lobe').length,2);
+   assert(field.querySelector('.fluid-sheen'));
+  }
+ }finally{dom.window.close();}
 });
