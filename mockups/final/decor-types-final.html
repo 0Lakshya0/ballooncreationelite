@@ -554,7 +554,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
 @media(prefers-reduced-motion:reduce){.fluid-field *{animation:none!important;transform:none}.fluid-lobe{opacity:.35}}
 
 .liquid-gold-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;pointer-events:none}
-.liquid-veil{position:absolute;inset:0;display:none;pointer-events:none;background:linear-gradient(105deg,#fff3d7d6 0%,#fff0cfd1 34%,#fff0c77a 58%,#ffedbd26 100%)}
+.liquid-veil{position:absolute;inset:0;display:none;pointer-events:none;background:linear-gradient(105deg,#fff6e6d6 0%,#fff4e3d1 34%,#fff2df7a 58%,#fff2df26 100%)}
 .liquid-ready .liquid-gold-canvas{opacity:.94}
 .liquid-ready .liquid-veil{display:block}
 .liquid-ready .fluid-lobe,.liquid-ready .fluid-sheen{display:none}
@@ -564,7 +564,7 @@ html:not([data-motion="on"]) .fluid-field *,html[data-motion-suspended] .fluid-f
 .scene-experiences.liquid-ready .chapter-head p{color:#fff4df}
 .scene-inspiration .liquid-veil{background:linear-gradient(105deg,#ffeedfba,#ffeddb70 60%,#ffecd53d)}
 .scene-process .liquid-veil,.scene-discovery .liquid-veil{background:linear-gradient(110deg,#fff1d6c4,#fff1d699 65%,#fff1d666)}
-@media(max-width:520px){.liquid-veil{background:linear-gradient(110deg,#fff2d7d9,#fff0d2b5 65%,#ffedc76b)}.scene-experiences .liquid-veil{background:linear-gradient(110deg,#312416df,#392b1b99 70%,#392b1b55)}}
+@media(max-width:520px){.liquid-veil{background:linear-gradient(110deg,#fff6e6d9,#fff2e1b5 65%,#fff2df6b)}.scene-experiences .liquid-veil{background:linear-gradient(110deg,#312416df,#392b1b99 70%,#392b1b55)}}
 
 </style>
   </head>
@@ -10653,11 +10653,19 @@ void main(){
   float fresnel=pow(1.-max(dot(normal,eye),0.),3.);
   // Warm studio reflections, not a rainbow gradient.
   float broad=.5+.5*sin(reflected.x*5.2+reflected.y*3.8+field.x*.55);
-  float shade=.5+.5*sin(uTime*.22+uPhase*.7);
-  vec3 bronze=mix(vec3(.16,.075,.018),vec3(.22,.095,.04),shade);
-  vec3 gold=mix(vec3(.92,.58,.13),vec3(.87,.46,.25),shade*.7);
-  vec3 champagne=vec3(1.,.91,.65);
-  vec3 metal=mix(bronze,gold,smoothstep(.07,.88,broad));
+  // Restore the approved ten-second cream → champagne → rose → cream cycle.
+  // Only the metal's material palette changes; the flowing surface stays intact.
+  float cycle=mod(uTime+uPhase*1.8,10.)/10.;
+  float goldWeight=smoothstep(0.,.35,cycle)*(1.-smoothstep(.35,.70,cycle));
+  float roseWeight=smoothstep(.35,.70,cycle)*(1.-smoothstep(.70,1.,cycle));
+  vec3 cream=vec3(1.,.973,.91);
+  vec3 champagneGold=vec3(.949,.824,.58);
+  vec3 roseGold=vec3(.949,.792,.69);
+  vec3 gold=cream*(1.-goldWeight-roseWeight)+champagneGold*goldWeight+roseGold*roseWeight;
+  // Lighter warm folds replace the old near-black bronze shadows.
+  vec3 shadowGold=gold*vec3(.67,.62,.56);
+  vec3 champagne=mix(gold,vec3(1.,.985,.94),.62);
+  vec3 metal=mix(shadowGold,gold,smoothstep(.07,.88,broad));
   vec2 box1=vec2((reflected.y-.35)*3.7,(reflected.x+.12)*1.4);
   vec2 box2=vec2((reflected.x-.68)*8.,(reflected.y+.16)*2.2);
   float softbox=exp(-dot(box1,box1));

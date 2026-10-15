@@ -95,7 +95,7 @@ All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduc
 
 ## Reflective liquid-gold renderer
 
-`_english_liquid_gold.py` now provides the primary supported-browser effect. Each local surface has a WebGL canvas that reconstructs a continuous flowing height field, its analytical surface normals and view-dependent studio reflections. Curvature shadows and specular highlights give the raised folds/valleys visible metallic depth. A changing warm material blend shifts yellow gold toward champagne and rose-gold. This is a procedural 3D-surface effect, **not** a physical-fluid solver or a claim to reproduce a specific advertisement.
+`_english_liquid_gold.py` now provides the primary supported-browser effect. Each local surface has a WebGL canvas that reconstructs a continuous flowing height field, its analytical surface normals and view-dependent studio reflections. Curvature shadows and specular highlights give the raised folds/valleys visible metallic depth. The rendered material itself now follows the earlier **cream → champagne-gold → rose-gold → cream** fade over ten seconds, with independent section phase offsets. Gold peaks at 3.5 seconds and rose at 7 seconds in the hero. Light warm fold shadows replace the former dark-bronze base; the existing surface geometry, motion and studio-reflection calculations are unchanged. The copy veil is warm-neutral rather than imposing a constant yellow cast. This is a procedural 3D-surface effect, **not** a physical-fluid solver or a claim to reproduce a specific advertisement.
 
 - No external texture, video, shader library or dependency is downloaded.
 - Only visible scenes initialize a context; one shared requestAnimationFrame loop draws active scenes at a maximum of about 30 FPS.
@@ -106,4 +106,8 @@ All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduc
 - High-precision fragment shading is used when available, with a mediump fallback.
 - A warm foreground veil and stronger paragraph colours keep copy separate from the reflections; photos, option thumbnails and buttons are not distorted.
 
-Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 12 passing checks, including all 25 styles and 150 options.
+Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 13 passing checks, including all 25 styles and 150 options.
+
+### Rendered shade regression
+
+In Chromium, the compiled shader was drawn at material-cycle times 0, 3.5, 7 and 10 seconds. Full-canvas mean RGB samples were respectively **194/186/171**, **185/161/119**, **182/154/133**, and **190/181/166**. The relative blue/red ratios distinguish cream, gold, rose and the return to cream despite moving-fold brightness changes. These are actual framebuffer samples, not CSS declarations; desktop phase captures and a 390px mobile view were also inspected. The existing WebGL lifecycle/fallback and interaction checks still pass.

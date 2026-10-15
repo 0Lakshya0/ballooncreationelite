@@ -199,3 +199,23 @@ test('Liquid gold uses local WebGL canvases with procedural surface lighting and
   assert.deepEqual(errors,[]);
  }finally{dom.window.close();}
 });
+
+
+test('Rendered liquid material restores the cream/champagne/rose loop instead of dark bronze',()=>{
+ const source=read('_english_liquid_gold.py');
+ for(const marker of [
+  'mod(uTime+uPhase*1.8,10.)/10.',
+  'goldWeight=smoothstep(0.,.35,cycle)*(1.-smoothstep(.35,.70,cycle))',
+  'roseWeight=smoothstep(.35,.70,cycle)*(1.-smoothstep(.70,1.,cycle))',
+  'cream*(1.-goldWeight-roseWeight)+champagneGold*goldWeight+roseGold*roseWeight',
+  'vec3(.67,.62,.56)',
+ ])assert(source.includes(marker),marker);
+ for(const name of ['cream','champagneGold','roseGold']){
+  const channels=source.match(new RegExp('vec3 '+name+'=vec3\\(([^)]+)\\)'))[1].split(',').map(Number);
+  assert.equal(channels.length,3);
+  assert(channels.every(v=>v>=.58&&v<=1),name+' must retain a light warm material');
+  assert(channels[0]>=channels[1]&&channels[1]>=channels[2],name+' must stay in the warm gold family');
+ }
+ assert(!source.includes('vec3 bronze='));
+ assert(read('final-english-showcase/index.html').includes('vec3 roseGold='));
+});
