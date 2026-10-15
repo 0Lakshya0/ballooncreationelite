@@ -54,15 +54,10 @@ Browser checks were also run at desktop and mobile widths using Chromium, with n
 Font files in `mockups/fonts/` retain their respective SIL Open Font License text files.
 
 
-## Ambient motion
+## Theme-colour animation
 
-`_english_motion.py` adds CSS-only warm light, eight understated drifting petals (four on phones), a floating secondary photo, restrained photo/button hover treatments, and one-time section/card reveals through a single IntersectionObserver. It adds no remote resources, libraries, canvas, or scroll/animation-frame loop.
+`_english_motion.py` fades the background through **cream → champagne-gold → soft rose-gold → cream** in a seamless 24-second loop. Two decorative fixed layers animate only opacity. The hero background is transparent so the change is visible there and in the surrounding catalogue area. Text, photos and button colours stay stable and legible.
 
-The hero index contains a **Motion on/off** control with a saved preference. Device reduced-motion preferences disable animation and show all content. Background animation pauses in hidden tabs; reveal content stays visible without IntersectionObserver or JavaScript. The original palette and layout are retained.
+The previous ribbons, travelling glints, orbiting halo, floating petals and continuous photo movements are removed. `_english_cinematic.py` is no longer imported or rendered.
 
-
-## Cinematic motion update
-
-`_english_cinematic.py` adds visible champagne-silk SVG ribbons **inside** the hero (not hidden behind the body background), travelling light along their curves, an orbiting photo outline, a moving warm halo and automatic slow photo pan. The original cream/gold palette and the content remain unchanged. These effects use CSS animation and embedded vector markup, not video or remote assets.
-
-The existing **Motion on/off** control is now beside the hero eyebrow, above the headline, so it is visible on the first screen, including phones. All added effects obey the saved pause setting, hidden-tab suspension and reduced-motion preference. Decorative layers do not receive clicks or appear in the accessibility tree.
+The **Motion on/off** control beside the hero eyebrow pauses the colour fade at its current phase and remembers the preference. Hidden tabs pause automatically; reduced-motion users see a static cream background. One-time scroll reveals remain, with readable fallbacks if JavaScript or IntersectionObserver is unavailable.

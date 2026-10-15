@@ -9,7 +9,6 @@ import re
 import base64
 from pathlib import Path
 from _english_motion import AMBIENT, TOGGLE, CSS as MOTION_CSS, SCRIPT as MOTION_SCRIPT
-from _english_cinematic import HERO_MOTION, CSS as CINEMATIC_CSS
 
 HERO = '''
     <main id="main-content">
@@ -314,7 +313,6 @@ def enhance(text: str) -> str:
     text = text.replace('</header>', '</header>\n' + HERO, 1)
     text = text.replace('    <!-- detail sheet:', CLOSING + '\n    <!-- detail sheet:', 1)
     text = text.replace(' THE ART OF CELEBRATING</span>', ' THE ART OF CELEBRATING</span>' + TOGGLE, 1)
-    text = text.replace('<div class="wrap hero-layout">', HERO_MOTION + '<div class="wrap hero-layout">', 1)
     # Bundle fonts so the look is consistent without Google Fonts/network access.
     fonts = ""
     for family, display, styles in [
@@ -326,6 +324,6 @@ def enhance(text: str) -> str:
             encoded = base64.b64encode(path.read_bytes()).decode("ascii")
             fonts += f"@font-face{{font-family:'{display}';font-style:{style};font-weight:100 900;font-display:swap;src:url(data:font/woff2;base64,{encoded}) format('woff2')}}\n"
     text = re.sub(r'<link[^>]*fonts\.(?:googleapis|gstatic)[^>]*>', '', text)
-    text = text.replace('</style>', fonts + CSS + ORIGINAL_PALETTE + MOTION_CSS + CINEMATIC_CSS + '\n</style>', 1)
+    text = text.replace('</style>', fonts + CSS + ORIGINAL_PALETTE + MOTION_CSS + '\n</style>', 1)
     text = text.replace('</body>', SCRIPT + MOTION_SCRIPT + '\n</body>', 1)
     return text

@@ -1,76 +1,54 @@
-"""Gentle English-only ambience. CSS motion + one shared, one-shot observer.
+"""English-only colour crossfade, pause preferences and one-shot scroll reveals.
 
-No canvas, animation library, scroll listener, remote resource or RAF loop.
-Motion respects device preferences, can be paused, and stops in hidden tabs.
+The background cycles through theme-approved cream, champagne and rose-gold.
+Only two full-screen layer opacities animate; text, photos and controls keep
+stable colours. No ribbons, floating particles, moving halos or photo loops.
 """
 
 AMBIENT = '''
-<div class="atelier-ambient" aria-hidden="true">
-  <span class="ambient-light light-one"></span>
-  <span class="ambient-light light-two"></span>
-  <span class="ambient-light light-three"></span>
-  <div class="ambient-petals"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="atelier-ambient colour-atmosphere" aria-hidden="true">
+  <span class="colour-base"></span>
+  <span class="colour-layer colour-champagne"></span>
+  <span class="colour-layer colour-rose"></span>
 </div>
 '''
 
-TOGGLE = '''<button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause background animations" title="Pause background animations"><svg class="motion-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3v10M10.5 3v10" stroke="currentColor" stroke-width="1.3"/></svg><span>Motion on</span></button>'''
+TOGGLE = '''<button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause background colour animation" title="Pause background colour animation"><svg class="motion-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3v10M10.5 3v10" stroke="currentColor" stroke-width="1.3"/></svg><span>Motion on</span></button>'''
 
 CSS = r'''
-/* Warm light, not glitter: slow transform-only ambience behind the content. */
-body{isolation:isolate}
+/* Theme-colour fade only: a continuous 24-second cream → gold → rose → cream cycle. */
+body{isolation:isolate;background:var(--background)}
 .atelier-ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict}
-.ambient-light{position:absolute;display:block;border-radius:50%;opacity:.7;will-change:transform;animation:atelier-light-drift 24s ease-in-out infinite alternate}
-.light-one{width:min(76vw,980px);height:min(76vw,980px);left:-32%;top:-10%;background:radial-gradient(ellipse,oklch(.88 .085 85 / .36),transparent 65%)}
-.light-two{width:min(80vw,1050px);height:min(80vw,1050px);right:-34%;top:12%;background:radial-gradient(ellipse,oklch(.87 .07 55 / .25),transparent 66%);animation-duration:31s;animation-delay:-11s;animation-direction:alternate-reverse}
-.light-three{width:70vw;height:70vw;left:20%;bottom:-65%;background:radial-gradient(ellipse,oklch(.91 .07 90 / .3),transparent 65%);animation-duration:28s;animation-delay:-18s}
-.ambient-petals{position:absolute;inset:0}
-.ambient-petals i{position:absolute;width:7px;height:14px;border:1px solid oklch(.68 .09 80 / .28);border-radius:90% 10% 90% 10%;background:oklch(.82 .08 83 / .09);animation:atelier-petal-drift 21s ease-in-out infinite alternate;opacity:.65}
-.ambient-petals i:nth-child(1){left:2%;top:24%;animation-delay:-4s}
-.ambient-petals i:nth-child(2){right:2%;top:62%;animation-delay:-13s;animation-duration:27s;width:5px;height:9px}
-.ambient-petals i:nth-child(3){left:4%;top:78%;animation-delay:-9s;animation-duration:25s}
-.ambient-petals i:nth-child(4){right:5%;top:12%;animation-delay:-18s;animation-duration:30s}
-.ambient-petals i:nth-child(5){left:7%;top:43%;animation-delay:-6s;animation-duration:26s;width:4px;height:8px}
-.ambient-petals i:nth-child(6){right:3%;top:87%;animation-delay:-14s;animation-duration:22s}
-.ambient-petals i:nth-child(7){right:9%;top:39%;animation-delay:-8s;animation-duration:33s;width:4px;height:8px}
-.ambient-petals i:nth-child(8){left:13%;top:7%;animation-delay:-19s;animation-duration:29s;width:5px;height:10px}
-.atelier-hero{background:radial-gradient(ellipse at 75% 28%,oklch(.94 .055 85 / .75),transparent 65%),oklch(.985 .018 88 / .58)}
-.hero-art::after{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-7% -8%;border-radius:50%;background:radial-gradient(ellipse,oklch(.86 .09 83 / .27),transparent 68%);animation:atelier-halo-breathe 14s ease-in-out infinite alternate}
-.motion-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:none;padding:9px 12px;min-height:36px;border:1px solid var(--border);border-radius:20px;color:var(--gold);background:oklch(.995 .015 88 / .5);font:500 8px var(--font-sans);letter-spacing:.03em;cursor:pointer}
+.colour-base,.colour-layer{position:absolute;inset:0;display:block;pointer-events:none}
+.colour-base{background:linear-gradient(135deg,#fffdf5 5%,#fbf3df 65%,#fffaf0)}
+.colour-layer{opacity:0;animation-duration:24s;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+.colour-champagne{background:radial-gradient(ellipse at 80% 18%,#edce91bb,transparent 70%),linear-gradient(125deg,#f8e8bd,#fff5dc);animation-name:atelier-champagne-fade}
+.colour-rose{background:radial-gradient(ellipse at 75% 28%,#e6bdac77,transparent 75%),linear-gradient(135deg,#f9e8d9,#efd3c3 65%,#fbefdf);animation-name:atelier-rose-fade}
+/* Transparent surfaces let the fade show throughout the page, not behind an opaque hero. */
+.atelier-hero{background:transparent}
+.chapter-head{background:oklch(.955 .035 85 / .7)}
+.chapter-image::after{background:linear-gradient(90deg,oklch(.955 .035 85 / .85),transparent 38%)}
+.hero-copy>.motion-toggle{vertical-align:middle;margin-left:16px;font-size:8px;padding:8px 11px;min-height:32px}
+.motion-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:none;padding:9px 12px;min-height:36px;border:1px solid var(--border);border-radius:20px;color:var(--gold);background:oklch(.995 .015 88 / .65);font:500 8px var(--font-sans);letter-spacing:.03em;cursor:pointer}
 .motion-toggle:hover{background:var(--secondary);border-color:var(--gold)}
 .motion-icon{width:11px;height:11px;flex:none}
 .motion-toggle[aria-pressed="true"] .motion-icon{opacity:.45}
 .motion-toggle:disabled{cursor:default}
-.hero-main-photo img{transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
-@media(hover:hover) and (prefers-reduced-motion:no-preference){
- .hero-main-photo:hover img{transform:scale(1.025)}
- .hero-seal{transition:transform .8s ease}
- .hero-seal:hover{transform:rotate(2deg)}
- .atelier-button{position:relative;overflow:hidden;isolation:isolate}
- .atelier-button::after{content:"";position:absolute;inset:-50% -70%;background:linear-gradient(110deg,transparent 35%,#fff8df66 50%,transparent 65%);transform:translateX(-70%);transition:transform 1s ease;pointer-events:none;z-index:-1}
- .atelier-button:hover::after{transform:translateX(70%)}
-}
-html[data-motion="on"] .hero-small-photo{animation:atelier-photo-float 9s ease-in-out infinite alternate}
-html[data-motion="on"] .hero-copy{animation:atelier-intro-in 1.15s cubic-bezier(.18,.65,.3,1) both}
-html[data-motion="on"] .hero-main-photo{animation:atelier-intro-in 1.4s .12s cubic-bezier(.18,.65,.3,1) both}
-html[data-motion="on"] .motion-reveal{opacity:0;transform:translate3d(0,22px,0);transition:opacity .85s ease,transform 1.05s cubic-bezier(.16,.7,.24,1);transition-delay:var(--reveal-delay,0ms)}
+/* Retain a quiet, one-time entrance; no continuously moving foreground content. */
+html[data-motion="on"] .motion-reveal{opacity:0;transform:translate3d(0,18px,0);transition:opacity .8s ease,transform .95s cubic-bezier(.16,.7,.24,1);transition-delay:var(--reveal-delay,0ms)}
 html[data-motion="on"] .motion-reveal.is-visible{opacity:1;transform:none}
-html[data-motion="off"] .atelier-ambient *,html[data-motion="off"] .hero-art::after,html[data-motion-suspended] .atelier-ambient *,html[data-motion-suspended] .hero-art::after,html[data-motion-suspended] .hero-small-photo{animation-play-state:paused!important}
-html[data-motion="off"] .hero-small-photo,html[data-motion="off"] .hero-copy,html[data-motion="off"] .hero-main-photo{animation:none}
-html[data-motion="off"] .motion-reveal{opacity:1;transform:none;transition:none}
-html:not([data-motion]) .atelier-ambient *,html:not([data-motion]) .hero-art::after{animation-play-state:paused}
-html:not([data-motion]) .motion-toggle{display:none}
 html[data-motion="on"] .chip.motion-reveal.is-visible:hover{transform:translate3d(0,-4px,0)}
-@keyframes atelier-light-drift{from{transform:translate3d(-3%,-3%,0) scale(.92)}to{transform:translate3d(12%,7%,0) scale(1.1)}}
-@keyframes atelier-petal-drift{from{transform:translate3d(0,15px,0) rotate(-16deg)}to{transform:translate3d(12px,-55px,0) rotate(37deg)}}
-@keyframes atelier-halo-breathe{from{transform:scale(.93);opacity:.55}to{transform:scale(1.06);opacity:.95}}
-@keyframes atelier-photo-float{from{transform:translate3d(0,0,0) rotate(-7deg)}to{transform:translate3d(0,-7px,0) rotate(-6deg)}}
-@keyframes atelier-intro-in{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-@media(max-width:760px){.hero-index{flex-wrap:wrap}.hero-index>div{flex:1}.motion-toggle{font-size:7px;padding:7px 9px;min-height:32px}.hero-index .scroll-cue{display:none}.light-one,.light-two{width:110vw;height:110vw}.ambient-petals i:nth-child(n+5){display:none}}
-@media(max-width:380px){.hero-index>div{gap:11px}.motion-toggle{gap:4px;padding:7px}.hero-index{gap:10px}}
+html:not([data-motion="on"]) .colour-layer,html[data-motion-suspended] .colour-layer{animation-play-state:paused!important}
+html[data-motion="off"] .motion-reveal{opacity:1;transform:none;transition:none}
+html:not([data-motion]) .motion-toggle{display:none}
+@keyframes atelier-champagne-fade{0%,100%{opacity:0}32%{opacity:1}66%{opacity:0}}
+@keyframes atelier-rose-fade{0%,28%,100%{opacity:0}66%{opacity:1}}
+@media(max-width:760px){.motion-toggle{font-size:7px;padding:7px 9px;min-height:32px}}
+@media(max-width:380px){.hero-copy>.motion-toggle{margin-left:10px}.motion-toggle{gap:4px;padding:7px}}
+@media(max-width:520px){.chapter-image::after{background:linear-gradient(90deg,oklch(.955 .035 85 / .9) 5%,oklch(.955 .035 85 / .5) 50%,transparent)}}
 @media(prefers-reduced-motion:reduce){
- .atelier-ambient *, .hero-art::after,.hero-small-photo{animation:none!important;will-change:auto}
- html[data-motion] .motion-reveal,html[data-motion] .hero-copy,html[data-motion] .hero-main-photo{opacity:1;transform:none;animation:none;transition:none}
- .atelier-button::after{display:none}
+ .colour-layer{animation:none!important;opacity:0}
+ html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}
 }
 '''
 
@@ -92,8 +70,8 @@ SCRIPT = r'''
     if(toggle){
       toggle.setAttribute('aria-pressed',off?'true':'false');
       toggle.querySelector('span').textContent=off?'Motion off':'Motion on';
-      toggle.setAttribute('aria-label',reduced?'Animations off — following your device setting':off?'Resume background animations':'Pause background animations');
-      toggle.title=reduced?'Following your device’s reduced-motion preference':off?'Resume background animations':'Pause background animations';
+      toggle.setAttribute('aria-label',reduced?'Animations off — following your device setting':off?'Resume background colour animation':'Pause background colour animation');
+      toggle.title=reduced?'Following your device’s reduced-motion preference':off?'Resume background colour animation':'Pause background colour animation';
       toggle.disabled=reduced;
     }
     if(off)revealAll();

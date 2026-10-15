@@ -134,14 +134,15 @@ test('Reduced-motion users receive static, visible content and no enabled motion
 });
 
 
-test('Cinematic ribbons render inside the hero and motion control is visible near the headline',()=>{
+test('Background crossfades only theme colours; rejected ribbons, halos and particles are absent',()=>{
  const {dom,d}=open();
  try{
-  assert(d.querySelector('.atelier-hero .hero-motion'));
-  assert.equal(d.querySelector('.hero-motion').getAttribute('aria-hidden'),'true');
-  assert.equal(d.querySelectorAll('.hero-motion .silk-ribbon').length,2);
-  assert(d.querySelector('.silk-travelling-light'));
+  assert(d.querySelector('.colour-atmosphere'));
+  assert.equal(d.querySelector('.colour-atmosphere').getAttribute('aria-hidden'),'true');
+  assert.equal(d.querySelectorAll('.colour-layer').length,2);
+  assert(d.querySelector('.colour-champagne'));assert(d.querySelector('.colour-rose'));
+  assert.equal(d.querySelectorAll('.silk-scene,.hero-motion,.hero-spotlight,.ambient-petals,.ambient-light').length,0);
+  assert(!d.querySelector('style').textContent.includes('atelier-photo-pan'));
   assert(d.querySelector('.hero-copy .motion-toggle'));
-  assert(!d.querySelector('.hero-index .motion-toggle'));
  }finally{dom.window.close();}
 });
