@@ -106,7 +106,7 @@ All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduc
 - High-precision fragment shading is used when available, with a mediump fallback.
 - A warm foreground veil and stronger paragraph colours keep copy separate from the reflections; photos, option thumbnails and buttons are not distorted.
 
-Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 14 passing checks, including all 25 styles and 150 options.
+Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 15 passing checks, including all 25 styles and 150 options.
 
 ### Rendered shade regression
 
@@ -123,3 +123,7 @@ The previous shader-only colour changes were not sufficiently visible in use. `_
 - Connective margins use warm cream/champagne/rose paper gradients; large gaps are reduced. Discovery, collection frames, planning and signoff have coordinated asymmetric corners, warm borders and light inset edges. No new footer copy is added.
 
 **Actual composed-screen verification:** Chromium observed natural, unseeked CSS playback (not manually changed shader uniforms) at 1440px and 390px. Exposed background strips in cream/gold/rose yielded mean RGB **234/222/201 → 219/191/145 → 216/182/156** on desktop and **245/230/213 → 212/178/123 → 214/170/144** on mobile. The cream-to-gold difference reaches 90 blue-channel levels on mobile, and rose restores a distinctly pinker tint. Full screenshots were inspected for foreground readability and retained surface relief. Button animation names, hover transforms, pause/reduced-motion, finished discovery/planning regions and no horizontal overflow were checked. The existing real WebGL lifecycle, fallback and enquiry regression checks also pass.
+
+### Final photo visibility adjustment
+
+At widths up to 520px, all three 08/09/08 decor-style header photos now use 78% opacity (previously 44%). Desktop opacity, photo placement, flowing surfaces, colour fades, button motion and spacing are unchanged. Chromium confirmed the computed opacity at 320/390/520px (0.78) and 768/1440px (1), with no horizontal overflow.

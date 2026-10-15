@@ -236,3 +236,15 @@ test('Visible colour fades sit above the opaque liquid, with animated buttons an
   for(const selector of ['.head-wa','.atelier-button','.cta','.atelier-signoff'])assert(d.querySelector(selector),selector);
  }finally{dom.window.close();}
 });
+
+
+test('Mobile chapter photos are clearer without changing their layout or section counts',()=>{
+ const css=read('_english_motion.py');
+ assert(css.includes('.group.section-scope .chapter-image{opacity:.78;width:43%;'));
+ assert(!css.includes('.chapter-image{opacity:.44;'));
+ const {dom,d}=open();
+ try{
+  assert.deepEqual([...d.querySelectorAll('.chapter-count')].map(e=>e.textContent.trim()),['08 DECOR STYLES','09 DECOR STYLES','08 DECOR STYLES']);
+  assert.equal(d.querySelectorAll('.chapter-image img').length,3);
+ }finally{dom.window.close();}
+});
