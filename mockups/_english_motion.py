@@ -8,6 +8,7 @@ from __future__ import annotations
 from _english_fluid import CSS as FLUID_CSS
 from _english_liquid_gold import CSS as LIQUID_CSS, SCRIPT as LIQUID_SCRIPT
 from _english_refinement import CSS as REFINEMENT_CSS
+from _english_shoreline import CSS as SHORELINE_CSS, SCRIPT as SHORELINE_SCRIPT
 
 AMBIENT = ''  # Deliberately no page-wide animated layer.
 
@@ -119,7 +120,7 @@ html:not([data-motion]) .motion-toggle{display:none}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 '''
 
-CSS += FLUID_CSS + LIQUID_CSS + REFINEMENT_CSS
+CSS += FLUID_CSS + LIQUID_CSS + REFINEMENT_CSS + SHORELINE_CSS
 
 SCRIPT = r'''
 <script>
@@ -184,4 +185,4 @@ SCRIPT = r'''
 </script>
 '''
 
-SCRIPT += LIQUID_SCRIPT
+SCRIPT += LIQUID_SCRIPT + SHORELINE_SCRIPT

@@ -28,7 +28,7 @@ SCRIPT = r'''
   if(!('WebGLRenderingContext' in window))return;
   var root=document.documentElement;
   var states=Array.from(document.querySelectorAll('.section-scope')).map(function(scope,index){
-    return {scope:scope,canvas:scope.querySelector('.liquid-gold-canvas'),gl:null,time:index*2.7,phase:index*.9,disabled:false,registered:false,frame:0};
+    return {scope:scope,canvas:scope.querySelector('.liquid-gold-canvas'),gl:null,photo:scope.querySelector('.chapter-image'),islandDirty:true,time:index*2.7,phase:index*.9,disabled:false,registered:false,frame:0};
   });
   var request=0,last=0;
   var vertex='attribute vec2 aPosition;varying vec2 vUv;void main(){vUv=aPosition*.5+.5;gl_Position=vec4(aPosition,0.,1.);}';
@@ -38,6 +38,27 @@ varying vec2 vUv;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uPhase;
+uniform vec2 uSceneSize;
+uniform vec4 uIsland;
+uniform vec4 uIslandRadii;
+// Signed distance and outward normal of the actual, asymmetric photo outline.
+// Work in CSS pixels so the shoreline stays attached at every viewport size.
+vec3 islandSurface(vec2 uv){
+  if(uIsland.z<=0.)return vec3(10000.,0.,0.);
+  vec2 a=vec2(uv.x,1.-uv.y)*uSceneSize-uIsland.xy;
+  vec2 size=uIsland.zw;
+  float r=0.;vec2 centre=vec2(0.);
+  if(a.x<uIslandRadii.x&&a.y<uIslandRadii.x){r=uIslandRadii.x;centre=vec2(r);}
+  else if(a.x>size.x-uIslandRadii.y&&a.y<uIslandRadii.y){r=uIslandRadii.y;centre=vec2(size.x-r,r);}
+  else if(a.x>size.x-uIslandRadii.z&&a.y>size.y-uIslandRadii.z){r=uIslandRadii.z;centre=size-vec2(r);}
+  else if(a.x<uIslandRadii.w&&a.y>size.y-uIslandRadii.w){r=uIslandRadii.w;centre=vec2(r,size.y-r);}
+  if(r>0.){vec2 d=a-centre;return vec3(length(d)-r,d/max(length(d),.001));}
+  vec2 local=a-size*.5;
+  vec2 q=abs(local)-size*.5;
+  vec2 outside=max(q,0.);
+  vec2 n=length(outside)>.001?normalize(outside):q.x>q.y?vec2(1.,0.):vec2(0.,1.);
+  return vec3(length(outside)+min(max(q.x,q.y),0.),n*sign(local));
+}
 // A continuous, folded surface: height and analytical derivatives.
 vec3 surface(vec2 p,float t){
   float w1=p.x*2.15+sin(p.y*1.25+t*.28)*.86-t*.46;
@@ -54,7 +75,19 @@ void main(){
   float aspect=uResolution.x/uResolution.y;
   vec2 p=(vUv-.5)*vec2(3.8*max(aspect,1.),3.8/max(aspect,1.));
   p+=vec2(uPhase*.25,-t*.11);
-  vec3 field=surface(p,t);
+  vec3 shore=islandSurface(vUv);
+  float distance=max(shore.x,0.);
+  float shoreBand=step(0.,shore.x)*exp(-distance/22.)*(1.-smoothstep(30.,52.,distance));
+  // Incoming current splits around the upstream edge, leaving an outward wake.
+  float incoming=.3+.7*max(-shore.y,0.);
+  vec2 bend=vec2(shore.y,-shore.z)*shoreBand*.20;
+  vec3 field=surface(p+bend,t);
+  float surge=.65+.35*sin(t*1.6+uPhase);
+  float wavePhase=distance*.40-t*3.0+shore.z*.7;
+  float wave=sin(wavePhase)*shoreBand*incoming*surge;
+  field.x+=wave*.045;
+  field.y+=cos(wavePhase)*shore.y*shoreBand*incoming*.25;
+  field.z-=cos(wavePhase)*shore.z*shoreBand*incoming*.25;
   vec3 normal=normalize(vec3(-field.y*.9,-field.z*.9,1.));
   vec3 eye=normalize(vec3(-p*.12,2.8-field.x*.12));
   vec3 reflected=reflect(-eye,normal);
@@ -85,6 +118,8 @@ void main(){
   metal+=champagne*highlight*.32+gold*fresnel*.24;
   // Gentle curvature shadow makes the valleys and raised folds read as volume.
   metal*=.86+.14*smoothstep(-.65,.6,field.x);
+  float breakingCrest=pow(max(sin(wavePhase),0.),8.)*shoreBand*incoming*surge;
+  metal=mix(metal,champagne,breakingCrest*.36);
   metal=pow(clamp(metal,0.,1.),vec3(.88));
   gl_FragColor=vec4(metal,1.);
 }`;
@@ -106,7 +141,7 @@ void main(){
       gl.useProgram(program);
       var buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
       var attr=gl.getAttribLocation(program,'aPosition');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);
-      state.gl=gl;state.program=program;state.uniforms={resolution:gl.getUniformLocation(program,'uResolution'),time:gl.getUniformLocation(program,'uTime'),phase:gl.getUniformLocation(program,'uPhase')};
+      state.gl=gl;state.program=program;state.islandDirty=true;state.uniforms={resolution:gl.getUniformLocation(program,'uResolution'),time:gl.getUniformLocation(program,'uTime'),phase:gl.getUniformLocation(program,'uPhase'),scene:gl.getUniformLocation(program,'uSceneSize'),island:gl.getUniformLocation(program,'uIsland'),radii:gl.getUniformLocation(program,'uIslandRadii')};
       state.scope.classList.add('liquid-ready');state.canvas.dataset.renderer='webgl';
       if(!state.registered){
         state.canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();state.disabled=true;state.gl=null;state.scope.classList.remove('liquid-ready');state.canvas.dataset.renderer='fallback';});
@@ -117,15 +152,32 @@ void main(){
   }
   function allowed(){return root.getAttribute('data-motion')==='on'&&!document.hidden;}
   function active(state){return !state.disabled&&state.scope.getAttribute('data-inview')==='true';}
+  function islandGeometry(state){
+    var photo=state.photo;
+    if(!photo)return {box:[0,0,0,0],radii:[0,0,0,0]};
+    var left=0,top=0,node=photo;
+    // offset geometry excludes reveal transforms, which otherwise shift the shore.
+    while(node&&node!==state.scope){left+=node.offsetLeft;top+=node.offsetTop;node=node.offsetParent;}
+    var style=getComputedStyle(photo);
+    var radii=[style.borderTopLeftRadius,style.borderTopRightRadius,style.borderBottomRightRadius,style.borderBottomLeftRadius].map(function(v){return parseFloat(v)||0;});
+    return {box:[left,top,photo.offsetWidth,photo.offsetHeight],radii:radii};
+  }
   function draw(state,dt){
     if(!state.gl&&!init(state))return false;
     var gl=state.gl,rect=state.scope.getBoundingClientRect();
     // Intentionally capped resolution and frame rate; not devicePixelRatio-scaled.
     var width=Math.max(1,Math.min(800,Math.round(rect.width*.7)));
     var height=Math.max(1,Math.min(900,Math.round(rect.height*.6)));
-    if(state.canvas.width!==width||state.canvas.height!==height){state.canvas.width=width;state.canvas.height=height;gl.viewport(0,0,width,height);}
+    if(state.canvas.width!==width||state.canvas.height!==height){state.canvas.width=width;state.canvas.height=height;gl.viewport(0,0,width,height);state.islandDirty=true;}
     state.time+=dt;gl.useProgram(state.program);
     gl.uniform2f(state.uniforms.resolution,width,height);gl.uniform1f(state.uniforms.time,state.time);gl.uniform1f(state.uniforms.phase,state.phase);
+    gl.uniform2f(state.uniforms.scene,state.scope.clientWidth,state.scope.clientHeight);
+    if(state.islandDirty){
+      var island=islandGeometry(state);
+      gl.uniform4fv(state.uniforms.island,island.box);gl.uniform4fv(state.uniforms.radii,island.radii);
+      state.canvas.dataset.shoreline=state.photo?'active':'none';
+      state.islandDirty=false;
+    }
     gl.drawArrays(gl.TRIANGLES,0,6);state.frame++;state.canvas.dataset.frame=String(state.frame);return true;
   }
   function tick(now){
@@ -141,7 +193,9 @@ void main(){
     if(!request){last=0;request=requestAnimationFrame(tick);}
   }
   window.addEventListener('bce:motionchange',wake);
-  window.addEventListener('resize',wake,{passive:true});
+  function layoutChanged(){states.forEach(function(s){s.islandDirty=true;});wake();}
+  window.addEventListener('resize',layoutChanged,{passive:true});
+  window.addEventListener('bce:shoreline-layout',layoutChanged);
   document.addEventListener('visibilitychange',wake);
   window.addEventListener('pagehide',function(){if(request)cancelAnimationFrame(request);request=0;last=0;});
   window.addEventListener('pageshow',wake);

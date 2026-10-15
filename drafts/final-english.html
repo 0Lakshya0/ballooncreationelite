@@ -621,6 +621,21 @@ html[data-motion-suspended] .head-wa::after,html[data-motion-suspended] .atelier
 @media(max-width:520px){.group.section-scope{border-radius:16px 5px 16px 5px}.discovery-panel{border-radius:18px 5px 18px 5px}.liquid-ready .liquid-veil{background:linear-gradient(110deg,#fff7e852,#fff4e32b 65%,transparent)}.scene-experiences.liquid-ready .liquid-veil{background:linear-gradient(110deg,#392a1cdf,#392b1b99 70%,#392b1b55);animation:none}.atelier-signoff{gap:18px}.inspiration-section.scene-inspiration{border-radius:18px 5px 18px 5px}}
 @media(prefers-reduced-motion:reduce){.liquid-veil::before,.liquid-veil::after,.head-wa::after,.atelier-button::after,.cta::after{animation:none!important;opacity:0}.head-wa:hover,.atelier-button:hover,.cta:hover,.opt-card:hover{transform:none}.chip::after{transition:none}}
 
+.photo-shoreline{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0;color:#fff4d8}
+.photo-shoreline path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.shore-contact-shadow{stroke:#9e713e;stroke-width:4;opacity:.22}
+.shore-contact{stroke:currentColor;stroke-width:2;stroke-dasharray:22 9 3 14 35 18;animation:shore-current 6s linear infinite;opacity:.95}
+.shore-wake{stroke:currentColor;stroke-width:1.6;stroke-dasharray:34 8 3 11 52 12;opacity:0;animation:shore-break 3.6s ease-out infinite;transform-box:fill-box;transform-origin:right center}
+.shore-wake-1{animation-delay:-1.2s}.shore-wake-2{animation-delay:-2.4s}
+.scene-structures .shore-contact{animation-delay:-2s}.scene-structures .shore-wake{animation-duration:4.2s}
+.scene-experiences .photo-shoreline{color:#ffe2aa}.scene-experiences .shore-contact{animation-delay:-4s}.scene-experiences .shore-wake{animation-duration:4.6s}
+@keyframes shore-current{from{stroke-dashoffset:0}to{stroke-dashoffset:-202}}
+@keyframes shore-break{0%{opacity:0;transform:translate(0,0) scale(1)}18%{opacity:.78}100%{opacity:0;transform:translate(-12px,5px) scale(1.045)}}
+html:not([data-motion="on"]) .photo-shoreline path,html[data-motion-suspended] .photo-shoreline path,
+.section-scope:not([data-inview="true"]) .photo-shoreline path{animation-play-state:paused!important}
+@media(max-width:520px){.shore-contact{stroke-width:1.8}.shore-wake{stroke-width:1.35}}
+@media(prefers-reduced-motion:reduce){.photo-shoreline path{animation:none!important;transform:none}.shore-contact{stroke-dasharray:none;opacity:.65}.shore-wake{opacity:0}}
+
 </style>
   </head>
   <body>
@@ -10676,7 +10691,7 @@ html[data-motion-suspended] .head-wa::after,html[data-motion-suspended] .atelier
   if(!('WebGLRenderingContext' in window))return;
   var root=document.documentElement;
   var states=Array.from(document.querySelectorAll('.section-scope')).map(function(scope,index){
-    return {scope:scope,canvas:scope.querySelector('.liquid-gold-canvas'),gl:null,time:index*2.7,phase:index*.9,disabled:false,registered:false,frame:0};
+    return {scope:scope,canvas:scope.querySelector('.liquid-gold-canvas'),gl:null,photo:scope.querySelector('.chapter-image'),islandDirty:true,time:index*2.7,phase:index*.9,disabled:false,registered:false,frame:0};
   });
   var request=0,last=0;
   var vertex='attribute vec2 aPosition;varying vec2 vUv;void main(){vUv=aPosition*.5+.5;gl_Position=vec4(aPosition,0.,1.);}';
@@ -10686,6 +10701,27 @@ varying vec2 vUv;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uPhase;
+uniform vec2 uSceneSize;
+uniform vec4 uIsland;
+uniform vec4 uIslandRadii;
+// Signed distance and outward normal of the actual, asymmetric photo outline.
+// Work in CSS pixels so the shoreline stays attached at every viewport size.
+vec3 islandSurface(vec2 uv){
+  if(uIsland.z<=0.)return vec3(10000.,0.,0.);
+  vec2 a=vec2(uv.x,1.-uv.y)*uSceneSize-uIsland.xy;
+  vec2 size=uIsland.zw;
+  float r=0.;vec2 centre=vec2(0.);
+  if(a.x<uIslandRadii.x&&a.y<uIslandRadii.x){r=uIslandRadii.x;centre=vec2(r);}
+  else if(a.x>size.x-uIslandRadii.y&&a.y<uIslandRadii.y){r=uIslandRadii.y;centre=vec2(size.x-r,r);}
+  else if(a.x>size.x-uIslandRadii.z&&a.y>size.y-uIslandRadii.z){r=uIslandRadii.z;centre=size-vec2(r);}
+  else if(a.x<uIslandRadii.w&&a.y>size.y-uIslandRadii.w){r=uIslandRadii.w;centre=vec2(r,size.y-r);}
+  if(r>0.){vec2 d=a-centre;return vec3(length(d)-r,d/max(length(d),.001));}
+  vec2 local=a-size*.5;
+  vec2 q=abs(local)-size*.5;
+  vec2 outside=max(q,0.);
+  vec2 n=length(outside)>.001?normalize(outside):q.x>q.y?vec2(1.,0.):vec2(0.,1.);
+  return vec3(length(outside)+min(max(q.x,q.y),0.),n*sign(local));
+}
 // A continuous, folded surface: height and analytical derivatives.
 vec3 surface(vec2 p,float t){
   float w1=p.x*2.15+sin(p.y*1.25+t*.28)*.86-t*.46;
@@ -10702,7 +10738,19 @@ void main(){
   float aspect=uResolution.x/uResolution.y;
   vec2 p=(vUv-.5)*vec2(3.8*max(aspect,1.),3.8/max(aspect,1.));
   p+=vec2(uPhase*.25,-t*.11);
-  vec3 field=surface(p,t);
+  vec3 shore=islandSurface(vUv);
+  float distance=max(shore.x,0.);
+  float shoreBand=step(0.,shore.x)*exp(-distance/22.)*(1.-smoothstep(30.,52.,distance));
+  // Incoming current splits around the upstream edge, leaving an outward wake.
+  float incoming=.3+.7*max(-shore.y,0.);
+  vec2 bend=vec2(shore.y,-shore.z)*shoreBand*.20;
+  vec3 field=surface(p+bend,t);
+  float surge=.65+.35*sin(t*1.6+uPhase);
+  float wavePhase=distance*.40-t*3.0+shore.z*.7;
+  float wave=sin(wavePhase)*shoreBand*incoming*surge;
+  field.x+=wave*.045;
+  field.y+=cos(wavePhase)*shore.y*shoreBand*incoming*.25;
+  field.z-=cos(wavePhase)*shore.z*shoreBand*incoming*.25;
   vec3 normal=normalize(vec3(-field.y*.9,-field.z*.9,1.));
   vec3 eye=normalize(vec3(-p*.12,2.8-field.x*.12));
   vec3 reflected=reflect(-eye,normal);
@@ -10733,6 +10781,8 @@ void main(){
   metal+=champagne*highlight*.32+gold*fresnel*.24;
   // Gentle curvature shadow makes the valleys and raised folds read as volume.
   metal*=.86+.14*smoothstep(-.65,.6,field.x);
+  float breakingCrest=pow(max(sin(wavePhase),0.),8.)*shoreBand*incoming*surge;
+  metal=mix(metal,champagne,breakingCrest*.36);
   metal=pow(clamp(metal,0.,1.),vec3(.88));
   gl_FragColor=vec4(metal,1.);
 }`;
@@ -10754,7 +10804,7 @@ void main(){
       gl.useProgram(program);
       var buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
       var attr=gl.getAttribLocation(program,'aPosition');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);
-      state.gl=gl;state.program=program;state.uniforms={resolution:gl.getUniformLocation(program,'uResolution'),time:gl.getUniformLocation(program,'uTime'),phase:gl.getUniformLocation(program,'uPhase')};
+      state.gl=gl;state.program=program;state.islandDirty=true;state.uniforms={resolution:gl.getUniformLocation(program,'uResolution'),time:gl.getUniformLocation(program,'uTime'),phase:gl.getUniformLocation(program,'uPhase'),scene:gl.getUniformLocation(program,'uSceneSize'),island:gl.getUniformLocation(program,'uIsland'),radii:gl.getUniformLocation(program,'uIslandRadii')};
       state.scope.classList.add('liquid-ready');state.canvas.dataset.renderer='webgl';
       if(!state.registered){
         state.canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();state.disabled=true;state.gl=null;state.scope.classList.remove('liquid-ready');state.canvas.dataset.renderer='fallback';});
@@ -10765,15 +10815,32 @@ void main(){
   }
   function allowed(){return root.getAttribute('data-motion')==='on'&&!document.hidden;}
   function active(state){return !state.disabled&&state.scope.getAttribute('data-inview')==='true';}
+  function islandGeometry(state){
+    var photo=state.photo;
+    if(!photo)return {box:[0,0,0,0],radii:[0,0,0,0]};
+    var left=0,top=0,node=photo;
+    // offset geometry excludes reveal transforms, which otherwise shift the shore.
+    while(node&&node!==state.scope){left+=node.offsetLeft;top+=node.offsetTop;node=node.offsetParent;}
+    var style=getComputedStyle(photo);
+    var radii=[style.borderTopLeftRadius,style.borderTopRightRadius,style.borderBottomRightRadius,style.borderBottomLeftRadius].map(function(v){return parseFloat(v)||0;});
+    return {box:[left,top,photo.offsetWidth,photo.offsetHeight],radii:radii};
+  }
   function draw(state,dt){
     if(!state.gl&&!init(state))return false;
     var gl=state.gl,rect=state.scope.getBoundingClientRect();
     // Intentionally capped resolution and frame rate; not devicePixelRatio-scaled.
     var width=Math.max(1,Math.min(800,Math.round(rect.width*.7)));
     var height=Math.max(1,Math.min(900,Math.round(rect.height*.6)));
-    if(state.canvas.width!==width||state.canvas.height!==height){state.canvas.width=width;state.canvas.height=height;gl.viewport(0,0,width,height);}
+    if(state.canvas.width!==width||state.canvas.height!==height){state.canvas.width=width;state.canvas.height=height;gl.viewport(0,0,width,height);state.islandDirty=true;}
     state.time+=dt;gl.useProgram(state.program);
     gl.uniform2f(state.uniforms.resolution,width,height);gl.uniform1f(state.uniforms.time,state.time);gl.uniform1f(state.uniforms.phase,state.phase);
+    gl.uniform2f(state.uniforms.scene,state.scope.clientWidth,state.scope.clientHeight);
+    if(state.islandDirty){
+      var island=islandGeometry(state);
+      gl.uniform4fv(state.uniforms.island,island.box);gl.uniform4fv(state.uniforms.radii,island.radii);
+      state.canvas.dataset.shoreline=state.photo?'active':'none';
+      state.islandDirty=false;
+    }
     gl.drawArrays(gl.TRIANGLES,0,6);state.frame++;state.canvas.dataset.frame=String(state.frame);return true;
   }
   function tick(now){
@@ -10789,11 +10856,75 @@ void main(){
     if(!request){last=0;request=requestAnimationFrame(tick);}
   }
   window.addEventListener('bce:motionchange',wake);
-  window.addEventListener('resize',wake,{passive:true});
+  function layoutChanged(){states.forEach(function(s){s.islandDirty=true;});wake();}
+  window.addEventListener('resize',layoutChanged,{passive:true});
+  window.addEventListener('bce:shoreline-layout',layoutChanged);
   document.addEventListener('visibilitychange',wake);
   window.addEventListener('pagehide',function(){if(request)cancelAnimationFrame(request);request=0;last=0;});
   window.addEventListener('pageshow',wake);
   wake();
+})();
+</script>
+
+<script>
+(function(){
+  'use strict';
+  var ns='http://www.w3.org/2000/svg';
+  var entries=[];
+  document.querySelectorAll('.group .chapter-head').forEach(function(head){
+    var photo=head.querySelector('.chapter-image');
+    if(!photo)return;
+    var svg=document.createElementNS(ns,'svg');
+    svg.setAttribute('class','photo-shoreline');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+    var paths=['shore-contact-shadow','shore-contact','shore-wake shore-wake-0','shore-wake shore-wake-1','shore-wake shore-wake-2'].map(function(name){
+      var p=document.createElementNS(ns,'path');p.setAttribute('class',name);svg.appendChild(p);return p;
+    });
+    head.insertBefore(svg,photo);
+    entries.push({head:head,photo:photo,svg:svg,paths:paths});
+  });
+  function contour(x,y,w,h,tl,bl,gap,seed){
+    // Sample an OPEN, gently irregular coast. No closed rings or rotating halo.
+    var points=[],travel=0,last=null;
+    function point(px,py,nx,ny){
+      if(last)travel+=Math.hypot(px-last[0],py-last[1]);
+      last=[px,py];
+      var chop=Math.sin(travel*.15+seed)*(.45+gap*.09)+Math.sin(travel*.063+seed)*.55;
+      var distance=Math.max(.5,gap+chop);
+      points.push((px+nx*distance).toFixed(2)+' '+(py+ny*distance).toFixed(2));
+    }
+    function line(ax,ay,bx,by,nx,ny){
+      var steps=Math.max(1,Math.ceil(Math.hypot(bx-ax,by-ay)/4));
+      for(var j=0;j<=steps;j++){var f=j/steps;point(ax+(bx-ax)*f,ay+(by-ay)*f,nx,ny);}
+    }
+    function arc(cx,cy,r,from,to){
+      var steps=Math.max(4,Math.ceil(Math.abs(to-from)*r/4));
+      for(var j=0;j<=steps;j++){var a=from+(to-from)*j/steps;point(cx+r*Math.cos(a),cy+r*Math.sin(a),Math.cos(a),Math.sin(a));}
+    }
+    line(x+w*.84,y,x+tl,y,0,-1);
+    arc(x+tl,y+tl,tl,-Math.PI/2,-Math.PI);
+    line(x,y+tl,x,y+h-bl,-1,0);
+    arc(x+bl,y+h-bl,bl,Math.PI,Math.PI/2);
+    line(x+bl,y+h,x+w*.90,y+h,0,1);
+    return 'M '+points.join(' L ');
+  }
+  function layout(){
+    entries.forEach(function(e){
+      var photo=e.photo,style=getComputedStyle(photo);
+      var tl=parseFloat(style.borderTopLeftRadius)||0,bl=parseFloat(style.borderBottomLeftRadius)||0;
+      var x=photo.offsetLeft,y=photo.offsetTop,w=photo.offsetWidth,h=photo.offsetHeight;
+      e.svg.setAttribute('viewBox','0 0 '+e.head.clientWidth+' '+e.head.clientHeight);
+      e.paths.forEach(function(path,i){path.setAttribute('d',contour(x,y,w,h,tl,bl,i<2?1.5:3+(i-2)*4,i<2?0:i*1.7));});
+    });
+    window.dispatchEvent(new Event('bce:shoreline-layout'));
+  }
+  layout();
+  if('ResizeObserver' in window){
+    var observer=new ResizeObserver(layout);
+    entries.forEach(function(e){observer.observe(e.head);observer.observe(e.photo);});
+    window.addEventListener('pagehide',function(){observer.disconnect();});
+    window.addEventListener('pageshow',function(e){if(e.persisted){entries.forEach(function(item){observer.observe(item.head);observer.observe(item.photo);});layout();}});
+  }else{window.addEventListener('resize',layout,{passive:true});}
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
 })();
 </script>
 

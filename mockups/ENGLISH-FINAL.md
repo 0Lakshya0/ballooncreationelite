@@ -106,7 +106,7 @@ All fluid effects pause with Motion off, hidden tabs and offscreen scenes; reduc
 - High-precision fragment shading is used when available, with a mediump fallback.
 - A warm foreground veil and stronger paragraph colours keep copy separate from the reflections; photos, option thumbnails and buttons are not distorted.
 
-Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 15 passing checks, including all 25 styles and 150 options.
+Chromium checks verified shader compilation, non-zero advancing draw counts, no GL/JavaScript errors, pause/resume, independent offscreen freezing, capped resolution, mobile widths, reduced-motion, context-loss recovery to CSS fallback, unavailable-WebGL fallback and the existing enquiry flow. The Node HTML regression suite has 16 passing checks, including all 25 styles and 150 options.
 
 ### Rendered shade regression
 
@@ -127,3 +127,15 @@ The previous shader-only colour changes were not sufficiently visible in use. `_
 ### Final photo visibility adjustment
 
 At widths up to 520px, all three 08/09/08 decor-style header photos now use 78% opacity (previously 44%). Desktop opacity, photo placement, flowing surfaces, colour fades, button motion and spacing are unchanged. Chromium confirmed the computed opacity at 320/390/520px (0.78) and 768/1440px (1), with no horizontal overflow.
+
+## Header photos as islands / shoreline interaction
+
+The three 08/09/08 header photos now act as obstacles in the existing local liquid surface. `_english_liquid_gold.py` measures their real CSS-pixel position, dimensions and asymmetric corner radii, and passes that geometry into the **existing** WebGL context. A signed-distance boundary bends the current near the upstream edge and adds outward-moving normal/height ripples with restrained breaking-crest highlights. Other surfaces keep the approved flow and palette.
+
+`_english_shoreline.py` adds open, gently irregular SVG contact crests and staggered receding wakes around the upstream and lower photo edges. These remain visible above the colour veil, below the stable foreground photo/text. They are **not** closed rings, orbiting halos or a moving image border. The SVG geometry updates on header/photo resize and font readiness; there is no extra canvas, WebGL context, frame loop or intersection observer. One ResizeObserver handles the three header pairs. Supported WebGL uses both the bent surface and visible crests; unsupported/lost WebGL retains the CSS colour treatment and SVG shoreline accents.
+
+- Existing 78% mobile photo opacity and desktop opacity are unchanged. Images, counts, text, button interactions and layout stay stable.
+- Motion off, offscreen sections and hidden tabs pause the shoreline. Reduced-motion gives a quiet static contact edge without travelling wakes.
+- This is an art-directed shoreline approximation, **not** a physical ocean/collision simulation.
+
+Verification: all **16** Node regression checks pass. Chromium confirmed the three actual obstacle uniforms match photo bounds to within 2 CSS pixels at 390/1440px, real shader compilation and no GL errors, seven total canvases, and retained photo opacity. With only the obstacle uniform disabled at the same frozen time, **6,388 nearby framebuffer pixels** changed (maximum channel delta 91); outside the local photo neighbourhood the difference was **zero**. Natural wake dash movement, pause/resume, reduced-motion, offscreen freezing, context loss and restored obstacle uniforms, unsupported-WebGL fallback, responsive overflow and the real detail/selection interaction were checked without JS errors. Mobile/desktop captures were inspected.
