@@ -124,6 +124,11 @@ INDEX_HTML = """<!doctype html>
     <span>25 decor types &middot; 150 options with full detail &middot; ready to share with clients</span>
     <span class="tag">Open English</span>
   </a>
+  <a class="card" href="final-english.html">
+    <b>Trial page &mdash; final look</b>
+    <span>Same English content, but with no draft wording anywhere, plus a real header and footer</span>
+    <span class="tag">Open trial page</span>
+  </a>
   <a class="card" href="draft-hinglish.html">
     <b>Hinglish draft</b>
     <span>Same content, simple Hindi + English wording</span>

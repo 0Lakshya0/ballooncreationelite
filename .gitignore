@@ -33,3 +33,7 @@ dist-ssr
 
 # npm lockfile (ye repo bun.lock use karta hai)
 package-lock.json
+
+# python cache (mockup builders)
+__pycache__/
+*.pyc
