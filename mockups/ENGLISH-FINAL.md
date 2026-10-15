@@ -59,3 +59,10 @@ Font files in `mockups/fonts/` retain their respective SIL Open Font License tex
 `_english_motion.py` adds CSS-only warm light, eight understated drifting petals (four on phones), a floating secondary photo, restrained photo/button hover treatments, and one-time section/card reveals through a single IntersectionObserver. It adds no remote resources, libraries, canvas, or scroll/animation-frame loop.
 
 The hero index contains a **Motion on/off** control with a saved preference. Device reduced-motion preferences disable animation and show all content. Background animation pauses in hidden tabs; reveal content stays visible without IntersectionObserver or JavaScript. The original palette and layout are retained.
+
+
+## Cinematic motion update
+
+`_english_cinematic.py` adds visible champagne-silk SVG ribbons **inside** the hero (not hidden behind the body background), travelling light along their curves, an orbiting photo outline, a moving warm halo and automatic slow photo pan. The original cream/gold palette and the content remain unchanged. These effects use CSS animation and embedded vector markup, not video or remote assets.
+
+The existing **Motion on/off** control is now beside the hero eyebrow, above the headline, so it is visible on the first screen, including phones. All added effects obey the saved pause setting, hidden-tab suspension and reduced-motion preference. Decorative layers do not receive clicks or appear in the accessibility tree.

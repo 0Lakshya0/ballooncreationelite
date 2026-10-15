@@ -132,3 +132,16 @@ test('Reduced-motion users receive static, visible content and no enabled motion
   assert.deepEqual(errors,[]);
  }finally{dom.window.close();}
 });
+
+
+test('Cinematic ribbons render inside the hero and motion control is visible near the headline',()=>{
+ const {dom,d}=open();
+ try{
+  assert(d.querySelector('.atelier-hero .hero-motion'));
+  assert.equal(d.querySelector('.hero-motion').getAttribute('aria-hidden'),'true');
+  assert.equal(d.querySelectorAll('.hero-motion .silk-ribbon').length,2);
+  assert(d.querySelector('.silk-travelling-light'));
+  assert(d.querySelector('.hero-copy .motion-toggle'));
+  assert(!d.querySelector('.hero-index .motion-toggle'));
+ }finally{dom.window.close();}
+});
