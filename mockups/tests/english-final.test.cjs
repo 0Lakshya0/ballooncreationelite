@@ -219,3 +219,20 @@ test('Rendered liquid material restores the cream/champagne/rose loop instead of
  assert(!source.includes('vec3 bronze='));
  assert(read('final-english-showcase/index.html').includes('vec3 roseGold='));
 });
+
+
+test('Visible colour fades sit above the opaque liquid, with animated buttons and finished connective gaps',()=>{
+ const source=read('_english_refinement.py');
+ const page=read('final-english-showcase/index.html');
+ for(const marker of ['liquid-visible-cream','liquid-visible-champagne','liquid-visible-rose','button-gold-sweep','--colour-duration:10s','--colour-duration:11s','--colour-duration:12s','animation-play-state:paused!important','prefers-reduced-motion:reduce','section.block{padding-top:42px','margin-top:32px','chip:active','chip:focus-visible::after']){
+  assert(source.includes(marker),marker);assert(page.includes(marker),marker+' must be in the publish artifact');
+ }
+ const {dom,d}=open();
+ try{
+  for(const field of d.querySelectorAll('.fluid-field')){
+   assert.equal(field.firstElementChild.tagName,'CANVAS');
+   assert(field.firstElementChild.nextElementSibling.matches('.liquid-veil'));
+  }
+  for(const selector of ['.head-wa','.atelier-button','.cta','.atelier-signoff'])assert(d.querySelector(selector),selector);
+ }finally{dom.window.close();}
+});

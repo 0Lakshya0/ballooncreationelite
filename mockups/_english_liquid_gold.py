@@ -43,9 +43,10 @@ vec3 surface(vec2 p,float t){
   float w1=p.x*2.15+sin(p.y*1.25+t*.28)*.86-t*.46;
   float w2=p.y*2.8+p.x*.52+t*.39;
   float w3=p.x*4.35-p.y*2.25+sin(p.x*.93+t*.21)*.62-t*.24;
-  float h=.48*sin(w1)+.25*sin(w2)+.115*sin(w3);
-  float dx=.48*cos(w1)*2.15+.25*cos(w2)*.52+.115*cos(w3)*(4.35+.5766*cos(p.x*.93+t*.21));
-  float dy=.48*cos(w1)*1.075*cos(p.y*1.25+t*.28)+.25*cos(w2)*2.8-.115*cos(w3)*2.25;
+  float w4=p.x*7.2+p.y*4.8+sin(p.y*1.4-t*.17)*.3+t*.31;
+  float h=.48*sin(w1)+.25*sin(w2)+.115*sin(w3)+.022*sin(w4);
+  float dx=.48*cos(w1)*2.15+.25*cos(w2)*.52+.115*cos(w3)*(4.35+.5766*cos(p.x*.93+t*.21))+.1584*cos(w4);
+  float dy=.48*cos(w1)*1.075*cos(p.y*1.25+t*.28)+.25*cos(w2)*2.8-.115*cos(w3)*2.25+.022*cos(w4)*(4.8+.42*cos(p.y*1.4-t*.17));
   return vec3(h,dx,dy);
 }
 void main(){
@@ -73,7 +74,7 @@ void main(){
   vec3 shadowGold=gold*vec3(.67,.62,.56);
   vec3 champagne=mix(gold,vec3(1.,.985,.94),.62);
   vec3 metal=mix(shadowGold,gold,smoothstep(.07,.88,broad));
-  vec2 box1=vec2((reflected.y-.35)*3.7,(reflected.x+.12)*1.4);
+  vec2 box1=vec2((reflected.y-.35)*4.8,(reflected.x+.12)*1.4);
   vec2 box2=vec2((reflected.x-.68)*8.,(reflected.y+.16)*2.2);
   float softbox=exp(-dot(box1,box1));
   float edgebox=exp(-dot(box2,box2));
@@ -81,7 +82,7 @@ void main(){
   float diffuse=.72+.28*max(dot(normal,normalize(vec3(-.4,.75,1.2))),0.);
   metal*=diffuse;
   metal=mix(metal,champagne,clamp(softbox*.82+edgebox*.6,0.,.94));
-  metal+=champagne*highlight*.42+gold*fresnel*.18;
+  metal+=champagne*highlight*.32+gold*fresnel*.24;
   // Gentle curvature shadow makes the valleys and raised folds read as volume.
   metal*=.86+.14*smoothstep(-.65,.6,field.x);
   metal=pow(clamp(metal,0.,1.),vec3(.88));
