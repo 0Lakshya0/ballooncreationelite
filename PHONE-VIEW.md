@@ -51,3 +51,12 @@ Offline copy: `mockups/final-showcase/index.html` (photos embedded).
 Rebuild: `cd mockups && python3 _build_final_both.py`.
 Run preview from repository root:
 `python3 mockups/_serve.py 8091 mockups/final-showcase`.
+
+## Liquid-gold rendered effect (fresh snapshot)
+
+- Fresh version-specific link: **https://clck.ru/3WWb2Z**
+- This pins English final commit `69ea1d5f8ba6153ac388b4758c12b9a406a07590` to avoid an older branch/raw-page cache.
+- It is a snapshot, not an auto-updating link. Create a fresh snapshot link after later revisions if sharing this route.
+- The existing dynamic English-final link **https://clck.ru/3WW92c** remains published from `drafts/final-english.html` on the Arena branch and also contains the liquid-gold renderer.
+- Local LIVE PREVIEW remains **Decor Types — English final · 8090**.
+- Browser WebGL support is needed for the reflected liquid-metal surface. Without it, the warm CSS colour/light animation remains as a graceful fallback.
