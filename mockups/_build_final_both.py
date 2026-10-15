@@ -20,7 +20,7 @@ import json
 import pathlib
 import re
 
-from _build_final import LANGS, WA, clean, inline
+from _build_final import LANGS, WA, clean, data_uri
 
 ROOT = pathlib.Path(__file__).resolve().parent
 OUT = ROOT / "final"
@@ -538,9 +538,25 @@ def main() -> int:
     (OUT / DEST).write_text(page, encoding="utf-8")
     print(f"  {DEST}: {len(page) / 1024:.0f} KB (both languages, uses the img/ folder)")
 
-    single = inline(page)
+    # Resolve the two datasets before the UI renders (including dynamic photos).
+    files = sorted(set(re.findall(r"img/([a-z0-9-]+\.jpg)", page)))
+    table = {"img/" + name: data_uri(name) for name in files}
+    resolver = (
+        "window.OFFLINE_IMG=" + json.dumps(table, separators=(",", ":")) + ";"
+        "(function walk(o){Object.keys(o).forEach(function(k){"
+        "if(typeof o[k]==='string' && window.OFFLINE_IMG[o[k]])"
+        "o[k]=window.OFFLINE_IMG[o[k]];"
+        "else if(o[k] && typeof o[k]==='object')walk(o[k]);});})(window.BCE);"
+    )
+    assert script in page
+    single = page.replace(script, resolver + "\n" + script, 1)
     (OUT / SINGLE).write_text(single, encoding="utf-8")
     print(f"  {SINGLE}: {len(single) / 1024 / 1024:.2f} MB (photos inside)")
+
+    # Dedicated preview root, separate from the old draft server/menu.
+    showcase = ROOT / "final-showcase"
+    showcase.mkdir(exist_ok=True)
+    (showcase / "index.html").write_text(single, encoding="utf-8")
 
     PUBLISH.mkdir(exist_ok=True)
     (PUBLISH / PUBLISH_NAME).write_text(single, encoding="utf-8")

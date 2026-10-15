@@ -41,3 +41,13 @@ Offline copy: `mockups/final/decor-types-final-single.html` (photos andar, inter
 
 Short links branch ke latest version par point karte hain, to har naye build ke saath
 apne aap update ho jaate hain.
+
+## Separate final page — English + Hinglish
+
+Open https://clck.ru/3WWCNQ — this is a new page, not the old draft menu.
+Use the English / Hinglish switch in the header.
+Separate Arena LIVE PREVIEW: **Final — English + Hinglish**, port **8091**.
+Offline copy: `mockups/final-showcase/index.html` (photos embedded).
+Rebuild: `cd mockups && python3 _build_final_both.py`.
+Run preview from repository root:
+`python3 mockups/_serve.py 8091 mockups/final-showcase`.
