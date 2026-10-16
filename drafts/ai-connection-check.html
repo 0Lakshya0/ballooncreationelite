@@ -1,120 +1,255 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="referrer" content="no-referrer">
-  <title>Balloon Creation — AI connection check</title>
-  <style>
-    *{box-sizing:border-box}body{margin:0;padding:32px 18px;background:#faf3e6;color:#62503c;font:16px/1.65 system-ui,sans-serif}main{max-width:650px;margin:24px auto;padding:28px;border:1px solid #d6ba8e;border-radius:20px;background:#fffaf0}h1{font:500 clamp(28px,6vw,38px)/1.2 Georgia,serif;margin:10px 0 18px;color:#62503c}p{margin:12px 0}.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#80694f}label{display:block;font-weight:600;margin-top:24px}textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #b99867;border-radius:10px;background:#fffdf8;color:#62503c;font:inherit;resize:vertical}button{min-height:48px;padding:12px 24px;border:1px solid #b99867;border-radius:30px;background:linear-gradient(120deg,#f0d397,#edc0a9);color:#463724;font:600 16px system-ui;cursor:pointer}button:disabled{cursor:wait;opacity:.65}button:focus-visible,textarea:focus-visible{outline:3px solid #93653c;outline-offset:3px}#answer{white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #dcc8a9;padding-top:18px;margin-top:24px}#status{font-weight:600;overflow-wrap:anywhere}#details,.small{font-size:14px;color:#73614f;overflow-wrap:anywhere}#status[data-kind="error"]{color:#8b3b31}#status[data-kind="success"]{color:#3b6547}[hidden]{display:none!important}@media(max-width:380px){main{padding:20px}}
-  </style>
-</head>
-<body>
-<main>
-  <div class="label">Balloon Creation · Connection check</div>
-  <h1>Let's check the real AI answer.</h1>
-  <p>Yeh alag test page hai; main website mein abhi koi change nahi hua hai.</p>
-  <p class="small">Button dabane par ek real AI question send hoga aur free allowance ka ek attempt use ho sakta hai. API key ya personal details yahan mat likhna. Free-tier questions provider ki data policy ke under process honge.</p>
-  <form id="test-form">
-    <label for="question">Test question</label>
-    <textarea id="question" rows="3" minlength="2" maxlength="500" required>Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
-    <button id="test-button" type="submit">Test AI</button>
-  </form>
-  <div aria-live="polite" aria-atomic="true">
-    <p id="status">Ready. “Test AI” dabao; abhi koi AI request nahi bheji gayi hai.</p>
-    <p id="details" hidden></p>
-  </div>
-  <div id="answer" hidden></div>
-  <p class="small">Answer ya error dikhne par uska screenshot isi chat mein bhejo. Baar-baar button dabane ki zaroorat nahi hai.</p>
-</main>
-<script>
-(() => {
-  'use strict';
-  const ENDPOINT = 'https://ballooncreation-assistant.lakshyac909.workers.dev/chat';
-  const ID_KEY = 'bce-ai-visitor-id';
-  const form = document.getElementById('test-form');
-  const input = document.getElementById('question');
-  const button = document.getElementById('test-button');
-  const status = document.getElementById('status');
-  const details = document.getElementById('details');
-  const answer = document.getElementById('answer');
-  let busy = false;
-  let sessionId;
-  function visitorId() {
-    try {
-      const stored = localStorage.getItem(ID_KEY);
-      if (stored && /^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(stored)) return stored;
-    } catch { /* IP/server limits still apply if browser storage is blocked. */ }
-    if (!sessionId) sessionId = crypto.randomUUID();
-    try { localStorage.setItem(ID_KEY, sessionId); } catch { /* Reuse sessionId in memory. */ }
-    return sessionId;
-  }
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    if (busy) return;
-    const question = input.value.trim();
-    status.dataset.kind = '';
-    answer.hidden = true;
-    answer.textContent = '';
-    details.hidden = true;
-    details.textContent = '';
-    if (question.length < 2 || question.length > 500) {
-      status.dataset.kind = 'error';
-      status.textContent = 'Please use a question of 2–500 characters.';
-      return;
-    }
-    busy = true;
-    button.disabled = true;
-    button.textContent = 'Waiting for real AI…';
-    status.textContent = 'Real backend ko question bhej rahe hain. Yeh simulated reply nahi hai…';
-    form.setAttribute('aria-busy', 'true');
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 28000);
-    try {
-      const response = await fetch(ENDPOINT, {
-        method: 'POST', mode: 'cors', credentials: 'omit',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, visitorId: visitorId() }),
-        signal: controller.signal,
-      });
-      let data;
-      try { data = await response.json(); }
-      catch { throw new Error('Backend se valid JSON reply nahi aaya. Screenshot bhejo; dobara click mat karo.'); }
-      if (!response.ok) {
-        status.dataset.kind = 'error';
-        status.textContent = `HTTP ${response.status} · ${data.error || 'request_failed'}`;
-        details.textContent = data.message || 'AI reply nahi mila. Is error ka screenshot bhejo.';
-        details.hidden = false;
-        return;
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Balloon Creation — AI connection check</title>
+    <style>
+      * {
+        box-sizing: border-box;
       }
-      if (typeof data.answer !== 'string' || !data.answer.trim()) {
-        throw new Error('Backend ne answer return nahi kiya. Is screen ka screenshot bhejo.');
+      body {
+        margin: 0;
+        padding: 32px 18px;
+        background: #faf3e6;
+        color: #62503c;
+        font:
+          16px/1.65 system-ui,
+          sans-serif;
       }
-      status.dataset.kind = 'success';
-      status.textContent = 'Real AI answer received ✓';
-      details.textContent = `Provider: ${data.provider || 'unknown'} · Remaining visitor attempts: ${Number.isInteger(data.remaining) ? data.remaining : 'unknown'}`;
-      details.hidden = false;
-      // Never render a model response as HTML.
-      answer.textContent = data.answer;
-      answer.hidden = false;
-    } catch (error) {
-      status.dataset.kind = 'error';
-      status.textContent = error.name === 'AbortError'
-        ? 'Request timeout. Answer confirm nahi hua; attempt count ho sakta hai. Screenshot bhejo.'
-        : 'Connection/test complete nahi hua.';
-      details.textContent = error.name === 'AbortError'
-        ? 'Automatic retry nahi kiya gaya. Is screen ko share karo.'
-        : (error.message || 'Network/CORS ya browser error. Is screen ka screenshot bhejo.');
-      details.hidden = false;
-    } finally {
-      clearTimeout(timeout);
-      busy = false;
-      button.disabled = false;
-      button.textContent = 'Test AI';
-      form.setAttribute('aria-busy', 'false');
-    }
-  });
-})();
-</script>
-</body>
+      main {
+        max-width: 650px;
+        margin: 24px auto;
+        padding: 28px;
+        border: 1px solid #d6ba8e;
+        border-radius: 20px;
+        background: #fffaf0;
+      }
+      h1 {
+        font:
+          500 clamp(28px, 6vw, 38px)/1.2 Georgia,
+          serif;
+        margin: 10px 0 18px;
+        color: #62503c;
+      }
+      p {
+        margin: 12px 0;
+      }
+      .label {
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #80694f;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-top: 24px;
+      }
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: 1px solid #b99867;
+        border-radius: 10px;
+        background: #fffdf8;
+        color: #62503c;
+        font: inherit;
+        resize: vertical;
+      }
+      button {
+        min-height: 48px;
+        padding: 12px 24px;
+        border: 1px solid #b99867;
+        border-radius: 30px;
+        background: linear-gradient(120deg, #f0d397, #edc0a9);
+        color: #463724;
+        font: 600 16px system-ui;
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: wait;
+        opacity: 0.65;
+      }
+      button:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid #93653c;
+        outline-offset: 3px;
+      }
+      #answer {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        border-top: 1px solid #dcc8a9;
+        padding-top: 18px;
+        margin-top: 24px;
+      }
+      #status {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+      #details,
+      .small {
+        font-size: 14px;
+        color: #73614f;
+        overflow-wrap: anywhere;
+      }
+      #status[data-kind="error"] {
+        color: #8b3b31;
+      }
+      #status[data-kind="success"] {
+        color: #3b6547;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 380px) {
+        main {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="label">Balloon Creation · Connection check</div>
+      <h1>Let's check the real AI answer.</h1>
+      <p>Yeh alag test page hai; main website mein abhi koi change nahi hua hai.</p>
+      <p class="small">
+        Button dabane par ek real AI question send hoga aur free allowance ka ek attempt use ho
+        sakta hai. API key ya personal details yahan mat likhna. Free-tier questions provider ki
+        data policy ke under process honge.
+      </p>
+      <form id="test-form">
+        <label for="question">Test question</label>
+        <textarea id="question" rows="3" minlength="2" maxlength="500" required>
+Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
+        <button id="test-button" type="submit">Test AI</button>
+      </form>
+      <div aria-live="polite" aria-atomic="true">
+        <p id="status">Ready. “Test AI” dabao; abhi koi AI request nahi bheji gayi hai.</p>
+        <p id="details" hidden></p>
+      </div>
+      <div id="answer" hidden></div>
+      <p class="small">
+        Answer ya error dikhne par uska screenshot isi chat mein bhejo. Baar-baar button dabane ki
+        zaroorat nahi hai.
+      </p>
+    </main>
+    <script>
+      (() => {
+        "use strict";
+        const ENDPOINT = "https://ballooncreation-assistant.lakshyac909.workers.dev/chat";
+        const ID_KEY = "bce-ai-visitor-id";
+        const form = document.getElementById("test-form");
+        const input = document.getElementById("question");
+        const button = document.getElementById("test-button");
+        const status = document.getElementById("status");
+        const details = document.getElementById("details");
+        const answer = document.getElementById("answer");
+        let busy = false;
+        let sessionId;
+        function visitorId() {
+          try {
+            const stored = localStorage.getItem(ID_KEY);
+            if (stored && /^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(stored))
+              return stored;
+          } catch {
+            /* IP/server limits still apply if browser storage is blocked. */
+          }
+          if (!sessionId) sessionId = crypto.randomUUID();
+          try {
+            localStorage.setItem(ID_KEY, sessionId);
+          } catch {
+            /* Reuse sessionId in memory. */
+          }
+          return sessionId;
+        }
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          if (busy) return;
+          const question = input.value.trim();
+          status.dataset.kind = "";
+          answer.hidden = true;
+          answer.textContent = "";
+          details.hidden = true;
+          details.textContent = "";
+          if (question.length < 2 || question.length > 500) {
+            status.dataset.kind = "error";
+            status.textContent = "Please use a question of 2–500 characters.";
+            return;
+          }
+          busy = true;
+          button.disabled = true;
+          button.textContent = "Waiting for real AI…";
+          status.textContent =
+            "Real backend ko question bhej rahe hain. Yeh simulated reply nahi hai…";
+          form.setAttribute("aria-busy", "true");
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 28000);
+          try {
+            const response = await fetch(ENDPOINT, {
+              method: "POST",
+              mode: "cors",
+              credentials: "omit",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question, visitorId: visitorId() }),
+              signal: controller.signal,
+            });
+            let data;
+            try {
+              data = await response.json();
+            } catch {
+              throw new Error(
+                "Backend se valid JSON reply nahi aaya. Screenshot bhejo; dobara click mat karo.",
+              );
+            }
+            if (!response.ok) {
+              status.dataset.kind = "error";
+              status.textContent = `HTTP ${response.status} · ${data.error || "request_failed"}`;
+              const notes = (data.diagnostics?.providers || []).map((item) => {
+                const http =
+                  item.upstreamHttpStatus == null ? "not recorded" : item.upstreamHttpStatus;
+                return `${item.provider}: ${item.lastResult} · upstream HTTP ${http} · cooldown ${item.retryAfterSeconds}s`;
+              });
+              details.textContent = [
+                data.message || "AI reply nahi mila. Is error ka screenshot bhejo.",
+                ...notes,
+              ].join("\n");
+              details.style.whiteSpace = "pre-wrap";
+              details.hidden = false;
+              return;
+            }
+            if (typeof data.answer !== "string" || !data.answer.trim()) {
+              throw new Error("Backend ne answer return nahi kiya. Is screen ka screenshot bhejo.");
+            }
+            status.dataset.kind = "success";
+            status.textContent = "Real AI answer received ✓";
+            details.textContent = `Provider: ${data.provider || "unknown"} · Remaining visitor attempts: ${Number.isInteger(data.remaining) ? data.remaining : "unknown"}`;
+            details.hidden = false;
+            // Never render a model response as HTML.
+            answer.textContent = data.answer;
+            answer.hidden = false;
+          } catch (error) {
+            status.dataset.kind = "error";
+            status.textContent =
+              error.name === "AbortError"
+                ? "Request timeout. Answer confirm nahi hua; attempt count ho sakta hai. Screenshot bhejo."
+                : "Connection/test complete nahi hua.";
+            details.textContent =
+              error.name === "AbortError"
+                ? "Automatic retry nahi kiya gaya. Is screen ko share karo."
+                : error.message || "Network/CORS ya browser error. Is screen ka screenshot bhejo.";
+            details.hidden = false;
+          } finally {
+            clearTimeout(timeout);
+            busy = false;
+            button.disabled = false;
+            button.textContent = "Test AI";
+            form.setAttribute("aria-busy", "false");
+          }
+        });
+      })();
+    </script>
+  </body>
 </html>

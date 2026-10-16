@@ -45,14 +45,15 @@ function json(body, status = 200, origin = "", extra = {}) {
     "Cache-Control": "no-store",
     "X-Content-Type-Options": "nosniff",
     Vary: "Origin",
+    "Access-Control-Expose-Headers": "Retry-After",
     ...extra,
   };
   if (origin) headers["Access-Control-Allow-Origin"] = origin;
   return new Response(JSON.stringify(body), { status, headers });
 }
-function failure(code, message, status, origin, retry = 0) {
+function failure(code, message, status, origin, retry = 0, details = {}) {
   return json(
-    { error: code, message },
+    { error: code, message, ...details },
     status,
     origin,
     retry ? { "Retry-After": String(Math.max(1, Math.ceil(retry))) } : {},
@@ -96,7 +97,87 @@ async function ensureSchema(db) {
     db.prepare(
       "CREATE TABLE IF NOT EXISTS ai_provider_state (provider TEXT PRIMARY KEY, available_at INTEGER NOT NULL)",
     ),
+    db.prepare(
+      "CREATE TABLE IF NOT EXISTS ai_provider_diagnostics (provider TEXT PRIMARY KEY, code TEXT NOT NULL, http_status INTEGER, observed_at INTEGER NOT NULL)",
+    ),
   ]);
+}
+// Diagnostics contain only allowlisted categories/numeric status, never raw API messages.
+function failureCategory(response, data) {
+  const detail = Array.isArray(data?.error?.details) ? data.error.details : [];
+  const reasons = detail.map((item) => String(item?.reason || "")).join(" ");
+  const message = String(data?.error?.message || "");
+  if (
+    /API_KEY_INVALID|API_KEY_EXPIRED/.test(reasons) ||
+    /API key not valid|API key expired/i.test(message)
+  )
+    return "api_key_invalid";
+  if (
+    /API_KEY_HTTP_REFERRER_BLOCKED|API_KEY_IP_ADDRESS_BLOCKED|API_KEY_SERVICE_BLOCKED/.test(reasons)
+  )
+    return "api_key_restricted";
+  if (/SERVICE_DISABLED/.test(reasons)) return "api_service_disabled";
+  if (/user location.*not supported|location is not supported/i.test(message))
+    return "provider_location_unsupported";
+  if (response.status === 429) return "rate_or_quota_limit";
+  if (response.status === 401 || response.status === 403) return "key_or_permission_denied";
+  if (response.status === 404) return "model_or_endpoint_not_found";
+  if (response.status === 400) return "invalid_model_or_request";
+  if (response.status >= 500) return "provider_server_error";
+  if (response.status >= 300 && response.status < 400) return "provider_redirect_rejected";
+  return "provider_http_error";
+}
+async function saveDiagnostic(db, provider, code, httpStatus) {
+  await db
+    .prepare(
+      `INSERT INTO ai_provider_diagnostics (provider, code, http_status, observed_at) VALUES (?, ?, ?, ?)
+    ON CONFLICT(provider) DO UPDATE SET code = excluded.code, http_status = excluded.http_status, observed_at = excluded.observed_at`,
+    )
+    .bind(provider, code, httpStatus ?? null, Date.now())
+    .run();
+}
+async function diagnosticStatus(db, configured, now) {
+  if (!db) return { storageReadable: false, providers: [] };
+  try {
+    // Old deployments have the cooldown table but not the diagnostics table.
+    // Health is read-only and never clears cooldowns or calls an AI provider.
+    const tables = await db
+      .prepare(
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('ai_provider_state', 'ai_provider_diagnostics')",
+      )
+      .all();
+    const names = new Set((tables.results || []).map((row) => row.name));
+    const states = names.has("ai_provider_state")
+      ? (await db.prepare("SELECT provider, available_at FROM ai_provider_state").all()).results ||
+        []
+      : [];
+    const events = names.has("ai_provider_diagnostics")
+      ? (
+          await db
+            .prepare("SELECT provider, code, http_status, observed_at FROM ai_provider_diagnostics")
+            .all()
+        ).results || []
+      : [];
+    return {
+      storageReadable: true,
+      providers: configured.map((provider) => {
+        const state = states.find((row) => row.provider === provider.id);
+        const event = events.find((row) => row.provider === provider.id);
+        return {
+          provider: provider.id,
+          retryAfterSeconds: Math.max(
+            0,
+            Math.ceil((Number(state?.available_at || 0) - now) / 1000),
+          ),
+          lastResult: event?.code || "not_recorded_by_previous_version",
+          upstreamHttpStatus: event?.http_status ?? null,
+          observedAt: event?.observed_at ? new Date(event.observed_at).toISOString() : null,
+        };
+      }),
+    };
+  } catch {
+    return { storageReadable: false, providers: [], error: "storage_diagnostics_unavailable" };
+  }
 }
 async function reserveQuota(db, visitor, ip, now) {
   const day = new Date(now).toISOString().slice(0, 10);
@@ -208,8 +289,17 @@ async function askProvider(provider, question, fetcher = fetch) {
   let data;
   try {
     data = JSON.parse(await boundedText(response.body, 65_536));
-  } catch {
-    return { failed: true, availableAt: Date.now() + 30_000 };
+  } catch (error) {
+    return {
+      failed: true,
+      availableAt: retryAt(response, {}, Date.now()),
+      httpStatus: response.status,
+      code: !response.ok
+        ? failureCategory(response, {})
+        : error?.message === "body_too_large"
+          ? "upstream_body_too_large"
+          : "invalid_upstream_json",
+    };
   }
   const candidate = data.candidates?.[0];
   const choice = data.choices?.[0];
@@ -223,7 +313,13 @@ async function askProvider(provider, question, fetcher = fetch) {
     // A safety refusal is a valid response, not a reason to try another model.
     return { answer: SAFE_REPLY };
   }
-  if (!response.ok) return { failed: true, availableAt: retryAt(response, data, Date.now()) };
+  if (!response.ok)
+    return {
+      failed: true,
+      availableAt: retryAt(response, data, Date.now()),
+      httpStatus: response.status,
+      code: failureCategory(response, data),
+    };
   const answer = isGemini
     ? candidate?.content?.parts
         ?.filter((part) => !part.thought)
@@ -232,7 +328,15 @@ async function askProvider(provider, question, fetcher = fetch) {
         .trim()
     : choice?.message?.content?.trim();
   if (typeof answer !== "string" || !answer)
-    return { failed: true, availableAt: Date.now() + 30_000 };
+    return {
+      failed: true,
+      availableAt: Date.now() + 30_000,
+      httpStatus: response.status,
+      code:
+        candidate?.finishReason === "MAX_TOKENS" || choice?.finish_reason === "length"
+          ? "output_budget_exhausted"
+          : "empty_provider_answer",
+    };
   return { answer: answer.slice(0, 6000) };
 }
 
@@ -246,6 +350,8 @@ async function handle(request, env) {
     return json(
       {
         service: "Balloon Creation AI",
+        revision: "safe-diagnostics-1",
+        diagnostics: await diagnosticStatus(env.AI_DB, configured, Date.now()),
         status: env.AI_DB && configured.length && allowed.length ? "configured" : "setup_required",
         setup: {
           databaseBound: Boolean(env.AI_DB),
@@ -345,10 +451,14 @@ async function handle(request, env) {
   if (!ready.length)
     return failure(
       "providers_cooling_down",
-      "Free AI providers are resting. Please try later or chat with our team on WhatsApp.",
+      "All enabled AI providers are paused after an earlier failed request. This does not by itself mean the free quota is exhausted. Please share this error for diagnosis.",
       503,
       origin,
-      Math.max(1, (Math.min(...cooling.values()) - now) / 1000),
+      Math.max(
+        1,
+        (Math.min(...configured.map((provider) => cooling.get(provider.id))) - now) / 1000,
+      ),
+      { diagnostics: await diagnosticStatus(env.AI_DB, configured, now) },
     );
   if (!(await reserveQuota(env.AI_DB, visitor, ip, now))) {
     const quota = await quotaStatus(env.AI_DB, visitor, ip, now);
@@ -373,9 +483,23 @@ async function handle(request, env) {
     let result;
     try {
       result = await askProvider(provider, question);
-    } catch {
-      result = { failed: true, availableAt: Date.now() + 30_000 };
+    } catch (error) {
+      result = {
+        failed: true,
+        availableAt: Date.now() + 30_000,
+        httpStatus: null,
+        code:
+          error?.name === "TimeoutError" || error?.name === "AbortError"
+            ? "provider_timeout"
+            : "provider_network_error",
+      };
     }
+    await saveDiagnostic(
+      env.AI_DB,
+      provider.id,
+      result.answer ? "ok" : result.code,
+      result.answer ? 200 : result.httpStatus,
+    );
     if (result.answer) {
       const quota = await quotaStatus(env.AI_DB, visitor, ip, now);
       return json(
@@ -397,12 +521,17 @@ async function handle(request, env) {
       .bind(provider.id, result.availableAt)
       .run();
   }
+  const diagnostics = await diagnosticStatus(env.AI_DB, configured, Date.now());
+  const delays = diagnostics.providers
+    .map((provider) => provider.retryAfterSeconds)
+    .filter((seconds) => seconds > 0);
   return failure(
     "providers_unavailable",
-    "Free AI providers are temporarily unavailable. Please try later or use WhatsApp.",
+    "The AI provider request failed. The safe diagnostic details explain the failure category; please share this screen. No successful AI answer has been confirmed.",
     503,
     origin,
-    30,
+    delays.length ? Math.min(...delays) : 30,
+    { diagnostics },
   );
 }
 

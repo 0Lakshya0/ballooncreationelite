@@ -352,3 +352,134 @@ test("storage failures fail closed without touching providers", async () => {
   assert.equal((await response.json()).error, "temporarily_unavailable");
   assert.equal(network.mock.calls.length, 0);
 });
+
+test("legacy cooldown is observable without clearing it, spending quota or calling a provider", async () => {
+  env.AI_DB.db.exec(
+    "CREATE TABLE ai_provider_state(provider TEXT PRIMARY KEY, available_at INTEGER NOT NULL)",
+  );
+  env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES (?, ?)").run("gemini", clock + 60_000);
+  const response = await worker.fetch(new Request("https://assistant.example/health"), env);
+  const data = await response.json();
+  assert.equal(data.revision, "safe-diagnostics-1");
+  assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 60);
+  assert.equal(data.diagnostics.providers[0].lastResult, "not_recorded_by_previous_version");
+  assert.equal(network.mock.calls.length, 0);
+  assert.equal(
+    env.AI_DB.db.prepare("SELECT available_at FROM ai_provider_state").get().available_at,
+    clock + 60_000,
+  );
+});
+test("invalid-key failures expose only safe categories, not raw provider messages or key values", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json(
+      {
+        error: {
+          message: `API key not valid: ${env.GEMINI_API_KEY}; private customer text`,
+          details: [{ reason: "API_KEY_INVALID" }],
+        },
+      },
+      { status: 400 },
+    ),
+  );
+  const response = await ask();
+  const data = await response.json();
+  assert.equal(response.status, 503);
+  assert.equal(data.diagnostics.providers[0].lastResult, "api_key_invalid");
+  assert.equal(data.diagnostics.providers[0].upstreamHttpStatus, 400);
+  assert.equal(response.headers.get("Access-Control-Expose-Headers"), "Retry-After");
+  const health = await (
+    await worker.fetch(new Request("https://assistant.example/health"), env)
+  ).json();
+  assert.equal(health.diagnostics.providers[0].lastResult, "api_key_invalid");
+  for (const result of [
+    data,
+    health,
+    env.AI_DB.db.prepare("SELECT * FROM ai_provider_diagnostics").all(),
+  ]) {
+    assert(!JSON.stringify(result).includes(env.GEMINI_API_KEY));
+    assert(!JSON.stringify(result).includes("private customer text"));
+  }
+});
+test("rate limits retain actual Retry-After and are not diagnosed as a bad user question", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json(
+      { error: { message: "quota exceeded" } },
+      { status: 429, headers: { "Retry-After": "120" } },
+    ),
+  );
+  const first = await ask();
+  const details = (await first.json()).diagnostics.providers[0];
+  assert.equal(details.lastResult, "rate_or_quota_limit");
+  assert.equal(details.upstreamHttpStatus, 429);
+  assert.equal(first.headers.get("Retry-After"), "120");
+  const blocked = await ask();
+  assert.equal((await blocked.json()).error, "providers_cooling_down");
+  assert.equal(network.mock.calls.length, 1);
+});
+test("malformed upstream rate-limit bodies still preserve Retry-After", async () => {
+  network.mock.mockImplementation(
+    async () => new Response("rate limit", { status: 429, headers: { "Retry-After": "90" } }),
+  );
+  const response = await ask();
+  const data = await response.json();
+  assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 90);
+  assert.equal(data.diagnostics.providers[0].lastResult, "rate_or_quota_limit");
+});
+test("unsupported provider location is distinguished from an expired free quota", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json(
+      { error: { message: "User location is not supported for the API use." } },
+      { status: 400 },
+    ),
+  );
+  const data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "provider_location_unsupported");
+});
+test("timeouts, missing models and empty token-limited outputs get separate safe diagnostics", async () => {
+  network.mock.mockImplementation(async () => {
+    throw Object.assign(new Error("private endpoint"), { name: "TimeoutError" });
+  });
+  let data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "provider_timeout");
+  tick(31_000);
+  network.mock.mockImplementation(async () =>
+    Response.json({ error: { message: "not found" } }, { status: 404 }),
+  );
+  data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "model_or_endpoint_not_found");
+  tick(3_601_000);
+  network.mock.mockImplementation(async () =>
+    Response.json({
+      candidates: [
+        {
+          finishReason: "MAX_TOKENS",
+          content: { parts: [{ text: "internal thought", thought: true }] },
+        },
+      ],
+    }),
+  );
+  data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "output_budget_exhausted");
+});
+test("successful responses record a safe OK diagnostic after a prior transient failure", async () => {
+  network.mock.mockImplementation(async () => {
+    throw new Error("network");
+  });
+  await ask();
+  tick(31_000);
+  network.mock.mockImplementation(async () => providerReply());
+  assert.equal((await ask()).status, 200);
+  const data = await (
+    await worker.fetch(new Request("https://assistant.example/health"), env)
+  ).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "ok");
+  assert.equal(data.diagnostics.providers[0].upstreamHttpStatus, 200);
+});
+test("the owner custom trending-decoration question is a valid request, not an input error", async () => {
+  const response = await ask({
+    data: { question: "abhi trending balloon decoration ki list bana" },
+  });
+  assert.equal(response.status, 200);
+  const body = JSON.parse(network.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents[0].parts[0].text, "abhi trending balloon decoration ki list bana");
+});
