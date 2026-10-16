@@ -5,6 +5,7 @@
  * Status page: GET / or /health. AI endpoint: POST /chat.
  */
 const LIMITS = { visitor: 5, ip: 20, site: 100, gapMs: 10_000 };
+const TIMING = { providerMaxMs: 20_000, upstreamBudgetMs: 24_000 };
 const SAFE_REPLY =
   "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone. Please contact our team for a safe alternative.";
 const SYSTEM_PROMPT = `You are Balloon Creation's friendly event-decoration assistant in Indore, India.
@@ -251,7 +252,7 @@ function retryAt(response, body, now) {
   if (response.status === 400 || response.status === 404) return now + 3_600_000;
   return now + 30_000;
 }
-async function askProvider(provider, question, fetcher = fetch) {
+async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
   const { id, key, model } = provider;
   const isGemini = id === "gemini";
   const url = isGemini
@@ -279,7 +280,7 @@ async function askProvider(provider, question, fetcher = fetch) {
   const response = await fetcher(url, {
     method: "POST",
     redirect: "manual",
-    signal: AbortSignal.timeout(8000),
+    signal: AbortSignal.timeout(timeoutMs),
     headers: {
       "Content-Type": "application/json",
       ...(isGemini ? { "x-goog-api-key": key } : { Authorization: `Bearer ${key}` }),
@@ -296,9 +297,11 @@ async function askProvider(provider, question, fetcher = fetch) {
       httpStatus: response.status,
       code: !response.ok
         ? failureCategory(response, {})
-        : error?.message === "body_too_large"
-          ? "upstream_body_too_large"
-          : "invalid_upstream_json",
+        : error?.name === "TimeoutError" || error?.name === "AbortError"
+          ? "provider_timeout"
+          : error?.message === "body_too_large"
+            ? "upstream_body_too_large"
+            : "invalid_upstream_json",
     };
   }
   const candidate = data.candidates?.[0];
@@ -350,7 +353,11 @@ async function handle(request, env) {
     return json(
       {
         service: "Balloon Creation AI",
-        revision: "safe-diagnostics-1",
+        revision: "safe-diagnostics-2",
+        timing: {
+          providerMaxSeconds: TIMING.providerMaxMs / 1000,
+          upstreamBudgetSeconds: TIMING.upstreamBudgetMs / 1000,
+        },
         diagnostics: await diagnosticStatus(env.AI_DB, configured, Date.now()),
         status: env.AI_DB && configured.length && allowed.length ? "configured" : "setup_required",
         setup: {
@@ -479,10 +486,20 @@ async function handle(request, env) {
       retry,
     );
   }
-  for (const provider of ready) {
+  // A single provider can use up to 20s. With multiple eligible providers, share
+  // a bounded 24s upstream budget; quick failures leave more time for fallback.
+  const deadline = Date.now() + TIMING.upstreamBudgetMs;
+  for (let index = 0; index < ready.length; index++) {
+    const provider = ready[index];
+    const remainingMs = deadline - Date.now();
+    if (remainingMs < 1000) break;
+    const timeoutMs = Math.min(
+      TIMING.providerMaxMs,
+      Math.floor(remainingMs / (ready.length - index)),
+    );
     let result;
     try {
-      result = await askProvider(provider, question);
+      result = await askProvider(provider, question, timeoutMs);
     } catch (error) {
       result = {
         failed: true,

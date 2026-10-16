@@ -360,7 +360,7 @@ test("legacy cooldown is observable without clearing it, spending quota or calli
   env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES (?, ?)").run("gemini", clock + 60_000);
   const response = await worker.fetch(new Request("https://assistant.example/health"), env);
   const data = await response.json();
-  assert.equal(data.revision, "safe-diagnostics-1");
+  assert.equal(data.revision, "safe-diagnostics-2");
   assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 60);
   assert.equal(data.diagnostics.providers[0].lastResult, "not_recorded_by_previous_version");
   assert.equal(network.mock.calls.length, 0);
@@ -482,4 +482,90 @@ test("the owner custom trending-decoration question is a valid request, not an i
   assert.equal(response.status, 200);
   const body = JSON.parse(network.mock.calls[0].arguments[1].body);
   assert.equal(body.contents[0].parts[0].text, "abhi trending balloon decoration ki list bana");
+});
+
+test("one eligible provider gets a 20-second deadline rather than the old 8 seconds", async () => {
+  const deadlines = [];
+  mock.method(AbortSignal, "timeout", (ms) => {
+    deadlines.push(ms);
+    return new AbortController().signal;
+  });
+  network.mock.mockImplementation(async () => {
+    tick(12_000);
+    return providerReply();
+  });
+  const response = await ask();
+  assert.equal(response.status, 200);
+  assert.deepEqual(deadlines, [20_000]);
+  const health = await (
+    await worker.fetch(new Request("https://assistant.example/health"), env)
+  ).json();
+  assert.equal(health.revision, "safe-diagnostics-2");
+  assert.equal(health.timing.providerMaxSeconds, 20);
+  assert.equal(health.timing.upstreamBudgetSeconds, 24);
+});
+test("fallback shares the 24-second budget and does not start an extra provider after its deadline", async () => {
+  enableAll();
+  const deadlines = [];
+  mock.method(AbortSignal, "timeout", (ms) => {
+    deadlines.push(ms);
+    return new AbortController().signal;
+  });
+  network.mock.mockImplementation(async () => {
+    tick(8000);
+    throw Object.assign(new Error("timeout"), { name: "TimeoutError" });
+  });
+  const response = await ask();
+  assert.equal(response.status, 503);
+  assert.equal(network.mock.calls.length, 3);
+  assert.deepEqual(deadlines, [8000, 8000, 8000]);
+});
+test("a fast failure releases budget for the next eligible provider", async () => {
+  enableAll();
+  delete env.OPENROUTER_API_KEY;
+  const deadlines = [];
+  mock.method(AbortSignal, "timeout", (ms) => {
+    deadlines.push(ms);
+    return new AbortController().signal;
+  });
+  network.mock.mockImplementation(async (url) => {
+    if (url.includes("googleapis.com")) {
+      tick(1000);
+      return Response.json({ error: { message: "quota" } }, { status: 429 });
+    }
+    tick(15_000);
+    return openAIReply();
+  });
+  const response = await ask();
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).provider, "groq");
+  assert.deepEqual(deadlines, [12000, 20000]);
+});
+test("an exhausted request budget leaves untried providers available for future requests", async () => {
+  enableAll();
+  network.mock.mockImplementation(async () => {
+    tick(25000);
+    throw new Error("slow I/O");
+  });
+  assert.equal((await ask()).status, 503);
+  assert.equal(network.mock.calls.length, 1);
+  const rows = env.AI_DB.db.prepare("SELECT provider FROM ai_provider_state").all();
+  assert.deepEqual(
+    rows.map((row) => row.provider),
+    ["gemini"],
+  );
+});
+test("a timed-out upstream response body is not mislabeled invalid JSON", async () => {
+  network.mock.mockImplementation(
+    async () =>
+      new Response(
+        new ReadableStream({
+          start(controller) {
+            controller.error(Object.assign(new Error("timeout"), { name: "TimeoutError" }));
+          },
+        }),
+      ),
+  );
+  const data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "provider_timeout");
 });
