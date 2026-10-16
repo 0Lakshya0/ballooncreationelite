@@ -614,15 +614,12 @@
 @media(max-width:520px){.bce-decor .group.section-scope .chapter-image{box-shadow:-1px 1px 0 #eedbb9,-2px 3px 0 #c6a57a,-4px 5px 0 #9d794e,-7px 10px 12px #4d351e3b}}
 
 /* Soft readable ink: retain the larger type, avoid near-black weight. */
-.bce-decor{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c;--reading-paper:#fff8ecf5}
+.bce-decor{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c}
 .bce-decor .english-motion-tools{display:flex;justify-content:flex-end;align-items:center;padding-block:12px;position:relative;z-index:2}
 .bce-decor .english-motion-tools .motion-toggle{margin:0;font-size:14px;font-weight:500;min-height:44px;padding:10px 16px;color:var(--reading-accent);background:#fff6e8f5;border-color:#b48b58}
 .bce-decor .hero-copy>p,.bce-decor .collection-intro .collection-note p,.bce-decor .group.section-scope .chapter-head p,.bce-decor .inspiration-head>p,.bce-decor .atelier-process p{font-size:16px;line-height:1.8;font-weight:400;color:var(--reading-ink)}
-.bce-decor .collection-intro .collection-note p{max-width:380px;padding:10px 12px;border-radius:6px;background:#fff6e8cf}
-.bce-decor .atelier-kicker,.bce-decor .hero-copy .atelier-kicker,.bce-decor .collection-note>span,.bce-decor .group.section-scope .chapter-heading>span,.bce-decor .atelier-process span,.bce-decor .hero-footnote,.bce-decor .hero-index a,.bce-decor .hero-index>span{font-size:13px;line-height:1.65;letter-spacing:.055em;color:var(--reading-accent);font-weight:600}
+.bce-decor .atelier-kicker,.bce-decor .hero-copy .atelier-kicker,.bce-decor .collection-note>span,.bce-decor .group.section-scope .chapter-heading>span,.bce-decor .atelier-process>div:not(.section-atmosphere)>span,.bce-decor .hero-footnote,.bce-decor .hero-index a,.bce-decor .hero-index>span{font-size:13px;line-height:1.65;letter-spacing:.055em;color:var(--reading-accent);font-weight:500}
 .bce-decor .discovery-panel .collection-nav a{font-size:15px;line-height:1.5}
-.bce-decor .group.section-scope .chapter-head p{padding:8px 10px;border-radius:6px;background:#fff7e8e6}
-.bce-decor .scene-experiences.group.section-scope .chapter-head p{color:#fff6e8;background:#30251be6}
 .bce-decor .scene-experiences .chapter-heading>span{color:#ffe5b4}
 .bce-decor .group.section-scope .chapter-count{font-size:13px;line-height:1.4;letter-spacing:.03em;max-width:44%;text-align:center;z-index:3;color:var(--reading-accent);background:#fff6e8}
 .bce-decor .chip .nm{font-size:16px;line-height:1.5;font-weight:500;color:var(--reading-accent)}
@@ -633,7 +630,6 @@
 .bce-decor .group-foot,.bce-decor .gallery figcaption,.bce-decor .gallery figcaption span,.bce-decor .gallery .more span,.bce-decor .gallery .more a{font-size:14px;line-height:1.7;color:var(--reading-accent)}
 .bce-decor .mood-copy small{font-size:13px;line-height:1.5;letter-spacing:.06em;color:#fff7e8}
 .bce-decor .mood-copy>span{font-size:15px;line-height:1.5;color:#fff7e8}
-.bce-decor .mood-copy{padding:12px;border-radius:8px;background:linear-gradient(110deg,#75614bf5,#80684ff5);text-shadow:none}
 .bce-decor .atelier-process.scene-process p{color:var(--reading-ink)}
 .bce-decor .atelier-process.scene-process span{color:var(--reading-accent)}
 .bce-decor .atelier-signoff>a,.bce-decor .atelier-button,.bce-decor .atelier-link,.bce-decor .head-wa{font-size:14px;line-height:1.5;letter-spacing:.025em}
@@ -653,18 +649,15 @@
 .bce-decor .selbar .lbl,.bce-decor .selbar .reset,.bce-decor .picked .p,.bce-decor .picked .empty,.bce-decor .selbar .cta{font-size:14px;line-height:1.55;letter-spacing:.02em;color:var(--reading-accent)}
 .bce-decor .picked .p,.bce-decor .picked .empty{color:var(--reading-ink)}
 .bce-decor .selbar .cta{color:var(--reading-control);min-height:44px}
-.bce-decor .hero-copy>p,.bce-decor .inspiration-head>p{padding:10px 14px;border-radius:8px;background:var(--reading-paper)}
-.bce-decor .collection-intro .collection-note p{background:var(--reading-paper)}
-.bce-decor .group.section-scope .chapter-head p{background:#fff8ecf5}
 .bce-decor .english-motion-tools .motion-toggle,.bce-decor .chip .nm,.bce-decor .collection-nav a{font-weight:500}
 .bce-decor .detail-body .detail-intro,.bce-decor .detail-body .rich-block p,.bce-decor .detail-body .opt-pick,.bce-decor .detail-body .fact,.bce-decor .detail-body .fact-card,.bce-decor .detail-body .comes li{font-weight:400}
 .bce-decor .detail-body .detail-h,.bce-decor .detail-body .detail-kicker{font-weight:500;color:var(--reading-accent)}
-.bce-decor .scene-experiences.group.section-scope .chapter-head p{color:#f7e9d8;background:#4f4439ed}
-.bce-decor .atelier-kicker,.bce-decor .collection-note>span,.bce-decor .group.section-scope .chapter-heading>span,.bce-decor .atelier-process span{width:fit-content;max-width:100%;padding:4px 8px;border-radius:5px;background:var(--reading-paper)}
-.bce-decor .collection-note>span{display:inline-block}
-.bce-decor .scene-experiences .chapter-heading>span{background:#4f4439ed;color:#f7e9d8}
+/* Keep editorial sentences and kickers unboxed; cards and real controls retain their surfaces. */
+.bce-decor .hero-copy>p,.bce-decor .collection-intro .collection-note p,.bce-decor .group.section-scope .chapter-head p,.bce-decor .inspiration-head>p,.bce-decor .atelier-kicker,.bce-decor .collection-note>span,.bce-decor .group.section-scope .chapter-heading>span,.bce-decor .atelier-process>div:not(.section-atmosphere)>span,.bce-decor .hero-caption,.bce-decor .mood-copy{background:transparent;box-shadow:none;border:0;border-radius:0;padding:0}
+.bce-decor .collection-intro .collection-note p{max-width:380px}
+.bce-decor .scene-experiences.group.section-scope .chapter-head p,.bce-decor .scene-experiences .chapter-heading>span{color:#fff4df}
 @media(max-width:760px){
- .bce-decor .hero-layout{gap:28px}.bce-decor .hero-seal{width:100px;height:100px}.bce-decor .hero-caption{background:#fff6e8e6;padding:6px 8px;border-radius:4px}
+ .bce-decor .hero-layout{gap:28px}.bce-decor .hero-seal{width:100px;height:100px}
  .bce-decor .collection-intro .collection-note{max-width:100%}.bce-decor .discovery-panel .collection-nav a{padding-inline:10px}
  .bce-decor .chip .nm{font-size:15px}.bce-decor .chip .ds{font-size:14px}.bce-decor .chip{min-height:180px}
  .bce-decor .sitehead .wrap{flex-wrap:wrap}.bce-decor .sitehead .brand{min-width:0}.bce-decor .head-wa{font-size:14px}

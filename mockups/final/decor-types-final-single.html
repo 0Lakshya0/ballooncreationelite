@@ -629,15 +629,12 @@ html[data-motion-suspended] .head-wa::after,html[data-motion-suspended] .atelier
 @media(max-width:520px){.group.section-scope .chapter-image{box-shadow:-1px 1px 0 #eedbb9,-2px 3px 0 #c6a57a,-4px 5px 0 #9d794e,-7px 10px 12px #4d351e3b}}
 
 /* Soft readable ink: retain the larger type, avoid near-black weight. */
-body{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c;--reading-paper:#fff8ecf5}
+body{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c}
 .english-motion-tools{display:flex;justify-content:flex-end;align-items:center;padding-block:12px;position:relative;z-index:2}
 .english-motion-tools .motion-toggle{margin:0;font-size:14px;font-weight:500;min-height:44px;padding:10px 16px;color:var(--reading-accent);background:#fff6e8f5;border-color:#b48b58}
 .hero-copy>p,.collection-intro .collection-note p,.group.section-scope .chapter-head p,.inspiration-head>p,.atelier-process p{font-size:16px;line-height:1.8;font-weight:400;color:var(--reading-ink)}
-.collection-intro .collection-note p{max-width:380px;padding:10px 12px;border-radius:6px;background:#fff6e8cf}
-.atelier-kicker,.hero-copy .atelier-kicker,.collection-note>span,.group.section-scope .chapter-heading>span,.atelier-process span,.hero-footnote,.hero-index a,.hero-index>span{font-size:13px;line-height:1.65;letter-spacing:.055em;color:var(--reading-accent);font-weight:600}
+.atelier-kicker,.hero-copy .atelier-kicker,.collection-note>span,.group.section-scope .chapter-heading>span,.atelier-process>div:not(.section-atmosphere)>span,.hero-footnote,.hero-index a,.hero-index>span{font-size:13px;line-height:1.65;letter-spacing:.055em;color:var(--reading-accent);font-weight:500}
 .discovery-panel .collection-nav a{font-size:15px;line-height:1.5}
-.group.section-scope .chapter-head p{padding:8px 10px;border-radius:6px;background:#fff7e8e6}
-.scene-experiences.group.section-scope .chapter-head p{color:#fff6e8;background:#30251be6}
 .scene-experiences .chapter-heading>span{color:#ffe5b4}
 .group.section-scope .chapter-count{font-size:13px;line-height:1.4;letter-spacing:.03em;max-width:44%;text-align:center;z-index:3;color:var(--reading-accent);background:#fff6e8}
 .chip .nm{font-size:16px;line-height:1.5;font-weight:500;color:var(--reading-accent)}
@@ -648,7 +645,6 @@ body{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c;--
 .group-foot,.gallery figcaption,.gallery figcaption span,.gallery .more span,.gallery .more a{font-size:14px;line-height:1.7;color:var(--reading-accent)}
 .mood-copy small{font-size:13px;line-height:1.5;letter-spacing:.06em;color:#fff7e8}
 .mood-copy>span{font-size:15px;line-height:1.5;color:#fff7e8}
-.mood-copy{padding:12px;border-radius:8px;background:linear-gradient(110deg,#75614bf5,#80684ff5);text-shadow:none}
 .atelier-process.scene-process p{color:var(--reading-ink)}
 .atelier-process.scene-process span{color:var(--reading-accent)}
 .atelier-signoff>a,.atelier-button,.atelier-link,.head-wa{font-size:14px;line-height:1.5;letter-spacing:.025em}
@@ -668,18 +664,15 @@ body{--reading-ink:#73614f;--reading-accent:#80694f;--reading-control:#62503c;--
 .selbar .lbl,.selbar .reset,.picked .p,.picked .empty,.selbar .cta{font-size:14px;line-height:1.55;letter-spacing:.02em;color:var(--reading-accent)}
 .picked .p,.picked .empty{color:var(--reading-ink)}
 .selbar .cta{color:var(--reading-control);min-height:44px}
-.hero-copy>p,.inspiration-head>p{padding:10px 14px;border-radius:8px;background:var(--reading-paper)}
-.collection-intro .collection-note p{background:var(--reading-paper)}
-.group.section-scope .chapter-head p{background:#fff8ecf5}
 .english-motion-tools .motion-toggle,.chip .nm,.collection-nav a{font-weight:500}
 .detail-body .detail-intro,.detail-body .rich-block p,.detail-body .opt-pick,.detail-body .fact,.detail-body .fact-card,.detail-body .comes li{font-weight:400}
 .detail-body .detail-h,.detail-body .detail-kicker{font-weight:500;color:var(--reading-accent)}
-.scene-experiences.group.section-scope .chapter-head p{color:#f7e9d8;background:#4f4439ed}
-.atelier-kicker,.collection-note>span,.group.section-scope .chapter-heading>span,.atelier-process span{width:fit-content;max-width:100%;padding:4px 8px;border-radius:5px;background:var(--reading-paper)}
-.collection-note>span{display:inline-block}
-.scene-experiences .chapter-heading>span{background:#4f4439ed;color:#f7e9d8}
+/* Keep editorial sentences and kickers unboxed; cards and real controls retain their surfaces. */
+.hero-copy>p,.collection-intro .collection-note p,.group.section-scope .chapter-head p,.inspiration-head>p,.atelier-kicker,.collection-note>span,.group.section-scope .chapter-heading>span,.atelier-process>div:not(.section-atmosphere)>span,.hero-caption,.mood-copy{background:transparent;box-shadow:none;border:0;border-radius:0;padding:0}
+.collection-intro .collection-note p{max-width:380px}
+.scene-experiences.group.section-scope .chapter-head p,.scene-experiences .chapter-heading>span{color:#fff4df}
 @media(max-width:760px){
- .hero-layout{gap:28px}.hero-seal{width:100px;height:100px}.hero-caption{background:#fff6e8e6;padding:6px 8px;border-radius:4px}
+ .hero-layout{gap:28px}.hero-seal{width:100px;height:100px}
  .collection-intro .collection-note{max-width:100%}.discovery-panel .collection-nav a{padding-inline:10px}
  .chip .nm{font-size:15px}.chip .ds{font-size:14px}.chip{min-height:180px}
  .sitehead .wrap{flex-wrap:wrap}.sitehead .brand{min-width:0}.head-wa{font-size:14px}

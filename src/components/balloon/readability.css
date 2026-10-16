@@ -5,7 +5,6 @@
   --reading-ink: #73614f;
   --reading-accent: #80694f;
   --reading-control: #62503c;
-  --reading-paper: #fff8ecf5;
   --muted-foreground: var(--reading-ink);
 }
 .site-liquid-shell
@@ -196,41 +195,32 @@
   }
 }
 
-/* Soft champagne/taupe ink is supported by pearl glass rather than near-black weight. */
-.site-liquid-shell
-  :is(.hero-content > p, .section-intro p, .standard-heading p, .concierge-copy > p) {
-  padding: 10px 14px;
-  border-radius: 8px;
-  background: linear-gradient(110deg, var(--reading-paper), #fff8ecf0);
-  box-shadow: inset 0 1px 0 #fffdf4b3;
-  text-shadow: none;
-}
-.site-liquid-shell .standard-heading p {
-  width: fit-content;
-  max-width: 100%;
-  margin-inline: auto;
-}
+/* Owner preference: supporting copy sits directly on the liquid, never on a strip. */
 .site-liquid-shell
   :is(
+    .hero-content > p,
+    .section-intro p,
+    .standard-heading p,
+    .concierge-copy > p,
     .hero-eyebrow,
     .category-heading > .eyebrow,
     .section-heading .eyebrow,
     .hero-footnote,
-    .portfolio-note > span
+    .portfolio-note > span,
+    .category-label,
+    .concierge-copy > .eyebrow,
+    .concierge-contact > .eyebrow,
+    .location-note
   ) {
-  width: fit-content;
-  max-width: 100%;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: #fff8ecf5;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   text-shadow: none;
 }
 .site-liquid-shell .category-label {
-  padding: 5px 6px;
-  border-radius: 6px;
-  background: #fff8ecf5;
   font-weight: 500;
-  text-shadow: none;
 }
 .site-liquid-shell
   :is(
@@ -255,16 +245,8 @@
   color: var(--reading-ink);
   font-weight: 500;
 }
-.site-liquid-shell :is(.concierge-copy > .eyebrow, .concierge-contact > .eyebrow, .location-note) {
-  width: fit-content;
-  max-width: 100%;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: #fff8ecf5;
-  text-shadow: none;
-}
 .site-liquid-shell .site-footer {
-  padding-inline: 18px;
-  border-radius: 8px;
-  background: #fff8ecf5;
+  padding-inline: 0;
+  border-radius: 0;
+  background: transparent;
 }

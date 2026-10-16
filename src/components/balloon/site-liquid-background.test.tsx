@@ -31,15 +31,26 @@ afterEach(() => {
 });
 
 describe("Full-home approved liquid background and collection entry", () => {
-  it("keeps large copy with softer shared ink and readable contrast on pearl surfaces", () => {
+  it("keeps large copy with softer shared ink and no sentence backplates", () => {
     const home = readFileSync("src/components/balloon/readability.css", "utf8");
     const english = readFileSync("mockups/_english_readability.py", "utf8");
-    for (const colour of ["#73614f", "#80694f", "#62503c", "#fff8ecf5"]) {
+    for (const colour of ["#73614f", "#80694f", "#62503c"]) {
       expect(home).toContain(colour);
       expect(english).toContain(colour);
     }
     expect(home).toContain("clamp(16px, 1.15vw, 18px)");
     expect(home).toContain("font-weight: 400");
+    for (const css of [home, english]) {
+      expect(css).not.toContain("--reading-paper");
+      expect(css).not.toContain("#fff8ecf5");
+    }
+    expect(home).toContain("background: transparent;");
+    expect(english).toContain(
+      ".hero-copy>p,.collection-intro .collection-note p,.group.section-scope .chapter-head p,.inspiration-head>p,.atelier-kicker",
+    );
+    expect(english).toContain(
+      "{background:transparent;box-shadow:none;border:0;border-radius:0;padding:0}",
+    );
     const luminance = (hex: string) => {
       const c = [1, 3, 5]
         .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
