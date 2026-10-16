@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { categories } from './category-marquee';
 import { contact } from '@/lib/celebrations';
 
-export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation: () => void }) {
+export function SmartSearch({ areas, onLocation, onAsk }: { areas: string[]; onLocation: () => void; onAsk: (question: string) => void }) {
   const [q, setQ] = useState('');
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
@@ -48,12 +48,15 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
     return () => document.removeEventListener('pointerdown', close);
   }, []);
   const done = () => { setOpen(false); setQ(''); };
+  const question = q.trim();
+  const ask = () => { if (question.length < 2) return; done(); onAsk(question); };
   const pickService = () => { done(); document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
   const pickPlace = (p: string) => { done(); onLocation(); toast.success(`Yes! We cover ${p}.`); };
-  return <div className="smart-search" ref={box} onKeyDown={e => e.key === 'Escape' && setOpen(false)}>
+  return <div className="smart-search" ref={box} onKeyDown={e => { if (e.key === 'Escape') setOpen(false); if (e.key === 'Enter') { e.preventDefault(); ask(); } }}>
     <Search size={16} className="smart-icon" aria-hidden="true" />
     <input value={q} onChange={e => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} placeholder={ph || 'Search services or Indore areas…'} aria-label="Search services or locations" />
     {open && <div className="smart-results" role="listbox">
+      {question.length >= 2 && <button type="button" className="smart-ask" onClick={ask}>🤖 Ask AI: “{question}”</button>}
       {services.length + places.length === 0
         ? <a className="smart-empty" href={`${contact.whatsapp}?text=${encodeURIComponent(`Hello Balloon Creation! I am looking for: ${q}`)}`} target="_blank" rel="noreferrer">Not found? Ask directly on WhatsApp 💬</a>
         : <>

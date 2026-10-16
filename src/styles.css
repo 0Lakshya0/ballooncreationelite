@@ -473,4 +473,14 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .brand-strip .smart-head { display: block; padding: 8px 12px 4px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: var(--gold); }
 .smart-results button, .smart-empty { display: block; width: 100%; text-align: left; padding: 9px 12px; border-radius: 12px; font-size: 14px; color: var(--foreground); letter-spacing: 0; text-transform: none; }
 .smart-results button:hover, .smart-empty:hover { background: color-mix(in oklab, var(--gold) 12%, transparent); }
+.smart-ask { display: block; width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--primary); background: color-mix(in oklab, var(--gold) 10%, transparent); margin-bottom: 4px; }
+.smart-ask:hover { background: color-mix(in oklab, var(--gold) 20%, transparent); }
+.ask-modal { width: min(560px, 100%); }
+.ask-modal .areas-head h2 { font-size: 20px; line-height: 1.25; }
+.ask-body { overflow-y: auto; padding-right: 16px; margin-top: 14px; }
+.ask-loading { display: flex; align-items: center; gap: 8px; font-size: 14px; color: color-mix(in oklab, var(--foreground) 70%, transparent); }
+.ask-answer { font-size: 15px; line-height: 1.7; white-space: pre-wrap; color: var(--foreground); }
+.ask-sources { margin-top: 18px; padding-top: 14px; border-top: 1px solid color-mix(in oklab, var(--gold) 25%, transparent); }
+.ask-sources ul { margin-top: 8px; display: grid; gap: 6px; }
+.ask-sources a { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 @keyframes smart-in { from { opacity: 0; transform: translateY(-6px); } }

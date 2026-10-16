@@ -1,4 +1,5 @@
 import { SmartSearch } from '@/components/balloon/smart-search';
+import { AskAssistant } from '@/components/balloon/ask-assistant';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
@@ -62,6 +63,7 @@ const indoreAreas = [
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [areasOpen, setAreasOpen] = useState(false);
+  const [askQuestion, setAskQuestion] = useState('');
   const [occasion, setOccasion] = useState('');
   const [line, setLine] = useState(0);
   const [fading, setFading] = useState<number | null>(null);
@@ -125,7 +127,7 @@ function Index() {
         <div className="service-badge" aria-live="polite"><span className="service-dot" /><span key={slide} className="service-name">{heroSlides[slide]?.name}</span></div>
         <div className="hero-caption"><span>THE ART OF CELEBRATION</span><span>BALLOON CREATION · INDORE</span></div>
       </section>
-      <div className="brand-strip"><div className="page-width"><button type="button" className="areas-pill" onClick={() => setAreasOpen(true)} aria-haspopup="dialog"><MapPin size={14} /> Serving All Indore Areas <span className="areas-view">(View List)</span></button><SmartSearch areas={indoreAreas} onLocation={() => setAreasOpen(true)} /><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
+      <div className="brand-strip"><div className="page-width"><button type="button" className="areas-pill" onClick={() => setAreasOpen(true)} aria-haspopup="dialog"><MapPin size={14} /> Serving All Indore Areas <span className="areas-view">(View List)</span></button><SmartSearch areas={indoreAreas} onLocation={() => setAreasOpen(true)} onAsk={setAskQuestion} /><span>FLOWERS <span className="strip-dot">✦</span> BALLOONS <span className="strip-dot">✦</span> MEMORIES</span></div></div>
       <CategoryMarquee />
       <section className="portfolio section-space page-width" id="portfolio">
         <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><RotatingLines /></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
@@ -141,6 +143,7 @@ function Index() {
       </div></section>
       <Concierge occasion={occasion} onOccasionChange={setOccasion} />
     </main>
+    {askQuestion && <AskAssistant question={askQuestion} onClose={() => setAskQuestion('')} />}
     {areasOpen && <div className="areas-overlay" role="dialog" aria-modal="true" aria-label="Areas we serve in Indore" onClick={() => setAreasOpen(false)}>
       <div className="areas-modal" onClick={e => e.stopPropagation()}>
         <div className="areas-head"><span className="eyebrow">WHERE WE CELEBRATE</span><h2>Areas we serve in Indore</h2><button type="button" className="areas-close" aria-label="Close areas list" onClick={() => setAreasOpen(false)}><X size={18} /></button></div>

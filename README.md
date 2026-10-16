@@ -42,3 +42,13 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## AI search assistant (free setup)
+
+The search bar in the header can answer any question with AI. It uses Google Gemini's **free tier**:
+
+1. Create a free key (no credit card) at https://aistudio.google.com/app/apikey
+2. Add it as a **server-side** secret named `GEMINI_API_KEY` (never prefix it with `VITE_`).
+3. Optional: set `GEMINI_MODEL` (default `gemini-3.1-flash-lite`).
+
+Answers try live Google Search grounding first, then fall back to free Wikipedia context. Harmful requests are refused by the system prompt in `src/lib/assistant.functions.ts`.
