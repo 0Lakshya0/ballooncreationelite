@@ -21,7 +21,7 @@ export function SiteLiquidBackground() {
     } catch {
       /* Storage may be unavailable in private browsing. */
     }
-    const notify = () => root.dispatchEvent(new Event("bce:motionchange"));
+    const notify = () => root.dispatchEvent(new Event("bce:motionchange", { bubbles: true }));
     function apply() {
       const on = !paused && !media.matches;
       root!.dataset["motion"] = on ? "on" : "off";

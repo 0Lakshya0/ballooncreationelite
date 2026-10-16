@@ -30,7 +30,11 @@ const css = fs
     "utf8",
   )
   .replace(/<\/style/gi, "<\\/style");
-if (/SUPABASE_SERVICE_ROLE_KEY|supabaseAdmin|submit_concierge/.test(js))
+if (
+  /SUPABASE_SERVICE_ROLE_KEY|supabaseAdmin|submit_concierge|GEMINI_API_KEY|GROQ_API_KEY|OPENROUTER_API_KEY/.test(
+    js,
+  )
+)
   throw new Error("Private server code must not enter a public phone view.");
 const commit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
 let html = fs

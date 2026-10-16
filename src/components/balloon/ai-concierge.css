@@ -1,0 +1,416 @@
+/* Self-contained warm-gold assistant; no changes to the existing search styling. */
+.bce-ai-orb {
+  position: fixed;
+  z-index: 45;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff5dc;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    left 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+    top 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  outline-offset: 4px;
+  filter: drop-shadow(0 7px 7px #8e662b32);
+}
+.bce-ai-orb.is-dragging {
+  cursor: grabbing;
+  transition: none;
+  filter: drop-shadow(0 10px 9px #8e662b45);
+}
+.bce-ai-sphere {
+  display: block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  transform: translateZ(0);
+}
+.bce-ai-sphere::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 30% 22%,
+    #fff4c9 0%,
+    #e8c675 24%,
+    #be913e 52%,
+    #957036 80%,
+    #d9b267 100%
+  );
+  box-shadow:
+    inset -3px -4px 7px #7e58282b,
+    inset 2px 2px 5px #fff7df99;
+}
+.bce-ai-sphere:has(canvas[data-ready="true"])::before {
+  opacity: 0;
+}
+.bce-ai-sphere canvas {
+  position: absolute;
+  inset: 0;
+  width: 64px;
+  height: 64px;
+  opacity: 0;
+  pointer-events: none;
+}
+.bce-ai-sphere canvas[data-ready="true"] {
+  opacity: 1;
+}
+.bce-ai-monogram {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-top: 1px;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  text-shadow: 0 1px 3px #66491685;
+  pointer-events: none;
+}
+.bce-ai-orb-caption {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  width: 100%;
+  color: #8e734b;
+  font: 500 10px/1.4 var(--font-sans, sans-serif);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px #fff8e4;
+}
+.bce-ai-orb:focus-visible {
+  outline: 2px solid #ac8441;
+  border-radius: 50%;
+}
+.bce-ai-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: #59482e1f;
+  backdrop-filter: blur(3px);
+  animation: bce-ai-fade 0.2s ease-out;
+}
+.bce-ai-panel {
+  position: fixed;
+  z-index: 121;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #dbc79e;
+  border-radius: 28px;
+  background: linear-gradient(150deg, #fffaf0f7, #f7eddbf7);
+  box-shadow:
+    0 22px 90px #6c512f29,
+    0 2px 8px #8e6a2412;
+  color: #79694f;
+  font-family: var(--font-sans, Manrope, sans-serif);
+  outline: none;
+  animation: bce-ai-panel-in 0.25s ease-out;
+  isolation: isolate;
+}
+.bce-ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 25px 23px 20px;
+  border-bottom: 1px solid #d5bc8e55;
+}
+.bce-ai-eyebrow {
+  display: block;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  color: #a28759;
+  font-weight: 500;
+}
+.bce-ai-header h2 {
+  margin: 5px 0 2px;
+  font: 500 30px/1.15 var(--font-display, Georgia, serif);
+  letter-spacing: -0.035em;
+  color: #806b46;
+}
+.bce-ai-header p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  color: #9c8868;
+  font-weight: 400;
+}
+.bce-ai-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #b89b682f;
+  border-radius: 50%;
+  background: transparent;
+  color: #927957;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.bce-ai-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 23px;
+  scrollbar-width: thin;
+  scrollbar-color: #d5bf98 transparent;
+}
+.bce-ai-welcome > svg {
+  color: #b59b69;
+  margin-bottom: 12px;
+}
+.bce-ai-welcome h3 {
+  margin: 0 0 13px;
+  font: 400 27px/1.18 var(--font-display, Georgia, serif);
+  letter-spacing: -0.025em;
+  color: #917a52;
+}
+.bce-ai-welcome h3 em {
+  font-weight: 400;
+  color: #b39767;
+}
+.bce-ai-welcome p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.85;
+  color: #968365;
+}
+.bce-ai-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 19px 0 5px;
+}
+.bce-ai-suggestions button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid #d8c29a59;
+  background: none;
+  padding: 11px 0;
+  text-align: left;
+  color: #92794f;
+  font: 400 12px/1.5 var(--font-sans, sans-serif);
+  cursor: pointer;
+}
+.bce-ai-suggestions button:hover {
+  color: #ad8643;
+}
+.bce-ai-message {
+  padding: 18px 0 0;
+  margin-top: 17px;
+  border-top: 1px solid #d5bd9359;
+  overflow-wrap: anywhere;
+}
+.bce-ai-message > span {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  color: #ac936c;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.bce-ai-message p {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #806e52;
+}
+.bce-ai-message.is-user p {
+  color: #a28b67;
+  font-size: 13px;
+}
+.bce-ai-message small {
+  display: block;
+  margin-top: 9px;
+  font-size: 10px;
+  color: #ad9877;
+  line-height: 1.5;
+}
+.bce-ai-message > a,
+.bce-ai-error a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #9e783e;
+  margin-top: 9px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.bce-ai-thinking {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 22px 0 0;
+  color: #a28a63;
+  font-size: 12px;
+}
+.bce-ai-thinking span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c4a15e;
+  animation: bce-ai-think 1.4s ease-in-out infinite;
+}
+.bce-ai-error {
+  padding: 11px 23px;
+  border-top: 1px solid #d4b88b55;
+  flex-shrink: 0;
+  max-height: 125px;
+  overflow-y: auto;
+}
+.bce-ai-error p {
+  margin: 0;
+  color: #96774e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.bce-ai-error small {
+  display: block;
+  color: #a38b6b;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.bce-ai-composer {
+  padding: 14px 17px 0;
+  flex-shrink: 0;
+}
+.bce-ai-input-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  border: 1px solid #c8ad7b99;
+  border-radius: 17px;
+  padding: 10px 9px 10px 13px;
+  background: #fffaf02b;
+  transition: border-color 0.2s;
+}
+.bce-ai-input-wrap:focus-within {
+  border-color: #ae884a;
+}
+.bce-ai-input-wrap textarea {
+  width: 100%;
+  min-height: 42px;
+  max-height: 100px;
+  resize: none;
+  border: 0;
+  outline: none;
+  background: none;
+  color: #806c4e;
+  font: 400 13px/1.65 var(--font-sans, sans-serif);
+  scrollbar-width: thin;
+}
+.bce-ai-input-wrap textarea::placeholder {
+  color: #b09c7b;
+}
+.bce-ai-input-wrap > button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d2b580;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #edd7a6, #d8b97b);
+  color: #80663b;
+  cursor: pointer;
+}
+.bce-ai-input-wrap > button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.bce-ai-input-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 7px;
+  color: #ad997b;
+  font-size: 9px;
+  line-height: 1.6;
+}
+.bce-ai-note {
+  flex-shrink: 0;
+  margin: 7px 20px 16px;
+  font-size: 9px;
+  line-height: 1.7;
+  color: #ae9b7d;
+  text-align: center;
+}
+.bce-ai-panel button:focus-visible,
+.bce-ai-panel a:focus-visible {
+  outline: 2px solid #ae884a;
+  outline-offset: 3px;
+}
+@keyframes bce-ai-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes bce-ai-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes bce-ai-think {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+}
+@media (max-width: 480px) {
+  .bce-ai-panel {
+    border-radius: 23px;
+  }
+  .bce-ai-header {
+    padding: 21px 20px 16px;
+  }
+  .bce-ai-header h2 {
+    font-size: 28px;
+  }
+  .bce-ai-messages {
+    padding: 20px;
+  }
+  .bce-ai-input-wrap textarea {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .bce-ai-note {
+    font-size: 9px;
+  }
+  .bce-ai-welcome h3 {
+    font-size: 25px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bce-ai-orb {
+    transition: none;
+  }
+  .bce-ai-panel,
+  .bce-ai-overlay,
+  .bce-ai-thinking span {
+    animation: none;
+  }
+}
