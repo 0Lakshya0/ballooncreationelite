@@ -1,20 +1,21 @@
-## Latest updated MAIN website — no sentence strips
+## Latest updated MAIN website — three-layer salesman search
 
-**https://clck.ru/3WX8Z8**
+**https://clck.ru/3WXBhx**
 
 This is the updated native homepage **with the new Explore decor styles button and full-home cream/champagne/rose liquid animation**, not the older Lovable deployment and not just the standalone English decor page.
 
-- Pinned phone-view commit: `b1757b0bd7110e310a1a399acacdd633b2553309`.
-- Exact source main-site revision: `14b88b769b0ff178366a0e49f0e2619349441749`.
-- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/b1757b0bd7110e310a1a399acacdd633b2553309/drafts/main-website-phone.html`.
-- Remote blob `d8ad02c873c0de05f6c4149119665beb50560204` and size 10,950,826 bytes verified against GitHub.
+- Pinned phone-view commit: `432483d96c429a8fe62da11f29e32bd151f9f33e`.
+- Exact source main-site revision: `72e39ab006e52011736a396c3a3d6c44d27acc47`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/432483d96c429a8fe62da11f29e32bd151f9f33e/drafts/main-website-phone.html`.
+- Remote blob `82f8927d94eb601b0a99b0113ce797bec8c3a784` and size 10,952,791 bytes verified against GitHub.
 - Native React screens bundled into one HTML with embedded photography/fonts, memory routing, detail modals and WhatsApp selection. No Arena login/sandbox uptime required; allow a moment on first load.
 - **Public static phone view, not a production deployment.** WhatsApp/call work; private database enquiry submission is deliberately not connected and never shows a fake success. The production form/source remains unchanged.
 - Build: `node scripts/build-main-phone.mjs`; adapters/readme: `mockups/main-phone/`.
 - Local LIVE PREVIEW of the same artifact: **Updated website — phone view, 8092**. Main native preview remains **8080**; standalone English **8090** and bilingual **8091** remain separate.
-- Chromium checks passed at 320/390/768/1440px, plus native collection entry/back/modals/WhatsApp and all embedded image decoding. The real HTMLPreview loader was also exercised with its remote-base behavior using locally supplied responses. Direct Chromium external navigation is blocked by the sandbox network; the fetch tool separately resolved the public short link and confirmed the pinned raw artifact/source metadata. Its latest HTMLPreview fetch returned the loader shell, so this is not a claim of external real-device rendering; native and HTMLPreview-loader browser tests use locally supplied responses.
+- Chromium checks passed at 320/390/768/1440px, plus native collection entry/back/modals/WhatsApp and all embedded image decoding. The real HTMLPreview loader was also exercised with its remote-base behavior using locally supplied responses. Direct Chromium external navigation is blocked by the sandbox network; the fetch tool separately followed the current public short link and rendered the correct homepage content. Native and real HTMLPreview-loader browser interaction tests use locally supplied responses, not a claim of external real-device testing.
 - Every future main-site change needs a rebuild and a **new pinned phone link**; always end the user reply with that latest link. Never substitute the old Lovable domain or a temporary e2b link for the updated phone view.
 
+- Search update: direct keyword replies, grouped service/location filtering and client-only fallback animation/custom-query WhatsApp. All 35 unit tests pass. Main, native phone and real HTMLPreview-loader browser checks pass at 320/390/768/1440px, with original input design and typewriter unchanged. Earlier no-strip-only main snapshot https://clck.ru/3WX8Z8 does not contain this search update.
 - Owner preference: no white/cream strips, padded boxes or pill backplates behind sentences or supporting labels. Copy is directly on the approved liquid background. Keep this preference in future changes; actual cards/controls are unchanged.
 - Readability update: 16–18px supporting sentences, 14–15px home labels, softer warm-taupe ink directly on the background, without sentence strips, and larger English card/detail copy. The English/native collection motion control is now in the top-right toolbar rather than the content.
 - Updated separate English page: **https://clck.ru/3WX8ZA**, pinned to source revision `14b88b769b0ff178366a0e49f0e2619349441749`.
