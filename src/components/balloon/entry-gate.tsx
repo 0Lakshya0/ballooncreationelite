@@ -33,8 +33,10 @@ export function EntryGate() {
   if (phase === 'gone') return null;
 
   return <div className={`entry-gate${phase === 'open' ? ' is-open' : ''}`} aria-hidden={phase === 'open'}>
-    <div className="gate-door gate-door-left" />
-    <div className="gate-door gate-door-right" />
+    <div className="gate-frame">
+      <div className="gate-door gate-door-left" />
+      <div className="gate-door gate-door-right" />
+    </div>
     <button type="button" className="gate-medallion" onClick={() => setPhase('open')} aria-label="Enter Balloon Creation website">
       <img src="/balloon-logo.jpg" alt="Balloon Creation" width={400} height={400} />
     </button>

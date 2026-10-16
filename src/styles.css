@@ -485,21 +485,22 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .ask-sources a { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 @keyframes smart-in { from { opacity: 0; transform: translateY(-6px); } }
 
-/* Entry gate: golden doors shown before the website */
-.entry-gate { position: fixed; inset: 0; z-index: 300; overflow: hidden; }
-.gate-door { position: absolute; top: 0; bottom: 0; width: 50%; overflow: hidden; background: linear-gradient(100deg, #7a5a10 0%, #e8bf45 16%, #fff4b8 30%, #d6a421 48%, #f7dc74 62%, #fff4b8 76%, #d9a52a 90%, #7a5a10 100%); transition: transform 1.1s cubic-bezier(.7, 0, .2, 1); box-shadow: inset 0 0 0 10px rgba(122, 90, 16, .35), inset 0 0 0 13px rgba(255, 244, 184, .5); }
-.gate-door::after { content: ''; position: absolute; inset: -20% 0; background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .9) 50%, transparent 60%); transform: translateX(-120%); animation: gate-shine 3.4s ease-in-out infinite; pointer-events: none; }
+/* Entry gate: tall royal-gold doors shown before the website */
+.entry-gate { position: fixed; inset: 0; z-index: 300; overflow: hidden; background: radial-gradient(ellipse at center, #fffdf5 0%, #f3ead2 100%); }
+.gate-frame { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; height: min(84vh, 150vw); width: min(92vw, 62vh); }
+.gate-door { position: relative; flex: 1 1 50%; height: 100%; overflow: hidden; border-top: 3px solid #111; border-bottom: 3px solid #111; background: linear-gradient(100deg, #3d2600 0%, #9c6b0a 12%, #f5cf55 26%, #ffeaa0 34%, #b8860b 46%, #6b4806 52%, #b8860b 58%, #ffeaa0 66%, #f5cf55 74%, #9c6b0a 88%, #3d2600 100%); transition: transform 1.1s cubic-bezier(.7, 0, .2, 1); box-shadow: inset 0 0 0 10px rgba(61, 38, 0, .35), inset 0 0 0 13px rgba(255, 234, 160, .55), inset 0 0 40px rgba(0, 0, 0, .25); }
+.gate-door::after { content: ''; position: absolute; inset: -20% 0; background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .95) 50%, transparent 60%); transform: translateX(-120%); animation: gate-shine 3.4s ease-in-out infinite; pointer-events: none; }
 .gate-door-right::after { animation-delay: .9s; }
-.gate-door-left { left: 0; border-right: 3px solid #111; }
-.gate-door-right { right: 0; border-left: 3px solid #111; }
+.gate-door-left { border-left: 3px solid #111; border-right: 1.5px solid #111; }
+.gate-door-right { border-right: 3px solid #111; border-left: 1.5px solid #111; }
 @keyframes gate-shine { 0%, 45% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
-.entry-gate.is-open .gate-door-left { transform: translateX(-101%); }
-.entry-gate.is-open .gate-door-right { transform: translateX(101%); }
-.gate-medallion { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(44vw, 300px); aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: #fff; cursor: pointer; box-shadow: 0 0 0 4px #f29a7a, 0 0 0 8px #fff4b8, 0 0 0 10px #d6a421, 0 0 45px 10px rgba(255, 230, 140, .75); transition: transform .5s ease, opacity .5s ease; z-index: 2; }
+.entry-gate.is-open .gate-door-left { transform: translateX(-105%); }
+.entry-gate.is-open .gate-door-right { transform: translateX(105%); }
+.gate-medallion { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(30vw, 190px); aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: #fff; cursor: pointer; box-shadow: 0 0 0 4px #5c3d00, 0 0 0 7px #ffe27a, 0 0 0 10px #8a5f0c, 0 0 45px 12px rgba(255, 215, 90, .8); transition: transform .5s ease, opacity .5s ease; z-index: 2; }
 .gate-medallion img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
 .gate-medallion:hover { transform: translate(-50%, -50%) scale(1.04); }
 .gate-medallion:focus-visible { outline: 3px solid #111; outline-offset: 12px; }
-.gate-hint { position: absolute; left: 50%; bottom: 10vh; transform: translateX(-50%); z-index: 2; font-size: 13px; letter-spacing: .3em; text-transform: uppercase; color: #3a2a05; font-weight: 600; text-shadow: 0 0 10px rgba(255, 255, 255, .7); white-space: nowrap; animation: gate-pulse 1.8s ease-in-out infinite; transition: opacity .4s ease; }
+.gate-hint { position: absolute; left: 50%; bottom: 3vh; transform: translateX(-50%); z-index: 2; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: #4a2f00; font-weight: 700; white-space: nowrap; animation: gate-pulse 1.8s ease-in-out infinite; transition: opacity .4s ease; }
 @keyframes gate-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 .entry-gate.is-open .gate-medallion, .entry-gate.is-open .gate-hint { opacity: 0; pointer-events: none; }
 .entry-gate.is-open .gate-medallion { transform: translate(-50%, -50%) scale(.6); }
