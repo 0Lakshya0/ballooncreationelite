@@ -2,7 +2,11 @@
 .site-liquid-shell {
   --reading-body: clamp(16px, 1.15vw, 18px);
   --reading-label: clamp(14px, 1vw, 15px);
-  --muted-foreground: oklch(0.36 0.03 65);
+  --reading-ink: #73614f;
+  --reading-accent: #80694f;
+  --reading-control: #62503c;
+  --reading-paper: #fff8ecf5;
+  --muted-foreground: var(--reading-ink);
 }
 .site-liquid-shell
   :is(
@@ -16,8 +20,8 @@
   ) {
   font-size: var(--reading-body);
   line-height: 1.8;
-  color: #493725;
-  font-weight: 500;
+  color: var(--reading-ink);
+  font-weight: 400;
 }
 .site-liquid-shell
   :is(
@@ -39,8 +43,8 @@
   ) {
   font-size: var(--reading-label);
   line-height: 1.65;
-  color: #513b25;
-  font-weight: 600;
+  color: var(--reading-accent);
+  font-weight: 500;
   letter-spacing: 0.025em;
 }
 .site-liquid-shell
@@ -56,9 +60,9 @@
 }
 .site-liquid-shell .brand-descriptor {
   font-size: 14px;
-  color: #503c29;
-  -webkit-text-fill-color: #503c29;
-  font-weight: 600;
+  color: var(--reading-ink);
+  -webkit-text-fill-color: var(--reading-ink);
+  font-weight: 500;
 }
 .site-liquid-shell .main-nav {
   font-size: 16px;
@@ -84,27 +88,27 @@
   line-height: 1.65;
 }
 .site-liquid-shell :is(.form-grid input, .form-grid textarea)::placeholder {
-  color: #665039;
+  color: var(--reading-ink);
   opacity: 1;
 }
 .site-liquid-shell .image-tag {
   font-size: 14px;
   line-height: 1.5;
-  color: #493725;
+  color: var(--reading-ink);
   background: #fff6e6f0;
 }
 .site-liquid-shell .category-label {
   font-size: 20px;
   line-height: 1.35;
   background: none;
-  color: #53391f;
-  -webkit-text-fill-color: #53391f;
+  color: var(--reading-accent);
+  -webkit-text-fill-color: var(--reading-accent);
   text-shadow: 0 1px 2px #fff7e8cc;
 }
 .site-liquid-shell .brand-strip .areas-pill,
 .site-liquid-shell .brand-strip .areas-view {
   font-size: 14px;
-  color: #493725;
+  color: var(--reading-ink);
 }
 .site-liquid-shell .brand-strip .areas-pill {
   flex-wrap: wrap;
@@ -117,7 +121,7 @@
 .site-liquid-shell .decor-entry-copy small {
   font-size: 14px;
   line-height: 1.5;
-  color: #583d25;
+  color: var(--reading-ink);
 }
 .site-liquid-shell .brand-strip .smart-head {
   font-size: 14px;
@@ -190,4 +194,77 @@
   .site-liquid-shell .decor-entry-copy b {
     font-size: 16px;
   }
+}
+
+/* Soft champagne/taupe ink is supported by pearl glass rather than near-black weight. */
+.site-liquid-shell
+  :is(.hero-content > p, .section-intro p, .standard-heading p, .concierge-copy > p) {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: linear-gradient(110deg, var(--reading-paper), #fff8ecf0);
+  box-shadow: inset 0 1px 0 #fffdf4b3;
+  text-shadow: none;
+}
+.site-liquid-shell .standard-heading p {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.site-liquid-shell
+  :is(
+    .hero-eyebrow,
+    .category-heading > .eyebrow,
+    .section-heading .eyebrow,
+    .hero-footnote,
+    .portfolio-note > span
+  ) {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #fff8ecf5;
+  text-shadow: none;
+}
+.site-liquid-shell .category-label {
+  padding: 5px 6px;
+  border-radius: 6px;
+  background: #fff8ecf5;
+  font-weight: 500;
+  text-shadow: none;
+}
+.site-liquid-shell
+  :is(
+    .form-grid label,
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea,
+    .areas-note,
+    .location-note,
+    .main-nav
+  ) {
+  color: var(--reading-ink);
+}
+.site-liquid-shell .decor-entry-copy b {
+  color: var(--reading-control);
+  font-weight: 500;
+}
+.site-liquid-shell .decor-entry-copy small {
+  color: var(--reading-control);
+}
+.site-liquid-shell .site-motion-control {
+  color: var(--reading-ink);
+  font-weight: 500;
+}
+.site-liquid-shell :is(.concierge-copy > .eyebrow, .concierge-contact > .eyebrow, .location-note) {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #fff8ecf5;
+  text-shadow: none;
+}
+.site-liquid-shell .site-footer {
+  padding-inline: 18px;
+  border-radius: 8px;
+  background: #fff8ecf5;
 }

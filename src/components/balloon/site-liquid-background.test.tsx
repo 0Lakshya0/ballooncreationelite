@@ -31,6 +31,31 @@ afterEach(() => {
 });
 
 describe("Full-home approved liquid background and collection entry", () => {
+  it("keeps large copy with softer shared ink and readable contrast on pearl surfaces", () => {
+    const home = readFileSync("src/components/balloon/readability.css", "utf8");
+    const english = readFileSync("mockups/_english_readability.py", "utf8");
+    for (const colour of ["#73614f", "#80694f", "#62503c", "#fff8ecf5"]) {
+      expect(home).toContain(colour);
+      expect(english).toContain(colour);
+    }
+    expect(home).toContain("clamp(16px, 1.15vw, 18px)");
+    expect(home).toContain("font-weight: 400");
+    const luminance = (hex: string) => {
+      const c = [1, 3, 5]
+        .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+        .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+      return c[0]! * 0.2126 + c[1]! * 0.7152 + c[2]! * 0.0722;
+    };
+    for (const [ink, paper] of [
+      ["#73614f", "#fff8ec"],
+      ["#80694f", "#fff8ec"],
+      ["#62503c", "#e8bfa8"],
+      ["#73614f", "#f3e0c0"],
+    ]) {
+      expect((luminance(paper!) + 0.05) / (luminance(ink!) + 0.05)).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
   it("replaces the original strip text with a routed button, not an inline collection", () => {
     const home = readFileSync("src/routes/index.tsx", "utf8");
     expect(home).toContain("<DecorCollectionsButton />");
