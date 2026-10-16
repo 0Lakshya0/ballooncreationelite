@@ -1,4 +1,21 @@
-## Latest updated MAIN website — three-layer salesman search
+## Latest MAIN website — floating 3D AI + shared search chat
+
+**https://clck.ru/3WY8xZ**
+
+- Source commit: `e6915c9a50cf17dd3afbb97b2178177336a1ce6f`.
+- Pinned phone artifact commit: `ecad1adbc9ad888a62898d092c855a6719e8a5fd`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/ecad1adbc9ad888a62898d092c855a6719e8a5fd/drafts/main-website-phone.html`.
+- GitHub verified blob `9e043343096830a09f33af55a6cfeb97b0422ed5`, 10,975,615 bytes; source metadata matches e6915c9. Short link followed successfully and updated home including AI launcher rendered.
+- Real WebGL gold sphere; touch/mouse drag, nearest-side snap, remembered side/height, accessible keyboard movement. Tap opens the common AI chat. Custom search Enter / Ask AI action opens and sends into the same chat; no keystroke requests, typewriter/design/local search unchanged. The provider is shared across home/collection navigation.
+- Public phone page calls the already-configured external Worker, with no provider credentials in the page. HTMLPreview is already an allowed backend origin. Worker limits remain 50 visitor / 200 IP / 500 site attempts/day, 1,500-character questions. No new billing or Worker deployment required for this UI feature. Replies use the current question only, not chat history; this is disclosed in the UI.
+- Latest read-only live Worker health independently reports Groq `ok` / HTTP 200 and Gemini's previous upstream 503, consistent with the owner's successful Groq replies. New public-main frontend real answer still awaits owner interaction; do not misrepresent mocked browser replies as fresh live answers.
+- All **57 native tests**, TypeScript, targeted lint and production build pass. Native Chromium checks at 320/390/768/1440px pass actual touch/mouse drag, snap/persistence, no unwanted drag-open, responsive dialog and explicit search submission. Additional keyboard/viewport/XSS/route-persistence checks pass. The exact phone artifact was also exercised at all four widths with a simulated HTMLPreview remote base, collection navigation and mock CORS/provider responses. All these browser AI responses were mocked; no owner AI quota spent by tests.
+- Native LIVE PREVIEW **8080** and artifact preview **8092** show the updated UI. Their origins are NOT currently backend-allowlisted; use the public link above for real AI. Add only exact approved origins if native real-AI preview is required; never a wildcard/public origin-spoofing proxy.
+- This is a public static phone view, not a deployment of private consultation-form server functions. Existing honest WhatsApp/form-adapter behaviour is unchanged. Old main and separate English/bilingual snapshots remain available; previous immutable links do not update.
+
+---
+
+## Previous main snapshot — three-layer salesman search
 
 **https://clck.ru/3WXBhx**
 
@@ -29,10 +46,10 @@ This is the updated native homepage **with the new Explore decor styles button a
 
 Draft preview ke chhote links — kisi bhi phone browser me khulte hain, koi login nahi chahiye.
 
-| Kya | Short link |
-| --- | --- |
-| English draft | https://clck.ru/3WVcov |
-| Hinglish draft | https://clck.ru/3WVcp2 |
+| Kya                | Short link             |
+| ------------------ | ---------------------- |
+| English draft      | https://clck.ru/3WVcov |
+| Hinglish draft     | https://clck.ru/3WVcp2 |
 | Menu (dono drafts) | https://clck.ru/3WVcox |
 
 ## Phone me kaise
@@ -49,13 +66,12 @@ Internet chahiye (draft GitHub se load hota hai). Login/internet ka koi jhanjhat
 `mockups/offline/decor-types-draft-offline.html` — ek hi file, photos andar. Download karke
 phone me le jao (WhatsApp par khud ko bhej do) aur Chrome me kholo.
 
-
 ## Trial page (final look, English)
 
 Ek hi link — koi login nahi, koi draft wording nahi. Ye page real page jaisa banta hai:
 
-| Kya | Short link |
-| --- | --- |
+| Kya                                  | Short link             |
+| ------------------------------------ | ---------------------- |
 | Trial page (Decor Types, final look) | https://clck.ru/3WW92c |
 
 Offline copy: `mockups/final/decor-types-final-single.html` (photos andar, internet ki zaroorat nahi)
