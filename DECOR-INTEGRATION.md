@@ -63,7 +63,7 @@ Standalone English/bilingual pages are not regenerated or changed by this work. 
 
 ## Latest main-site phone view
 
-Updated public phone view: **https://clck.ru/3WX6tF**, pinned to `e2d0f3960076ba0deb906af26927cb9cb7d801a6`. It uses the real native homepage/collection components from main-site revision `a91065c`, packaged with embedded assets. This is separate from the old standalone English link and does not depend on Arena login. See the first section of `PHONE-VIEW.md` for build instructions, source/blob verification and the static enquiry limitation. The public view is not a production-domain deployment.
+Updated public phone view: **https://clck.ru/3WX7T7**, pinned to `1d98da28957168f5be810a5e9f615ed919b1294b`. It uses the real native homepage/collection components from main-site revision `96a1aa3`, packaged with embedded assets. This is separate from the old standalone English link and does not depend on Arena login. See the first section of `PHONE-VIEW.md` for build instructions, source/blob verification and the static enquiry limitation. The public view is not a production-domain deployment.
 
 ## Readability refinement
 
