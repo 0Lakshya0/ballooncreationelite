@@ -1,3 +1,22 @@
+## Latest updated MAIN website — phone link
+
+**https://clck.ru/3WX6tF**
+
+This is the updated native homepage **with the new Explore decor styles button and full-home cream/champagne/rose liquid animation**, not the older Lovable deployment and not just the standalone English decor page.
+
+- Pinned phone-view commit: `e2d0f3960076ba0deb906af26927cb9cb7d801a6`.
+- Exact source main-site revision: `a91065ca68cacf6270722c0564b546d71dc28223`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/e2d0f3960076ba0deb906af26927cb9cb7d801a6/drafts/main-website-phone.html`.
+- Remote blob `ad3de0a30c6d7446007df1f81d7d792151ab6a50` and size 10,938,786 bytes verified against GitHub.
+- Native React screens bundled into one HTML with embedded photography/fonts, memory routing, detail modals and WhatsApp selection. No Arena login/sandbox uptime required; allow a moment on first load.
+- **Public static phone view, not a production deployment.** WhatsApp/call work; private database enquiry submission is deliberately not connected and never shows a fake success. The production form/source remains unchanged.
+- Build: `node scripts/build-main-phone.mjs`; adapters/readme: `mockups/main-phone/`.
+- Local LIVE PREVIEW of the same artifact: **Updated website — phone view, 8092**. Main native preview remains **8080**; standalone English **8090** and bilingual **8091** remain separate.
+- Chromium checks passed at 320/390/768/1440px, plus native collection entry/back/modals/WhatsApp and all embedded image decoding. The real HTMLPreview loader was also exercised with its remote-base behavior using locally supplied responses. Direct Chromium external navigation is blocked by the sandbox network; the fetch tool separately followed the public short link and rendered the new homepage/button successfully.
+- Every future main-site change needs a rebuild and a **new pinned phone link**; always end the user reply with that latest link. Never substitute the old Lovable domain or a temporary e2b link for the updated phone view.
+
+---
+
 # Draft ko phone me dekhna (simple steps)
 
 Draft preview ke chhote links — kisi bhi phone browser me khulte hain, koi login nahi chahiye.
