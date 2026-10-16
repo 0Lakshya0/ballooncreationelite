@@ -1,13 +1,13 @@
-## Latest updated MAIN website — phone link
+## Latest updated MAIN website — no sentence strips
 
-**https://clck.ru/3WX86W**
+**https://clck.ru/3WX8Z8**
 
 This is the updated native homepage **with the new Explore decor styles button and full-home cream/champagne/rose liquid animation**, not the older Lovable deployment and not just the standalone English decor page.
 
-- Pinned phone-view commit: `c6b3a55b590c16397cac40a96722d706e8db95d6`.
-- Exact source main-site revision: `d2d571c66b998516386dd1122cfbb2b3d11e3389`.
-- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/c6b3a55b590c16397cac40a96722d706e8db95d6/drafts/main-website-phone.html`.
-- Remote blob `059043317f8eb5a4455c65d5845b8f5e229d837d` and size 10,951,892 bytes verified against GitHub.
+- Pinned phone-view commit: `b1757b0bd7110e310a1a399acacdd633b2553309`.
+- Exact source main-site revision: `14b88b769b0ff178366a0e49f0e2619349441749`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/b1757b0bd7110e310a1a399acacdd633b2553309/drafts/main-website-phone.html`.
+- Remote blob `d8ad02c873c0de05f6c4149119665beb50560204` and size 10,950,826 bytes verified against GitHub.
 - Native React screens bundled into one HTML with embedded photography/fonts, memory routing, detail modals and WhatsApp selection. No Arena login/sandbox uptime required; allow a moment on first load.
 - **Public static phone view, not a production deployment.** WhatsApp/call work; private database enquiry submission is deliberately not connected and never shows a fake success. The production form/source remains unchanged.
 - Build: `node scripts/build-main-phone.mjs`; adapters/readme: `mockups/main-phone/`.
@@ -15,8 +15,9 @@ This is the updated native homepage **with the new Explore decor styles button a
 - Chromium checks passed at 320/390/768/1440px, plus native collection entry/back/modals/WhatsApp and all embedded image decoding. The real HTMLPreview loader was also exercised with its remote-base behavior using locally supplied responses. Direct Chromium external navigation is blocked by the sandbox network; the fetch tool separately followed the public short link and rendered the new homepage/button successfully.
 - Every future main-site change needs a rebuild and a **new pinned phone link**; always end the user reply with that latest link. Never substitute the old Lovable domain or a temporary e2b link for the updated phone view.
 
-- Readability update: 16–18px supporting sentences, 14–15px home labels, softer warm-taupe ink with light cream support, and larger English card/detail copy. The English/native collection motion control is now in the top-right toolbar rather than the content.
-- Updated separate English page: **https://clck.ru/3WX86V**, pinned to source revision `d2d571c66b998516386dd1122cfbb2b3d11e3389`.
+- Owner preference: no white/cream strips, padded boxes or pill backplates behind sentences or supporting labels. Copy is directly on the approved liquid background. Keep this preference in future changes; actual cards/controls are unchanged.
+- Readability update: 16–18px supporting sentences, 14–15px home labels, softer warm-taupe ink directly on the background, without sentence strips, and larger English card/detail copy. The English/native collection motion control is now in the top-right toolbar rather than the content.
+- Updated separate English page: **https://clck.ru/3WX8ZA**, pinned to source revision `14b88b769b0ff178366a0e49f0e2619349441749`.
 - Supersedes the darker-text snapshots (main https://clck.ru/3WX7T7, English https://clck.ru/3WX7TA); those immutable links cannot update.
 - Older main-phone snapshot **https://clck.ru/3WX6tF** remains the smaller-type version; do not share it as the latest.
 - Type-size/modal/toolbar checks pass for native home, collection and standalone English at 320/390/520/768/1024/1440px; meaningful visible labels are at least 13px. All 17 unit tests, TypeScript and production build pass. The regenerated phone HTML also passes native navigation, option/modal, WhatsApp, no-network embedded-asset and HTMLPreview-loader checks.
