@@ -32,11 +32,11 @@ Optional adapters (not active merely because code exists):
 
 ## Limits and privacy
 
-- 5 AI **attempts** per anonymous visitor per UTC day.
-- 20 AI attempts per IP per UTC day, so changing visitor IDs does not remove the IP cap. Shared Wi-Fi users share this allowance.
-- 100 AI attempts for the whole website per UTC day (conservative initial cap).
-- 10-second interval per visitor OR IP.
-- 2–500 character question, 4 KiB JSON body maximum, short 512-token replies, 8-second deadline per provider, at most one attempt to each of three providers per question.
+- 50 AI **attempts** per anonymous visitor per UTC day.
+- 200 AI attempts per IP per UTC day, so changing visitor IDs does not remove the IP cap. Shared Wi-Fi users share this allowance.
+- 500 AI attempts for the whole website per UTC day (an application safety ceiling, NOT a claim about available Gemini free quota).
+- 2-second interval per visitor OR IP.
+- 2–1,500 character question, 12 KiB JSON body maximum (including full-length Hindi/Unicode), short 512-token replies, up to 20 seconds for a single eligible provider and a shared 24-second upstream budget, at most one attempt to each of three providers per question.
 - A request must reserve quota with an atomic conditional SQLite INSERT BEFORE contacting providers. Failed upstream attempts consume their reserved slot; a fully cooling-down provider pool is rejected without reserving a slot.
 - HTTP 429/Retry-After and configuration/temporary failures store cooldowns in D1. Eligible providers are retried after cooldown; no permanently stalled rotation index. A model safety refusal is returned safely rather than bypassed via another provider.
 - Provider quota resets are provider-controlled. Cooldowns use Retry-After when available; they are not a guarantee of actual upstream quota reset.
@@ -93,3 +93,11 @@ The owner reports that the first real answer arrived, but a subsequent question 
 Revision `safe-diagnostics-2` grants a single eligible provider up to 20 seconds. Multiple eligible providers share a 24-second total upstream budget, with a maximum 20 seconds each, so slower-provider allowance does not multiply into unbounded fallback latency. Quick failures release time for the next provider. Untried providers are not incorrectly put into cooldown when the overall budget is spent. The separate test page allows 40 seconds to cover upstream work plus storage/network overhead. No automatic request retries, quota/cooldown clearing, key rotation, output-token increase or paid feature has been added. Response-body timeouts are now correctly labelled timeout rather than invalid JSON.
 
 42 tests pass (33 worker/SQLite plus 9 page-controller tests), including deadline allocation, first-provider slow success, bounded fallback, quick-failure budget recovery, exhausted budget and response-body timeout classification. These are mocked timing/upstream tests, not proof that every live Gemini request will complete within 20 seconds. The owner still needs to deploy this revision; occasional upstream slowness remains possible. Main site and the old public main snapshot remain unchanged and not yet AI-connected.
+
+## Owner-approved relaxed limits (pending deployment)
+
+Revision `relaxed-limits-1` raises the anonymous visitor allowance to **50 attempts/day**, the shared-IP allowance to **200/day**, and the aggregate site safety ceiling to **500/day**. The minimum visitor/IP interval is now **2 seconds**, not 10. Questions can contain **1,500 characters**; the JSON-body bound rises to 12 KiB so valid full-length Hindi and escaped-Unicode input are not accidentally rejected. The test page uses the same 1,500-character validation. Existing D1 usage and provider cooldowns are retained, and the 20s single-provider / 24s shared upstream budget is included in the same Worker. Health now reports the active limits for deployment verification. Main website is not changed or connected by this update.
+
+**Capacity is not guaranteed by these app settings.** Currently only Gemini is enabled. Google's official rate-limits documentation says RPM/TPM/RPD apply per project, vary by model/account, and the actual active values are shown in AI Studio: https://ai.google.dev/gemini-api/docs/rate-limits and https://aistudio.google.com/rate-limit?timeRange=last-28-days . We have not inspected the owner's active RPD/RPM/TPM values. Do not invent a Gemini questions-per-day estimate or present 500 app slots as 500 guaranteed free answers. One question can fail or consume provider allowance without yielding an answer; future multi-provider fallback can make an attempt against each independently configured provider. No paid billing, automatic retries or same-provider key pooling was introduced.
+
+Validation: **46 tests pass** (36 real-SQLite worker tests and 10 mocked page-controller tests), including exact 50/200/500 boundaries, the 2-second interval, English/Hindi/escaped Unicode at the 1,500-character limit, reporting active limits, and retaining previous usage/cooldowns. No real Gemini requests were made for these tests.

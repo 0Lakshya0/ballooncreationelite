@@ -9,7 +9,7 @@ const html = readFileSync(
 );
 const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 function fixture(
-  reply = () => Response.json({ answer: "Three safe ideas.", provider: "gemini", remaining: 4 }),
+  reply = () => Response.json({ answer: "Three safe ideas.", provider: "gemini", remaining: 49 }),
 ) {
   const nodes = Object.fromEntries(
     ["test-form", "question", "test-button", "status", "details", "answer"].map((id) => [
@@ -83,7 +83,7 @@ test("successful manual test posts the exact contract with no credentials and re
   assert.equal(JSON.parse(f.calls[1][1].body).visitorId, body.visitorId);
 });
 test("invalid input never reaches the backend", async () => {
-  for (const value of ["", "a", "x".repeat(501)]) {
+  for (const value of ["", "a", "x".repeat(1501)]) {
     const f = fixture();
     f.nodes.question.value = value;
     await f.submit();
@@ -127,7 +127,7 @@ test("double submit is blocked and no provider output is inserted as executable 
   const pending = f.submit();
   await f.submit();
   assert.equal(f.calls.length, 1);
-  done(Response.json({ answer: "<img onerror=alert(1)>", provider: "gemini", remaining: 4 }));
+  done(Response.json({ answer: "<img onerror=alert(1)>", provider: "gemini", remaining: 49 }));
   await pending;
   assert.equal(f.nodes.answer.textContent, "<img onerror=alert(1)>");
   assert.equal(f.nodes.answer.innerHTML, undefined);
@@ -182,4 +182,14 @@ test("safe upstream diagnostics are visible as plain text on the test page", asy
   assert.match(f.nodes.details.textContent, /gemini: api_key_invalid/);
   assert.match(f.nodes.details.textContent, /upstream HTTP 400/);
   assert.equal(f.nodes.answer.hidden, true);
+});
+
+test("test page permits full-length 1500-character Hindi input and declares the same HTML limit", async () => {
+  assert.match(html, /maxlength="1500"/);
+  const f = fixture();
+  f.nodes.question.value = "क".repeat(1500);
+  await f.submit();
+  assert.equal(f.calls.length, 1);
+  assert.equal(JSON.parse(f.calls[0][1].body).question.length, 1500);
+  assert.equal(f.nodes.status.dataset.kind, "success");
 });

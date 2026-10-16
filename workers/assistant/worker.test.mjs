@@ -148,10 +148,10 @@ test("enforces POST/JSON and rejects malformed, oversized and invalid questions"
     405,
   );
   assert.equal((await ask({ headers: { "Content-Type": "text/plain" } })).status, 415);
-  for (const question of ["", "a", "x".repeat(501), null, 123])
+  for (const question of ["", "a", "x".repeat(1501), null, 123])
     assert.equal((await ask({ data: { question } })).status, 400);
   assert.equal((await ask({ data: { visitorId: "<not-a-uuid>" } })).status, 400);
-  const oversized = makeRequest({ data: { question: "x".repeat(5000) } });
+  const oversized = makeRequest({ data: { question: "x".repeat(13000) } });
   assert.equal((await worker.fetch(oversized, env)).status, 413);
   const invalid = new Request("https://assistant.example/chat", {
     method: "POST",
@@ -172,7 +172,7 @@ test("returns a real provider reply with remaining quota; never claims live grou
   assert.equal(response.status, 200);
   const data = await response.json();
   assert.equal(data.provider, "gemini");
-  assert.equal(data.remaining, 4);
+  assert.equal(data.remaining, 49);
   assert.equal(data.answer, "Try a soft ivory balloon arch.");
   assert.equal(data.grounded, false);
   assert.deepEqual(data.sources, []);
@@ -190,43 +190,43 @@ test("returns a real provider reply with remaining quota; never claims live grou
   assert(!JSON.stringify(stored).includes(visitor));
   assert(!JSON.stringify(stored).includes("Birthday"));
 });
-test("server-side visitor cap is five attempts per UTC day and resets the next day", async () => {
-  for (let i = 0; i < 5; i++) {
+test("server-side visitor cap is 50 attempts per UTC day and resets the next day", async () => {
+  for (let i = 0; i < 50; i++) {
     assert.equal((await ask()).status, 200);
     tick();
   }
   const denied = await ask();
   assert.equal(denied.status, 429);
   assert.equal((await denied.json()).error, "daily_limit");
-  assert.equal(network.mock.calls.length, 5);
+  assert.equal(network.mock.calls.length, 50);
   tick(86_400_000);
   assert.equal((await ask()).status, 200);
 });
-test("10-second gap is enforced in SQLite, not in browser state", async () => {
+test("2-second gap is enforced in SQLite, not in browser state", async () => {
   assert.equal((await ask()).status, 200);
   const response = await ask();
   assert.equal(response.status, 429);
-  assert.equal(response.headers.get("Retry-After"), "10");
+  assert.equal(response.headers.get("Retry-After"), "2");
   assert.equal((await response.json()).error, "slow_down");
-  tick(10_000);
+  tick(2_000);
   assert.equal((await ask()).status, 200);
   assert.equal(network.mock.calls.length, 2);
 });
 test("fresh visitor IDs cannot bypass the per-IP daily cap", async () => {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     assert.equal((await ask({ data: { visitorId: crypto.randomUUID() } })).status, 200);
     tick();
   }
   assert.equal((await ask({ data: { visitorId: crypto.randomUUID() } })).status, 429);
-  assert.equal(network.mock.calls.length, 20);
+  assert.equal(network.mock.calls.length, 200);
 });
-test("aggregate site budget caps all provider attempts at 100 AI questions per day", async () => {
-  for (let i = 0; i < 100; i++) {
+test("aggregate site budget caps all provider attempts at 500 AI questions per day", async () => {
+  for (let i = 0; i < 500; i++) {
     assert.equal(
       (
         await ask({
           data: { visitorId: crypto.randomUUID() },
-          headers: { "CF-Connecting-IP": `203.0.113.${i + 1}` },
+          headers: { "CF-Connecting-IP": `2001:db8::${(i + 1).toString(16)}` },
         })
       ).status,
       200,
@@ -242,18 +242,18 @@ test("aggregate site budget caps all provider attempts at 100 AI questions per d
     ).status,
     429,
   );
-  assert.equal(network.mock.calls.length, 100);
+  assert.equal(network.mock.calls.length, 500);
 });
 test("atomic quota INSERT rejects competing reservations for the same visitor", async () => {
   await ask();
   tick();
   const prepared = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 50; i++) {
     const current = env.AI_DB.db.prepare("SELECT day, visitor, ip FROM ai_requests LIMIT 1").get();
     prepared.push(
       env.AI_DB.prepare(
         `INSERT INTO ai_requests(id,day,visitor,ip,created_at)
-      SELECT ?,?,?,?,? WHERE (SELECT COUNT(*) FROM ai_requests WHERE day=? AND visitor=?)<5`,
+      SELECT ?,?,?,?,? WHERE (SELECT COUNT(*) FROM ai_requests WHERE day=? AND visitor=?)<50`,
       ).bind(
         crypto.randomUUID(),
         current.day,
@@ -268,7 +268,7 @@ test("atomic quota INSERT rejects competing reservations for the same visitor", 
   const results = await env.AI_DB.batch(prepared);
   assert.equal(
     results.reduce((sum, result) => sum + result.meta.changes, 0),
-    4,
+    49,
   );
 });
 test("429 falls through Gemini -> Groq -> OpenRouter and persists Retry-After cooldowns", async () => {
@@ -360,7 +360,7 @@ test("legacy cooldown is observable without clearing it, spending quota or calli
   env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES (?, ?)").run("gemini", clock + 60_000);
   const response = await worker.fetch(new Request("https://assistant.example/health"), env);
   const data = await response.json();
-  assert.equal(data.revision, "safe-diagnostics-2");
+  assert.equal(data.revision, "relaxed-limits-1");
   assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 60);
   assert.equal(data.diagnostics.providers[0].lastResult, "not_recorded_by_previous_version");
   assert.equal(network.mock.calls.length, 0);
@@ -500,7 +500,7 @@ test("one eligible provider gets a 20-second deadline rather than the old 8 seco
   const health = await (
     await worker.fetch(new Request("https://assistant.example/health"), env)
   ).json();
-  assert.equal(health.revision, "safe-diagnostics-2");
+  assert.equal(health.revision, "relaxed-limits-1");
   assert.equal(health.timing.providerMaxSeconds, 20);
   assert.equal(health.timing.upstreamBudgetSeconds, 24);
 });
@@ -568,4 +568,55 @@ test("a timed-out upstream response body is not mislabeled invalid JSON", async 
   );
   const data = await (await ask()).json();
   assert.equal(data.diagnostics.providers[0].lastResult, "provider_timeout");
+});
+
+test("accepts 1500-character English and Hindi questions without a hidden 4KB body barrier", async () => {
+  for (const question of ["a".repeat(1500), "क".repeat(1500)]) {
+    const response = await ask({ data: { question } });
+    assert.equal(response.status, 200);
+    const sent = JSON.parse(network.mock.calls.at(-1).arguments[1].body);
+    assert.equal(sent.contents[0].parts[0].text, question);
+    tick();
+  }
+  const question = "क".repeat(1500);
+  const request = makeRequest();
+  const escapedBody = JSON.stringify({ question, visitorId: visitor }).replace(/क/g, "\\u0915");
+  const escapedRequest = new Request(request.url, {
+    method: "POST",
+    headers: request.headers,
+    body: escapedBody,
+  });
+  assert.equal((await worker.fetch(escapedRequest, env)).status, 200);
+});
+test("health reports the relaxed limits without issuing a provider request", async () => {
+  const health = await (
+    await worker.fetch(new Request("https://assistant.example/health"), env)
+  ).json();
+  assert.deepEqual(health.limits, {
+    perVisitorPerDay: 50,
+    perIpPerDay: 200,
+    sitePerDay: 500,
+    minimumGapSeconds: 2,
+    maxQuestionCharacters: 1500,
+  });
+  assert.equal(network.mock.calls.length, 0);
+});
+test("upgrading limits retains existing daily usage and does not reset provider cooldowns", async () => {
+  assert.equal((await ask()).status, 200);
+  const current = env.AI_DB.db.prepare("SELECT * FROM ai_requests LIMIT 1").get();
+  const insert = env.AI_DB.db.prepare(
+    "INSERT INTO ai_requests(id,day,visitor,ip,created_at) VALUES(?,?,?,?,?)",
+  );
+  for (let i = 0; i < 4; i++)
+    insert.run(crypto.randomUUID(), current.day, current.visitor, current.ip, clock);
+  tick(2000);
+  assert.equal((await (await ask()).json()).remaining, 44);
+  env.AI_DB.db
+    .prepare("INSERT OR REPLACE INTO ai_provider_state(provider,available_at) VALUES(?,?)")
+    .run("gemini", clock + 120000);
+  tick(2000);
+  const response = await ask();
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).error, "providers_cooling_down");
+  assert.equal(network.mock.calls.length, 2);
 });

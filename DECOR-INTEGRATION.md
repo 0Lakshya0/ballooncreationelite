@@ -114,3 +114,7 @@ The separate AI check page returned `providers_cooling_down` for the owner's val
 ## First-answer report and second-question timeout
 
 The owner reports receiving a first real answer. The subsequent screenshot and fresh Worker health confirm `provider_timeout` on Gemini. Backend revision `safe-diagnostics-2` replaces the overly short single-provider 8s deadline with up to 20s, shares a bounded 24s budget across fallback providers, and gives the standalone check page 40s including storage/network overhead. No quota, secret, billing, output token or website-design changes. All 42 worker/page-controller tests pass; actual recovery awaits the owner's deployment and a new real test. This does not promise that provider outages/latency can never recur.
+
+## Owner-requested practical low-traffic limits — pending Cloudflare deployment
+
+Prepared `relaxed-limits-1`: 50 visitor attempts/day, 200 shared-IP attempts/day, 500 site attempts/day, 2s visitor/IP interval, 1,500-character questions, 12 KiB request bound. Includes the previous 20s single-provider timeout fix and bounded 24s fallback budget; no separate intermediate deployment needed. Test page HTML/controller updated to match. Existing usage/cooldowns are not reset; no secrets, billing or main-site design changed. 46 worker/SQLite/controller tests pass. The site ceiling is **not** a verified Gemini free-quota estimate: the owner's project-specific RPD/RPM/TPM still needs a safe AI Studio rate-limits view. Currently only Gemini is enabled; other provider fallback is not yet configured.

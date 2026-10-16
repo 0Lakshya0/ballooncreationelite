@@ -4,7 +4,7 @@
  * enabled, free-tier-verified provider keys/models are configured.
  * Status page: GET / or /health. AI endpoint: POST /chat.
  */
-const LIMITS = { visitor: 5, ip: 20, site: 100, gapMs: 10_000 };
+const LIMITS = { visitor: 50, ip: 200, site: 500, gapMs: 2_000, questionChars: 1500 };
 const TIMING = { providerMaxMs: 20_000, upstreamBudgetMs: 24_000 };
 const SAFE_REPLY =
   "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone. Please contact our team for a safe alternative.";
@@ -353,7 +353,14 @@ async function handle(request, env) {
     return json(
       {
         service: "Balloon Creation AI",
-        revision: "safe-diagnostics-2",
+        revision: "relaxed-limits-1",
+        limits: {
+          perVisitorPerDay: LIMITS.visitor,
+          perIpPerDay: LIMITS.ip,
+          sitePerDay: LIMITS.site,
+          minimumGapSeconds: LIMITS.gapMs / 1000,
+          maxQuestionCharacters: LIMITS.questionChars,
+        },
         timing: {
           providerMaxSeconds: TIMING.providerMaxMs / 1000,
           upstreamBudgetSeconds: TIMING.upstreamBudgetMs / 1000,
@@ -407,7 +414,7 @@ async function handle(request, env) {
   }
   let data;
   try {
-    data = JSON.parse(await boundedText(request.body, 4096));
+    data = JSON.parse(await boundedText(request.body, 12 * 1024));
   } catch (error) {
     const tooLarge = error?.message === "body_too_large";
     return failure(
@@ -420,13 +427,13 @@ async function handle(request, env) {
   const question = typeof data?.question === "string" ? data.question.trim() : "";
   if (
     question.length < 2 ||
-    question.length > 500 ||
+    question.length > LIMITS.questionChars ||
     typeof data?.visitorId !== "string" ||
     !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(data.visitorId)
   ) {
     return failure(
       "invalid_question",
-      "Use a question of 2–500 characters and a valid visitor ID.",
+      "Use a question of 2–1500 characters and a valid visitor ID.",
       400,
       origin,
     );

@@ -122,7 +122,7 @@
       </p>
       <form id="test-form">
         <label for="question">Test question</label>
-        <textarea id="question" rows="3" minlength="2" maxlength="500" required>
+        <textarea id="question" rows="3" minlength="2" maxlength="1500" required>
 Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
         <button id="test-button" type="submit">Test AI</button>
       </form>
@@ -174,9 +174,9 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
           answer.textContent = "";
           details.hidden = true;
           details.textContent = "";
-          if (question.length < 2 || question.length > 500) {
+          if (question.length < 2 || question.length > 1500) {
             status.dataset.kind = "error";
-            status.textContent = "Please use a question of 2–500 characters.";
+            status.textContent = "Please use a question of 2–1500 characters.";
             return;
           }
           busy = true;
