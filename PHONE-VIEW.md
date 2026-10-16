@@ -87,7 +87,7 @@ Run preview from repository root:
 - Earlier snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
 - LIVE PREVIEW: **Decor Types — English final · 8090**.
 
-## Photo-island shoreline — current English snapshot
+## Photo-island shoreline — earlier English snapshot
 
 - Fresh phone link: **https://clck.ru/3WWxxL**
 - Pins commit `2209e4e2c7c275a858e501887aa3660ae5e2c715`.
@@ -95,3 +95,13 @@ Run preview from repository root:
 - Art-directed shoreline effect, not a physical ocean simulation. Motion on is needed for playback; reduced-motion is respected.
 - Earlier immutable snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
 - LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page untouched.
+
+## Raised 3D fluid collision — current English snapshot
+
+- Fresh phone link: **https://clck.ru/3WX5uf**
+- Pins commit `80c48f08ec61d28d54348bc7ac539d5ff30cfe48`.
+- Earlier SVG outline waves are removed. The liquid surface itself now rises against each header photo, splits into side channels and leaves rolling lower wakes, with height-derived lighting and broken crests.
+- Photos remain stable and retain 78% mobile opacity. Approved colour fades and button effects remain. This is a procedural 3D visual effect, not a physical ocean simulation.
+- Motion on is required for playback; device reduced-motion settings are respected. Without WebGL, the readable CSS treatment remains.
+- Older snapshot links do not update. Dynamic English link: `https://clck.ru/3WW92c`.
+- LIVE PREVIEW: **Decor Types — English final · 8090**. Main site and bilingual page are untouched.
