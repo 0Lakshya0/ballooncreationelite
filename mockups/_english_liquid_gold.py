@@ -43,9 +43,9 @@ uniform vec4 uIsland;
 uniform vec4 uIslandRadii;
 // Signed distance and outward normal of the actual, asymmetric photo outline.
 // Work in CSS pixels so the shoreline stays attached at every viewport size.
-vec3 islandSurface(vec2 uv){
+vec3 islandAt(vec2 pixel){
   if(uIsland.z<=0.)return vec3(10000.,0.,0.);
-  vec2 a=vec2(uv.x,1.-uv.y)*uSceneSize-uIsland.xy;
+  vec2 a=pixel-uIsland.xy;
   vec2 size=uIsland.zw;
   float r=0.;vec2 centre=vec2(0.);
   if(a.x<uIslandRadii.x&&a.y<uIslandRadii.x){r=uIslandRadii.x;centre=vec2(r);}
@@ -58,6 +58,43 @@ vec3 islandSurface(vec2 uv){
   vec2 outside=max(q,0.);
   vec2 n=length(outside)>.001?normalize(outside):q.x>q.y?vec2(1.,0.):vec2(0.,1.);
   return vec3(length(outside)+min(max(q.x,q.y),0.),n*sign(local));
+}
+// Height in CSS pixels, foam and contact occlusion of a raised obstacle.
+// This is a broad, displaced bow wave, not animated lines around a photo.
+vec3 collisionSurface(vec2 pixel,float t){
+  if(uIsland.z<=0.)return vec3(0.);
+  vec3 shore=islandAt(pixel);
+  if(shore.x<0.||shore.x>150.)return vec3(0.);
+  float d=shore.x;
+  float band=1.-smoothstep(65.,100.,d);
+  vec2 flow=normalize(vec2(1.,.32));
+  float front=max(dot(shore.yz,-flow),0.);
+  float flank=1.-abs(dot(shore.yz,flow));
+  float along=dot(pixel-uIsland.xy,vec2(-flow.y,flow.x));
+  float pulse=pow(.5+.5*sin(t*1.55+uPhase),3.);
+  float carrier=.5+.5*cos(d*.13+t*2.7-along*.012);
+  float bowDistance=(d-(9.+4.*pulse))/14.;
+  float bow=(5.+18.*pulse)*exp(-bowDistance*bowDistance)*pow(front,.65);
+  float incoming=4.5*carrier*exp(-d/42.)*front;
+  float reflected=5.*sin(d*.16-t*2.5+along*.009)*exp(-d/38.)*front*pulse;
+  float channels=4.*sin(d*.22+along*.08-t*3.4)*exp(-d/26.)*flank;
+  // Two unequal streams leave the lower shoulder and curl into the lee.
+  float down=pixel.y-uIsland.y-uIsland.w;
+  float downstream=smoothstep(0.,8.,down)*(1.-smoothstep(78.,112.,down));
+  float spread=14.+max(down,0.)*.22;
+  float leftJet=uIsland.x+uIsland.z*.14+down*.42+sin(down*.065-t*1.2)*4.;
+  float rightJet=uIsland.x+uIsland.z*.82-down*.20;
+  float jetOffset1=(pixel.x-leftJet)/spread;
+  float jetOffset2=(pixel.x-rightJet)/(spread*.8);
+  float jet1=exp(-jetOffset1*jetOffset1);
+  float jet2=exp(-jetOffset2*jetOffset2);
+  float wake=8.*sin(down*.17-t*2.8)*(jet1+jet2*.65)*downstream*exp(-max(down,0.)/65.);
+  float height=(bow+incoming+reflected+channels)*band+wake;
+  float chop=.65+.35*sin(pixel.x*.39+sin(pixel.y*.24-t)*2.1+t*3.);
+  float foam=smoothstep(.48,.94,carrier)*pulse*exp(-bowDistance*bowDistance)*front*chop;
+  foam+=max(sin(down*.17-t*2.8),0.)*jet1*downstream*.20;
+  float occlusion=exp(-d/5.)*(.35+.65*front);
+  return vec3(height,clamp(foam,0.,1.),occlusion);
 }
 // A continuous, folded surface: height and analytical derivatives.
 vec3 surface(vec2 p,float t){
@@ -75,19 +112,22 @@ void main(){
   float aspect=uResolution.x/uResolution.y;
   vec2 p=(vUv-.5)*vec2(3.8*max(aspect,1.),3.8/max(aspect,1.));
   p+=vec2(uPhase*.25,-t*.11);
-  vec3 shore=islandSurface(vUv);
-  float distance=max(shore.x,0.);
-  float shoreBand=step(0.,shore.x)*exp(-distance/22.)*(1.-smoothstep(30.,52.,distance));
-  // Incoming current splits around the upstream edge, leaving an outward wake.
-  float incoming=.3+.7*max(-shore.y,0.);
-  vec2 bend=vec2(shore.y,-shore.z)*shoreBand*.20;
-  vec3 field=surface(p+bend,t);
-  float surge=.65+.35*sin(t*1.6+uPhase);
-  float wavePhase=distance*.40-t*3.0+shore.z*.7;
-  float wave=sin(wavePhase)*shoreBand*incoming*surge;
-  field.x+=wave*.045;
-  field.y+=cos(wavePhase)*shore.y*shoreBand*incoming*.25;
-  field.z-=cos(wavePhase)*shore.z*shoreBand*incoming*.25;
+  vec2 pixel=vec2(vUv.x,1.-vUv.y)*uSceneSize;
+  vec3 impact=vec3(0.);
+  vec3 field=surface(p,t);
+  if(uIsland.z>0.){
+    vec3 coast=islandAt(pixel);
+    float nearCoast=step(0.,coast.x)*(1.-smoothstep(50.,100.,coast.x));
+    vec2 flow=normalize(vec2(1.,.32));
+    vec2 tangent=flow-coast.yz*dot(flow,coast.yz);
+    vec2 bend=vec2(coast.y,-coast.z)*nearCoast*.32+vec2(tangent.x,-tangent.y)*nearCoast*.18;
+    field=surface(p+bend,t);
+    impact=collisionSurface(pixel,t);
+    // Finite-difference normals include the raised wave's actual height slope.
+    float dx=(collisionSurface(pixel+vec2(1.5,0.),t).x-impact.x)/1.5;
+    float dy=(collisionSurface(pixel+vec2(0.,1.5),t).x-impact.x)/1.5;
+    field+=vec3(impact.x*.016,clamp(dx*1.9,-3.,3.),clamp(-dy*1.9,-3.,3.));
+  }
   vec3 normal=normalize(vec3(-field.y*.9,-field.z*.9,1.));
   vec3 eye=normalize(vec3(-p*.12,2.8-field.x*.12));
   vec3 reflected=reflect(-eye,normal);
@@ -118,8 +158,9 @@ void main(){
   metal+=champagne*highlight*.32+gold*fresnel*.24;
   // Gentle curvature shadow makes the valleys and raised folds read as volume.
   metal*=.86+.14*smoothstep(-.65,.6,field.x);
-  float breakingCrest=pow(max(sin(wavePhase),0.),8.)*shoreBand*incoming*surge;
-  metal=mix(metal,champagne,breakingCrest*.36);
+  // A shaded wave face and a broken bright crest roll up against the island.
+  metal*=1.-impact.z*.20;
+  metal=mix(metal,vec3(1.,.97,.87),impact.y*.72);
   metal=pow(clamp(metal,0.,1.),vec3(.88));
   gl_FragColor=vec4(metal,1.);
 }`;

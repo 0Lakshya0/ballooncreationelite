@@ -250,21 +250,16 @@ test('Mobile chapter photos are clearer without changing their layout or section
 });
 
 
-test('Three header photos become anchored islands with local open-coast wakes, not moving foregrounds',()=>{
+test('Photo collisions displace the 3D liquid itself; SVG border waves are removed',()=>{
  const {dom,d,errors}=open();
  try{
-  assert.equal(d.querySelectorAll('.photo-shoreline').length,3);
-  assert.equal(d.querySelectorAll('.shore-contact').length,3);
-  assert.equal(d.querySelectorAll('.shore-wake').length,9);
-  assert.equal(d.querySelectorAll('.liquid-gold-canvas').length,7); // no added GPU contexts
-  for(const coast of d.querySelectorAll('.photo-shoreline')){
-   assert(coast.closest('.chapter-head').querySelector('.chapter-image'));
-   assert.equal(coast.getAttribute('aria-hidden'),'true');
-   for(const path of coast.querySelectorAll('path'))assert(!/NaN|Infinity|Z/.test(path.getAttribute('d')));
-  }
+  assert.equal(d.querySelectorAll('[data-photo-island="raised"]').length,3);
+  assert.equal(d.querySelectorAll('.photo-shoreline,.shore-contact,.shore-wake').length,0);
+  assert.equal(d.querySelectorAll('.liquid-gold-canvas').length,7);
   const shader=read('_english_liquid_gold.py'),shore=read('_english_shoreline.py');
-  for(const marker of ['uIslandRadii','islandSurface(vUv)','surface(p+bend,t)','breakingCrest','bce:shoreline-layout'])assert(shader.includes(marker),marker);
-  for(const marker of ['ResizeObserver','shore-current','shore-break','animation-play-state:paused!important','prefers-reduced-motion:reduce'])assert(shore.includes(marker),marker);
+  for(const marker of ['collisionSurface(pixel,t)','collisionSurface(pixel+vec2(1.5,0.),t)','collisionSurface(pixel+vec2(0.,1.5),t)','field+=vec3(impact.x*.016','surface(p+bend,t)','float bow=','float wake=','impact.y*.72'])assert(shader.includes(marker),marker);
+  for(const marker of ['ResizeObserver','mask-image:radial-gradient','box-shadow:','bce:shoreline-layout'])assert(shore.includes(marker),marker);
+  assert(!shore.includes('createElementNS'));
   assert(!shore.includes('requestAnimationFrame'));
   assert.deepEqual(errors,[]);
  }finally{dom.window.close();}
