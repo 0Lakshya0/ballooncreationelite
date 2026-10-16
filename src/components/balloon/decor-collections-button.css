@@ -1,0 +1,157 @@
+/* A real, visibly actionable entry at the original FLOWERS · BALLOONS · MEMORIES position. */
+.brand-strip .decor-discovery-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 74px;
+  padding: 10px 14px;
+  border: 1px solid #a77b49;
+  border-radius: 18px 5px 18px 5px;
+  color: #503721;
+  background: linear-gradient(115deg, #fff2d6, #efd09c 55%, #e8bfa8);
+  box-shadow:
+    inset 0 1px 0 #fff9ec,
+    0 6px 20px #79502e21;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.decor-discovery-button::after {
+  content: "";
+  position: absolute;
+  inset: -60% -100%;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 42%, #fff8e6bb 50%, transparent 58%);
+  pointer-events: none;
+  animation: decor-entry-sweep 5.8s cubic-bezier(0.2, 0.65, 0.3, 1) infinite;
+}
+.brand-strip .decor-entry-art {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 48px;
+  flex: none;
+}
+.decor-entry-art img {
+  position: absolute;
+  top: 0;
+  width: 37px;
+  height: 48px;
+  object-fit: cover;
+  border: 2px solid #fff7e6;
+  border-radius: 20px 20px 4px 4px;
+  box-shadow: 0 2px 7px #67412622;
+}
+.decor-entry-art img:first-child {
+  left: 0;
+  transform: rotate(-8deg);
+}
+.decor-entry-art img:last-child {
+  right: 0;
+  transform: rotate(8deg);
+}
+.brand-strip .decor-entry-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  color: inherit;
+}
+.decor-entry-copy b {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.decor-entry-copy small {
+  color: #6a4a2d;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.brand-strip .decor-entry-arrow {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid #b98b5880;
+  border-radius: 50%;
+  color: #684526;
+  background: #fff6e999;
+  transition: transform 0.25s;
+}
+.brand-strip .decor-entry-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+.brand-strip .decor-discovery-button:hover {
+  transform: translateY(-3px);
+  border-color: #855529;
+  box-shadow:
+    inset 0 1px 0 #fff9ec,
+    0 10px 26px #79502e38;
+}
+.decor-discovery-button:hover .decor-entry-arrow {
+  transform: translate(2px, -2px);
+}
+.brand-strip .decor-discovery-button:active {
+  transform: translateY(1px);
+}
+.brand-strip .decor-discovery-button:focus-visible {
+  outline: 3px solid #8b5a2d;
+  outline-offset: 4px;
+}
+@keyframes decor-entry-sweep {
+  0%,
+  40% {
+    transform: translateX(-48%);
+  }
+  75%,
+  100% {
+    transform: translateX(48%);
+  }
+}
+@media (max-width: 760px) {
+  .brand-strip > .page-width {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    gap: 14px;
+    padding-block: 20px;
+  }
+  .brand-strip .areas-pill {
+    justify-self: start;
+  }
+  .brand-strip .smart-search {
+    width: 100%;
+    max-width: none;
+  }
+  .brand-strip .decor-discovery-button {
+    width: 100%;
+    min-height: 78px;
+    padding-inline: 18px;
+    gap: 12px;
+  }
+  .decor-entry-copy b {
+    font-size: 15px;
+  }
+  .decor-entry-copy small {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .decor-discovery-button::after {
+    animation: none;
+  }
+  .brand-strip .decor-discovery-button,
+  .decor-entry-arrow {
+    transition: none;
+  }
+}

@@ -55,7 +55,7 @@ describe("Integrated approved decor collections", () => {
     const shaderSource = readFileSync("mockups/_english_liquid_gold.py", "utf8");
     expect(liquidFragment).toBe(shaderSource.match(/var fragment=`([\s\S]*?)`;/)![1]);
   });
-  it("renders 25 photographed styles and 08/09/08 photo islands as native React on the home page", () => {
+  it("renders 25 photographed styles and 08/09/08 photo islands as native React on the collections page", () => {
     const c = mount();
     expect(c.querySelectorAll(".chip")).toHaveLength(25);
     expect(c.querySelectorAll(".chip img")).toHaveLength(25);

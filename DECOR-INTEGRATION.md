@@ -1,31 +1,37 @@
-# Approved decor collections — native homepage integration
+# Approved decor design — homepage entry and full-site liquid background
 
-## Scope
+## Current placement (corrected to the owner's instruction)
 
-The approved English design is now a native React section on `/`, after the existing portfolio and before the signature standard. The header links to `#decor-types`. The original hero, gallery, search and concierge remain in place; no iframe or standalone HTML runtime is injected.
+The collection is **not embedded between homepage sections**. The original `FLOWERS ✦ BALLOONS ✦ MEMORIES` text in the service strip is replaced by a clearly actionable **Explore decor styles** link-button. Paired photos, a champagne/rose finish, travelling highlight, raised hover and arrow communicate that it is clickable. It opens `/decor-collections` through native TanStack routing.
 
-The integration preserves 25 styles, 150 detailed options, local photography, cream/champagne/rose transitions, button treatments and the approved raised-photo liquid shader. Radix handles modal focus/scroll locking. Options use small round profile photos, and selection messages use the existing shared WhatsApp contact.
+The collection route preserves the approved editorial English design: 25 styles, 150 fully detailed options, photographed chips, round option portraits, selection/WhatsApp actions and raised-photo liquid effects. Its header offers a back-to-home link and the exact subtitle “We decorate your happiness”. There is no iframe, injected standalone runtime or catalogue on `/`.
 
-Standalone English and bilingual pages are not regenerated or changed by this integration. Production-domain deployment is separate; building or pushing the Arena branch is not proof of deployment.
+The existing homepage hero/slideshow, category carousel, gallery, search, service areas, signature standard and concierge remain in place. The extra collection navbar anchor from the earlier integration has been removed.
+
+## Full-home animation
+
+`SiteLiquidBackground` provides **one fixed viewport-sized WebGL surface** behind the entire homepage, from header/hero through gallery, standards, enquiry and footer. It reuses the exact approved English fragment shader and the existing bounded/disposable renderer, not an approximate CSS replacement. The same cream → champagne → rose fade uses the approved gradients, easing, keyframe positions and opacity strengths. A light pearl finish softens highlights for readability. The hero photography is gently masked so the fluid remains visible, and previously opaque section backgrounds now let it show through.
+
+A pause/resume control is always available. Its saved setting (`bce-site-motion`) is separate from the collection's local setting. The renderer stops when the document is hidden, respects reduced motion, handles context restoration, and is disposed on navigation away from home. A warm CSS fallback remains usable without WebGL or if the optional renderer chunk fails to load. The existing renderer caps drawing buffers at 800×900 and updates at most 30fps. Only one home background canvas is needed, regardless of page length.
+
+The site's intended Manrope/Cormorant fonts are served locally from the existing licensed bundle. Photography and text remain above the decorative, pointer-transparent background. Controls/forms keep readable warm glass surfaces.
 
 ## Source and regeneration
 
-- Approved source: `mockups/final/decor-types-final.html` and `mockups/_english_liquid_gold.py`.
-- Native component: `src/components/balloon/decor/DecorTypesSection.tsx`.
-- Generated catalogue, scoped CSS and exact shader: `decor-data.ts`, `approved-decor.css`, `liquid-shader.ts` in that folder.
-- Bundled photos/fonts: `public/decor-types/` (font licenses included).
-- Run `node scripts/sync-decor-design.mjs` from the repository root to regenerate those assets. It never writes the standalone drafts.
-- `integration.css` contains native-modal/placement adjustments; `home-integration.css` contains narrow header/portfolio-heading responsive fixes. Do not edit generated CSS by hand.
+- Entry button: `src/components/balloon/decor-collections-button.tsx` and its stylesheet.
+- Home material: `src/components/balloon/site-liquid-background.tsx` and its stylesheet.
+- Homepage: `src/routes/index.tsx`.
+- Separate collection route: `src/routes/decor-collections.tsx`.
+- Approved collection source: `mockups/final/decor-types-final.html` and `mockups/_english_liquid_gold.py`.
+- Native collection: `src/components/balloon/decor/DecorTypesSection.tsx`.
+- Generated data/CSS/shader: `decor-data.ts`, `approved-decor.css`, `liquid-shader.ts` in that folder.
+- Bundled photos/fonts: `public/decor-types/` (licenses included).
 
-The old `mockups/site-ready/decorTypesData.ts` supplies compatible type definitions and group identities only, not the approved content/design.
+Run `node scripts/sync-decor-design.mjs` from the repository root to regenerate the approved catalogue, scoped CSS, shader and assets. It never writes standalone drafts. Do not edit generated CSS by hand. The old `mockups/site-ready/decorTypesData.ts` supplies compatible types/group identities only, not the approved design/content.
 
-## Motion and lifecycle
+The homepage and collection share the existing singleton visibility observer. The homepage's fixed surface is always in view; collection scenes are independently viewport-gated. Radix handles collection modal focus/scroll locking; the collection selection tray remains local to that page.
 
-The main homepage and decor share one visibility observer. Each liquid surface is viewport-gated, capped at 30fps and 800×900 drawing-buffer pixels. Rendering stops when paused, reduced motion is requested, the scene is offscreen or the document is hidden. Context restoration rebuilds the renderer; unmount disposes listeners, buffers and frames. Unsupported WebGL keeps a CSS fallback. Pause affects this section only; selection tray visibility is limited to the section.
-
-## Verification completed
-
-Automated repository checks:
+## Verification
 
 ```sh
 npx tsc --noEmit
@@ -33,24 +39,24 @@ npm test
 npm run build
 ```
 
-All pass (9 unit tests, including all 150 option-detail openings and exact approved source/shader comparison). ESLint also passes for the new handwritten TypeScript files. The Bun lockfile includes the two build-time CSS parsing dependencies.
+15 unit tests cover both routes, the corrected entry placement, exact approved data/shader, all 150 option-detail openings, palette consistency and global background pause/reduced-motion/visibility/disposal. ESLint is also run on the new handwritten TypeScript files.
 
-Additional real Chromium checks against main-site port 8080:
+Real Chromium checks cover:
 
-- No document horizontal overflow at 320, 390, 520, 768, 1024 and 1440px.
-- One H1; original gallery, search/concierge presence; mobile collection link closes menu.
-- All three photo-island uniforms match rendered photo geometry at 390/1440px; no WebGL errors; approved mobile photo opacity retained.
-- Round option portraits, rich details, save/reset and WhatsApp URL contents.
-- Modal focus trap, Escape from option to style then close, and focus return to trigger.
-- Section-local pause, offscreen/reduced-motion suspension, context loss/restoration and no-WebGL fallback.
-- Selection tray hidden outside the decor section; no JavaScript or hydration errors on a clean server load.
+- No inline collection or stale `#decor-types` homepage navbar link; entry button occupies the original strip position.
+- Homepage and collection widths 320, 390, 520, 768, 1024 and 1440px without document horizontal overflow.
+- Original homepage gallery, search, service-area button and concierge retained.
+- A single fixed background across the homepage; transparent section surfaces; cream/champagne/rose keyframes sampled in-browser.
+- Pause/resume, separate saved setting, visibility suspension, WebGL context loss/restoration, reduced motion and no-WebGL fallback.
+- SPA entry/back navigation, clean background remount and native collection options/modals.
+- Collection photo-island geometry at 390/1440px, rich details, focus trap, Escape/back/focus return, WhatsApp selection, offscreen pause and context restoration were rechecked against the new collection route, alongside the unit tests.
 
-Desktop/mobile screenshots were also reviewed. The sandbox blocks the original external Google-font request; new decor fonts are local. Existing build warnings about Vite paths, concierge validator deprecation and chunk size are unchanged in scope. No real inquiry was submitted to the production database during UI testing.
+Desktop/mobile screenshots are reviewed. No real enquiry is submitted to the production database during UI testing. Existing build warnings about Vite paths, concierge validator deprecation and chunk size are outside this change.
 
-## Separate previews
+## Separate previews and publishing
 
 - Main React website: `npm run dev -- --host 0.0.0.0 --port 8080`.
 - Approved English standalone: `python3 mockups/_serve.py 8090 mockups/final-english-showcase`.
 - Separate bilingual page: `python3 mockups/_serve.py 8091 mockups/final-showcase`.
 
-The approved standalone phone link remains https://clck.ru/3WX5uf; this is not a phone link to the integrated React homepage.
+Standalone English/bilingual pages are not regenerated or changed by this work. The approved standalone phone link remains https://clck.ru/3WX5uf; it is not a phone link to the integrated React website. Production-domain publishing is separate: a successful build or Arena-branch push does not itself verify deployment.

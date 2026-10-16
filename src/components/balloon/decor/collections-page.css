@@ -1,0 +1,83 @@
+.decor-collections-page {
+  min-height: 100svh;
+  background: #f6e5c9;
+}
+.collections-page-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff5e5f5;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #d5b587;
+}
+.collections-page-header > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 90px;
+  padding-block: 12px;
+}
+.collections-home,
+.collections-enquire {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #795332;
+  font-size: 12px;
+}
+.collections-wordmark {
+  text-align: center;
+  color: #795332;
+  font-family: BCECormorant, Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+}
+.collections-wordmark small {
+  display: block;
+  margin-top: 8px;
+  font:
+    10px BCEManrope,
+    Arial,
+    sans-serif;
+  color: #77624c;
+}
+.collections-enquire {
+  padding: 11px 14px;
+  border: 1px solid #d2af78;
+  border-radius: 5px;
+  background: linear-gradient(115deg, #f5deb2, #eac3a7);
+}
+.collections-home:focus-visible,
+.collections-wordmark:focus-visible,
+.collections-enquire:focus-visible {
+  outline: 2px solid #93653c;
+  outline-offset: 4px;
+}
+.decor-collections-page .bce-decor {
+  scroll-margin-top: 90px;
+}
+@media (max-width: 540px) {
+  .collections-page-header > div {
+    min-height: 78px;
+    gap: 12px;
+  }
+  .collections-home {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 9px;
+  }
+  .collections-wordmark {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+  .collections-wordmark small {
+    font-size: 8px;
+  }
+  .collections-enquire {
+    padding: 9px;
+    font-size: 10px;
+  }
+  .collections-enquire svg {
+    display: none;
+  }
+}

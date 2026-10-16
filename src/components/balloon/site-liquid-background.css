@@ -1,0 +1,194 @@
+/* Full-site application of the approved English liquid material, not a replacement shader. */
+.site-liquid-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+}
+.site-liquid-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #f8efdf;
+  contain: strict;
+}
+.site-liquid-backdrop .section-scope,
+.site-liquid-backdrop .section-scope > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.site-liquid-fallback {
+  background:
+    radial-gradient(ellipse at 15% 35%, #eac799aa, transparent 60%),
+    radial-gradient(ellipse at 85% 75%, #e7b59b88, transparent 60%), #f8efdf;
+}
+.site-liquid-backdrop .liquid-gold-canvas {
+  opacity: 0;
+}
+.site-liquid-backdrop .liquid-ready .liquid-gold-canvas {
+  opacity: 0.94;
+}
+/* Exact approved cream → champagne → rose palette, timing curve and blend strengths. */
+.site-liquid-colour {
+  background: linear-gradient(105deg, #fff7e84d, #fff5e320 55%, transparent);
+  animation: site-liquid-cream 10s ease-in-out -2s infinite;
+}
+.site-liquid-colour::before,
+.site-liquid-colour::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation-duration: 10s;
+  animation-delay: -2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.site-liquid-colour::before {
+  background: linear-gradient(120deg, #e9bb71, #e2ae58 70%, #f4d397);
+  animation-name: site-liquid-champagne;
+}
+.site-liquid-colour::after {
+  background: linear-gradient(125deg, #e8b59d, #dc9f89 72%, #f1c9ae);
+  animation-name: site-liquid-rose;
+}
+/* A light pearl finish softens highlights without flattening the folds or colour changes. */
+.site-liquid-readability {
+  background: #fff8ea24;
+}
+@keyframes site-liquid-cream {
+  0%,
+  100% {
+    background-color: #fff5e699;
+  }
+  35%,
+  70% {
+    background-color: #fff5e600;
+  }
+}
+@keyframes site-liquid-champagne {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.52;
+  }
+}
+@keyframes site-liquid-rose {
+  0%,
+  35%,
+  100% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.58;
+  }
+}
+.site-liquid-backdrop[data-motion="off"] *,
+.site-liquid-backdrop[data-motion="off"] *::before,
+.site-liquid-backdrop[data-motion="off"] *::after,
+.site-liquid-backdrop[data-motion-suspended] *,
+.site-liquid-backdrop[data-motion-suspended] *::before,
+.site-liquid-backdrop[data-motion-suspended] *::after {
+  animation-play-state: paused !important;
+}
+.site-motion-control {
+  position: fixed;
+  z-index: 40;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid #b9986777;
+  border-radius: 999px;
+  background: #fff5e5ed;
+  color: #64472b;
+  font-size: 10px;
+  box-shadow: 0 4px 14px #49311b12;
+  cursor: pointer;
+}
+.site-motion-control:focus-visible {
+  outline: 2px solid #93653c;
+  outline-offset: 3px;
+}
+.site-motion-control:disabled {
+  cursor: default;
+}
+/* Keep photography and content; let the same flowing material show across every section. */
+.site-liquid-shell .hero,
+.site-liquid-shell .standard,
+.site-liquid-shell .concierge,
+.site-liquid-shell .category-section {
+  background: transparent;
+}
+.site-liquid-shell .brand-strip {
+  background: #fff4df8c;
+  backdrop-filter: blur(10px);
+}
+.site-liquid-shell .standard-item,
+.site-liquid-shell .inquiry-panel {
+  background: #fff6e5df;
+}
+.site-liquid-shell .site-footer {
+  padding-bottom: 64px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-liquid-backdrop *,
+  .site-liquid-backdrop *::before,
+  .site-liquid-backdrop *::after {
+    animation: none !important;
+  }
+}
+/* The site's intended fonts are bundled, so the material does not rely on a font CDN. */
+@font-face {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/manrope-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2");
+}
+/* Part the photography gently: the liquid remains visible behind the hero, too. */
+.site-liquid-shell .hero-image {
+  mask-image: linear-gradient(90deg, transparent, #0005 38%, #000 72%);
+}
+.site-liquid-shell .hero-slide.is-active {
+  opacity: 0.68;
+}
+.site-liquid-shell .hero-wash {
+  background: linear-gradient(100deg, #fff7e966, #fff7e922 56%, transparent);
+}
+@media (max-width: 540px) {
+  .site-liquid-shell .hero-image {
+    mask-image: linear-gradient(180deg, #0002, #0005 50%, #000);
+  }
+  .site-liquid-shell .hero-wash {
+    background: linear-gradient(180deg, #fff7e966, #fff7e944 48%, #fff7e91a);
+  }
+  .site-motion-control {
+    min-height: 32px;
+    padding: 7px 10px;
+    font-size: 9px;
+  }
+}
