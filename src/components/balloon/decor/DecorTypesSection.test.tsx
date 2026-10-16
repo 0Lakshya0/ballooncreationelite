@@ -38,6 +38,14 @@ afterEach(() => {
 });
 
 describe("Integrated approved decor collections", () => {
+  it("places the readable motion control at the top, outside the introduction copy", () => {
+    const c = mount();
+    const toolbar = c.querySelector(".english-motion-tools");
+    expect(toolbar?.querySelectorAll(".motion-toggle")).toHaveLength(1);
+    expect(c.querySelector(".collection-note .motion-toggle")).toBeNull();
+    expect(c.querySelector(".bce-decor")?.firstElementChild).toBe(toolbar);
+  });
+
   it("keeps all approved data and every locally bundled photo, not the older package content", () => {
     const source = readFileSync("mockups/final/decor-types-final.html", "utf8");
     const approved = JSON.parse(source.match(/window\.DECOR_DATA = (\{[\s\S]*?\});\n/)![1]!);

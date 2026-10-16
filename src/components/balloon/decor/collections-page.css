@@ -81,3 +81,39 @@
     display: none;
   }
 }
+/* Navigation/supporting copy must be readable too, including narrow phones. */
+.collections-home,
+.collections-enquire {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.collections-wordmark small {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #503b27;
+}
+@media (max-width: 600px) {
+  .collections-page-header > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 16px;
+    padding-block: 14px;
+  }
+  .collections-wordmark {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    font-size: 30px;
+  }
+  .collections-home {
+    grid-column: 1;
+    grid-row: 2;
+    flex-direction: row;
+    font-size: 14px;
+  }
+  .collections-enquire {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 14px;
+    padding: 9px 12px;
+  }
+}

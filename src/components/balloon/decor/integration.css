@@ -28,7 +28,7 @@
   margin: 0;
   scroll-margin-top: 110px;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 .bce-decor h2,
@@ -43,7 +43,7 @@
   padding-top: 40px;
 }
 .bce-decor .motion-toggle {
-  margin-top: 15px;
+  margin-top: 0;
   gap: 8px;
 }
 .bce-decor .motion-toggle > span:first-child {
@@ -116,7 +116,7 @@
   border-radius: 3px;
   background: #fff6e6;
   color: var(--foreground);
-  font-size: 11px;
+  font-size: 14px;
 }
 .bce-decor .pairs img {
   width: 26px;

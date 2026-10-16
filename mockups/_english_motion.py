@@ -5,6 +5,7 @@ One IntersectionObserver handles both one-time reveals and viewport pausing.
 No fixed/global animated background, ribbons, particles or animation library.
 """
 from __future__ import annotations
+from _english_readability import CSS as READABILITY_CSS
 from _english_fluid import CSS as FLUID_CSS
 from _english_liquid_gold import CSS as LIQUID_CSS, SCRIPT as LIQUID_SCRIPT
 from _english_refinement import CSS as REFINEMENT_CSS
@@ -120,7 +121,7 @@ html:not([data-motion]) .motion-toggle{display:none}
 @media(prefers-reduced-motion:reduce){.section-tone{animation:none!important;opacity:.25}html[data-motion] .motion-reveal{opacity:1;transform:none;transition:none}}
 '''
 
-CSS += FLUID_CSS + LIQUID_CSS + REFINEMENT_CSS + SHORELINE_CSS
+CSS += FLUID_CSS + LIQUID_CSS + REFINEMENT_CSS + SHORELINE_CSS + READABILITY_CSS
 
 SCRIPT = r'''
 <script>

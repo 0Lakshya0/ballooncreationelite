@@ -5,6 +5,7 @@ import { SiteLiquidBackground } from '@/components/balloon/site-liquid-backgroun
 import { DecorCollectionsButton } from '@/components/balloon/decor-collections-button';
 import { observeVisibility } from '@/lib/visibility';
 import '@/components/balloon/decor/home-integration.css';
+import '@/components/balloon/readability.css';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';

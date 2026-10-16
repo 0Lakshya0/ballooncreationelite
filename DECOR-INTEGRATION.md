@@ -64,3 +64,11 @@ Standalone English/bilingual pages are not regenerated or changed by this work. 
 ## Latest main-site phone view
 
 Updated public phone view: **https://clck.ru/3WX6tF**, pinned to `e2d0f3960076ba0deb906af26927cb9cb7d801a6`. It uses the real native homepage/collection components from main-site revision `a91065c`, packaged with embedded assets. This is separate from the old standalone English link and does not depend on Arena login. See the first section of `PHONE-VIEW.md` for build instructions, source/blob verification and the static enquiry limitation. The public view is not a production-domain deployment.
+
+## Readability refinement
+
+The moving material and its palette are unchanged. Small homepage sentences now use 16–18px type; supporting labels/captions use 14–15px with stronger warm-brown contrast. Form inputs use 16px type; the mobile hero and form can grow/reflow rather than clipping their larger text. The category labels no longer fade through pale transparent lettering.
+
+English/native collection copy uses 16px paragraphs, 14–16px card/detail text and a 13px minimum for meaningful labels. Small paragraph surfaces and photo overlays improve contrast without replacing the liquid background. The selection tray/options reflow on phones for the larger type. Both native collection and standalone English motion controls now sit in a right-aligned toolbar immediately below the header, outside the introductory sentences/hero.
+
+`mockups/_english_readability.py` is shared through the approved stylesheet generator. Rebuild **English only** with `PYTHONPATH=/home/user/python-deps python3 mockups/_build_english_final.py` (or normal Python with Pillow installed), then `node scripts/sync-decor-design.mjs`. This deliberately leaves Hindi/bilingual edits alone. Browser checks cover 320/390/520/768/1024/1440px on homepage, native collection and standalone English, meaningful visible type sizes, modal overflow and relocated pause/resume behavior. All 16 unit tests, TypeScript and production build pass.

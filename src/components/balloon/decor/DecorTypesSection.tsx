@@ -100,6 +100,25 @@ export default function DecorTypesSection({
 
   return (
     <div className="bce-decor" id="decor-types" ref={rootRef} data-motion={enabled ? "on" : "off"}>
+      <div className="english-motion-tools wrap">
+        <button
+          className="motion-toggle"
+          type="button"
+          onClick={toggleMotion}
+          disabled={reduced}
+          aria-pressed={!enabled}
+          aria-label={
+            reduced
+              ? "Animations off — following your device setting"
+              : enabled
+                ? "Pause section animations"
+                : "Resume section animations"
+          }
+        >
+          <span aria-hidden="true">{enabled ? "Ⅱ" : "▷"}</span>
+          <span>{enabled ? "Motion on" : "Motion off"}</span>
+        </button>
+      </div>
       <div className="wrap">
         <section className="block" aria-label="Decor collections">
           <section
@@ -124,23 +143,6 @@ export default function DecorTypesSection({
                 <span>
                   25 decor styles <b>·</b> 150 ways to make them yours
                 </span>
-                <button
-                  className="motion-toggle"
-                  type="button"
-                  onClick={toggleMotion}
-                  disabled={reduced}
-                  aria-pressed={!enabled}
-                  aria-label={
-                    reduced
-                      ? "Animations off — following your device setting"
-                      : enabled
-                        ? "Pause section animations"
-                        : "Resume section animations"
-                  }
-                >
-                  <span aria-hidden="true">{enabled ? "Ⅱ" : "▷"}</span>
-                  <span>{enabled ? "Motion on" : "Motion off"}</span>
-                </button>
               </div>
             </div>
             <nav className="collection-nav" aria-label="Decor collections">

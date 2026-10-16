@@ -312,7 +312,7 @@ def enhance(text: str) -> str:
     text = text.replace('        <a class="head-wa"', '        <nav class="header-links" aria-label="Main navigation"><a href="#collections">The collections</a><a href="#inspiration-title">Find your mood</a></nav>\n        <a class="head-wa"', 1)
     text = text.replace('</header>', '</header>\n' + HERO, 1)
     text = text.replace('    <!-- detail sheet:', CLOSING + '\n    <!-- detail sheet:', 1)
-    text = text.replace(' THE ART OF CELEBRATING</span>', ' THE ART OF CELEBRATING</span>' + TOGGLE, 1)
+    text = text.replace('</header>', '</header>\n<div class="english-motion-tools wrap">' + TOGGLE + '</div>', 1)
     text = decorate(text)
     # Bundle fonts so the look is consistent without Google Fonts/network access.
     fonts = ""
