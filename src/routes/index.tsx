@@ -1,5 +1,6 @@
 import { SmartSearch } from '@/components/balloon/smart-search';
 import { AskAssistant } from '@/components/balloon/ask-assistant';
+import { EntryGate } from '@/components/balloon/entry-gate';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
@@ -99,6 +100,7 @@ function Index() {
   const current = taglines[line] ?? ['', ''];
   const out = fading === null ? null : taglines[fading] ?? null;
   return <>
+    <EntryGate />
     <header className="site-header"><div className="page-width nav-layout">
       <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove("is-playing"), 9000); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span className="brand-text"><span className="brand-name">Balloon Creation</span><span className="brand-rise"><span className="brand-descriptor">We Decorate Your Happiness</span></span></span></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
