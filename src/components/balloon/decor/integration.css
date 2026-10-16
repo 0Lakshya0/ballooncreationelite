@@ -1,0 +1,145 @@
+/* Page integration only. All editorial/animation rules are in the scoped approved stylesheet. */
+@font-face {
+  font-family: BCECormorant;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: BCECormorant;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: BCEManrope;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/decor-types/fonts/manrope-latin-wght-normal.woff2") format("woff2");
+}
+.bce-decor {
+  --font-display: BCECormorant, Georgia, serif;
+  --font-sans: BCEManrope, Arial, sans-serif;
+  position: relative;
+  padding: 0 0 28px;
+  margin: 0;
+  scroll-margin-top: 110px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.bce-decor h2,
+.bce-decor h3 {
+  font-family: var(--font-display);
+}
+.bce-decor .wrap {
+  width: min(1240px, calc(100% - 64px));
+  margin-inline: auto;
+}
+.bce-decor .block {
+  padding-top: 40px;
+}
+.bce-decor .motion-toggle {
+  margin-top: 15px;
+  gap: 8px;
+}
+.bce-decor .motion-toggle > span:first-child {
+  font-size: 12px;
+}
+.bce-decor .selbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 35;
+  margin-top: 24px;
+  width: 100%;
+}
+.bce-decor:not([data-inview="true"]) > .selbar {
+  visibility: hidden;
+}
+.bce-decor .selbar .cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.bce-decor .detail {
+  z-index: 100;
+}
+.bce-decor .detail-card {
+  outline: none;
+}
+.bce-decor .decor-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.bce-decor .option-view .detail-hero {
+  margin: 24px 30px 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 5px #eed8b64d;
+}
+.bce-decor .option-view .detail-hero img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.bce-decor .option-view .detail-hero::after {
+  display: none;
+}
+.bce-decor .option-view .detail-body {
+  margin-top: 0;
+  padding-top: 14px;
+}
+.bce-decor .pairs button,
+.bce-decor .pair-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.bce-decor .pair-tag {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: #fff6e6;
+  color: var(--foreground);
+  font-size: 11px;
+}
+.bce-decor .pairs img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+@media (max-width: 760px) {
+  .bce-decor .wrap {
+    width: calc(100% - 40px);
+  }
+}
+@media (max-width: 520px) {
+  .bce-decor .wrap {
+    width: calc(100% - 36px);
+  }
+  .bce-decor .option-view .detail-hero {
+    margin-left: 20px;
+  }
+  .bce-decor .detail-card {
+    max-height: 92dvh;
+  }
+  .bce-decor .selbar .wrap {
+    padding-bottom: max(11px, env(safe-area-inset-bottom));
+  }
+}

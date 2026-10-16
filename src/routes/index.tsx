@@ -1,6 +1,8 @@
 import { SmartSearch } from '@/components/balloon/smart-search';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { observeVisibility } from '@/lib/visibility';
+import '@/components/balloon/decor/home-integration.css';
 import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
@@ -10,6 +12,7 @@ import { celebrations, contact } from '@/lib/celebrations';
 import { heroSlides } from '@/lib/hero-slides';
 import logoAsset from '@/assets/profile-logo.jpg.asset.json';
 const logo = logoAsset.url;
+const DecorTypesSection = lazy(() => import('@/components/balloon/decor/DecorTypesSection'));
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
@@ -84,11 +87,12 @@ function Index() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
     document.documentElement.classList.add('motion-ready');
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
-    }), { threshold: 0, rootMargin: '0px 0px 80px 0px' });
-    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
-    return () => { observer.disconnect(); document.documentElement.classList.remove('motion-ready'); };
+    const stops = Array.from(document.querySelectorAll('.reveal'), element => {
+      let stop = () => {};
+      stop = observeVisibility(element, visible => { if (visible) { element.classList.add('is-visible'); stop(); } });
+      return () => stop();
+    });
+    return () => { stops.forEach(stop => stop()); document.documentElement.classList.remove('motion-ready'); };
   }, []);
   function chooseOccasion(name: string) {
     setOccasion(name);
@@ -100,7 +104,7 @@ function Index() {
     <header className="site-header"><div className="page-width nav-layout">
       <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove("is-playing"), 9000); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span className="brand-text"><span className="brand-name">Balloon Creation</span><span className="brand-rise"><span className="brand-descriptor">We Decorate Your Happiness</span></span></span></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
-        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
+        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#decor-types" onClick={() => setMenuOpen(false)}>Decor collections</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
       </nav>
       <Button variant="luxury" className="nav-consultation" asChild><a href="#concierge">Request Consultation <ArrowUpRight /></a></Button>
       <Button variant="ghost" size="icon" className="mobile-menu" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
@@ -135,6 +139,7 @@ function Index() {
         </article>)}</div>
         <div className="portfolio-note reveal"><span>YOUR STORY. YOUR STYLE. YOUR ONE-OF-A-KIND CELEBRATION.</span><a href="#concierge">Let’s imagine yours <ArrowUpRight size={16} /></a></div>
       </section>
+      <Suspense fallback={<section id="decor-types" className="section-space page-width" aria-busy="true"><h2>Explore our decor collections</h2><p>Loading the details for your celebration…</p></section>}><DecorTypesSection /></Suspense>
       <section className="standard section-space" id="standard"><div className="page-width">
         <div className="standard-heading reveal"><span className="eyebrow">THE SIGNATURE STANDARD</span><h2>The difference is<br /><em>in every detail.</em></h2><p>Not just a beautiful setup. An exceptional experience, from first idea to final flourish.</p></div>
         <div className="standards-grid">{standards.map(({ icon: Icon, ...item }) => <div className="standard-item reveal" key={item.number}><div className="standard-top"><Icon size={26} strokeWidth={1.1} /><span>{item.number}</span></div><h3>{item.title}</h3><span className="standard-detail">{item.detail}</span><p>{item.copy}</p></div>)}</div>
