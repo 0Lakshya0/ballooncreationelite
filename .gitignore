@@ -37,3 +37,6 @@ package-lock.json
 # python cache (mockup builders)
 __pycache__/
 *.pyc
+
+# Disposable native phone-view bundles (the final single HTML is published separately)
+.cache/
