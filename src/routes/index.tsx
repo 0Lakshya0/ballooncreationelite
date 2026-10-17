@@ -10,8 +10,7 @@ import { RotatingLines } from '@/components/balloon/rotating-lines';
 import { CategoryMarquee } from '@/components/balloon/category-marquee';
 import { celebrations, contact } from '@/lib/celebrations';
 import { heroSlides } from '@/lib/hero-slides';
-import logoAsset from '@/assets/profile-logo.jpg.asset.json';
-const logo = logoAsset.url;
+const logo = '/balloon-logo.jpg';
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
