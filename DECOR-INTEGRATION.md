@@ -159,7 +159,10 @@ Validation: 63 Worker/SQLite/test-page tests and 57 unchanged frontend tests pas
 
 Published new **manual test page https://clck.ru/3WYVcN**, immutable source `b30444d96f7349fc5feda68b7cb29eddf88ee1a0/drafts/ai-connection-check.html`. Redirect/page content verified, including the provider selector and no-automatic-request ready state. Owner has not yet used this new page. The main website remains **https://clck.ru/3WY8xZ**; this test-page publication does not activate Cloudflare or change the main phone artifact.
 
-
 ### Owner deployed Workers AI adapter — independently verified
 
 Read-only production health `workers-ai-owner-deployed-20261017-v7` now returns `workers-ai-pool-1`, both bindings present (`AI` capability and `AI_DB`), private salt configured, and Gemini/Groq still enabled. The new bounded routing is live; app caps remain unchanged. Cloudflare is **not yet enabled or real-answer verified**. Next is explicit `ENABLED_PROVIDERS=gemini,groq,cloudflare`, followed by one owner-controlled Cloudflare-only answer test, keeping the working providers enabled. No automated inference was run. The larger provider pool remains unfinished.
+
+## About Us added to the main site (2026-10-17)
+
+Owner supplied a full React About Us page and requested it run within the main website. Integrated `/about` and home navigation; full details and adaptations in `ABOUT-INTEGRATION.md`. New main **https://clck.ru/3WYZdL** supersedes 3WY8xZ for this update. Source 474da10 / pinned portable artifact 4daf5d7; publication provenance in `PHONE-VIEW.md`. Existing photos/contact reused, tagline and footer-removal preserved, no home redesign or backend setting changes. 64 frontend + 63 backend/page tests pass; native and exact-artifact browser checks pass. Cloudflare activation/real answer and the larger legitimate ₹0 provider cycle remain unfinished, not displaced or marked complete by this separate page task.

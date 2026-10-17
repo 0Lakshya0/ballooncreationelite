@@ -1,4 +1,20 @@
-## Latest MAIN website — floating 3D AI + shared search chat
+## Latest MAIN website — integrated About Us page
+
+**https://clck.ru/3WYZdL**
+
+- Source commit: `474da100e18a92326cc4fa2d6a7baf6dc16d488b`.
+- Pinned phone artifact commit: `4daf5d7de1d1554038d8f7f8f94ad34d1535f79d`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/4daf5d7de1d1554038d8f7f8f94ad34d1535f79d/drafts/main-website-phone.html`.
+- GitHub verified blob `27991983f059c777b14c418c33d3b23647b9b400`, 11,015,513 bytes; embedded source metadata matches 474da10. Public short-link redirect and updated home rendering verified. Old immutable main links do not update.
+- Open About us from the desktop header or mobile menu. New `/about` page follows the supplied layout/story, six sections, process, gallery and FAQ; local bundled imagery and contact constants are reused. Exact tagline and existing footer removal preserved. Main homepage design/search/typewriter, shared AI and collection remain intact.
+- Phone route state uses the same document and supports `#about` on reload; absolute same-origin history updates avoid HTMLPreview's remote `<base>` resolving history writes to GitHub. Tested direct fragment entry/reload on the exact artifact in simulated HTMLPreview; the fetch tool strips incoming fragments, so its public fetch is not a fragment-routing browser test.
+- 64 frontend tests, TypeScript, targeted lint and native production build pass; 63 mocked backend/page tests remain green. Chromium checks cover native and exact portable artifact at 320/390/768/1440px, local images, mobile menu/Escape/scroll restoration, About navigation, same-document home enquiries, FAQ, zero page errors and zero AI calls. Additional home-header checks at 1024/1200/1440 show no overlap/overflow. Native live preview is port **8080**.
+- Public fetch/redirect and blob integrity verified separately from the simulated remote-base browser test. No consultation submission or real AI question was performed. Cloudflare activation/real-answer verification and the larger free-provider pool are separate unfinished tasks; this About update changes no backend settings.
+- Integration details: `ABOUT-INTEGRATION.md`.
+
+---
+
+## Previous MAIN website — floating 3D AI + shared search chat
 
 **https://clck.ru/3WY8xZ**
 

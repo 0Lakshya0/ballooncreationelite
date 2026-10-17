@@ -1,6 +1,6 @@
 # Balloon Creation — external AI backend
 
-**Current (2026-10-17): Workers AI adapter deployment independently verified; Gemini/Groq remain enabled. Cloudflare activation and a completed real answer are still pending.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WY8xZ. Older progress sections below are historical.
+**Current (2026-10-17): Workers AI adapter deployment independently verified; Gemini/Groq remain enabled. Cloudflare activation and a completed real answer are still pending.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WYZdL (About Us publication; backend settings unchanged). Older progress sections below are historical.
 
 **Built with Llama.** The proposed Cloudflare fallback uses Meta Llama 3.2 via Cloudflare Workers AI. [Model and license](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/).
 
