@@ -1,4 +1,18 @@
-## Latest MAIN website — integrated About Us page
+## Latest MAIN website — About uses shared animation, actual logo and collection header
+
+**https://clck.ru/3WYaYD**
+
+- Source `309fb50bb79ef77134cf1c229fa849ec1dcf547a`; pinned artifact `2158c9adf7a36a7661de5d2cd000298fe80800bc`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/2158c9adf7a36a7661de5d2cd000298fe80800bc/drafts/main-website-phone.html`.
+- Blob `c0af0105f5f0d3f597a514d71c0a4e5f93f1931c`, 11,022,792 bytes. GitHub metadata, public redirect/home rendering and source metadata verified.
+- About now uses Home's exact WebGL liquid component and pause preference. Background is visible through warm translucent page sections; the previous dark vow band is lightened so the material remains visible/readable.
+- Header uses Explore decor styles' actual CSS classes/layout, including mobile arrangement; Back to home / centred brand / Let's celebrate. Demo BC mark replaced with the actual same uploaded Home logo, embedded in phone output. The old About hamburger header is removed.
+- 64 frontend tests, TypeScript, targeted ESLint and production build pass; 63 backend/page regressions pass. Native and exact portable artifact Chromium checks at 320/390/768/1440 verify real WebGL/advancing frames, loaded actual logo, unclipped/non-overlapping header, Back/Home/About links, pause shared across routes, resume and reduced motion. Exact artifact additionally passes fragment reload and same-document enquiry routing under a simulated remote base. Zero AI requests/page errors; no real provider test was performed.
+- Updated native preview remains port **8080**. Backend/settings, home design, About story/photos and footer removal are preserved. Old immutable phone links do not update.
+
+---
+
+## Previous MAIN website — integrated About Us page
 
 **https://clck.ru/3WYZdL**
 

@@ -166,3 +166,7 @@ Read-only production health `workers-ai-owner-deployed-20261017-v7` now returns 
 ## About Us added to the main site (2026-10-17)
 
 Owner supplied a full React About Us page and requested it run within the main website. Integrated `/about` and home navigation; full details and adaptations in `ABOUT-INTEGRATION.md`. New main **https://clck.ru/3WYZdL** supersedes 3WY8xZ for this update. Source 474da10 / pinned portable artifact 4daf5d7; publication provenance in `PHONE-VIEW.md`. Existing photos/contact reused, tagline and footer-removal preserved, no home redesign or backend setting changes. 64 frontend + 63 backend/page tests pass; native and exact-artifact browser checks pass. Cloudflare activation/real answer and the larger legitimate ₹0 provider cycle remain unfinished, not displaced or marked complete by this separate page task.
+
+## About revision — main animation, real profile logo, collection-style header
+
+Owner requested Home’s animation, actual profile picture instead of the demo BC mark, and Explore decor styles’ header design on About. Implemented with the exact shared WebGL component and existing uploaded Home logo; header reuses collection classes and mobile layout. Warm translucent surfaces allow the shader to show. New main **https://clck.ru/3WYaYD** (source 309fb50, pinned artifact 2158c9a) supersedes 3WYZdL. Full provenance/checks: `PHONE-VIEW.md` and `ABOUT-INTEGRATION.md`. No backend config or real AI calls; provider expansion remains a separate unfinished task.
