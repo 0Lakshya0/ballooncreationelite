@@ -10,7 +10,7 @@ const CRACK_END = 600;
 const HOLD_END = 2100;
 const OPEN_END = 4100;
 const FADE_START = OPEN_END + 2500;
-const FADE_END = FADE_START + 1200;
+const FADE_END = FADE_START + 2400;
 const START_DELAY = 300;
 
 const easeOut = (k: number) => 1 - Math.pow(1 - k, 3);
@@ -22,10 +22,14 @@ export function EntryGate() {
   const startRef = useRef(0);
   const [done, setDone] = useState(false);
 
-  // Lock page scroll while the gate is on screen.
+  // Lock page scroll while the gate is on screen, and keep the site hidden until the gate starts fading.
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    document.body.classList.add('gate-pending');
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('gate-pending');
+    };
   }, []);
 
   // Drive the whole animation with CSS variables for smooth, frame-accurate motion.
@@ -65,6 +69,7 @@ export function EntryGate() {
 
       let bg = 1;
       if (t >= FADE_START) {
+        document.body.classList.remove('gate-pending');
         const f = easeInOut(clamp((t - FADE_START) / (FADE_END - FADE_START)));
         light *= 1 - f;
         bg = 1 - f;
