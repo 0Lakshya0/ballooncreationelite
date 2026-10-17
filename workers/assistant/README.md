@@ -1,6 +1,6 @@
 # Balloon Creation — external AI backend
 
-**Current (2026-10-17): Gemini/Groq live; new Workers AI adapter tested locally, NOT deployed or real-answer verified yet.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WY8xZ. Older progress sections below are historical.
+**Current (2026-10-17): Workers AI adapter deployment independently verified; Gemini/Groq remain enabled. Cloudflare activation and a completed real answer are still pending.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WY8xZ. Older progress sections below are historical.
 
 **Built with Llama.** The proposed Cloudflare fallback uses Meta Llama 3.2 via Cloudflare Workers AI. [Model and license](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/).
 
@@ -144,3 +144,8 @@ Owner workflow is **one UI step at a time**, not an instruction to perform all a
 Validation: **63 backend/page tests pass** (51 Worker/SQLite + 12 page-controller), plus **57 existing frontend tests**, TypeScript and targeted changed-file ESLint/Prettier checks. A fresh local workerd/Miniflare + real D1 + the real built-in `cloudflare:ai` SDK smoke passed: SDK raw-response / signal / pinned-model contract, no-schema-mutating health, manual Cloudflare answer, persistent compute reservation, interval quota, denied origin and disabled-provider guard. All inference was mocked; this is not an owner deployment, production CPU benchmark or real Cloudflare answer. Full-repository lint is not clean: unrelated existing mockup/source formatting plus disposable research files are reported; no unrelated bulk formatting was applied.
 
 The larger legitimate ongoing-₹0 provider pool is **still unfinished**. Working Gemini/Groq, disabled/unverified OpenRouter, and this not-yet-live Cloudflare adapter are not four verified working providers. Do not pad the count with models, shared keys, expiring trials or card-required services.
+
+
+### Owner deployment verified (2026-10-17)
+
+After the owner confirmed deployment, read-only production health `workers-ai-owner-deployed-20261017-v7` independently returned revision `workers-ai-pool-1`, `workersAiBound: true`, `databaseBound: true`, `rateLimitSaltConfigured: true`, and enabled providers exactly `gemini,groq`. New 32s shared / 20s individual / 3-attempt timing and unchanged 50/200/500 daily limits are live. This supersedes earlier deployment-pending statements. No AI inference was made; Cloudflare is still disabled. Next owner setting: preserve Gemini/Groq and change `ENABLED_PROVIDERS` to `gemini,groq,cloudflare`, then separately verify one completed Cloudflare-only answer on https://clck.ru/3WYVcN. Do not count binding/health presence as a working answer.
