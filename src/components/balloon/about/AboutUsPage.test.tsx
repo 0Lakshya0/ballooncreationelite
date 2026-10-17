@@ -10,9 +10,12 @@ import {
 } from "@tanstack/react-router";
 import { afterEach, expect, it, vi } from "vitest";
 import AboutUsPage, { Photo } from "./AboutUsPage";
+import logoAsset from "@/assets/profile-logo.jpg.asset.json";
+vi.mock("../decor/liquid-renderer", () => ({ mountLiquidSurfaces: vi.fn(() => vi.fn()) }));
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  localStorage.clear();
 });
 async function mount() {
   Element.prototype.scrollIntoView = vi.fn();
@@ -71,24 +74,33 @@ it("provides working contact links, structured data and bundled images rather th
   ).toBe("Indore");
   expect(Array.from(document.images).every((img) => !img.src.includes("unsplash.com"))).toBe(true);
 });
-it("opens the mobile menu, locks background scroll, restores it and returns focus on Escape", async () => {
-  await mount();
-  document.body.style.overflow = "auto";
-  const button = screen.getByRole("button", { name: "Open menu" });
-  fireEvent.click(button);
-  expect(button).toHaveAttribute("aria-expanded", "true");
-  expect(document.body.style.overflow).toBe("hidden");
-  fireEvent.keyDown(document, { key: "Escape" });
-  expect(button).toHaveAttribute("aria-expanded", "false");
-  expect(document.body.style.overflow).toBe("auto");
-  expect(button).toHaveFocus();
+it("uses collection header layout, the actual Home profile photo, and working back navigation", async () => {
+  const router = await mount();
+  expect(document.querySelector(".collections-page-header .collections-wordmark")).toBeTruthy();
+  expect(screen.getByRole("img", { name: "Balloon Creation logo" })).toHaveAttribute(
+    "src",
+    logoAsset.url,
+  );
+  expect(document.querySelector(".ab-brand-mark")).toBeNull();
+  expect(screen.queryByRole("button", { name: "Open menu" })).toBeNull();
+  expect(document.querySelector(".collections-enquire")).toHaveAttribute("target", "_blank");
+  fireEvent.click(screen.getByRole("link", { name: "Back to home" }));
+  await screen.findByText("Home portfolio");
+  expect(router.state.location.pathname).toBe("/");
 });
-it("restores scroll on navigation/unmount while menu is open and makes no AI calls", async () => {
+it("mounts the shared real liquid background, persists pause preference, and makes no AI calls", async () => {
   const fetch = vi.spyOn(globalThis, "fetch");
   await mount();
-  fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+  expect(document.querySelector(".ab-root.site-liquid-shell .liquid-gold-canvas")).toBeTruthy();
+  fireEvent.click(screen.getByRole("button", { name: "Pause background animation" }));
+  expect(document.querySelector(".site-liquid-backdrop")).toHaveAttribute("data-motion", "off");
+  expect(localStorage.getItem("bce-site-motion")).toBe("off");
   cleanup();
-  expect(document.body.style.overflow).not.toBe("hidden");
+  await mount();
+  expect(screen.getByRole("button", { name: "Resume background animation" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
   expect(fetch).not.toHaveBeenCalled();
 });
 it("replaces failed images with an accessible sized fallback and recovers for a new source", () => {

@@ -71,7 +71,7 @@ function portablePhoneView(): Plugin {
           /\/decor-types\/fonts\/([^"')\s]+)/g,
           (_all, name: string) => fonts[name] ?? _all,
         );
-      if (id.endsWith("/src/routes/index.tsx"))
+      if (id.endsWith("/src/routes/index.tsx") || id.endsWith("/about/AboutUsPage.tsx"))
         return source.replace(
           "const logo = logoAsset.url;",
           `const logo = ${JSON.stringify(dataUri("public/favicon.png", "image/png"))};`,

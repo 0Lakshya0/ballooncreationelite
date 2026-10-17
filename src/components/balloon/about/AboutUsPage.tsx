@@ -5,18 +5,17 @@ import { observeVisibility } from "@/lib/visibility";
 import wedding from "@/assets/wedding.jpg";
 import anniversary from "@/assets/anniversary.jpg";
 import hall from "@/assets/celebration-hero.jpg";
+import { SiteLiquidBackground } from "../site-liquid-background";
+import logoAsset from "@/assets/profile-logo.jpg.asset.json";
+import "../decor/collections-page.css";
 import "./about.css";
+const logo = logoAsset.url;
 
 // Owner-supplied About page, adapted to the existing router and bundled imagery.
 const BRAND = { name: "Balloon Creation", tagline: "We decorate your happiness", years: 10 };
 const WA_DEFAULT =
   "Hello Balloon Creation! I would like to check availability for my celebration in Indore.";
 const wa = `${contact.whatsapp}?text=${encodeURIComponent(WA_DEFAULT)}`;
-const NAV = [
-  { label: "Our creations", hash: "portfolio" },
-  { label: "About us", hash: null },
-  { label: "Let’s celebrate", hash: "concierge" },
-];
 const PILLARS = [
   {
     icon: "pin",
@@ -229,9 +228,7 @@ function Heading({ eyebrow, children }: { eyebrow: string; children: ReactNode }
 const NOTE =
   "*The exact-match promise applies to the approved design and agreed scope. Venue dimensions and permissions may affect special effects; we agree any required adjustment with you before installation.";
 export default function AboutUsPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null),
-    toggleRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const root = rootRef.current;
     if (
@@ -256,27 +253,6 @@ export default function AboutUsPage() {
       root.classList.remove("ab-motion-ready");
     };
   }, []);
-  useEffect(() => {
-    if (!menuOpen) return;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-        toggleRef.current?.focus();
-      }
-    };
-    const resize = () => {
-      if (window.innerWidth > 980) setMenuOpen(false);
-    };
-    document.addEventListener("keydown", close);
-    window.addEventListener("resize", resize);
-    return () => {
-      document.body.style.overflow = overflow;
-      document.removeEventListener("keydown", close);
-      window.removeEventListener("resize", resize);
-    };
-  }, [menuOpen]);
   const schema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -293,7 +269,8 @@ export default function AboutUsPage() {
     slogan: BRAND.tagline,
   };
   return (
-    <div className="ab-root" ref={rootRef}>
+    <div className="ab-root site-liquid-shell" ref={rootRef}>
+      <SiteLiquidBackground />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
@@ -301,78 +278,39 @@ export default function AboutUsPage() {
       <a className="ab-skip" href="#ab-main">
         Skip to content
       </a>
-      <header className="ab-head">
-        <div className="ab-container ab-head-inner">
-          <HomeLink className="ab-brand">
-            <span className="ab-brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="23" fill="#fffdf6" stroke="#b98c3f" />
-                <ellipse cx="24" cy="18" rx="5.4" ry="6.8" fill="#c39a4c" />
-                <path
-                  d="m22.5 25 1.5 2.4 1.5-2.4M24 27.4c2 3 3.4 3.7 2.9 6.1"
-                  stroke="#b98c3f"
-                  fill="none"
-                />
-                <text
-                  x="24"
-                  y="42"
-                  textAnchor="middle"
-                  fontFamily="Georgia,serif"
-                  fontSize="11"
-                  fill="#8d6527"
-                >
-                  BC
-                </text>
-              </svg>
-            </span>
+      <header className="collections-page-header ab-collections-header">
+        <div className="page-width">
+          <HomeLink className="collections-home">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <path d="m12 5-7 7 7 7M5 12h14" />
+            </svg>
+            <span>Back to home</span>
+          </HomeLink>
+          <HomeLink className="collections-wordmark ab-collections-brand">
+            <img
+              className="ab-collections-logo"
+              src={logo}
+              alt="Balloon Creation logo"
+              width={64}
+              height={64}
+              decoding="async"
+            />
             <span>
-              <span className="ab-brand-name">{BRAND.name}</span>
-              <span className="ab-brand-tag">{BRAND.tagline}</span>
+              {BRAND.name}
+              <small>{BRAND.tagline}</small>
             </span>
           </HomeLink>
-          <nav
-            id="ab-nav"
-            className={`ab-nav${menuOpen ? " is-open" : ""}`}
-            aria-label="About page navigation"
-          >
-            {NAV.map((item) =>
-              item.hash ? (
-                <HomeLink key={item.label} hash={item.hash} onClick={() => setMenuOpen(false)}>
-                  {item.label}
-                </HomeLink>
-              ) : (
-                <Link
-                  key={item.label}
-                  to="/about"
-                  aria-current="page"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-            <HomeLink
-              className="ab-nav-cta ab-btn"
-              hash="concierge"
-              onClick={() => setMenuOpen(false)}
-            >
-              Request consultation <Icon name="arrow" size={14} />
-            </HomeLink>
-          </nav>
-          <div className="ab-head-cta">
-            <CTA>Request Consultation</CTA>
-          </div>
-          <button
-            ref={toggleRef}
-            type="button"
-            className="ab-nav-toggle"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="ab-nav"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <Icon name={menuOpen ? "close" : "menu"} size={22} />
-          </button>
+          <a className="collections-enquire" href={wa} target="_blank" rel="noreferrer">
+            Let’s celebrate <Icon name="arrow" size={14} />
+          </a>
         </div>
       </header>
       <main id="ab-main">
