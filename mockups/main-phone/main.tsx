@@ -25,11 +25,11 @@ router.subscribe("onResolved", () => {
       : pathname === "/decor-collections"
         ? "decor-collections"
         : hash;
-  window.history.replaceState(
-    null,
-    "",
-    `${window.location.pathname}${window.location.search}${fragment ? `#${fragment}` : ""}`,
-  );
+  // Absolute same-origin URL: HTMLPreview's remote <base> would resolve a
+  // relative history URL against raw.githubusercontent.com and reject it.
+  const url = new URL(window.location.href);
+  url.hash = fragment;
+  window.history.replaceState(null, "", url.href);
 });
 window.addEventListener("phone:home", () => {
   void router.navigate({ to: "/" });
