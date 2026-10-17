@@ -1,5 +1,5 @@
 import { SmartSearch } from '@/components/balloon/smart-search';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { SiteLiquidBackground } from '@/components/balloon/site-liquid-background';
 import { DecorCollectionsButton } from '@/components/balloon/decor-collections-button';
@@ -107,7 +107,7 @@ function Index() {
     <header className="site-header"><div className="page-width nav-layout">
       <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove("is-playing"), 9000); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span className="brand-text"><span className="brand-name">Balloon Creation</span><span className="brand-rise"><span className="brand-descriptor">We Decorate Your Happiness</span></span></span></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
-        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
+        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><Link to="/about" onClick={() => setMenuOpen(false)}>About us</Link><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
       </nav>
       <Button variant="luxury" className="nav-consultation" asChild><a href="#concierge">Request Consultation <ArrowUpRight /></a></Button>
       <Button variant="ghost" size="icon" className="mobile-menu" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>

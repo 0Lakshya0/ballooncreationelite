@@ -6,8 +6,30 @@ import "@/styles.css";
 const router = createRouter({
   routeTree,
   context: { queryClient: new QueryClient() },
-  history: createMemoryHistory({ initialEntries: ["/"] }),
+  history: createMemoryHistory({
+    initialEntries: [
+      window.location.hash === "#about"
+        ? "/about"
+        : window.location.hash === "#decor-collections"
+          ? "/decor-collections"
+          : "/",
+    ],
+  }),
   scrollRestoration: true,
+});
+router.subscribe("onResolved", () => {
+  const { pathname, hash } = router.state.location;
+  const fragment =
+    pathname === "/about"
+      ? "about"
+      : pathname === "/decor-collections"
+        ? "decor-collections"
+        : hash;
+  window.history.replaceState(
+    null,
+    "",
+    `${window.location.pathname}${window.location.search}${fragment ? `#${fragment}` : ""}`,
+  );
 });
 window.addEventListener("phone:home", () => {
   void router.navigate({ to: "/" });
