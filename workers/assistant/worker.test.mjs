@@ -360,7 +360,7 @@ test("legacy cooldown is observable without clearing it, spending quota or calli
   env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES (?, ?)").run("gemini", clock + 60_000);
   const response = await worker.fetch(new Request("https://assistant.example/health"), env);
   const data = await response.json();
-  assert.equal(data.revision, "relaxed-limits-1");
+  assert.equal(data.revision, "workers-ai-pool-1");
   assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 60);
   assert.equal(data.diagnostics.providers[0].lastResult, "not_recorded_by_previous_version");
   assert.equal(network.mock.calls.length, 0);
@@ -500,11 +500,11 @@ test("one eligible provider gets a 20-second deadline rather than the old 8 seco
   const health = await (
     await worker.fetch(new Request("https://assistant.example/health"), env)
   ).json();
-  assert.equal(health.revision, "relaxed-limits-1");
+  assert.equal(health.revision, "workers-ai-pool-1");
   assert.equal(health.timing.providerMaxSeconds, 20);
-  assert.equal(health.timing.upstreamBudgetSeconds, 24);
+  assert.equal(health.timing.upstreamBudgetSeconds, 32);
 });
-test("fallback shares the 24-second budget and does not start an extra provider after its deadline", async () => {
+test("fallback shares the 32-second budget and does not start an extra provider after its deadline", async () => {
   enableAll();
   const deadlines = [];
   mock.method(AbortSignal, "timeout", (ms) => {
@@ -512,13 +512,13 @@ test("fallback shares the 24-second budget and does not start an extra provider 
     return new AbortController().signal;
   });
   network.mock.mockImplementation(async () => {
-    tick(8000);
+    tick(deadlines.at(-1));
     throw Object.assign(new Error("timeout"), { name: "TimeoutError" });
   });
   const response = await ask();
   assert.equal(response.status, 503);
   assert.equal(network.mock.calls.length, 3);
-  assert.deepEqual(deadlines, [8000, 8000, 8000]);
+  assert.deepEqual(deadlines, [10666, 10667, 10667]);
 });
 test("a fast failure releases budget for the next eligible provider", async () => {
   enableAll();
@@ -539,12 +539,12 @@ test("a fast failure releases budget for the next eligible provider", async () =
   const response = await ask();
   assert.equal(response.status, 200);
   assert.equal((await response.json()).provider, "groq");
-  assert.deepEqual(deadlines, [12000, 20000]);
+  assert.deepEqual(deadlines, [16000, 20000]);
 });
 test("an exhausted request budget leaves untried providers available for future requests", async () => {
   enableAll();
   network.mock.mockImplementation(async () => {
-    tick(25000);
+    tick(33000);
     throw new Error("slow I/O");
   });
   assert.equal((await ask()).status, 503);
@@ -619,4 +619,263 @@ test("upgrading limits retains existing daily usage and does not reset provider 
   assert.equal(response.status, 503);
   assert.equal((await response.json()).error, "providers_cooling_down");
   assert.equal(network.mock.calls.length, 2);
+});
+
+function enableCloudflare(
+  reply = () => Response.json({ response: "Try a champagne balloon arch." }),
+) {
+  env.ENABLED_PROVIDERS = "cloudflare";
+  const run = mock.fn(reply);
+  env.AI = { run };
+  return run;
+}
+test("Workers AI is opt-in: a binding alone never makes an AI call or changes active providers", async () => {
+  const run = mock.fn();
+  env.AI = { run };
+  const health = await (
+    await worker.fetch(new Request("https://assistant.example/health"), env)
+  ).json();
+  assert.equal(health.setup.workersAiBound, true);
+  assert.deepEqual(health.setup.enabledProviders, ["gemini"]);
+  assert.equal(run.mock.calls.length, 0);
+  await ask();
+  assert.equal(run.mock.calls.length, 0);
+});
+test("Workers AI uses only the pinned model, bounded tokens, no gateway, and a cancellable raw response", async () => {
+  const run = enableCloudflare();
+  env.CLOUDFLARE_MODEL = "@cf/paid/arbitrary-model";
+  const data = await (await ask()).json();
+  assert.equal(data.provider, "cloudflare");
+  assert.equal(data.answer, "Try a champagne balloon arch.");
+  assert.equal(data.remaining, 49);
+  assert.equal(data.grounded, false);
+  assert.equal(network.mock.calls.length, 0);
+  const [model, inputs, options] = run.mock.calls[0].arguments;
+  assert.equal(model, "@cf/meta/llama-3.2-3b-instruct");
+  assert.equal(inputs.max_tokens, 512);
+  assert.equal(inputs.stream, false);
+  assert.equal(inputs.messages[1].content, "Birthday decoration ideas?");
+  assert.equal(options.returnRawResponse, true);
+  assert(options.signal instanceof AbortSignal);
+  assert.equal(options.gateway, undefined);
+  assert.equal(inputs.tools, undefined);
+  assert(
+    env.AI_DB.db.prepare("SELECT reserved_units FROM ai_provider_budget").get().reserved_units > 0,
+  );
+});
+test("Workers AI requires a real run binding and a private stable limiter salt", async () => {
+  env.ENABLED_PROVIDERS = "cloudflare";
+  assert.equal((await ask()).status, 503);
+  const run = enableCloudflare();
+  delete env.GEMINI_API_KEY;
+  assert.equal((await ask()).status, 503);
+  assert.equal(run.mock.calls.length, 0);
+  env.RATE_LIMIT_SALT = "private-test-salt";
+  assert.equal((await ask()).status, 200);
+});
+test("manual test targets an enabled provider without disabling normal Gemini/Groq routing", async () => {
+  const run = enableCloudflare();
+  env.ENABLED_PROVIDERS = "gemini,cloudflare";
+  const selected = await (await ask({ data: { provider: "cloudflare" } })).json();
+  assert.equal(selected.provider, "cloudflare");
+  assert.equal(network.mock.calls.length, 0);
+  tick();
+  const normal = await (await ask()).json();
+  assert.equal(normal.provider, "gemini");
+  assert.equal(normal.remaining, 48);
+  assert.equal(run.mock.calls.length, 1);
+});
+test("manual test cannot enable missing/disabled providers, bypass cooldowns, or reset visitor quota", async () => {
+  for (const provider of ["cloudflare", "unknown", "", 12, { id: "gemini" }])
+    assert.equal((await ask({ data: { provider } })).status, 400);
+  const run = enableCloudflare();
+  env.ENABLED_PROVIDERS = "gemini,cloudflare";
+  await ask();
+  tick();
+  const selected = await (await ask({ data: { provider: "cloudflare" } })).json();
+  assert.equal(selected.remaining, 48);
+  env.AI_DB.db
+    .prepare("INSERT INTO ai_provider_state(provider, available_at) VALUES(?,?)")
+    .run("cloudflare", clock + 120000);
+  tick();
+  assert.equal((await ask({ data: { provider: "cloudflare" } })).status, 503);
+  assert.equal(run.mock.calls.length, 1);
+});
+test("Gemini/Groq failures fall back to Workers AI without calling unneeded OpenRouter", async () => {
+  enableAll();
+  const run = mock.fn(() => Response.json({ response: "Use ivory balloons." }));
+  env.AI = { run };
+  env.ENABLED_PROVIDERS += ",cloudflare";
+  network.mock.mockImplementation(async () =>
+    Response.json({ error: { message: "busy" } }, { status: 503 }),
+  );
+  const data = await (await ask()).json();
+  assert.equal(data.provider, "cloudflare");
+  assert.equal(run.mock.calls.length, 1);
+  assert.equal(network.mock.calls.length, 2);
+});
+test("a larger pool has at most 3 inference attempts and does not shrink timeouts below the 3-candidate allocation", async () => {
+  enableAll();
+  env.ENABLED_PROVIDERS += ",cloudflare";
+  const deadlines = [];
+  mock.method(AbortSignal, "timeout", (ms) => {
+    deadlines.push(ms);
+    return new AbortController().signal;
+  });
+  const run = mock.fn(() =>
+    Response.json({ errors: [{ message: "unavailable" }] }, { status: 503 }),
+  );
+  env.AI = { run };
+  network.mock.mockImplementation(async () => Response.json({ error: {} }, { status: 503 }));
+  assert.equal((await ask()).status, 503);
+  assert.equal(network.mock.calls.length + run.mock.calls.length, 3);
+  assert(deadlines.every((ms) => ms >= 10666));
+  assert.equal(
+    env.AI_DB.db
+      .prepare("SELECT provider FROM ai_provider_state WHERE provider='openrouter'")
+      .get(),
+    undefined,
+  );
+});
+test("Workers AI's local daily compute reservation is persistent, atomic, and skips inference when spent", async () => {
+  const run = enableCloudflare();
+  await ask();
+  tick();
+  env.AI_DB.db.prepare("UPDATE ai_provider_budget SET reserved_units=8000000").run();
+  const response = await ask();
+  assert.equal(response.status, 503);
+  const data = await response.json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "local_provider_budget");
+  assert.equal(run.mock.calls.length, 1);
+  assert.equal(
+    env.AI_DB.db.prepare("SELECT reserved_units FROM ai_provider_budget").get().reserved_units,
+    8000000,
+  );
+  tick(86_400_000);
+  assert.equal((await ask()).status, 200);
+  assert.equal(run.mock.calls.length, 2);
+  const day = new Date(clock).toISOString().slice(0, 10);
+  const units = env.AI_DB.db
+    .prepare("SELECT reserved_units FROM ai_provider_budget WHERE day=?")
+    .get(day).reserved_units;
+  env.AI_DB.db
+    .prepare("UPDATE ai_provider_budget SET reserved_units=? WHERE day=?")
+    .run(8000000 - units, day);
+  tick(2000);
+  const contenders = await Promise.all(
+    [1, 2].map((index) =>
+      ask({
+        data: { visitorId: crypto.randomUUID() },
+        headers: { "CF-Connecting-IP": `203.0.113.${index + 10}` },
+      }),
+    ),
+  );
+  assert.deepEqual(contenders.map((r) => r.status).sort(), [200, 503]);
+  assert.equal(
+    env.AI_DB.db.prepare("SELECT reserved_units FROM ai_provider_budget WHERE day=?").get(day)
+      .reserved_units,
+    8000000,
+  );
+  assert.equal(run.mock.calls.length, 3);
+});
+test("a spent local Workers AI budget does not consume a provider attempt or block another configured backup", async () => {
+  const run = enableCloudflare();
+  await ask();
+  tick();
+  env.AI_DB.db.prepare("UPDATE ai_provider_budget SET reserved_units=8000000").run();
+  env.OPENROUTER_API_KEY = "test-router";
+  env.OPENROUTER_MODEL = "test/model:free";
+  env.ENABLED_PROVIDERS = "cloudflare,openrouter";
+  network.mock.mockImplementation(async () => openAIReply());
+  const data = await (await ask()).json();
+  assert.equal(data.provider, "openrouter");
+  assert.equal(run.mock.calls.length, 1);
+});
+test("full-length Hindi fits the Workers AI reservation and failed inference reservations are not refunded", async () => {
+  const run = enableCloudflare(() =>
+    Response.json({ errors: [{ message: "busy" }] }, { status: 503 }),
+  );
+  assert.equal((await ask({ data: { question: "क".repeat(1500) } })).status, 503);
+  const units = env.AI_DB.db
+    .prepare("SELECT reserved_units FROM ai_provider_budget")
+    .get().reserved_units;
+  assert(units > 30000 && units < 100000);
+  assert.equal(run.mock.calls.length, 1);
+});
+test("Workers AI 429 preserves Retry-After with only safe diagnostic categories", async () => {
+  const run = enableCloudflare(() =>
+    Response.json(
+      { error: { message: "private payload / fake secret" } },
+      { status: 429, headers: { "Retry-After": "300" } },
+    ),
+  );
+  const response = await ask();
+  assert.equal(response.headers.get("Retry-After"), "300");
+  const data = await response.json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "rate_or_quota_limit");
+  assert(!JSON.stringify(data).includes("private payload"));
+  tick();
+  assert.equal((await ask()).status, 503);
+  assert.equal(run.mock.calls.length, 1);
+});
+test("Workers AI cannot turn empty, malformed, or unexpected binding results into a successful answer", async () => {
+  const run = enableCloudflare();
+  for (const reply of [
+    () => Response.json(null),
+    () => Response.json({ response: 123 }),
+    () => Response.json({ success: false, response: "not a success" }),
+    () => Response.json({ response: "" }),
+    () => new Response("not json"),
+    () => ({ response: "not a raw response" }),
+  ]) {
+    run.mock.mockImplementation(reply);
+    const response = await ask();
+    assert.equal(response.status, 503);
+    env.AI_DB.db.prepare("DELETE FROM ai_provider_state WHERE provider='cloudflare'").run();
+    tick();
+  }
+});
+test("Workers AI deadlines cover a stalled body and preserve reserved compute", async () => {
+  enableCloudflare(
+    () =>
+      new Response(
+        new ReadableStream({
+          start(controller) {
+            controller.error(Object.assign(new Error("timeout"), { name: "TimeoutError" }));
+          },
+        }),
+      ),
+  );
+  const data = await (await ask()).json();
+  assert.equal(data.diagnostics.providers[0].lastResult, "provider_timeout");
+  assert(
+    env.AI_DB.db.prepare("SELECT reserved_units FROM ai_provider_budget").get().reserved_units > 0,
+  );
+});
+test("binding selection retains the existing Gemini-salted daily identity rather than resetting usage", async () => {
+  await ask();
+  tick();
+  const before = env.AI_DB.db.prepare("SELECT visitor,ip FROM ai_requests").get();
+  enableCloudflare();
+  const data = await (await ask()).json();
+  assert.equal(data.remaining, 48);
+  const rows = env.AI_DB.db.prepare("SELECT DISTINCT visitor,ip FROM ai_requests").all();
+  assert.equal(rows.length, 1);
+  assert.deepEqual(rows[0], before);
+});
+test("Workers AI reservation storage failure is fail-closed before inference", async () => {
+  const run = enableCloudflare();
+  await ask();
+  tick();
+  const original = env.AI_DB.batch.bind(env.AI_DB);
+  let batches = 0;
+  mock.method(env.AI_DB, "batch", async (statements) => {
+    batches++;
+    if (batches === 3) throw new Error("private db error");
+    return original(statements);
+  });
+  const response = await ask();
+  assert.equal(response.status, 503);
+  assert.equal(run.mock.calls.length, 1);
+  assert(!(await response.text()).includes("private db error"));
 });

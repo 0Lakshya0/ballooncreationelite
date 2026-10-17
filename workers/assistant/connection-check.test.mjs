@@ -12,23 +12,25 @@ function fixture(
   reply = () => Response.json({ answer: "Three safe ideas.", provider: "gemini", remaining: 49 }),
 ) {
   const nodes = Object.fromEntries(
-    ["test-form", "question", "test-button", "status", "details", "answer"].map((id) => [
-      id,
-      {
-        value: "",
-        textContent: "",
-        hidden: false,
-        dataset: {},
-        style: {},
-        disabled: false,
-        addEventListener(name, callback) {
-          this[name] = callback;
+    ["test-form", "question", "provider", "test-button", "status", "details", "answer"].map(
+      (id) => [
+        id,
+        {
+          value: "",
+          textContent: "",
+          hidden: false,
+          dataset: {},
+          style: {},
+          disabled: false,
+          addEventListener(name, callback) {
+            this[name] = callback;
+          },
+          setAttribute(name, value) {
+            this[name] = value;
+          },
         },
-        setAttribute(name, value) {
-          this[name] = value;
-        },
-      },
-    ]),
+      ],
+    ),
   );
   const storage = new Map(),
     calls = [];
@@ -192,4 +194,21 @@ test("test page permits full-length 1500-character Hindi input and declares the 
   assert.equal(f.calls.length, 1);
   assert.equal(JSON.parse(f.calls[0][1].body).question.length, 1500);
   assert.equal(f.nodes.status.dataset.kind, "success");
+});
+
+test("a selected provider is sent only by explicit manual submission, never by opening the page", async () => {
+  const f = fixture(() =>
+    Response.json({ answer: "Ivory and gold.", provider: "cloudflare", remaining: 49 }),
+  );
+  f.nodes.provider.value = "cloudflare";
+  assert.equal(f.calls.length, 0);
+  await f.submit();
+  assert.equal(JSON.parse(f.calls[0][1].body).provider, "cloudflare");
+  assert.match(f.nodes.details.textContent, /cloudflare/i);
+});
+test("automatic test keeps the original public request contract", async () => {
+  const f = fixture();
+  f.nodes.provider.value = "auto";
+  await f.submit();
+  assert.deepEqual(Object.keys(JSON.parse(f.calls[0][1].body)).sort(), ["question", "visitorId"]);
 });

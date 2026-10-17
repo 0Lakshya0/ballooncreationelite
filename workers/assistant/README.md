@@ -1,10 +1,14 @@
-# Balloon Creation — external AI backend (setup in progress)
+# Balloon Creation — external AI backend
+
+**Current (2026-10-17): Gemini/Groq live; new Workers AI adapter tested locally, NOT deployed or real-answer verified yet.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WY8xZ. Older progress sections below are historical.
+
+**Built with Llama.** The proposed Cloudflare fallback uses Meta Llama 3.2 via Cloudflare Workers AI. [Model and license](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/).
 
 `worker.js` is a single ES-module Cloudflare Worker ready to paste into the dashboard editor. It contains no real API keys or frontend changes. The existing native website, search design/typewriter, local salesman logic and public phone snapshot are unchanged.
 
 ## Current deployment step
 
-Paste **only the complete contents of `worker.js`** over the Hello World source and deploy. Preserve the existing production Secret `GEMINI_API_KEY`; never put its value into the code, repository, chat, screenshots or a `VITE_` variable.
+For this changed-code update, paste **only the complete contents of `worker.js`** over the existing Worker source and deploy, when guided. The existing production source is already deployed; do not repeat an unchanged old deployment. Preserve the existing production Secret `GEMINI_API_KEY`; never put its value into the code, repository, chat, screenshots or a `VITE_` variable.
 
 If the dashboard says only the latest version can be edited, select the latest deployment/version before pasting. A padlock/read-only editor is not a successful code edit.
 
@@ -18,7 +22,7 @@ The AI endpoint remains **disabled** until ALL of these are configured:
 | ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `AI_DB`             | D1 database binding | Persistent, server-side quotas and provider cooldowns. Bind an empty D1 database; schema is created automatically. No client-side quota counters or isolate-local quota maps.                                                        |
 | `ALLOWED_ORIGINS`   | Text variable       | Comma-separated exact browser origins, no trailing slash/wildcard. For the current public phone host: `https://htmlpreview.github.io`. Add an actual Arena main-preview origin separately if needed; do not allow all sandbox hosts. |
-| `ENABLED_PROVIDERS` | Text variable       | Explicit order-independent enable list, e.g. `gemini`. Start with Gemini ONLY after free-tier/model checks. Code priority is Gemini -> Groq -> OpenRouter.                                                                           |
+| `ENABLED_PROVIDERS` | Text variable       | Explicit order-independent enable list, e.g. `gemini`. Start with Gemini ONLY after free-tier/model checks. Code priority is Gemini -> Groq -> Cloudflare -> OpenRouter (enabled/configured providers only).                         |
 | `GEMINI_API_KEY`    | Secret              | Already entered by the owner; its actual value has never been shared with the agent.                                                                                                                                                 |
 | `GEMINI_MODEL`      | Text variable       | Exact currently available model whose free-tier access has been verified. No default is guessed or auto-selected.                                                                                                                    |
 
@@ -26,7 +30,8 @@ Optional adapters (not active merely because code exists):
 
 - Groq: `GROQ_API_KEY` Secret, `GROQ_MODEL` text, and add `groq` to `ENABLED_PROVIDERS` only after verifying the account/model free access.
 - OpenRouter: `OPENROUTER_API_KEY` Secret, `OPENROUTER_MODEL` text, and add `openrouter` after verifying free access. Only model IDs ending in `:free` or the `openrouter/free` router are accepted. An additional zero price ceiling is sent to OpenRouter. No paid model fallback.
-- `RATE_LIMIT_SALT`: optional long random Secret. Otherwise the first configured provider key is used solely as the private salt for daily-rotating one-way visitor/IP hashes. A stable dedicated salt is preferable before changing provider order/keys.
+- Workers AI: existing `AI` binding, add `cloudflare` to `ENABLED_PROVIDERS` only after the new code is verified. No API key or model variable: the model is pinned to `@cf/meta/llama-3.2-3b-instruct`.
+- `RATE_LIMIT_SALT`: optional long random Secret. Otherwise use the first present secret in a stable Gemini/Groq/OpenRouter order, independent of provider selection/enablement. Existing live Gemini-salted usage is preserved. A Cloudflare-only installation with no other secrets requires a private `RATE_LIMIT_SALT`; missing salt fails closed. Do not rotate/remove secrets or introduce a new salt on the live account as part of this update; that changes historical identity hashes.
 
 **Free-only is an account/configuration condition, not something an API key proves.** The owner has shown Gemini projects labelled Free tier. Do not enable billing, prepaid credits, paid plans, Google Search grounding, paid plugins or unverified providers/models. Free-tier availability and limits can change. The code cannot automatically verify whether an operator later upgraded a provider account. Separate keys belonging to the same provider/project do not create new independent quotas; never use account/key rotation to evade provider limits.
 
@@ -36,7 +41,7 @@ Optional adapters (not active merely because code exists):
 - 200 AI attempts per IP per UTC day, so changing visitor IDs does not remove the IP cap. Shared Wi-Fi users share this allowance.
 - 500 AI attempts for the whole website per UTC day (an application safety ceiling, NOT a claim about available Gemini free quota).
 - 2-second interval per visitor OR IP.
-- 2–1,500 character question, 12 KiB JSON body maximum (including full-length Hindi/Unicode), short 512-token replies, up to 20 seconds for a single eligible provider and a shared 24-second upstream budget, at most one attempt to each of three providers per question.
+- 2–1,500 character question, 12 KiB JSON body maximum (including full-length Hindi/Unicode), short 512-token replies, up to 20 seconds for a single eligible provider and a shared 32-second upstream budget, at most three actual provider attempts per question even if the configured pool grows. Untested candidates remain available for a subsequent request after failed providers enter cooldown; this is not a promise to query every provider in one question.
 - A request must reserve quota with an atomic conditional SQLite INSERT BEFORE contacting providers. Failed upstream attempts consume their reserved slot; a fully cooling-down provider pool is rejected without reserving a slot.
 - HTTP 429/Retry-After and configuration/temporary failures store cooldowns in D1. Eligible providers are retried after cooldown; no permanently stalled rotation index. A model safety refusal is returned safely rather than bypassed via another provider.
 - Provider quota resets are provider-controlled. Cooldowns use Retry-After when available; they are not a guarantee of actual upstream quota reset.
@@ -53,7 +58,7 @@ Content-Type: application/json
 {"question":"Birthday decoration ideas?","visitorId":"a persistent crypto.randomUUID() value"}
 ```
 
-Cloudflare supplies `CF-Connecting-IP`; missing identity fails closed. The browser must not attempt to supply that header. The frontend will need a persistent visitor ID and actual endpoint configuration in a later, separately tested integration step.
+Cloudflare supplies `CF-Connecting-IP`; missing identity fails closed. The browser must not attempt to supply that header. The connected frontend already sends a persistent visitor ID and uses this endpoint.
 
 Success returns `{ answer, provider, remaining, sources: [], grounded: false }`. This implementation does **not** pretend to run live web search. Quota errors use HTTP 429/Retry-After. Setup/storage/provider failures use HTTP 503 and a WhatsApp-friendly fallback message. No raw provider errors or API key values are returned. Do not render answers as unsafe HTML.
 
@@ -63,7 +68,7 @@ Requires Node 22.13+ for its built-in SQLite test adapter:
 
 ```sh
 node --check workers/assistant/worker.js
-node --test workers/assistant/worker.test.mjs
+node --test workers/assistant/worker.test.mjs workers/assistant/connection-check.test.mjs
 ```
 
 The tests use the worker's real SQLite SQL with in-memory `node:sqlite` and mocked provider HTTP responses, never real keys. They cover fail-closed setup, secret-safe status/errors, CORS, validation/body caps, visitor/IP/site/time quotas, conditional atomic reservations, reset, fallback order, Retry-After cooldown/recovery, free-only OpenRouter configuration, safety refusal handling and storage/network failures. They are not a live Cloudflare deployment, actual-provider availability, free-plan CPU benchmark or end-to-end real-answer verification.
@@ -107,3 +112,35 @@ Validation: **46 tests pass** (36 real-SQLite worker tests and 10 mocked page-co
 The owner completed the relaxed-limit deployment and enabled `gemini,groq`; Groq secret is stored only in Cloudflare and `GROQ_MODEL=openai/gpt-oss-20b`. Groq organization screenshots show 30 RPM / 1,000 RPD / 8,000 TPM / 200,000 TPD, with no custom project override; these are combined organization allowances, not guaranteed answers. No billing/card/paid upgrade was requested. The owner reports multiple successful Groq answers on updated standalone test **https://clck.ru/3WXrj6** (source ac4a95c). A fresh read-only live health check independently confirms Groq `lastResult:ok` / HTTP 200 and Gemini's previous server-error / HTTP 503; do not describe Gemini as permanently broken or infer quota exhaustion from 503.
 
 The main frontend is now connected via a shared draggable-orb/search chat and published at **https://clck.ru/3WY8xZ**. Only explicit Send/custom-search Enter/Ask AI invokes the Worker. Keys remain server-side, and the existing visitor UUID is reused. The main public-page real answer awaits an owner interaction; browser/unit UI tests mocked provider responses and did not spend owner allowance. See `PHONE-VIEW.md` and `DECOR-INTEGRATION.md`. Native Arena preview origins are not allowlisted; use the HTMLPreview public main link for real AI, or separately approve exact preview origins.
+
+## Workers AI expansion — ready code, deployment / real answer still pending
+
+Revision **`workers-ai-pool-1`** supports the owner-added `AI` binding. Before this update, a fresh read-only production health check (`pre-workers-ai-adapter-20261017-v6`) still returned `relaxed-limits-1`, Gemini/Groq enabled, D1 readable, and their older real successful records. No new inference was performed. Adding the binding did not install this adapter or prove a Cloudflare answer.
+
+### Verified model and free-plan safeguards
+
+- Exact pinned model: `@cf/meta/llama-3.2-3b-instruct`. Its active [official model page](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/) describes multilingual dialogue, the non-streaming `{response}` output, messages in the binding example, and `max_tokens`. Actual owner's account availability and Hindi/Hinglish quality still require one completed answer.
+- Do **not** substitute the old `llama-3.1-8b-instruct-fp8-fast` or default `llama-3.1-8b-instruct`: their official model pages redirected to `models/?unavailable=...` during verification, despite stale pricing/example references. The currently listed `llama-3.1-8b-instruct-fp8` is a different model.
+- [Official pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/) checked 2026-10-17: Workers **Free** has an ongoing 10,000 Neurons/day allocation, reset 00:00 UTC; requests beyond it fail unless the operator upgrades. No paid plan, card, gateway credits or gateway billing should be enabled. The code neither enrolls in billing nor verifies the account's plan; keep the account Free. Other apps on the account share the upstream allocation.
+- Additional app-local guard: atomically reserve at most **8,000 Neurons/day** in D1 for this Cloudflare adapter. It uses the current 4,625 input / 30,475 output Neurons per million tokens, UTF-8 input byte count plus a 512-token template margin, and the full 512 output tokens. Reservation is deliberately conservative and never refunded on errors/timeouts; a timeout may still consume upstream compute. This estimate is not a billing guarantee or an account-wide usage meter, and must be reviewed if model/pricing/token handling changes. The upstream Free-plan hard stop remains essential.
+- Daily reservations are atomic conditional upserts; exhausted budget skips inference and persists cooldown until the next UTC day. Budget storage failure fails closed. An exhausted local budget does not prevent other configured free backups.
+- Binding calls use `returnRawResponse: true` and an `AbortSignal`; actual HTTP/Retry-After and bounded body parsing share the existing safe diagnostics. This third argument is verified in the [official workerd SDK source](https://github.com/cloudflare/workerd/blob/9022f4dc45485e2b2fc619171674ae7065b6213c/src/cloudflare/internal/ai-api.ts), not assumed from the short binding example. Abort requests cancellation; it cannot guarantee already-performed inference is uncharged.
+
+### Bounded pool and isolated manual verification
+
+The pool can grow without calling every provider per question: at most 3 real attempts, maximum 20 seconds each, sharing 32 seconds; the existing browser deadline is 40 seconds. Allocate across at most the remaining attempt slots, not the entire ever-growing pool. Preserve cooldowns, Retry-After, the daily application caps (50 visitor / 200 IP / 500 site attempts), 2-second interval, 1,500-character limit and honest WhatsApp fallback. Real completion within the browser deadline is not guaranteed under platform/storage/network slowness.
+
+`POST /chat` additionally accepts optional `provider: "cloudflare" | "gemini" | "groq" | "openrouter"` for an explicit manual test. Selection must already be enabled/configured and obeys the same visitor/IP/site quotas, cooldowns, safety checks and Cloudflare reservation. It is a **public selector, not authenticated administration**, cannot enable providers or change settings, and makes no automatic calls. Normal website requests omit it and retain automatic fallback.
+
+The updated `drafts/ai-connection-check.html` adds a provider selector. This allows a Cloudflare-only answer test **without disabling the working Gemini/Groq pool**. Its old immutable short link still points to the old page; publish/use a new immutable page link for this test. No main frontend/design/phone artifact changes are required for response compatibility; the currently published main can display a Cloudflare response under its generic AI badge. Provider-specific branding on main can be updated with the next approved phone publication.
+
+Owner workflow is **one UI step at a time**, not an instruction to perform all actions at once:
+
+1. Open Edit code; then replace only the changed Worker source and deploy when guided. Preserve both bindings and all existing variables/secrets.
+2. Read-only health must show `workers-ai-pool-1`, `setup.workersAiBound: true`, existing D1 and Gemini/Groq still enabled. Health makes no AI call and cannot prove inference eligibility.
+3. Only then set `ENABLED_PROVIDERS=gemini,groq,cloudflare`. OpenRouter stays disabled after the previously observed timeout and fixed-model 429.
+4. On the new test page choose Cloudflare Workers AI only, submit one owner-chosen English/Hindi/Hinglish question, and wait for the complete answer. Verify returned provider plus persisted `ok` diagnostic before counting Cloudflare as working. No automated production inference/probes were run here.
+
+Validation: **63 backend/page tests pass** (51 Worker/SQLite + 12 page-controller), plus **57 existing frontend tests**, TypeScript and targeted changed-file ESLint/Prettier checks. A fresh local workerd/Miniflare + real D1 + the real built-in `cloudflare:ai` SDK smoke passed: SDK raw-response / signal / pinned-model contract, no-schema-mutating health, manual Cloudflare answer, persistent compute reservation, interval quota, denied origin and disabled-provider guard. All inference was mocked; this is not an owner deployment, production CPU benchmark or real Cloudflare answer. Full-repository lint is not clean: unrelated existing mockup/source formatting plus disposable research files are reported; no unrelated bulk formatting was applied.
+
+The larger legitimate ongoing-₹0 provider pool is **still unfinished**. Working Gemini/Groq, disabled/unverified OpenRouter, and this not-yet-live Cloudflare adapter are not four verified working providers. Do not pad the count with models, shared keys, expiring trials or card-required services.

@@ -28,7 +28,7 @@
       }
       h1 {
         font:
-          500 clamp(28px, 6vw, 38px)/1.2 Georgia,
+          500 clamp(28px, 6vw, 38px) / 1.2 Georgia,
           serif;
         margin: 10px 0 18px;
         color: #62503c;
@@ -114,16 +114,41 @@
     <main>
       <div class="label">Balloon Creation · Connection check</div>
       <h1>Let's check the real AI answer.</h1>
-      <p>Yeh alag test page hai; main website mein abhi koi change nahi hua hai.</p>
+      <p>
+        Yeh alag test page hai. Kisi provider ko alag test karne ke liye working website ke
+        providers band karne ki zaroorat nahi hai.
+      </p>
       <p class="small">
         Button dabane par ek real AI question send hoga aur free allowance ka ek attempt use ho
         sakta hai. API key ya personal details yahan mat likhna. Free-tier questions provider ki
         data policy ke under process honge.
       </p>
       <form id="test-form">
+        <label for="provider">Provider to test</label>
+        <select
+          id="provider"
+          aria-label="Provider to test"
+          style="
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #c6a16a;
+            border-radius: 12px;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+          "
+        >
+          <option value="auto">Automatic fallback</option>
+          <option value="cloudflare">Cloudflare Workers AI only</option>
+          <option value="gemini">Gemini only</option>
+          <option value="groq">Groq only</option>
+          <option value="openrouter">OpenRouter only</option>
+        </select>
         <label for="question">Test question</label>
         <textarea id="question" rows="3" minlength="2" maxlength="1500" required>
-Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
+Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea
+        >
         <button id="test-button" type="submit">Test AI</button>
       </form>
       <div aria-live="polite" aria-atomic="true">
@@ -143,6 +168,7 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
         const ID_KEY = "bce-ai-visitor-id";
         const form = document.getElementById("test-form");
         const input = document.getElementById("question");
+        const provider = document.getElementById("provider");
         const button = document.getElementById("test-button");
         const status = document.getElementById("status");
         const details = document.getElementById("details");
@@ -193,7 +219,13 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
               mode: "cors",
               credentials: "omit",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ question, visitorId: visitorId() }),
+              body: JSON.stringify({
+                question,
+                visitorId: visitorId(),
+                ...(["cloudflare", "gemini", "groq", "openrouter"].includes(provider.value)
+                  ? { provider: provider.value }
+                  : {}),
+              }),
               signal: controller.signal,
             });
             let data;
@@ -225,7 +257,7 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
             }
             status.dataset.kind = "success";
             status.textContent = "Real AI answer received ✓";
-            details.textContent = `Provider: ${data.provider || "unknown"} · Remaining visitor attempts: ${Number.isInteger(data.remaining) ? data.remaining : "unknown"}`;
+            details.textContent = `Provider: ${data.provider === "cloudflare" ? "cloudflare · Built with Llama" : data.provider || "unknown"} · Remaining visitor attempts: ${Number.isInteger(data.remaining) ? data.remaining : "unknown"}`;
             details.hidden = false;
             // Never render a model response as HTML.
             answer.textContent = data.answer;

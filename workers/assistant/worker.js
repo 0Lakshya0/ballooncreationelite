@@ -5,7 +5,10 @@
  * Status page: GET / or /health. AI endpoint: POST /chat.
  */
 const LIMITS = { visitor: 50, ip: 200, site: 500, gapMs: 2_000, questionChars: 1500 };
-const TIMING = { providerMaxMs: 20_000, upstreamBudgetMs: 24_000 };
+const TIMING = { providerMaxMs: 20_000, upstreamBudgetMs: 32_000, maxAttempts: 3 };
+// Pinned Cloudflare-hosted model; no gateway, paid model or arbitrary model override.
+const CF_MODEL = "@cf/meta/llama-3.2-3b-instruct";
+const CF_BUDGET = 8_000_000; // Conservative local daily reservation in milli-Neurons.
 const SAFE_REPLY =
   "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone. Please contact our team for a safe alternative.";
 const SYSTEM_PROMPT = `You are Balloon Creation's friendly event-decoration assistant in Indore, India.
@@ -25,14 +28,18 @@ function providers(env) {
   return [
     { id: "gemini", key: env.GEMINI_API_KEY, model: env.GEMINI_MODEL },
     { id: "groq", key: env.GROQ_API_KEY, model: env.GROQ_MODEL },
+    { id: "cloudflare", binding: env.AI, model: CF_MODEL },
     { id: "openrouter", key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL },
   ].filter(
     (p) =>
       enabled.has(p.id) &&
-      p.key &&
-      p.model &&
+      (p.id === "cloudflare" ? typeof p.binding?.run === "function" : Boolean(p.key && p.model)) &&
       (p.id !== "openrouter" || p.model === "openrouter/free" || p.model.endsWith(":free")),
   );
+}
+// Stable across test-provider selection; never hash identifiers with "undefined".
+function rateLimitSalt(env) {
+  return env.RATE_LIMIT_SALT || env.GEMINI_API_KEY || env.GROQ_API_KEY || env.OPENROUTER_API_KEY;
 }
 function origins(env) {
   return String(env.ALLOWED_ORIGINS || "")
@@ -97,6 +104,9 @@ async function ensureSchema(db) {
     db.prepare("CREATE INDEX IF NOT EXISTS ai_requests_time ON ai_requests(created_at)"),
     db.prepare(
       "CREATE TABLE IF NOT EXISTS ai_provider_state (provider TEXT PRIMARY KEY, available_at INTEGER NOT NULL)",
+    ),
+    db.prepare(
+      "CREATE TABLE IF NOT EXISTS ai_provider_budget (provider TEXT NOT NULL, day TEXT NOT NULL, reserved_units INTEGER NOT NULL, PRIMARY KEY(provider, day))",
     ),
     db.prepare(
       "CREATE TABLE IF NOT EXISTS ai_provider_diagnostics (provider TEXT PRIMARY KEY, code TEXT NOT NULL, http_status INTEGER, observed_at INTEGER NOT NULL)",
@@ -216,6 +226,28 @@ async function reserveQuota(db, visitor, ip, now) {
   ]);
   return results[1]?.meta?.changes === 1;
 }
+async function reserveCloudflareBudget(db, question, now) {
+  const day = new Date(now).toISOString().slice(0, 10);
+  // Byte-count upper bound plus template margin; reserve all 512 output tokens.
+  // Rates: 4,625 input / 30,475 output Neurons per million tokens (model pricing).
+  // No refund on errors/timeouts: the upstream may still have used compute.
+  const units = Math.ceil(
+    (encoder.encode(SYSTEM_PROMPT + question).byteLength + 512) * 4.625 + 512 * 30.475,
+  );
+  const results = await db.batch([
+    db
+      .prepare("DELETE FROM ai_provider_budget WHERE day < ?")
+      .bind(new Date(now - 2 * 86_400_000).toISOString().slice(0, 10)),
+    db
+      .prepare(
+        `INSERT INTO ai_provider_budget(provider, day, reserved_units) SELECT 'cloudflare', ?, ? WHERE ? <= ?
+      ON CONFLICT(provider, day) DO UPDATE SET reserved_units = reserved_units + excluded.reserved_units
+      WHERE reserved_units + excluded.reserved_units <= ?`,
+      )
+      .bind(day, units, units, CF_BUDGET, CF_BUDGET),
+  ]);
+  return results[1]?.meta?.changes === 1;
+}
 async function quotaStatus(db, visitor, ip, now) {
   const day = new Date(now).toISOString().slice(0, 10);
   const row = await db
@@ -277,16 +309,39 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
         max_tokens: 512,
         ...(id === "openrouter" ? { provider: { max_price: { prompt: 0, completion: 0 } } } : {}),
       };
-  const response = await fetcher(url, {
-    method: "POST",
-    redirect: "manual",
-    signal: AbortSignal.timeout(timeoutMs),
-    headers: {
-      "Content-Type": "application/json",
-      ...(isGemini ? { "x-goog-api-key": key } : { Authorization: `Bearer ${key}` }),
-    },
-    body: JSON.stringify(body),
-  });
+  const signal = AbortSignal.timeout(timeoutMs);
+  const response =
+    id === "cloudflare"
+      ? await provider.binding.run(
+          CF_MODEL,
+          {
+            messages: [
+              { role: "system", content: SYSTEM_PROMPT },
+              { role: "user", content: question },
+            ],
+            stream: false,
+            temperature: 0.4,
+            max_tokens: 512,
+          },
+          { returnRawResponse: true, signal },
+        )
+      : await fetcher(url, {
+          method: "POST",
+          redirect: "manual",
+          signal,
+          headers: {
+            "Content-Type": "application/json",
+            ...(isGemini ? { "x-goog-api-key": key } : { Authorization: `Bearer ${key}` }),
+          },
+          body: JSON.stringify(body),
+        });
+  if (!(response instanceof Response))
+    return {
+      failed: true,
+      code: "invalid_binding_response",
+      httpStatus: null,
+      availableAt: Date.now() + 60_000,
+    };
   let data;
   try {
     data = JSON.parse(await boundedText(response.body, 65_536));
@@ -304,6 +359,13 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
             : "invalid_upstream_json",
     };
   }
+  if (!data || typeof data !== "object" || Array.isArray(data))
+    return {
+      failed: true,
+      code: "invalid_upstream_json",
+      httpStatus: response.status,
+      availableAt: retryAt(response, {}, Date.now()),
+    };
   const candidate = data.candidates?.[0];
   const choice = data.choices?.[0];
   const policyError = String(data.error?.code || "") + " " + String(data.error?.type || "");
@@ -323,13 +385,29 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
       httpStatus: response.status,
       code: failureCategory(response, data),
     };
-  const answer = isGemini
-    ? candidate?.content?.parts
-        ?.filter((part) => !part.thought)
-        .map((part) => part.text || "")
-        .join("")
-        .trim()
-    : choice?.message?.content?.trim();
+  if (
+    data?.success === false ||
+    (id === "cloudflare" && Array.isArray(data?.errors) && data.errors.length)
+  )
+    return {
+      failed: true,
+      code: "provider_api_error",
+      httpStatus: response.status,
+      availableAt: Date.now() + 30_000,
+    };
+  const cloudflareText = data?.response ?? data?.result?.response;
+  const answer =
+    id === "cloudflare"
+      ? typeof cloudflareText === "string"
+        ? cloudflareText.trim()
+        : ""
+      : isGemini
+        ? candidate?.content?.parts
+            ?.filter((part) => !part.thought)
+            .map((part) => part.text || "")
+            .join("")
+            .trim()
+        : choice?.message?.content?.trim();
   if (typeof answer !== "string" || !answer)
     return {
       failed: true,
@@ -353,7 +431,7 @@ async function handle(request, env) {
     return json(
       {
         service: "Balloon Creation AI",
-        revision: "relaxed-limits-1",
+        revision: "workers-ai-pool-1",
         limits: {
           perVisitorPerDay: LIMITS.visitor,
           perIpPerDay: LIMITS.ip,
@@ -364,16 +442,27 @@ async function handle(request, env) {
         timing: {
           providerMaxSeconds: TIMING.providerMaxMs / 1000,
           upstreamBudgetSeconds: TIMING.upstreamBudgetMs / 1000,
+          maxProviderAttempts: TIMING.maxAttempts,
+        },
+        workersAi: {
+          model: CF_MODEL,
+          localDailyBudgetNeurons: CF_BUDGET / 1000,
+          freePlanRequired: true,
         },
         diagnostics: await diagnosticStatus(env.AI_DB, configured, Date.now()),
-        status: env.AI_DB && configured.length && allowed.length ? "configured" : "setup_required",
+        status:
+          env.AI_DB && configured.length && allowed.length && rateLimitSalt(env)
+            ? "configured"
+            : "setup_required",
         setup: {
           databaseBound: Boolean(env.AI_DB),
+          workersAiBound: typeof env.AI?.run === "function",
+          rateLimitSaltConfigured: Boolean(rateLimitSalt(env)),
           enabledProviders: configured.map((p) => p.id),
           allowedOriginsSet: allowed.length > 0,
         },
         message:
-          "Backend code is deployed. This status page does not call AI or validate API keys. Website connection and a real answer test are separate steps.",
+          "Backend code is deployed. This status page does not call AI or validate API keys. A completed real-provider answer test is a separate step.",
       },
       200,
       origin,
@@ -401,7 +490,7 @@ async function handle(request, env) {
   }
   if (request.method !== "POST")
     return failure("method_not_allowed", "Use POST for questions.", 405, origin);
-  if (!env.AI_DB || !configured.length) {
+  if (!env.AI_DB || !configured.length || !rateLimitSalt(env)) {
     return failure(
       "setup_required",
       "AI setup is not complete yet. Please use our WhatsApp option.",
@@ -438,6 +527,14 @@ async function handle(request, env) {
       origin,
     );
   }
+  // Explicit manual test selection is public and obeys all normal quotas/cooldowns.
+  // It can never call a disabled/unconfigured provider, and does not mutate env settings.
+  if (
+    data.provider !== undefined &&
+    (typeof data.provider !== "string" || !configured.some((p) => p.id === data.provider))
+  )
+    return failure("invalid_provider", "Select an enabled, configured provider.", 400, origin);
+  const candidates = data.provider ? configured.filter((p) => p.id === data.provider) : configured;
   // This header is supplied by Cloudflare's edge, not by browser JavaScript.
   const clientIp = request.headers.get("CF-Connecting-IP");
   if (!clientIp)
@@ -449,7 +546,7 @@ async function handle(request, env) {
     );
   const now = Date.now();
   const day = new Date(now).toISOString().slice(0, 10);
-  const salt = env.RATE_LIMIT_SALT || configured[0].key;
+  const salt = rateLimitSalt(env);
   const [visitor, ip] = await Promise.all([
     hash(salt, `${day}:visitor:${data.visitorId}`),
     hash(salt, `${day}:ip:${clientIp}`),
@@ -461,7 +558,7 @@ async function handle(request, env) {
     .bind(now)
     .all();
   const cooling = new Map((state.results || []).map((row) => [row.provider, row.available_at]));
-  const ready = configured.filter((provider) => !cooling.has(provider.id));
+  const ready = candidates.filter((provider) => !cooling.has(provider.id));
   if (!ready.length)
     return failure(
       "providers_cooling_down",
@@ -470,9 +567,9 @@ async function handle(request, env) {
       origin,
       Math.max(
         1,
-        (Math.min(...configured.map((provider) => cooling.get(provider.id))) - now) / 1000,
+        (Math.min(...candidates.map((provider) => cooling.get(provider.id))) - now) / 1000,
       ),
-      { diagnostics: await diagnosticStatus(env.AI_DB, configured, now) },
+      { diagnostics: await diagnosticStatus(env.AI_DB, candidates, now) },
     );
   if (!(await reserveQuota(env.AI_DB, visitor, ip, now))) {
     const quota = await quotaStatus(env.AI_DB, visitor, ip, now);
@@ -487,26 +584,42 @@ async function handle(request, env) {
       daily ? "daily_limit" : "slow_down",
       daily
         ? "The free AI limit has been reached. Normal search and WhatsApp remain available."
-        : "Please wait 10 seconds between AI questions.",
+        : `Please wait ${LIMITS.gapMs / 1000} seconds between AI questions.`,
       429,
       origin,
       retry,
     );
   }
-  // A single provider can use up to 20s. With multiple eligible providers, share
-  // a bounded 24s upstream budget; quick failures leave more time for fallback.
+  // Larger pool, but at most 3 real provider attempts within a shared 32s budget.
+  // Extra candidates stay eligible for the next request; failures persist cooldowns.
   const deadline = Date.now() + TIMING.upstreamBudgetMs;
-  for (let index = 0; index < ready.length; index++) {
+  let attempts = 0;
+  for (let index = 0; index < ready.length && attempts < TIMING.maxAttempts; index++) {
     const provider = ready[index];
     const remainingMs = deadline - Date.now();
     if (remainingMs < 1000) break;
     const timeoutMs = Math.min(
       TIMING.providerMaxMs,
-      Math.floor(remainingMs / (ready.length - index)),
+      Math.floor(remainingMs / Math.min(TIMING.maxAttempts - attempts, ready.length - index)),
     );
+    const budgetAvailable =
+      provider.id !== "cloudflare" ||
+      (await reserveCloudflareBudget(env.AI_DB, question, Date.now()));
     let result;
     try {
-      result = await askProvider(provider, question, timeoutMs);
+      if (!budgetAvailable) {
+        result = {
+          failed: true,
+          code: "local_provider_budget",
+          httpStatus: null,
+          availableAt: nextDay(Date.now()),
+        };
+      } else {
+        const callRemainingMs = deadline - Date.now();
+        if (callRemainingMs < 1000) break;
+        attempts++;
+        result = await askProvider(provider, question, Math.min(timeoutMs, callRemainingMs));
+      }
     } catch (error) {
       result = {
         failed: true,
@@ -545,7 +658,7 @@ async function handle(request, env) {
       .bind(provider.id, result.availableAt)
       .run();
   }
-  const diagnostics = await diagnosticStatus(env.AI_DB, configured, Date.now());
+  const diagnostics = await diagnosticStatus(env.AI_DB, candidates, Date.now());
   const delays = diagnostics.providers
     .map((provider) => provider.retryAfterSeconds)
     .filter((seconds) => seconds > 0);
