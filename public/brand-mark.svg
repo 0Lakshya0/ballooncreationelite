@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Balloon Creation monogram">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6cf9a" />
+      <stop offset=".5" stop-color="#b98c3f" />
+      <stop offset="1" stop-color="#8d6527" />
+    </linearGradient>
+    <radialGradient id="cream" cx=".35" cy=".28" r=".9">
+      <stop offset="0" stop-color="#fffdf7" />
+      <stop offset="1" stop-color="#f4e9d2" />
+    </radialGradient>
+  </defs>
+  <circle cx="60" cy="60" r="59" fill="url(#cream)" />
+  <circle cx="60" cy="60" r="52.5" fill="none" stroke="url(#gold)" stroke-width="1.4" />
+  <circle cx="60" cy="60" r="48.5" fill="none" stroke="#b98c3f" stroke-width="0.6" stroke-dasharray="1.5 3.5" opacity=".75" />
+  <g>
+    <ellipse cx="60" cy="34" rx="10.5" ry="13" fill="url(#gold)" />
+    <ellipse cx="56.4" cy="29.6" rx="2.6" ry="3.6" fill="#fff7e3" opacity=".55" transform="rotate(-24 56.4 29.6)" />
+    <path d="M57.6 47.2 L62.4 47.2 L60 51.4 Z" fill="#a97c33" />
+    <path d="M60 51.4 C63.5 56.5 66.5 58.5 65.5 63.4" fill="none" stroke="#b98c3f" stroke-width="1.1" stroke-linecap="round" opacity=".8" />
+  </g>
+  <text x="59" y="94" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" letter-spacing="2.5" fill="#8d6527">BC</text>
+</svg>

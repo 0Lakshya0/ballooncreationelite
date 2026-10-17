@@ -1,15 +1,15 @@
 import { SmartSearch } from '@/components/balloon/smart-search';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MapPin, MessageCircle, Phone, X } from 'lucide-react';
+import { SiteFooter, SiteHeader } from '@/components/balloon/site-chrome';
 import { Button } from '@/components/ui/button';
 import { Concierge } from '@/components/balloon/concierge';
 import { RotatingLines } from '@/components/balloon/rotating-lines';
 import { CategoryMarquee } from '@/components/balloon/category-marquee';
 import { celebrations, contact } from '@/lib/celebrations';
 import { heroSlides } from '@/lib/hero-slides';
-import logoAsset from '@/assets/profile-logo.jpg.asset.json';
-const logo = logoAsset.url;
+const logo = '/brand-mark.svg';
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
@@ -21,12 +21,6 @@ export const Route = createFileRoute('/')({
   ] }),
   component: Index,
 });
-
-const standards = [
-  { icon: Sparkles, number: '01', title: 'Bespoke Artistry', detail: '1000+ custom designs', copy: 'Never off the shelf. Every colour, curve and detail is thoughtfully composed around your story.' },
-  { icon: Clock3, number: '02', title: 'Flawless Execution', detail: 'Expert setup in 2 hours', copy: 'Precision behind the scenes. Perfection in the spotlight. We handle the details, you live the moment.' },
-  { icon: Gem, number: '03', title: 'Premium Materials', detail: 'Only the exceptional', copy: 'Exquisite blooms, premium balloons and carefully chosen finishes. A difference you can feel.' },
-];
 
 const taglines: [string, string][] = [
   ['We Don’t Just Decorate, We Create', 'Magical Memories.'],
@@ -60,7 +54,6 @@ const indoreAreas = [
 ].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [areasOpen, setAreasOpen] = useState(false);
   const [occasion, setOccasion] = useState('');
   const [line, setLine] = useState(0);
@@ -97,14 +90,7 @@ function Index() {
   const current = taglines[line] ?? ['', ''];
   const out = fading === null ? null : taglines[fading] ?? null;
   return <>
-    <header className="site-header"><div className="page-width nav-layout">
-      <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove("is-playing"), 9000); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span className="brand-text"><span className="brand-name">Balloon Creation</span><span className="brand-rise"><span className="brand-descriptor">We Decorate Your Happiness</span></span></span></a>
-      <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
-        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
-      </nav>
-      <Button variant="luxury" className="nav-consultation" asChild><a href="#concierge">Request Consultation <ArrowUpRight /></a></Button>
-      <Button variant="ghost" size="icon" className="mobile-menu" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
-    </div></header>
+    <SiteHeader />
     <main>
       <section className="hero">
         {heroSlides.map((s, i) => <img key={s.name} src={s.image} className={i === slide ? 'hero-image hero-slide is-active' : 'hero-image hero-slide'} alt={i === slide ? `${s.name} decoration by Balloon Creation` : ''} aria-hidden={i !== slide} width={1920} height={1024} fetchPriority={i === 0 ? 'high' : 'low'} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />)}
@@ -135,10 +121,6 @@ function Index() {
         </article>)}</div>
         <div className="portfolio-note reveal"><span>YOUR STORY. YOUR STYLE. YOUR ONE-OF-A-KIND CELEBRATION.</span><a href="#concierge">Let’s imagine yours <ArrowUpRight size={16} /></a></div>
       </section>
-      <section className="standard section-space" id="standard"><div className="page-width">
-        <div className="standard-heading reveal"><span className="eyebrow">THE SIGNATURE STANDARD</span><h2>The difference is<br /><em>in every detail.</em></h2><p>Not just a beautiful setup. An exceptional experience, from first idea to final flourish.</p></div>
-        <div className="standards-grid">{standards.map(({ icon: Icon, ...item }) => <div className="standard-item reveal" key={item.number}><div className="standard-top"><Icon size={26} strokeWidth={1.1} /><span>{item.number}</span></div><h3>{item.title}</h3><span className="standard-detail">{item.detail}</span><p>{item.copy}</p></div>)}</div>
-      </div></section>
       <Concierge occasion={occasion} onOccasionChange={setOccasion} />
     </main>
     {areasOpen && <div className="areas-overlay" role="dialog" aria-modal="true" aria-label="Areas we serve in Indore" onClick={() => setAreasOpen(false)}>
@@ -148,6 +130,6 @@ function Index() {
         <p className="areas-note">Don’t see your area? <a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! Do you serve my area in Indore?')}`} target="_blank" rel="noreferrer">Ask us on WhatsApp</a> — we likely do.</p>
       </div>
     </div>}
-    <footer className="site-footer page-width"><a className="brand footer-brand" href="#"><span className="brand-balloon">🎈</span>Balloon Creation</a><span>© {new Date().getFullYear()} Balloon Creation. Crafted for your moments.</span><a href="#" className="back-top">BACK TO TOP <ArrowUpRight size={14} /></a></footer>
+    <SiteFooter />
   </>;
 }
