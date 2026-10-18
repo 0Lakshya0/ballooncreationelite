@@ -1,5 +1,5 @@
 import { SmartSearch } from "@/components/balloon/smart-search";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
@@ -9,25 +9,24 @@ import {
   Gem,
   Instagram,
   MapPin,
-  Menu,
   MessageCircle,
   Phone,
   Sparkles,
   Star,
-  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Concierge } from "@/components/balloon/concierge";
 import { RotatingLines } from "@/components/balloon/rotating-lines";
 import { CategoryMarquee } from "@/components/balloon/category-marquee";
-import { PortfolioDialog } from "@/components/balloon/portfolio-dialog";
 import { ScrollProgress } from "@/components/balloon/scroll-progress";
-import { StickyCta } from "@/components/balloon/sticky-cta";
 import { TrustBand } from "@/components/balloon/trust-band";
 import { Process } from "@/components/balloon/process";
 import { Testimonials } from "@/components/balloon/testimonials";
 import { Faq } from "@/components/balloon/faq";
-import { celebrations, contact, whatsappLink, type Celebration } from "@/lib/celebrations";
+import { SiteHeader } from "@/components/balloon/site-header";
+import { SiteFooter } from "@/components/balloon/site-footer";
+import { AreasTrigger, openAreasDialog } from "@/components/balloon/areas-dialog";
+import { celebrations, contact, whatsappLink } from "@/lib/celebrations";
 import { heroSlides } from "@/lib/hero-slides";
 import { indoreAreas } from "@/lib/indore-areas";
 import { faqs } from "@/lib/site-content";
@@ -74,6 +73,10 @@ const faqData = {
 };
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): { occasion?: string } => {
+    const occasion = search["occasion"];
+    return typeof occasion === "string" && occasion ? { occasion } : {};
+  },
   head: () => ({
     meta: [
       { title: "Balloon Creation — Bespoke Celebrations in Indore" },
@@ -158,14 +161,12 @@ const navLinks = [
 const heroTrust = ["2-hour expert setup", "Premium materials", "1000+ designs"];
 
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [areasOpen, setAreasOpen] = useState(false);
-  const [occasion, setOccasion] = useState("");
+  const search = Route.useSearch();
+  const [occasion, setOccasion] = useState(search.occasion ?? "");
   const [line, setLine] = useState(0);
   const [fading, setFading] = useState<number | null>(null);
   const index = useRef(0);
   const [slide, setSlide] = useState(0);
-  const [galleryItem, setGalleryItem] = useState<Celebration | null>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -207,22 +208,6 @@ function Index() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!areasOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setAreasOpen(false);
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [areasOpen]);
-
-  function chooseOccasion(name: string) {
-    setOccasion(name);
-    document.getElementById("concierge")?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
-  }
-
   const current = taglines[line] ?? ["", ""];
   const out = fading === null ? null : (taglines[fading] ?? null);
   const totalSlides = heroSlides.length;
@@ -234,71 +219,7 @@ function Index() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <header className="site-header">
-        <div className="page-width nav-layout">
-          <a
-            href="#"
-            className="brand"
-            aria-label="Balloon Creation home"
-            onClick={(e) => {
-              const el = e.currentTarget;
-              el.classList.remove("is-playing");
-              void el.offsetWidth;
-              el.classList.add("is-playing");
-              setTimeout(() => el.classList.remove("is-playing"), 9000);
-            }}
-          >
-            <span className="brand-mark-wrap">
-              <img
-                src={logo}
-                className="brand-mark"
-                alt="Balloon Creation logo"
-                width={256}
-                height={256}
-              />
-            </span>
-            <span className="brand-text">
-              <span className="brand-name">Balloon Creation</span>
-              <span className="brand-rise">
-                <span className="brand-descriptor">We Decorate Your Happiness</span>
-              </span>
-            </span>
-          </a>
-          <nav className={menuOpen ? "main-nav is-open" : "main-nav"} aria-label="Main navigation">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
-                {link.label}
-              </a>
-            ))}
-            <a href="#faq" className="nav-mobile-only" onClick={() => setMenuOpen(false)}>
-              FAQ
-            </a>
-            <a
-              href={`tel:${contact.phone}`}
-              className="nav-mobile-only"
-              onClick={() => setMenuOpen(false)}
-            >
-              <Phone size={14} /> {contact.label}
-            </a>
-          </nav>
-          <Button variant="luxury" className="nav-consultation" asChild>
-            <a href="#concierge">
-              Request Consultation <ArrowUpRight />
-            </a>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="mobile-menu"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
-        <ScrollProgress />
-      </header>
+      <SiteHeader />
       <main id="main">
         <section className="hero">
           {heroSlides.map((s, i) =>
@@ -399,16 +320,11 @@ function Index() {
         </section>
         <div className="brand-strip">
           <div className="page-width">
-            <button
-              type="button"
-              className="areas-pill"
-              onClick={() => setAreasOpen(true)}
-              aria-haspopup="dialog"
-            >
+            <AreasTrigger className="areas-pill">
               <MapPin size={14} /> Serving All Indore Areas{" "}
               <span className="areas-view">(View List)</span>
-            </button>
-            <SmartSearch areas={indoreAreas} onLocation={() => setAreasOpen(true)} />
+            </AreasTrigger>
+            <SmartSearch areas={indoreAreas} onLocation={openAreasDialog} />
             <span>
               FLOWERS <span className="strip-dot">✦</span> BALLOONS{" "}
               <span className="strip-dot">✦</span> MEMORIES
@@ -436,11 +352,11 @@ function Index() {
           <div className="portfolio-grid">
             {celebrations.map((item, index) => (
               <article className={`creation reveal creation-${index + 1}`} key={item.name}>
-                <button
-                  type="button"
+                <Link
+                  to="/creations/$slug"
+                  params={{ slug: item.slug }}
                   className="creation-image"
-                  onClick={() => setGalleryItem(item)}
-                  aria-label={`View ${item.name} details`}
+                  aria-label={`Explore ${item.name}`}
                 >
                   <img
                     src={item.image}
@@ -450,15 +366,19 @@ function Index() {
                     loading="lazy"
                   />
                   <span className="image-tag">{item.tag}</span>
-                  <span className="creation-hover">VIEW DETAILS</span>
+                  <span className="creation-hover">EXPLORE THE EXPERIENCE</span>
                   <span className="image-action">
                     <ArrowUpRight size={21} />
                   </span>
-                </button>
+                </Link>
                 <div className="creation-caption">
                   <span className="creation-index">0{index + 1}</span>
                   <div>
-                    <h3>{item.name}</h3>
+                    <h3>
+                      <Link to="/creations/$slug" params={{ slug: item.slug }}>
+                        {item.name}
+                      </Link>
+                    </h3>
                     <p>{item.subtitle}</p>
                   </div>
                 </div>
@@ -507,112 +427,7 @@ function Index() {
         <Faq />
         <Concierge occasion={occasion} onOccasionChange={setOccasion} />
       </main>
-      {areasOpen && (
-        <div
-          className="areas-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Areas we serve in Indore"
-          onClick={() => setAreasOpen(false)}
-        >
-          <div className="areas-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="areas-head">
-              <span className="eyebrow">WHERE WE CELEBRATE</span>
-              <h2>Areas we serve in Indore</h2>
-              <button
-                type="button"
-                className="areas-close"
-                aria-label="Close areas list"
-                onClick={() => setAreasOpen(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <ul className="areas-list">
-              {indoreAreas.map((area) => (
-                <li key={area}>
-                  <MapPin size={13} />
-                  {area}
-                </li>
-              ))}
-            </ul>
-            <p className="areas-note">
-              Don’t see your area?{" "}
-              <a
-                href={whatsappLink("Hello Balloon Creation! Do you serve my area in Indore?")}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ask us on WhatsApp
-              </a>{" "}
-              — we likely do.
-            </p>
-          </div>
-        </div>
-      )}
-      {galleryItem && (
-        <PortfolioDialog
-          item={galleryItem}
-          onClose={() => setGalleryItem(null)}
-          onPlan={chooseOccasion}
-        />
-      )}
-      <StickyCta />
-      <footer className="site-footer">
-        <div className="page-width footer-grid">
-          <div className="footer-brand-col">
-            <a className="footer-brand" href="#" aria-label="Balloon Creation home">
-              <img src={logo} alt="" width={64} height={64} />
-              <span>Balloon Creation</span>
-            </a>
-            <p>
-              Bespoke flower &amp; balloon artistry for Indore’s most meaningful moments.
-              Thoughtfully designed, flawlessly installed, beautifully remembered.
-            </p>
-            <div className="footer-social">
-              <a href={contact.whatsapp} target="_blank" rel="noreferrer">
-                <MessageCircle size={15} /> WhatsApp
-              </a>
-              <a href={contact.instagram} target="_blank" rel="noreferrer">
-                <Instagram size={15} /> Instagram
-              </a>
-            </div>
-          </div>
-          <nav className="footer-col" aria-label="Footer navigation">
-            <h3>Explore</h3>
-            <a href="#portfolio">Our creations</a>
-            <a href="#standard">The signature standard</a>
-            <a href="#process">How it works</a>
-            <a href="#reviews">Kind words</a>
-            <a href="#faq">Questions</a>
-          </nav>
-          <div className="footer-col">
-            <h3>Visit or call</h3>
-            <a href={`tel:${contact.phone}`}>
-              <Phone size={14} /> {contact.label}
-            </a>
-            <a href={contact.whatsapp} target="_blank" rel="noreferrer">
-              <MessageCircle size={14} /> WhatsApp concierge
-            </a>
-            <button type="button" onClick={() => setAreasOpen(true)}>
-              <MapPin size={14} /> Areas we serve
-            </button>
-            <span className="footer-place">Indore, Madhya Pradesh</span>
-            <span className="footer-hours">Open daily · 9 am – 9 pm</span>
-          </div>
-        </div>
-        <div className="page-width footer-bottom">
-          <span>© {new Date().getFullYear()} Balloon Creation. Crafted for your moments.</span>
-          <div className="footer-legal">
-            <span>
-              <Check size={12} /> 1000+ designs delivered
-            </span>
-            <a href="#" className="back-top">
-              BACK TO TOP <ArrowUpRight size={14} />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

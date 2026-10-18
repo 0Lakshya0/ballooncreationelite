@@ -23,6 +23,7 @@ export const whatsappLink = (message: string) =>
   `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
 
 export type Celebration = {
+  slug: string;
   name: string;
   subtitle: string;
   image: string;
@@ -34,6 +35,7 @@ export type Celebration = {
 
 export const celebrations: Celebration[] = [
   {
+    slug: "grand-weddings-rings",
     name: "Grand Weddings & Rings",
     subtitle: "The beginning of your forever.",
     image: wedding,
@@ -48,6 +50,7 @@ export const celebrations: Celebration[] = [
     gallery: [wedding, cat(11), cat(6)].filter(Boolean) as string[],
   },
   {
+    slug: "mega-birthdays",
     name: "Mega Birthdays",
     subtitle: "Another year. An extraordinary celebration.",
     image: birthday,
@@ -62,6 +65,7 @@ export const celebrations: Celebration[] = [
     gallery: [birthday, cat(1), cat(2)].filter(Boolean) as string[],
   },
   {
+    slug: "anniversaries-surprises",
     name: "Anniversaries & Surprises",
     subtitle: "For the moments only love can create.",
     image: anniversary,
@@ -76,6 +80,7 @@ export const celebrations: Celebration[] = [
     gallery: [anniversary, cat(7), cat(8)].filter(Boolean) as string[],
   },
   {
+    slug: "baby-showers",
     name: "Baby Showers",
     subtitle: "Little beginnings. Beautiful memories.",
     image: baby,
@@ -90,6 +95,7 @@ export const celebrations: Celebration[] = [
     gallery: [baby, cat(3), cat(4)].filter(Boolean) as string[],
   },
   {
+    slug: "devotional-celebrations",
     name: "Devotional Celebrations",
     subtitle: "Graceful settings for Mataji & Ganeshji.",
     image: devotional,
