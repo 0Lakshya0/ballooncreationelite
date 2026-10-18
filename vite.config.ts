@@ -12,4 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Allow the sandbox preview host (and tunnelled previews) to reach the dev server.
+  vite: {
+    server: { allowedHosts: true },
+  },
 });

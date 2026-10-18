@@ -42,3 +42,24 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Premium upgrade — owner notes
+
+### What changed
+- **Hero**: circular logo no longer depends on Lovable's asset proxy (the badge rendered blank/alt-text before), greeting trust row, tighter mobile typography, and delayed hero images so only the current/next/previous shot is downloaded.
+- **Portfolio**: every creation card now opens a detail dialog (intro, highlights, image switcher, "Plan this look" and "Ask on WhatsApp"); choosing a look preselects it in the concierge form.
+- **New sections**: animated trust band (1000+ designs, 2-hour setup, 88+ Indore areas, 20+ formats), a three-step "how it works" process, client-kind-words cards, and a 6-question FAQ.
+- **Conversion**: floating WhatsApp bubble (desktop) and a thumb-friendly Call / WhatsApp / Book bar on mobile; sticky-header scroll progress; form error text is now human and offers a WhatsApp fallback.
+- **SEO/social**: `LocalBusiness` + `FAQPage` JSON-LD, canonical URL, an OG/Twitter cover image (`public/og-cover.jpg`), geo meta, apple-touch icon.
+- **Performance**: the six heavyweight JPGs were replaced by WebP (about 1.96 MB → 0.95 MB), the unused category sheet was removed, and the app now uses one logo asset instead of a remote-proxy JSON reference.
+
+### Replace before launch (placeholders)
+- The three reviews in `src/lib/site-content.ts` (`testimonials`) are written sample copy — swap in real client quotes and first names.
+- `contact.instagram` currently points at `https://www.instagram.com/ballooncreation_indore/` — confirm it is the studio's account.
+- `SITE_URL` in `src/routes/index.tsx` is the Lovable production domain; update it if a custom domain is connected.
+- Real portfolio photography can replace `src/assets/*.webp` and `src/assets/categories/*.webp` without code changes.
+- The concierge form needs `SUPABASE_SERVICE_ROLE_KEY` in the deployment environment (Lovable Cloud) — it is not present in this workspace, so submissions show the friendly error state here.
+
+### Verify
+- `npx tsc --noEmit`, `npx vite build`, `npx vitest run` all pass.
+- Checked at 1440 / 1280 / 1024 / 900 / 820 / 768 / 620 / 430 / 390 / 360 / 320 px with no horizontal scroll.
