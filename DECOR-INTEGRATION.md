@@ -1,3 +1,9 @@
+## Current publication — 2026-10-18
+
+Main website: **https://clck.ru/3WYxPa**. Label-only AI provider attribution update; all approved design, About, collections and WebGL source are unchanged. Source `8c28aea35b9f4d50c067d5b4f6831b42ad3ddeba`, pinned portable artifact `6c4e7966842c87a8273789e94c854ac4ba521971`. Publication/testing details: `PHONE-VIEW.md`. Earlier links and visual checks below are historical.
+
+---
+
 # Approved decor design — homepage entry and full-site liquid background
 
 ## Current placement (corrected to the owner's instruction)

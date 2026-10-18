@@ -1,4 +1,18 @@
-## Latest MAIN website — About uses shared animation, actual logo and collection header
+## Latest MAIN website — accurate Cloudflare / Z.ai AI-answer attribution
+
+**https://clck.ru/3WYxPa**
+
+- Source `8c28aea35b9f4d50c067d5b4f6831b42ad3ddeba`; pinned artifact `6c4e7966842c87a8273789e94c854ac4ba521971`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/6c4e7966842c87a8273789e94c854ac4ba521971/drafts/main-website-phone.html`.
+- Verified GitHub blob `ab59c57b0dfade57cabcaca1d2baa52590b0fcf0`, **10,990,768 bytes**. Public short-link redirect and rendered home returned successfully; embedded source metadata and all inline script syntax verified.
+- Only the existing AI answer's provider attribution changes: `Cloudflare · Meta Llama 3.2` and `Z.ai · GLM-4.7-Flash`. Unknown provider IDs remain generic. No changes to design, search/typewriter, About, liquid renderer, photos, routes or controls.
+- **70 frontend tests / 8 files**, TypeScript, targeted ESLint and native production build pass. **89 mocked backend/page tests** pass. The source tests verify the actual captions after explicit Send and zero calls before Send. No new full-WebGL browser regression run is claimed for this label-only update; earlier visual checks remain historical below.
+- New manual test: **https://clck.ru/3WYxPb**, pinned to the same artifact commit, offers `Z.ai GLM-4.7-Flash only`. Public page render and GitHub blob `a49590270e50678e5ca8bb1f2abfb87cb8870e22` / **10,134 bytes** verified. It makes zero automatic AI requests. Old test/main snapshots remain immutable.
+- Backend pool-2 deployment is independently verified. Owner confirms `ZAI_API_KEY` already exists, but fresh read-only health still enables only Gemini/Groq/Cloudflare. Do not repeat source deploy/key setup or count Z.ai as working. Next: owner adds `zai` to `ENABLED_PROVIDERS`, followed by health verification and one separately owner-authorized Z.ai-only completed-answer test.
+
+---
+
+## Previous MAIN website — About uses shared animation, actual logo and collection header
 
 **https://clck.ru/3WYaYD**
 
