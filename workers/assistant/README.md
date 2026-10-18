@@ -1,6 +1,6 @@
 # Balloon Creation — external AI backend
 
-**Current (2026-10-17): Workers AI adapter deployment independently verified; Gemini/Groq remain enabled. Cloudflare activation and a completed real answer are still pending.** The owner has already added the Workers AI binding `AI`. Preserve the existing `AI_DB`, keys and working settings. The main site is https://clck.ru/3WYaYD (revised About Us publication; backend settings unchanged). Older progress sections below are historical.
+**Current (2026-10-18): Gemini, Groq and Cloudflare real completed answers are independently recorded; do not repeat Cloudflare setup or testing.** A fresh read-only production health check reports revision `zai-free-flash-pool-1`, pinned Z.ai model `glm-4.7-flash`, concurrency 1 and a 60s lease, but enabled providers remain exactly `gemini,groq,cloudflare`. Z.ai is not yet counted as working. The owner supplied that deployed source for review. Local reviewed release `zai-free-flash-pool-2` below fixes error-envelope and uncertain-request lease handling; it is **not yet deployed**. Preserve all existing bindings, Secrets, origins, salt and enabled settings. Main website: https://clck.ru/3WYaYD. Older progress sections below are historical.
 
 **Built with Llama.** The proposed Cloudflare fallback uses Meta Llama 3.2 via Cloudflare Workers AI. [Model and license](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/).
 
@@ -68,7 +68,7 @@ Requires Node 22.13+ for its built-in SQLite test adapter:
 
 ```sh
 node --check workers/assistant/worker.js
-node --test workers/assistant/worker.test.mjs workers/assistant/connection-check.test.mjs
+node --test workers/assistant/worker.test.mjs workers/assistant/zai.test.mjs workers/assistant/connection-check.test.mjs
 ```
 
 The tests use the worker's real SQLite SQL with in-memory `node:sqlite` and mocked provider HTTP responses, never real keys. They cover fail-closed setup, secret-safe status/errors, CORS, validation/body caps, visitor/IP/site/time quotas, conditional atomic reservations, reset, fallback order, Retry-After cooldown/recovery, free-only OpenRouter configuration, safety refusal handling and storage/network failures. They are not a live Cloudflare deployment, actual-provider availability, free-plan CPU benchmark or end-to-end real-answer verification.
@@ -145,7 +145,32 @@ Validation: **63 backend/page tests pass** (51 Worker/SQLite + 12 page-controlle
 
 The larger legitimate ongoing-₹0 provider pool is **still unfinished**. Working Gemini/Groq, disabled/unverified OpenRouter, and this not-yet-live Cloudflare adapter are not four verified working providers. Do not pad the count with models, shared keys, expiring trials or card-required services.
 
-
 ### Owner deployment verified (2026-10-17)
 
 After the owner confirmed deployment, read-only production health `workers-ai-owner-deployed-20261017-v7` independently returned revision `workers-ai-pool-1`, `workersAiBound: true`, `databaseBound: true`, `rateLimitSaltConfigured: true`, and enabled providers exactly `gemini,groq`. New 32s shared / 20s individual / 3-attempt timing and unchanged 50/200/500 daily limits are live. This supersedes earlier deployment-pending statements. No AI inference was made; Cloudflare is still disabled. Next owner setting: preserve Gemini/Groq and change `ENABLED_PROVIDERS` to `gemini,groq,cloudflare`, then separately verify one completed Cloudflare-only answer on https://clck.ru/3WYVcN. Do not count binding/health presence as a working answer.
+
+### Cloudflare enablement independently verified
+
+The owner corrected that enablement was already completed. Fresh read-only health `owner-cloudflare-enabled-confirm-20261017-v8` confirms enabled providers `gemini,groq,cloudflare`, revision `workers-ai-pool-1`, both bindings and readable D1. Cloudflare has no recorded answer/failure yet (`observedAt: null`, HTTP status null, legacy/default diagnostic label); do not mistake this label for evidence of an earlier Cloudflare request. Do not ask the owner to repeat deployment or the enable setting. Next is one owner-controlled Cloudflare-only question on https://clck.ru/3WYVcN, preserving Gemini/Groq, then verify the completed answer/provider and diagnostic. No AI inference was made by the health check.
+
+## Z.ai source handoff review — 2026-10-18
+
+The supplied `zai-free-flash-pool-1` code was adopted, rather than overwriting production with the older Workers AI-only adapter. No production code/settings or inference was changed by this review. Read-only health `zai-preparation-20261018` independently records Gemini OK/200 at `2026-10-17T16:15:53.984Z`, Groq OK/200 at `15:54:00.320Z`, and Cloudflare OK/200 at `15:51:35.740Z`.
+
+### Reviewed release `zai-free-flash-pool-2`
+
+- Preserve the exact free model and Standard endpoint: `glm-4.7-flash`, `https://api.z.ai/api/paas/v4/chat/completions`. Worker variables cannot override either. No tools, paid-model substitution, extra automatic requests or higher token allowance.
+- Fix: an HTTP-200 API-error envelope must not become an answer (even with a `choices` field), or turn insufficient balance into a short empty-answer cooldown. HTTP 402, including non-JSON responses, is also a zero-cost-access block. Explicit balance/resource/spend codes pause until the next UTC day and instruct against card/top-up/subscription/limit evasion. HTTP-200 auth, rate and model error codes retain their semantic cooldowns.
+- Fix: timeout/disconnect does not prove upstream generation stopped. Keep the original bounded 60s lease after uncertain completion; do not release it immediately. This is a conservative local gate, not a promise about the provider's internal processing duration. Expired leases can be atomically replaced; old tokens cannot delete new owners. Completed responses release normally. Cleanup failure leaves the bounded lock intact without discarding a completed answer or preventing a separate eligible fallback.
+- Busy contenders do not consume provider attempts or overwrite the last actual upstream diagnostic. All app caps, identities, cooldowns, CORS and 20s/32s/3-attempt budgets are preserved.
+- Add explicit Z.ai selection to the manual connection-check page. Opening that page makes zero AI requests; selecting a provider does not alter the production pool. The old published test snapshot does not have this new option.
+
+Validation: **89 tests pass** (existing worker regressions, dedicated Z.ai SQLite/mocked HTTP tests, and manual-page controller tests), plus `node --check`. These are not live Cloudflare/real-provider validation. No live AI request, Secret access, enablement or deployment was performed.
+
+### Eligibility and remaining gates
+
+Official pricing rechecked on 2026-10-18 lists GLM-4.7-Flash Free for input/cached input/storage/output: https://docs.z.ai/guides/overview/pricing.md . The active GLM-4.7 series documentation calls this exact model completely free: https://docs.z.ai/guides/llm/glm-4.7.md . This is **not** GLM-4.7-FlashX or GLM-5.3-Flash, which are paid. Standard API keys are separate from Coding Plan keys: https://docs.z.ai/guides/overview/quick-start.md . Additional API Terms §1(a) allow integration for end users, subject to the terms and developer obligations: [1](https://docs.z.ai/legal-agreement/terms-of-use#additional-terms-for-api-services).
+
+The owner has a Standard API key named `balloon creation` and showed account concurrency **1** for GLM-4.7-Flash. Do not recreate it, ask for it in chat, or add a payment method/top-up. These observations do not yet prove zero-balance runtime access or a completed answer. Never count configuration or mocked success as real provider success. Pricing/access can change; there is no permanent/unlimited availability guarantee.
+
+Next: owner replaces only the Worker source with reviewed pool-2 and Deploys, preserving settings. Verify revision via read-only health. Separately check whether Secret `ZAI_API_KEY` is already present before adding anything. Before production Z.ai activation, preserve/display its provider identity in the real frontend (the old client normalizes unknown provider IDs to `ai`), update the portable publication as needed, and publish the new manual test snapshot. Then enable `zai` without disabling existing providers and obtain one owner-authorized Z.ai-only completed answer. No automatic inference. The broader independent ongoing-₹0 provider pool remains unfinished even if this fourth provider succeeds.

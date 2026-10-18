@@ -212,3 +212,18 @@ test("automatic test keeps the original public request contract", async () => {
   await f.submit();
   assert.deepEqual(Object.keys(JSON.parse(f.calls[0][1].body)).sort(), ["question", "visitorId"]);
 });
+
+test("Z.ai-only test is explicit, keeps visitor identity and never changes active providers", async () => {
+  assert.match(html, /<option value="zai">Z.ai GLM-4.7-Flash only<\/option>/);
+  const f = fixture(() =>
+    Response.json({ answer: "Gold balloons.", provider: "zai", remaining: 49 }),
+  );
+  f.nodes.provider.value = "zai";
+  assert.equal(f.calls.length, 0);
+  await f.submit();
+  const body = JSON.parse(f.calls[0][1].body);
+  assert.equal(body.provider, "zai");
+  assert.equal(typeof body.visitorId, "string");
+  assert.equal(f.nodes.status.dataset.kind, "success");
+  assert.match(f.nodes.details.textContent, /zai/i);
+});

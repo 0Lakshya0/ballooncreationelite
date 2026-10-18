@@ -143,12 +143,12 @@
           <option value="cloudflare">Cloudflare Workers AI only</option>
           <option value="gemini">Gemini only</option>
           <option value="groq">Groq only</option>
+          <option value="zai">Z.ai GLM-4.7-Flash only</option>
           <option value="openrouter">OpenRouter only</option>
         </select>
         <label for="question">Test question</label>
         <textarea id="question" rows="3" minlength="2" maxlength="1500" required>
-Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea
-        >
+Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
         <button id="test-button" type="submit">Test AI</button>
       </form>
       <div aria-live="polite" aria-atomic="true">
@@ -222,7 +222,7 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea
               body: JSON.stringify({
                 question,
                 visitorId: visitorId(),
-                ...(["cloudflare", "gemini", "groq", "openrouter"].includes(provider.value)
+                ...(["cloudflare", "gemini", "groq", "zai", "openrouter"].includes(provider.value)
                   ? { provider: provider.value }
                   : {}),
               }),

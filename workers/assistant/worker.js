@@ -8,6 +8,24 @@ const LIMITS = { visitor: 50, ip: 200, site: 500, gapMs: 2_000, questionChars: 1
 const TIMING = { providerMaxMs: 20_000, upstreamBudgetMs: 32_000, maxAttempts: 3 };
 // Pinned Cloudflare-hosted model; no gateway, paid model or arbitrary model override.
 const CF_MODEL = "@cf/meta/llama-3.2-3b-instruct";
+// Z.ai is strictly opt-in and pinned to the exact zero-priced Standard API model.
+// Never read the model or endpoint from Worker variables; FlashX and paid models are excluded.
+const ZAI_MODEL = "glm-4.7-flash";
+const ZAI_ENDPOINT = "https://api.z.ai/api/paas/v4/chat/completions";
+const ZAI_LEASE_MS = 60_000;
+const ZAI_ZERO_COST_BLOCK_CODES = new Set([
+  "1113", // Insufficient balance or no resource package.
+  "1316",
+  "1317",
+  "1318",
+  "1319",
+  "1320",
+  "1321", // Paid extra-use / spend guard.
+]);
+const ZAI_RATE_LIMIT_CODES = new Set(["1302", "1305", "1308", "1310", "1313"]);
+const ZAI_AUTH_CODES = new Set(["1000", "1001", "1003", "1005"]);
+const ZAI_PERMISSION_CODES = new Set(["1220", "1311", "1315"]);
+const ZAI_BAD_REQUEST_CODES = new Set(["1210", "1212", "1213", "1214", "1215", "1221", "1222"]);
 const CF_BUDGET = 8_000_000; // Conservative local daily reservation in milli-Neurons.
 const SAFE_REPLY =
   "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone. Please contact our team for a safe alternative.";
@@ -29,6 +47,7 @@ function providers(env) {
     { id: "gemini", key: env.GEMINI_API_KEY, model: env.GEMINI_MODEL },
     { id: "groq", key: env.GROQ_API_KEY, model: env.GROQ_MODEL },
     { id: "cloudflare", binding: env.AI, model: CF_MODEL },
+    { id: "zai", key: env.ZAI_API_KEY, model: ZAI_MODEL },
     { id: "openrouter", key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL },
   ].filter(
     (p) =>
@@ -39,7 +58,15 @@ function providers(env) {
 }
 // Stable across test-provider selection; never hash identifiers with "undefined".
 function rateLimitSalt(env) {
-  return env.RATE_LIMIT_SALT || env.GEMINI_API_KEY || env.GROQ_API_KEY || env.OPENROUTER_API_KEY;
+  // Keep the existing key priority first so adding Z.ai cannot rotate live identity hashes.
+  const existingSalt =
+    env.RATE_LIMIT_SALT || env.GEMINI_API_KEY || env.GROQ_API_KEY || env.OPENROUTER_API_KEY;
+  if (existingSalt) return existingSalt;
+  // Mere presence of a Z.ai Secret must not satisfy setup or affect other active providers.
+  const zaiEnabled = String(env.ENABLED_PROVIDERS || "")
+    .split(",")
+    .some((provider) => provider.trim() === "zai");
+  return zaiEnabled ? env.ZAI_API_KEY : undefined;
 }
 function origins(env) {
   return String(env.ALLOWED_ORIGINS || "")
@@ -111,10 +138,23 @@ async function ensureSchema(db) {
     db.prepare(
       "CREATE TABLE IF NOT EXISTS ai_provider_diagnostics (provider TEXT PRIMARY KEY, code TEXT NOT NULL, http_status INTEGER, observed_at INTEGER NOT NULL)",
     ),
+    db.prepare(
+      "CREATE TABLE IF NOT EXISTS ai_provider_leases (provider TEXT PRIMARY KEY, token TEXT NOT NULL, leased_until INTEGER NOT NULL)",
+    ),
   ]);
 }
 // Diagnostics contain only allowlisted categories/numeric status, never raw API messages.
-function failureCategory(response, data) {
+function failureCategory(response, data, providerId = "") {
+  const providerCode = String(data?.error?.code ?? "");
+  if (providerId === "zai") {
+    if (response.status === 402 || ZAI_ZERO_COST_BLOCK_CODES.has(providerCode))
+      return "free_access_unavailable";
+    if (ZAI_RATE_LIMIT_CODES.has(providerCode)) return "rate_or_quota_limit";
+    if (ZAI_AUTH_CODES.has(providerCode)) return "api_key_invalid";
+    if (ZAI_PERMISSION_CODES.has(providerCode)) return "key_or_permission_denied";
+    if (providerCode === "1211") return "model_or_endpoint_not_found";
+    if (ZAI_BAD_REQUEST_CODES.has(providerCode)) return "invalid_model_or_request";
+  }
   const detail = Array.isArray(data?.error?.details) ? data.error.details : [];
   const reasons = detail.map((item) => String(item?.reason || "")).join(" ");
   const message = String(data?.error?.message || "");
@@ -147,6 +187,24 @@ async function saveDiagnostic(db, provider, code, httpStatus) {
     .bind(provider, code, httpStatus ?? null, Date.now())
     .run();
 }
+async function acquireProviderLease(db, provider, now) {
+  const token = crypto.randomUUID();
+  const result = await db
+    .prepare(
+      `INSERT INTO ai_provider_leases (provider, token, leased_until) VALUES (?, ?, ?)
+      ON CONFLICT(provider) DO UPDATE SET token = excluded.token, leased_until = excluded.leased_until
+      WHERE ai_provider_leases.leased_until <= ?`,
+    )
+    .bind(provider, token, now + ZAI_LEASE_MS, now)
+    .run();
+  return result?.meta?.changes === 1 ? token : null;
+}
+async function releaseProviderLease(db, provider, token) {
+  await db
+    .prepare("DELETE FROM ai_provider_leases WHERE provider = ? AND token = ?")
+    .bind(provider, token)
+    .run();
+}
 async function diagnosticStatus(db, configured, now) {
   if (!db) return { storageReadable: false, providers: [] };
   try {
@@ -154,7 +212,7 @@ async function diagnosticStatus(db, configured, now) {
     // Health is read-only and never clears cooldowns or calls an AI provider.
     const tables = await db
       .prepare(
-        "SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('ai_provider_state', 'ai_provider_diagnostics')",
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('ai_provider_state', 'ai_provider_diagnostics', 'ai_provider_leases')",
       )
       .all();
     const names = new Set((tables.results || []).map((row) => row.name));
@@ -169,20 +227,33 @@ async function diagnosticStatus(db, configured, now) {
             .all()
         ).results || []
       : [];
+    const leases = names.has("ai_provider_leases")
+      ? (
+          await db
+            .prepare("SELECT provider, leased_until FROM ai_provider_leases WHERE leased_until > ?")
+            .bind(now)
+            .all()
+        ).results || []
+      : [];
     return {
       storageReadable: true,
       providers: configured.map((provider) => {
         const state = states.find((row) => row.provider === provider.id);
         const event = events.find((row) => row.provider === provider.id);
+        const lease = leases.find((row) => row.provider === provider.id);
+        const leasedUntil = Number(lease?.leased_until || 0);
+        const busy = leasedUntil > now;
         return {
           provider: provider.id,
           retryAfterSeconds: Math.max(
             0,
             Math.ceil((Number(state?.available_at || 0) - now) / 1000),
+            Math.ceil((leasedUntil - now) / 1000),
           ),
-          lastResult: event?.code || "not_recorded_by_previous_version",
-          upstreamHttpStatus: event?.http_status ?? null,
-          observedAt: event?.observed_at ? new Date(event.observed_at).toISOString() : null,
+          lastResult: busy ? "concurrency_busy" : event?.code || "not_recorded_by_previous_version",
+          upstreamHttpStatus: busy ? null : (event?.http_status ?? null),
+          observedAt:
+            busy || !event?.observed_at ? null : new Date(event.observed_at).toISOString(),
         };
       }),
     };
@@ -266,32 +337,52 @@ function nextDay(now) {
   const date = new Date(now);
   return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1);
 }
-function retryAt(response, body, now) {
+function retryAt(response, body, now, providerId = "") {
+  // Never keep probing when Z.ai says free access may require balance/resource/spend.
+  const zaiCode = providerId === "zai" ? String(body?.error?.code ?? "") : "";
+  if (providerId === "zai" && (response.status === 402 || ZAI_ZERO_COST_BLOCK_CODES.has(zaiCode)))
+    return nextDay(now);
   const header = response.headers.get("Retry-After");
   if (header) {
     const delay = Number(header);
     const target = Number.isFinite(delay) ? now + delay * 1000 : Date.parse(header);
     if (Number.isFinite(target) && target > now) return target;
   }
-  if (response.status === 429) {
-    const retry = body?.error?.details?.find((d) => typeof d.retryDelay === "string")?.retryDelay;
+  if (response.status === 429 || ZAI_RATE_LIMIT_CODES.has(zaiCode)) {
+    const details = Array.isArray(body?.error?.details) ? body.error.details : [];
+    const retry = details.find((d) => typeof d?.retryDelay === "string")?.retryDelay;
     const seconds =
       typeof retry === "string" && /^\d+(\.\d+)?s$/.test(retry) ? parseFloat(retry) : 0;
     if (seconds > 0) return now + seconds * 1000;
     return now + 300_000;
   }
-  if (response.status === 401 || response.status === 403) return now + 86_400_000;
-  if (response.status === 400 || response.status === 404) return now + 3_600_000;
+  if (
+    response.status === 401 ||
+    response.status === 403 ||
+    ZAI_AUTH_CODES.has(zaiCode) ||
+    ZAI_PERMISSION_CODES.has(zaiCode)
+  )
+    return now + 86_400_000;
+  if (
+    response.status === 400 ||
+    response.status === 404 ||
+    zaiCode === "1211" ||
+    ZAI_BAD_REQUEST_CODES.has(zaiCode)
+  )
+    return now + 3_600_000;
   return now + 30_000;
 }
 async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
   const { id, key, model } = provider;
   const isGemini = id === "gemini";
+  const isZai = id === "zai";
   const url = isGemini
     ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`
     : id === "groq"
       ? "https://api.groq.com/openai/v1/chat/completions"
-      : "https://openrouter.ai/api/v1/chat/completions";
+      : isZai
+        ? ZAI_ENDPOINT
+        : "https://openrouter.ai/api/v1/chat/completions";
   const body = isGemini
     ? {
         systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
@@ -307,6 +398,7 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
         ],
         temperature: 0.4,
         max_tokens: 512,
+        ...(isZai ? { stream: false, thinking: { type: "disabled" } } : {}),
         ...(id === "openrouter" ? { provider: { max_price: { prompt: 0, completion: 0 } } } : {}),
       };
   const signal = AbortSignal.timeout(timeoutMs);
@@ -348,10 +440,10 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
   } catch (error) {
     return {
       failed: true,
-      availableAt: retryAt(response, {}, Date.now()),
+      availableAt: retryAt(response, {}, Date.now(), id),
       httpStatus: response.status,
       code: !response.ok
-        ? failureCategory(response, {})
+        ? failureCategory(response, {}, id)
         : error?.name === "TimeoutError" || error?.name === "AbortError"
           ? "provider_timeout"
           : error?.message === "body_too_large"
@@ -364,7 +456,7 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
       failed: true,
       code: "invalid_upstream_json",
       httpStatus: response.status,
-      availableAt: retryAt(response, {}, Date.now()),
+      availableAt: retryAt(response, {}, Date.now(), id),
     };
   const candidate = data.candidates?.[0];
   const choice = data.choices?.[0];
@@ -373,17 +465,20 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
     data.promptFeedback?.blockReason ||
     candidate?.finishReason === "SAFETY" ||
     choice?.finish_reason === "content_filter" ||
-    /content_policy|safety|prompt_blocked/i.test(policyError)
+    /content_policy|safety|prompt_blocked/i.test(policyError) ||
+    (isZai && String(data.error?.code ?? "") === "1301")
   ) {
     // A safety refusal is a valid response, not a reason to try another model.
     return { answer: SAFE_REPLY };
   }
-  if (!response.ok)
+  // Some gateways return an API-error envelope with HTTP 200. An error is never
+  // a model answer, even if an unexpected choices field is also present.
+  if (!response.ok || (isZai && data.error))
     return {
       failed: true,
-      availableAt: retryAt(response, data, Date.now()),
+      availableAt: retryAt(response, data, Date.now(), id),
       httpStatus: response.status,
-      code: failureCategory(response, data),
+      code: failureCategory(response, data, id),
     };
   if (
     data?.success === false ||
@@ -396,6 +491,7 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
       availableAt: Date.now() + 30_000,
     };
   const cloudflareText = data?.response ?? data?.result?.response;
+  const openAIText = choice?.message?.content;
   const answer =
     id === "cloudflare"
       ? typeof cloudflareText === "string"
@@ -407,7 +503,9 @@ async function askProvider(provider, question, timeoutMs, fetcher = fetch) {
             .map((part) => part.text || "")
             .join("")
             .trim()
-        : choice?.message?.content?.trim();
+        : typeof openAIText === "string"
+          ? openAIText.trim()
+          : "";
   if (typeof answer !== "string" || !answer)
     return {
       failed: true,
@@ -431,7 +529,7 @@ async function handle(request, env) {
     return json(
       {
         service: "Balloon Creation AI",
-        revision: "workers-ai-pool-1",
+        revision: "zai-free-flash-pool-2",
         limits: {
           perVisitorPerDay: LIMITS.visitor,
           perIpPerDay: LIMITS.ip,
@@ -449,6 +547,7 @@ async function handle(request, env) {
           localDailyBudgetNeurons: CF_BUDGET / 1000,
           freePlanRequired: true,
         },
+        zai: { model: ZAI_MODEL, concurrencyLimit: 1, leaseSeconds: ZAI_LEASE_MS / 1000 },
         diagnostics: await diagnosticStatus(env.AI_DB, configured, Date.now()),
         status:
           env.AI_DB && configured.length && allowed.length && rateLimitSalt(env)
@@ -559,18 +658,26 @@ async function handle(request, env) {
     .all();
   const cooling = new Map((state.results || []).map((row) => [row.provider, row.available_at]));
   const ready = candidates.filter((provider) => !cooling.has(provider.id));
-  if (!ready.length)
+  if (!ready.length) {
+    const diagnostics = await diagnosticStatus(env.AI_DB, candidates, now);
+    const zeroCostAccessBlocked = diagnostics.providers.some(
+      (provider) =>
+        provider.provider === "zai" && provider.lastResult === "free_access_unavailable",
+    );
     return failure(
       "providers_cooling_down",
-      "All enabled AI providers are paused after an earlier failed request. This does not by itself mean the free quota is exhausted. Please share this error for diagnosis.",
+      zeroCostAccessBlocked
+        ? "Z.ai did not confirm zero-cost access to the pinned GLM-4.7-Flash request. It is paused until the next UTC day. Do not add a card, recharge, subscribe, switch models or retry to bypass a limit; please share this diagnostic."
+        : "All enabled AI providers are paused after an earlier failed request. This does not by itself mean the free quota is exhausted. Please share this error for diagnosis.",
       503,
       origin,
       Math.max(
         1,
         (Math.min(...candidates.map((provider) => cooling.get(provider.id))) - now) / 1000,
       ),
-      { diagnostics: await diagnosticStatus(env.AI_DB, candidates, now) },
+      { diagnostics },
     );
+  }
   if (!(await reserveQuota(env.AI_DB, visitor, ip, now))) {
     const quota = await quotaStatus(env.AI_DB, visitor, ip, now);
     const daily =
@@ -606,6 +713,7 @@ async function handle(request, env) {
       provider.id !== "cloudflare" ||
       (await reserveCloudflareBudget(env.AI_DB, question, Date.now()));
     let result;
+    let zaiLease = null;
     try {
       if (!budgetAvailable) {
         result = {
@@ -615,10 +723,26 @@ async function handle(request, env) {
           availableAt: nextDay(Date.now()),
         };
       } else {
-        const callRemainingMs = deadline - Date.now();
-        if (callRemainingMs < 1000) break;
-        attempts++;
-        result = await askProvider(provider, question, Math.min(timeoutMs, callRemainingMs));
+        if (provider.id === "zai") {
+          try {
+            zaiLease = await acquireProviderLease(env.AI_DB, provider.id, Date.now());
+          } catch {
+            result = {
+              failed: true,
+              code: "concurrency_guard_unavailable",
+              httpStatus: null,
+              availableAt: Date.now() + 60_000,
+            };
+          }
+          if (!result && !zaiLease)
+            result = { failed: true, code: "concurrency_busy", httpStatus: null };
+        }
+        if (!result) {
+          const callRemainingMs = deadline - Date.now();
+          if (callRemainingMs < 1000) break;
+          attempts++;
+          result = await askProvider(provider, question, Math.min(timeoutMs, callRemainingMs));
+        }
       }
     } catch (error) {
       result = {
@@ -630,7 +754,21 @@ async function handle(request, env) {
             ? "provider_timeout"
             : "provider_network_error",
       };
+    } finally {
+      // A timeout/disconnect does not prove upstream generation stopped. Keep the
+      // original bounded lease in those cases; do not immediately admit another call.
+      if (zaiLease && !["provider_timeout", "provider_network_error"].includes(result?.code)) {
+        try {
+          await releaseProviderLease(env.AI_DB, provider.id, zaiLease);
+        } catch {
+          // Fail closed for new Z.ai calls until lease expiry, without discarding
+          // a completed answer or blocking an unrelated configured fallback.
+        }
+      }
     }
+    // Occupancy is derived from the lease in health. A contender must not overwrite
+    // the last actual upstream result or place the entire provider on cooldown.
+    if (result.code === "concurrency_busy") continue;
     await saveDiagnostic(
       env.AI_DB,
       provider.id,
@@ -662,9 +800,14 @@ async function handle(request, env) {
   const delays = diagnostics.providers
     .map((provider) => provider.retryAfterSeconds)
     .filter((seconds) => seconds > 0);
+  const zeroCostAccessBlocked = diagnostics.providers.some(
+    (provider) => provider.provider === "zai" && provider.lastResult === "free_access_unavailable",
+  );
   return failure(
     "providers_unavailable",
-    "The AI provider request failed. The safe diagnostic details explain the failure category; please share this screen. No successful AI answer has been confirmed.",
+    zeroCostAccessBlocked
+      ? "Z.ai did not confirm zero-cost access to the pinned GLM-4.7-Flash request. It is paused until the next UTC day. Do not add a card, recharge, subscribe, switch models or retry to bypass a limit; please share this diagnostic."
+      : "The AI provider request failed. The safe diagnostic details explain the failure category; please share this screen. No successful AI answer has been confirmed.",
     503,
     origin,
     delays.length ? Math.min(...delays) : 30,
