@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Balloon Creation — Z.ai capacity check</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px 16px;
+        background: #faf3e6;
+        color: #62503c;
+        font:
+          16px/1.65 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 740px;
+        margin: 20px auto;
+        padding: 26px;
+        border: 1px solid #d6ba8e;
+        border-radius: 20px;
+        background: #fffaf0;
+      }
+      h1 {
+        font:
+          500 clamp(26px, 6vw, 36px)/1.25 Georgia,
+          serif;
+        color: #62503c;
+      }
+      button {
+        min-height: 48px;
+        padding: 10px 22px;
+        border: 1px solid #b99867;
+        border-radius: 24px;
+        background: linear-gradient(120deg, #f0d397, #edc0a9);
+        color: #463724;
+        font: 600 15px system-ui;
+        cursor: pointer;
+        margin: 6px 8px 6px 0;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      button:focus-visible {
+        outline: 3px solid #93653c;
+        outline-offset: 3px;
+      }
+      #status {
+        font-weight: 650;
+      }
+      #result,
+      #log {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      #result {
+        border-top: 1px solid #dcc8a9;
+        padding-top: 16px;
+      }
+      small {
+        display: block;
+        color: #73614f;
+      }
+      #log {
+        font:
+          14px/1.8 ui-monospace,
+          monospace;
+      }
+      li {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <small>Balloon Creation · Z.ai GLM-4.7-Flash only</small>
+      <h1>Does it answer more than one question?</h1>
+      <p>Yeh controlled sample check hai—unlimited ya daily capacity ka proof nahi.</p>
+      <ul>
+        <li>
+          <strong>Start</strong> dabane par maximum <strong>10 real AI questions</strong> jayenge.
+          Free allowance ke maximum 10 attempts use ho sakte hain.
+        </li>
+        <li>
+          Requests ek-ek karke, start times ke beech kam-se-kam <strong>60 seconds</strong> ka gap
+          rakhenge. Lagbhag 10 minutes; tab khula rakho.
+        </li>
+        <li>
+          Pehli error, limit, timeout ya wrong-provider reply par test rukega. Koi automatic retry,
+          fallback provider, key change ya quota reset nahi.
+        </li>
+        <li>
+          Sirf safe decoration questions hain. Koi API key/personal details mat dena. Questions
+          provider ki data policy ke under process honge.
+        </li>
+      </ul>
+      <button id="start" type="button">Start — up to 10 real questions</button>
+      <button id="stop" type="button" disabled>Stop</button>
+      <p id="status" aria-live="polite">Ready. Abhi koi network ya AI request nahi hui.</p>
+      <div id="result" aria-live="polite"></div>
+      <pre id="log"></pre>
+      <small
+        >10/10 means only this small, paced sample passed. It does not verify 50/500 daily answers,
+        peak traffic, answer quality, uptime or a permanent free allowance. App quota/transport
+        failures mean inconclusive—not necessarily a bad provider.</small
+      >
+    </main>
+    <script>
+      (() => {
+        "use strict";
+        const BASE = "https://ballooncreation-assistant.lakshyac909.workers.dev";
+        const ID_KEY = "bce-ai-visitor-id";
+        const GAP = 60000;
+        const questions = [
+          "Suggest three safe pastel balloon decoration ideas for a small birthday.",
+          "Give a simple ivory and gold colour palette for a celebration.",
+          "How can reusable decorations make a small anniversary special?",
+          "Suggest three safe indoor balloon backdrop ideas without electricity or fire.",
+          "What decorations fit a small baby shower in a living room?",
+          "Suggest a simple floral and balloon combination for a family celebration.",
+          "How should I plan decoration space around a birthday cake table?",
+          "Suggest a welcoming entrance decoration without blocking the doorway.",
+          "Give three ideas for reusing ribbons and paper decorations after a party.",
+          "Give a short safety checklist for an indoor balloon celebration.",
+        ];
+        const start = document.getElementById("start");
+        const stop = document.getElementById("stop");
+        const status = document.getElementById("status");
+        const result = document.getElementById("result");
+        const log = document.getElementById("log");
+        let started = false,
+          stopped = false,
+          controller,
+          waitTimer,
+          wake,
+          attemptsSent = 0;
+        const records = [];
+        let identity;
+        function visitorId() {
+          if (identity) return identity;
+          try {
+            const saved = localStorage.getItem(ID_KEY);
+            if (saved && /^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(saved))
+              identity = saved;
+          } catch {
+            /* Keep one session identity; normal IP/site caps still apply. */
+          }
+          if (!identity) identity = crypto.randomUUID();
+          try {
+            localStorage.setItem(ID_KEY, identity);
+          } catch {
+            /* Never rotate identity to bypass limits. */
+          }
+          return identity;
+        }
+        function finish(message) {
+          status.textContent = "Check finished. No more requests will be sent.";
+          result.textContent = `${records.filter((r) => r.ok).length}/10 completed Z.ai answers.\n${message}\nActual question attempts sent: ${attemptsSent}. No retry or paid fallback was used.`;
+        }
+        function record(data) {
+          records.push(data);
+          log.textContent = records
+            .map((r, i) => `${i + 1}. ${r.ok ? "OK" : "STOP"} · ${r.detail}`)
+            .join("\n");
+        }
+        function delay(ms) {
+          return new Promise((resolve) => {
+            wake = resolve;
+            waitTimer = setTimeout(() => {
+              wake = null;
+              resolve();
+            }, ms);
+          });
+        }
+        async function request(path, options, deadlineMs) {
+          controller = new AbortController();
+          const active = controller;
+          const timer = setTimeout(() => active.abort(), deadlineMs);
+          try {
+            const response = await fetch(BASE + path, {
+              ...options,
+              credentials: "omit",
+              redirect: "error",
+              signal: active.signal,
+            });
+            const data = await response.json();
+            return { response, data };
+          } finally {
+            clearTimeout(timer);
+            if (controller === active) controller = null;
+          }
+        }
+        stop.addEventListener("click", () => {
+          stopped = true;
+          controller?.abort();
+          clearTimeout(waitTimer);
+          wake?.();
+          wake = null;
+          stop.disabled = true;
+          status.textContent = "Stopping. An already-sent request may still use allowance.";
+        });
+        start.addEventListener("click", async () => {
+          if (started) return;
+          started = true;
+          start.disabled = true;
+          stop.disabled = false;
+          try {
+            status.textContent = "Checking setup/cooldown without calling AI…";
+            const { response: hResponse, data: h } = await request(
+              "/health",
+              { method: "GET" },
+              10000,
+            );
+            if (stopped) {
+              finish("Stopped. This sample is incomplete.");
+              return;
+            }
+            const preflightProviders = Array.isArray(h?.diagnostics?.providers)
+              ? h.diagnostics.providers
+              : [];
+            const d = preflightProviders.find((p) => p.provider === "zai");
+            if (
+              !hResponse.ok ||
+              !h ||
+              h.status !== "configured" ||
+              !h.setup?.enabledProviders?.includes("zai") ||
+              h.zai?.model !== "glm-4.7-flash"
+            ) {
+              finish(
+                "Setup/model check did not pass. No AI request was sent. Do not change keys or plans based on this page.",
+              );
+              return;
+            }
+            if (
+              !h.diagnostics?.storageReadable ||
+              !d ||
+              !Number.isFinite(d.retryAfterSeconds) ||
+              d.retryAfterSeconds > 0
+            ) {
+              finish(
+                `Current cooldown/lease or unreadable status prevents a safe test (${d?.retryAfterSeconds ?? "unknown"}s). No AI request was sent. Respect the pause; do not repeatedly retry.`,
+              );
+              return;
+            }
+            const id = visitorId();
+            for (let i = 0; i < questions.length; i++) {
+              if (stopped) {
+                finish("Stopped. This sample is incomplete.");
+                return;
+              }
+              status.textContent = `Sending Z.ai question ${i + 1}/10…`;
+              const sentAt = Date.now();
+              let response, data;
+              try {
+                attemptsSent++;
+                ({ response, data } = await request(
+                  "/chat",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      question: questions[i],
+                      visitorId: id,
+                      provider: "zai",
+                    }),
+                  },
+                  40000,
+                ));
+              } catch {
+                record({
+                  ok: false,
+                  detail: stopped
+                    ? "Stopped during a request; completion uncertain."
+                    : "Network/timeout/unreadable response; upstream completion uncertain.",
+                });
+                finish(
+                  "Inconclusive transport/interruption result. No automatic retry. A sent request may have used allowance.",
+                );
+                return;
+              }
+              const elapsed = Math.max(0, Date.now() - sentAt);
+              if (!data || typeof data !== "object" || Array.isArray(data)) {
+                record({
+                  ok: false,
+                  detail: "Unreadable response shape; request was sent, completion uncertain.",
+                });
+                finish(
+                  "Inconclusive response. No automatic retry; a sent request may have used allowance.",
+                );
+                return;
+              }
+              if (stopped) {
+                record({ ok: false, detail: "Stopped during a request; result not used." });
+                finish("Stopped; sample incomplete.");
+                return;
+              }
+              if (!response.ok) {
+                const providerDiagnostics = Array.isArray(data.diagnostics?.providers)
+                  ? data.diagnostics.providers
+                  : [];
+                const diag = providerDiagnostics.find((p) => p.provider === "zai");
+                const pausedFor = Math.max(
+                  Number(response.headers.get("Retry-After")) || 0,
+                  Number(diag?.retryAfterSeconds) || 0,
+                );
+                record({
+                  ok: false,
+                  detail: `HTTP ${response.status} · ${data.error || "request_failed"} · ${diag?.lastResult || "no provider diagnosis"} · upstream ${diag?.upstreamHttpStatus ?? "unknown"} · pause ${pausedFor}s`,
+                });
+                const providerLimited =
+                  diag?.lastResult === "rate_or_quota_limit" ||
+                  diag?.lastResult === "free_access_unavailable";
+                finish(
+                  providerLimited
+                    ? "Provider limit/free-access block interrupted this paced sample. Z.ai is NOT qualified for dependable capacity. Do not add payment, change models, clear cooldown or rotate keys."
+                    : "Sample incomplete: app quota, cooldown, provider or storage failure. This is not proof of provider daily capacity; share the diagnostic before drawing conclusions.",
+                );
+                return;
+              }
+              if (
+                data.provider !== "zai" ||
+                typeof data.answer !== "string" ||
+                !data.answer.trim()
+              ) {
+                record({
+                  ok: false,
+                  detail: "Missing answer or wrong provider; not accepted as Z.ai success.",
+                });
+                finish("Verification failed. No other provider's answer was counted.");
+                return;
+              }
+              if (
+                data.answer.startsWith(
+                  "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone.",
+                )
+              ) {
+                record({
+                  ok: false,
+                  detail:
+                    "Safety refusal on a benign test question; not counted as a useful answer.",
+                });
+                finish(
+                  "Provider returned a refusal. This is not a completed useful-answer sample or proof of capacity.",
+                );
+                return;
+              }
+              record({ ok: true, detail: `Z.ai answer · ${(elapsed / 1000).toFixed(1)}s` });
+              if (i === questions.length - 1) {
+                finish(
+                  "This 10-request, one-per-minute sample passed. It does NOT establish a daily quota, uptime guarantee or reliable peak capacity.",
+                );
+                return;
+              }
+              if (typeof data.remaining === "number" && data.remaining < 1) {
+                finish(
+                  "App visitor allowance reached. Sample incomplete; provider capacity is inconclusive. Do not reset the visitor identity.",
+                );
+                return;
+              }
+              const remainingWait = Math.max(0, GAP - (Date.now() - sentAt));
+              status.textContent = `${i + 1}/10 answers received. Waiting before next request; keep this tab open. Stop remains available.`;
+              await delay(remainingWait);
+            }
+          } catch {
+            finish(
+              stopped
+                ? "Stopped; sample incomplete."
+                : attemptsSent > 0
+                  ? "Check interrupted; sent requests may have used allowance. Capacity remains inconclusive; no automatic retry."
+                  : "Read-only preflight/network error. No AI request was sent; capacity remains inconclusive.",
+            );
+          } finally {
+            clearTimeout(waitTimer);
+            wake = null;
+            stop.disabled = true;
+            start.disabled = true;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
