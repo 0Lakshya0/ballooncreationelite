@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
+import { StickyCta } from "@/components/balloon/sticky-cta";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -80,12 +81,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Balloon Creation — Bespoke Celebrations" },
-      { name: "description", content: "Extraordinary flower and balloon aesthetics for your finest moments in Indore." },
+      {
+        name: "description",
+        content: "Extraordinary flower and balloon aesthetics for your finest moments in Indore.",
+      },
       { name: "author", content: "Balloon Creation" },
       { property: "og:title", content: "Balloon Creation — Bespoke Celebrations" },
-      { property: "og:description", content: "Extraordinary flower and balloon aesthetics for your finest moments in Indore." },
+      {
+        property: "og:description",
+        content: "Extraordinary flower and balloon aesthetics for your finest moments in Indore.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:site_name", content: "Balloon Creation" },
+      { property: "og:locale", content: "en_IN" },
+      { name: "robots", content: "index, follow" },
+      { name: "geo.region", content: "IN-MP" },
+      { name: "geo.placename", content: "Indore" },
     ],
     links: [
       {
@@ -93,9 +105,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -125,6 +141,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <StickyCta />
       <Toaster position="top-center" />
     </QueryClientProvider>
   );
