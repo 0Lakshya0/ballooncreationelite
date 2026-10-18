@@ -378,3 +378,44 @@ test("a stalled Z.ai response body retains its bounded lease after timeout", asy
   assert.equal(diagnostic().code, "provider_timeout");
   assert.equal(lease().leased_until, clock + 60000);
 });
+
+test("first Z.ai success then 429 pauses only the selected test; automatic fallback remains available", async () => {
+  env.ENABLED_PROVIDERS = "gemini,groq,cloudflare,zai";
+  env.GEMINI_API_KEY = "test-gemini";
+  env.GEMINI_MODEL = "test-free-model";
+  env.GROQ_API_KEY = "test-groq";
+  env.GROQ_MODEL = "test-free-model";
+  env.AI = { run: async () => Response.json({ response: "Safe decoration ideas." }) };
+  const first = await ask();
+  assert.equal(first.status, 200);
+  assert.equal((await first.json()).provider, "zai");
+  network.mock.mockImplementation(async () =>
+    Response.json({ error: { code: "1302" } }, { status: 429 }),
+  );
+  const second = await ask();
+  assert.equal(second.status, 503);
+  assert.equal(diagnostic().code, "rate_or_quota_limit");
+  assert.equal(network.mock.calls.length, 2);
+  const third = await ask();
+  const thirdData = await third.json();
+  assert.equal(third.status, 503);
+  assert.equal(thirdData.error, "providers_cooling_down");
+  assert.equal(thirdData.diagnostics.providers[0].upstreamHttpStatus, 429);
+  assert.equal(network.mock.calls.length, 2, "cooldown must not send another upstream request");
+  const h = await health();
+  assert.deepEqual(h.setup.enabledProviders, ["gemini", "groq", "cloudflare", "zai"]);
+  assert.deepEqual(
+    h.diagnostics.providers.filter((p) => p.provider !== "zai").map((p) => p.retryAfterSeconds),
+    [0, 0, 0],
+  );
+  network.mock.mockImplementation(async () =>
+    Response.json({
+      candidates: [{ content: { parts: [{ text: "Safe alternative colours." }] } }],
+    }),
+  );
+  const fallback = await ask(null);
+  assert.equal(fallback.status, 200);
+  assert.equal((await fallback.json()).provider, "gemini");
+  assert.equal(network.mock.calls.length, 3);
+  assert(network.mock.calls[2].arguments[0].includes("generativelanguage.googleapis.com"));
+});
