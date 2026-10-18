@@ -230,3 +230,25 @@ Fresh official research, before asking the owner for another account/key:
 - **Pollinations: not qualified as predictable ongoing-free capacity.** Official Terms say Quest Pollen/free grants create no entitlement to fixed future grant amounts/timing: https://enter.pollinations.ai/terms . Do not repeat third-party daily-free-credit claims as guaranteed service.
 
 Result: there is currently no newly verified fourth provider that can honestly be recommended as low-failure, production-eligible and ongoing ₹0. This is a screening result, not proof no such provider exists. No new account creation, Secret replacement, deployment, real AI calls or payment was performed/requested. Keep candidate status separate from working providers; protect the functioning pool while investigating remaining eligibility/capacity gaps.
+
+
+### Additional screening after repeated reliability request — 2026-10-18
+
+The owner again asks for the next provider only if failure risk is low. Do not turn this into another blind signup or claim the three-provider pool is complete. Further official checks rule out two commonly repeated free-API recommendations:
+
+- **GitHub Models:** the current canonical GitHub documentation states the service (including inference API, catalog/playground and BYOK) was fully retired on **July 30, 2026**: https://docs.github.com/en/github-models . Older Enterprise Cloud pages/search results still describe free 150-RPD access, but do not override the explicit retirement notice. Never ask the owner for a PAT, reuse Arena's GitHub credentials, or treat Copilot as a replacement website inference API.
+- **Nscale:** current quickstart/overview includes adding at least $5 credit, while the changelog advertises $5 starter credits. Neither establishes an ongoing zero-cost quota; exclude under the no-payment/no-trial requirement. https://docs.nscale.com/docs/getting-started/overview ; https://docs.nscale.com/changelog/changelog .
+
+No new fourth provider has been qualified. No account, API key, real inference, deployment or runtime change was requested/performed. Existing Z.ai removal remains independently confirmed by health v7. The honest current outcome is a working configured three-provider pool with the larger reliable ongoing-₹0 expansion still unresolved—not a reason to manufacture a low-failure claim or ask for repeated tests.
+
+
+### Deeper research result and next evaluation — 2026-10-18
+
+Full deliverable: `PROVIDER-RESEARCH-2026-10-18.md`. Research only: no new real inference, account, key, deployment, activation or website/hosting change. No new provider is production-qualified yet.
+
+- **Mistral Free mode / Mistral Small 4:** next direct-provider **evaluation** candidate, not guaranteed reliable or production-approved. First inspect actual Free per-model/monthly limits and clarify the no-card commercial-terms issue (Additional Terms §2 vs no-card quickstart). Do not repeat unverified third-party $10/month or 1B-token numbers. No key/code before the quota gate; no PAYG, payment or trial upgrade.
+- **Aion Labs:** newly verified official Free **15 RPM, 20k TPM, 20k tokens/day**, daily allowance without card, Terms §4 explicitly allow commercial end-user apps. However, small daily budget (roughly 13–28 questions at 700–1500 total tokens each), roleplay/storytelling model focus and untested latency/safety/Hinglish quality mean a small secondary candidate only. No account/model chosen or live test performed.
+- **Netlify AI Gateway:** promising official recurring **300-credit/month** Free budget and listed GPT-4.1-nano model, but the **full Self-Serve Agreement §2.7 requires Netlify Functions to primarily serve a Netlify-hosted website**. This blocks assuming a standalone external bridge for our Cloudflare/HTMLPreview setup. The preliminary promising-candidate commentary was corrected after this terms check. Do not create a dummy site, export managed keys, migrate hosting or implement that bridge without a compliant architecture/explicit permission and owner approval. Conditional nano budget math (~2.5k–3.6k short answers/month under specified compute/token assumptions) does not apply to the current deployment and is not a throughput guarantee. Main-site hosting bandwidth would also consume the same free pool.
+- **Vercel Gateway/Modal:** official setup/billing require payment method; excluded. **Arli AI:** official free allowance only five requests per model every two days, not useful here. **inference.sh:** Starter has zero included monthly credits. **Novita:** official blogs conflict and live model catalog advertises time-limited free offers, not a verified ongoing service.
+
+Recommend proceeding only with a low-effort Mistral **Free account limits/eligibility inspection** before any adapter/Secret/deploy; it is not production approval. Preserve the functioning three-provider pool; keep Z.ai/OpenRouter disabled. Current main remains https://clck.ru/3WYxPa. Read the full report before changing this recommendation or advertising Netlify as an immediate external API option.
