@@ -17,3 +17,18 @@
 - Use one IntersectionObserver for early, one-time nested scroll reveals and CSS-only ambient/hover motion; reduced-motion users see all content without animation to keep the experience lightweight and accessible.
 - Stack invisible, aria-hidden tagline sizing copies in the headline grid so its longest sentence reserves stable space at every width without browser measurement.
 - Render middle-text showers as staggered CSS transform/opacity particles keyed to each text cycle, using full-height tracks so falling distance follows text height without measurement or layout shifts.
+
+## Owner request: always share the public preview link
+After every change to this website, finish the reply by giving the owner the
+public preview URL so they can open the running site directly:
+
+- Dev server: `npm run dev -- --host 0.0.0.0 --port 8080` (bound to 0.0.0.0)
+- Preview host allowlist: `vite.config.ts` sets `server.allowedHosts: true`
+- Public preview: `https://8080-<session-sandbox-id>.e2b.app`
+  (the session preview host the Arena platform shows for port 8080)
+
+If the sandbox has reset between sessions, the recovery routine is:
+1. `git fetch origin arena/d4819b41-ballooncreationelite`
+2. `git reset --hard origin/arena/d4819b41-ballooncreationelite`
+3. `npm install --legacy-peer-deps --no-audit --no-fund`
+4. restart the dev server on 0.0.0.0:8080 and verify `/` returns 200
