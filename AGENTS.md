@@ -24,8 +24,11 @@ public preview URL so they can open the running site directly:
 
 - Dev server: `npm run dev -- --host 0.0.0.0 --port 8080` (bound to 0.0.0.0)
 - Preview host allowlist: `vite.config.ts` sets `server.allowedHosts: true`
-- Public preview: `https://8080-<session-sandbox-id>.e2b.app`
-  (the session preview host the Arena platform shows for port 8080)
+- Public preview: `https://8080-<SANDBOX_ID>.e2b.app` where `<SANDBOX_ID>` is the
+  CURRENT session's `$E2B_SANDBOX_ID`. The id changes every time the sandbox is
+  recreated, so an old link dies with "SANDBOX NOT FOUND" / 502. Always read the
+  id from `echo $E2B_SANDBOX_ID` in the live session (or copy the link Arena
+  shows in its preview panel) — never reuse a link from an earlier message.
 
 If the sandbox has reset between sessions, the recovery routine is:
 1. `git fetch origin arena/d4819b41-ballooncreationelite`
