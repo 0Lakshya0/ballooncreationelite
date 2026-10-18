@@ -5,6 +5,23 @@ const ID_KEY = "bce-ai-visitor-id";
 let sessionId: string | undefined;
 
 export type AIAnswer = { answer: string; provider: string; remaining?: number };
+/** Provider identity is supplied by our backend, not guessed from answer text. */
+export function aiProviderLabel(provider: string): string {
+  switch (provider) {
+    case "gemini":
+      return "Gemini";
+    case "groq":
+      return "Groq";
+    case "cloudflare":
+      return "Cloudflare · Meta Llama 3.2";
+    case "zai":
+      return "Z.ai · GLM-4.7-Flash";
+    case "openrouter":
+      return "OpenRouter";
+    default:
+      return "AI";
+  }
+}
 export class AIRequestError extends Error {
   constructor(
     message: string,
@@ -71,7 +88,9 @@ export async function requestAI(question: string, signal: AbortSignal): Promise<
     throw new AIRequestError("No AI answer was received. Please try later.");
   return {
     answer: data.answer.slice(0, 6000),
-    provider: ["gemini", "groq", "openrouter"].includes(data.provider) ? data.provider : "ai",
+    provider: ["gemini", "groq", "cloudflare", "zai", "openrouter"].includes(data.provider)
+      ? data.provider
+      : "ai",
     ...(typeof data.remaining === "number" ? { remaining: data.remaining } : {}),
   };
 }

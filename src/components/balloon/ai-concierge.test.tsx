@@ -108,3 +108,26 @@ it("can dock using the keyboard without opening chat or spending allowance", asy
   expect(screen.queryByRole("dialog")).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });
+
+it.each([
+  ["cloudflare", "AI answer · Cloudflare · Meta Llama 3.2"],
+  ["zai", "AI answer · Z.ai · GLM-4.7-Flash"],
+])(
+  "discloses the actual %s model provider only after explicit successful Send",
+  async (provider, label) => {
+    vi.mocked(fetch).mockResolvedValue(
+      Response.json({ answer: "Soft gold palette.", provider, remaining: 49 }),
+    );
+    mount();
+    open();
+    expect(fetch).not.toHaveBeenCalled();
+    expect(screen.queryByText(label)).toBeNull();
+    fireEvent.change(screen.getByRole("textbox"), {
+      target: { value: "Suggest a pastel palette" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Send AI question" }));
+    await screen.findByText("Soft gold palette.");
+    expect(screen.getByText(label)).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledTimes(1);
+  },
+);

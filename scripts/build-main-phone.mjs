@@ -31,7 +31,7 @@ const css = fs
   )
   .replace(/<\/style/gi, "<\\/style");
 if (
-  /SUPABASE_SERVICE_ROLE_KEY|supabaseAdmin|submit_concierge|GEMINI_API_KEY|GROQ_API_KEY|OPENROUTER_API_KEY/.test(
+  /SUPABASE_SERVICE_ROLE_KEY|supabaseAdmin|submit_concierge|GEMINI_API_KEY|GROQ_API_KEY|OPENROUTER_API_KEY|ZAI_API_KEY/.test(
     js,
   )
 )

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import {
   AI_ENDPOINT,
   AIRequestError,
+  aiProviderLabel,
   aiVisitorId,
   localBusinessAnswer,
   requestAI,
@@ -91,3 +92,21 @@ it("does not mistake general-world price/time questions for studio details", () 
   expect(localBusinessAnswer("What is the price of gold?")).toBeNull();
   expect(localBusinessAnswer("What time is it in London?")).toBeNull();
 });
+
+it.each([
+  ["cloudflare", "cloudflare", "Cloudflare · Meta Llama 3.2"],
+  ["zai", "zai", "Z.ai · GLM-4.7-Flash"],
+  ["unrecognised", "ai", "AI"],
+  ["__proto__", "ai", "AI"],
+])(
+  "preserves honest backend identity for %s without guessing unknown providers",
+  async (provider, expected, label) => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      Response.json({ answer: "Safe decoration ideas.", provider }),
+    );
+    const result = await requestAI("A colour palette?", new AbortController().signal);
+    expect(result.provider).toBe(expected);
+    expect(aiProviderLabel(result.provider)).toBe(label);
+    expect(aiProviderLabel(provider)).toBe(label);
+  },
+);

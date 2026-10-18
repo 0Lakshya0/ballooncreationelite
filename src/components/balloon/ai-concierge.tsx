@@ -10,7 +10,13 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowUpRight, MessageCircle, Send, X } from "lucide-react";
 import { AIConciergeContext } from "@/lib/ai-concierge-context";
-import { AI_QUESTION_LIMIT, AIRequestError, localBusinessAnswer, requestAI } from "@/lib/ai-client";
+import {
+  AI_QUESTION_LIMIT,
+  AIRequestError,
+  aiProviderLabel,
+  localBusinessAnswer,
+  requestAI,
+} from "@/lib/ai-client";
 import {
   clamp,
   dockPosition,
@@ -360,7 +366,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
                   <small>
                     {message.provider === "team"
                       ? "Confirmed business details · no AI request"
-                      : `AI answer · ${message.provider === "groq" ? "Groq" : message.provider === "gemini" ? "Gemini" : message.provider === "openrouter" ? "OpenRouter" : "AI"}`}
+                      : `AI answer · ${aiProviderLabel(message.provider)}`}
                   </small>
                 )}
                 {message.provider === "team" && (
