@@ -26,14 +26,20 @@ const good = () =>
     apiMode: "conversations",
     remaining: 40,
   });
-function fixture({ health = goodHealth, reply = good, storageBlocked = false } = {}) {
+function fixture({
+  health = goodHealth,
+  reply = good,
+  storageBlocked = false,
+  savedStorage,
+  copied = [],
+} = {}) {
   let clock = 100000,
     seq = 0;
   const timers = new Map(),
-    storage = new Map(),
+    storage = savedStorage || new Map(),
     calls = [];
   const nodes = Object.fromEntries(
-    ["start", "stop", "status", "result", "log"].map((id) => [
+    ["start", "stop", "status", "result", "log", "copy", "save-status"].map((id) => [
       id,
       {
         textContent: "",
@@ -49,7 +55,14 @@ function fixture({ health = goodHealth, reply = good, storageBlocked = false } =
       return clock;
     }
   }
+  const events = {};
   vm.runInNewContext(script, {
+    window: {
+      addEventListener(name, fn) {
+        events[name] = fn;
+      },
+    },
+    navigator: { clipboard: { writeText: async (text) => copied.push(text) } },
     document: { getElementById: (id) => nodes[id] },
     Date: Clock,
     crypto,
@@ -92,6 +105,8 @@ function fixture({ health = goodHealth, reply = good, storageBlocked = false } =
   }
   return {
     nodes,
+    events,
+    copied,
     calls,
     timers,
     storage,
@@ -429,4 +444,181 @@ test("provider zero-quota header diagnosis stops the paced test after one attemp
   await f.start();
   assert.equal(f.posts().length, 1);
   assert.match(f.nodes.result.textContent, /NOT qualified/);
+});
+
+const REPORT_KEY = "bce-mistral-conversations-capacity-report-v1";
+test("completed ten-answer report restores after reopening without any network or duplicate run", async () => {
+  const first = fixture();
+  const pending = first.start();
+  for (let i = 0; i < 9; i++) await first.next();
+  await pending;
+  const saved = JSON.parse(first.storage.get(REPORT_KEY));
+  assert.equal(saved.records.filter((r) => r.ok).length, 10);
+  assert.equal(saved.phase, "finished");
+  first.events.pagehide();
+  const reopened = fixture({ savedStorage: first.storage });
+  assert.equal(reopened.calls.length, 0);
+  assert.match(reopened.nodes.result.textContent, /10\/10/);
+  assert.match(reopened.nodes.status.textContent, /Saved browser report restored/);
+  assert.match(reopened.nodes.result.textContent, /not an independent server audit/);
+  assert.equal(reopened.nodes.stop.disabled, true);
+  assert.match(reopened.nodes.start.textContent, /NEW check/);
+});
+test("three confirmed answers survive navigation; incomplete sample never becomes ten", async () => {
+  const first = fixture();
+  const pending = first.start();
+  await first.next();
+  await first.next();
+  assert.equal(first.posts().length, 3);
+  first.events.pagehide();
+  await pending;
+  const reopened = fixture({ savedStorage: first.storage });
+  assert.match(reopened.nodes.result.textContent, /3\/10/);
+  assert.match(reopened.nodes.result.textContent, /incomplete/);
+  assert.equal(reopened.calls.length, 0);
+});
+test("an in-flight checkpoint restores as uncertain, not as a completed answer or auto retry", async () => {
+  const first = fixture({
+    reply: (_u, o) =>
+      new Promise((_resolve, reject) =>
+        o.signal.addEventListener("abort", () => reject(Error("left"))),
+      ),
+  });
+  const pending = first.start();
+  await first.flush();
+  const checkpoint = new Map(first.storage);
+  const report = JSON.parse(checkpoint.get(REPORT_KEY));
+  assert.equal(report.phase, "request");
+  assert.equal(report.pendingQuestion, true);
+  assert.equal(report.attemptsSent, 1);
+  first.events.pagehide();
+  await pending;
+  const reopened = fixture({ savedStorage: checkpoint });
+  assert.match(reopened.nodes.result.textContent, /0\/10/);
+  assert.match(reopened.nodes.result.textContent, /completion is unknown/);
+  assert.equal(reopened.calls.length, 0);
+});
+test("pagehide on a restored report cannot overwrite it with an empty new run", async () => {
+  const first = fixture();
+  const pending = first.start();
+  await first.flush();
+  first.stop();
+  await pending;
+  const before = first.storage.get(REPORT_KEY);
+  const reopened = fixture({ savedStorage: first.storage });
+  reopened.events.pagehide();
+  assert.equal(first.storage.get(REPORT_KEY), before);
+  assert.equal(reopened.calls.length, 0);
+});
+test("copying a restored report spends no allowance and does not expose visitor identity", async () => {
+  const first = fixture();
+  const pending = first.start();
+  await first.flush();
+  first.stop();
+  await pending;
+  const copied = [];
+  const reopened = fixture({ savedStorage: first.storage, copied });
+  await reopened.nodes.copy.click();
+  assert.equal(copied.length, 1);
+  assert.match(copied[0], /1\/10/);
+  assert.equal(reopened.calls.length, 0);
+  assert(!copied[0].includes(first.storage.get("bce-ai-visitor-id")));
+});
+test("new explicit run backs up the old report and preserves the same visitor quota identity", async () => {
+  const first = fixture();
+  const pending = first.start();
+  await first.flush();
+  first.stop();
+  await pending;
+  const before = first.storage.get(REPORT_KEY),
+    id = first.storage.get("bce-ai-visitor-id");
+  const reopened = fixture({ savedStorage: first.storage });
+  assert.equal(reopened.calls.length, 0);
+  const nextRun = reopened.start();
+  await reopened.flush();
+  reopened.stop();
+  await nextRun;
+  assert.equal(reopened.storage.get(REPORT_KEY + ":previous"), before);
+  assert.equal(JSON.parse(reopened.posts()[0].options.body).visitorId, id);
+});
+test("storage failure is visible and never falsely claims progress was saved", async () => {
+  const f = fixture({ storageBlocked: true });
+  const pending = f.start();
+  await f.flush();
+  f.stop();
+  await pending;
+  assert.match(f.nodes["save-status"].textContent, /NOT saved/);
+  assert.equal(f.posts().length, 1);
+});
+test("tampered/out-of-range/oversize saved reports are ignored without inference or identity reset", () => {
+  const bad = [
+    "not json",
+    "x".repeat(20001),
+    JSON.stringify({
+      version: 1,
+      provider: "mistral",
+      apiMode: "conversations",
+      requestedModel: "mistral-small-latest",
+      phase: "finished",
+      pendingQuestion: false,
+      startedAt: 1,
+      updatedAt: 2,
+      attemptsSent: 11,
+      records: Array.from({ length: 11 }, () => ({ ok: true, detail: "invented" })),
+      finalMessage: "passed",
+    }),
+  ];
+  for (const value of bad) {
+    const map = new Map([
+      [REPORT_KEY, value],
+      ["bce-ai-visitor-id", "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"],
+    ]);
+    const f = fixture({ savedStorage: map });
+    assert.equal(f.calls.length, 0);
+    assert.match(f.nodes["save-status"].textContent, /not accepted as proof/);
+    assert.equal(map.get("bce-ai-visitor-id"), "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa");
+    assert(!f.nodes.result.textContent.includes("10/10"));
+  }
+});
+test("saved snippets are restored as plaintext and cannot create executable markup", async () => {
+  const first = fixture({
+    reply: () =>
+      Response.json({
+        answer: "<img onerror=alert(1)> Safe balloons.",
+        provider: "mistral",
+        model: "mistral-small-latest",
+        apiMode: "conversations",
+        modelVerification: "reported_alias",
+        remaining: 40,
+      }),
+  });
+  const pending = first.start();
+  await first.flush();
+  first.stop();
+  await pending;
+  const reopened = fixture({ savedStorage: first.storage });
+  assert.match(reopened.nodes.log.textContent, /<img onerror/);
+  assert.equal(reopened.nodes.log.innerHTML, undefined);
+  assert.equal(reopened.calls.length, 0);
+});
+test("an older helper with no persisted report cannot have its past count invented", () => {
+  const f = fixture();
+  assert.equal(f.calls.length, 0);
+  assert(!f.nodes.result.textContent.includes("10/10"));
+  assert.equal(f.storage.has(REPORT_KEY), false);
+});
+
+test("a stale page finishing after a new explicit run cannot overwrite the newer saved report", async () => {
+  const old = fixture();
+  const oldPending = old.start();
+  await old.flush();
+  const newer = fixture({ savedStorage: old.storage });
+  const newPending = newer.start();
+  await newer.flush();
+  const newerId = JSON.parse(newer.storage.get(REPORT_KEY)).reportId;
+  old.events.pagehide();
+  await oldPending;
+  assert.equal(JSON.parse(newer.storage.get(REPORT_KEY)).reportId, newerId);
+  newer.stop();
+  await newPending;
 });

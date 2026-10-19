@@ -2,6 +2,10 @@
 
 **Checked: 18 October 2026. Scope: Balloon Creation's current Cloudflare-backed, customer-facing website in India.**
 
+## Latest observed outcome — 19 October 2026
+
+The corrected Conversations API path now has a real Worker **OK/200** diagnostic (`2026-10-19T14:09:07.379Z`); the owner personally saw at least three benchmark answers. The full ten-request result is **unknown**, because the older helper's in-memory report was lost on navigation/reopen. Do not presume 10/10 or call it production-qualified. Future helper progress is now saved/restored locally without auto network/resume; it cannot recover the old count. Normal customer pool remains Gemini/Groq/Cloudflare and Mistral remains evaluation-only. No new real test was requested or performed for the report fix. Earlier research-stage statements below are historical.
+
 ## Latest evaluation finding — 19 October 2026
 
 The deployed Chat Completions Small snapshot evaluation failed at its first upstream request (429). The owner's official Studio returned a reply and exports **`/v1/conversations` with `mistral-small-latest`**, a different endpoint/model-alias context. A revised manual-only Conversations adapter is prepared with stateless storage, no tools and all existing quotas/ledger/cooldown preserved; **166 mocked tests pass**, but the revised public API path is not deployed/real-tested yet. The alias is not a frozen snapshot; response metadata must distinguish reported snapshot/alias from requested-only identity. This difference is not proof of the failure's cause, actual capacity or production entitlement. Conversations remains a preview API and customer activation is not approved. See the current Worker README before any action.

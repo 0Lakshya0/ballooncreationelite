@@ -107,6 +107,11 @@
       </ul>
       <button id="start" type="button">Start — up to 10 real questions</button>
       <button id="stop" type="button" disabled>Stop</button>
+      <button id="copy" type="button" disabled>Copy result</button>
+      <small id="save-status" aria-live="polite"
+        >New runs save progress in this browser. This cannot recover results from older unsaved
+        runs.</small
+      >
       <p id="status" aria-live="polite">Ready. Abhi koi network ya AI request nahi hui.</p>
       <div id="result" aria-live="polite"></div>
       <pre id="log"></pre>
@@ -121,6 +126,7 @@
         "use strict";
         const BASE = "https://ballooncreation-assistant.lakshyac909.workers.dev";
         const ID_KEY = "bce-ai-visitor-id";
+        const REPORT_KEY = "bce-mistral-conversations-capacity-report-v1";
         const GAP = 60000;
         const questions = [
           "Birthday ke liye teen safe pastel balloon decoration ideas Hinglish mein batao.",
@@ -139,6 +145,8 @@
         const status = document.getElementById("status");
         const result = document.getElementById("result");
         const log = document.getElementById("log");
+        const copy = document.getElementById("copy");
+        const saveStatus = document.getElementById("save-status");
         let started = false,
           stopped = false,
           controller,
@@ -146,7 +154,126 @@
           wake,
           attemptsSent = 0;
         const records = [];
-        let identity;
+        let identity,
+          phase = "idle",
+          pendingQuestion = false,
+          startedAt = 0,
+          finalMessage = "",
+          restoredReport,
+          reportId,
+          ownsReportSlot = false;
+        function renderLog(items) {
+          log.textContent = items
+            .map((r, i) => `${i + 1}. ${r.ok ? "OK" : "STOP"} · ${r.detail}`)
+            .join("\n");
+        }
+        function saveProgress(nextPhase) {
+          phase = nextPhase;
+          const report = {
+            version: 1,
+            reportId,
+            provider: "mistral",
+            apiMode: "conversations",
+            requestedModel: "mistral-small-latest",
+            phase,
+            pendingQuestion,
+            startedAt,
+            updatedAt: Date.now(),
+            attemptsSent,
+            records: records.map((r) => ({ ok: r.ok, detail: r.detail })),
+            finalMessage: finalMessage.slice(0, 2000),
+          };
+          try {
+            // An older page returning from browser cache must not overwrite a
+            // newer explicitly started report from another page/tab.
+            if (ownsReportSlot) {
+              const current = localStorage.getItem(REPORT_KEY);
+              if (current && JSON.parse(current).reportId !== reportId) {
+                saveStatus.textContent =
+                  "A newer report owns the saved slot; this older page will not overwrite it.";
+                return;
+              }
+            }
+            localStorage.setItem(REPORT_KEY, JSON.stringify(report));
+            ownsReportSlot = true;
+            saveStatus.textContent =
+              "Progress saved in this browser. Reload/reopen restores the report only; no automatic resume or retry.";
+          } catch {
+            saveStatus.textContent =
+              "Browser storage unavailable: progress is NOT saved. Keep this page open and copy the visible result before leaving.";
+          }
+          copy.disabled = false;
+        }
+        function restoreProgress() {
+          try {
+            const raw = localStorage.getItem(REPORT_KEY);
+            if (!raw) return;
+            if (raw.length > 20000) throw new Error("invalid_saved_report");
+            const saved = JSON.parse(raw);
+            const phases = ["preflight", "request", "waiting", "finished", "interrupted"];
+            if (
+              !saved ||
+              saved.version !== 1 ||
+              typeof saved.reportId !== "string" ||
+              !/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(saved.reportId) ||
+              saved.provider !== "mistral" ||
+              saved.apiMode !== "conversations" ||
+              saved.requestedModel !== "mistral-small-latest" ||
+              !phases.includes(saved.phase) ||
+              typeof saved.pendingQuestion !== "boolean" ||
+              !Number.isInteger(saved.attemptsSent) ||
+              saved.attemptsSent < 0 ||
+              saved.attemptsSent > 10 ||
+              !Array.isArray(saved.records) ||
+              saved.records.length > saved.attemptsSent ||
+              saved.records.some(
+                (r) =>
+                  !r ||
+                  typeof r.ok !== "boolean" ||
+                  typeof r.detail !== "string" ||
+                  r.detail.length > 600,
+              ) ||
+              typeof saved.finalMessage !== "string" ||
+              saved.finalMessage.length > 2000 ||
+              !Number.isFinite(saved.startedAt) ||
+              !Number.isFinite(saved.updatedAt)
+            )
+              throw new Error("invalid_saved_report");
+            restoredReport = saved;
+            const completed = saved.records.filter((r) => r.ok).length;
+            status.textContent = `Saved browser report restored (${new Date(saved.updatedAt).toLocaleString()}). No requests are running or automatically resumed.`;
+            result.textContent =
+              `${completed}/10 completed Mistral answers recorded locally.\nActual question attempts sent: ${saved.attemptsSent}.\n` +
+              (saved.phase === "finished"
+                ? saved.finalMessage
+                : "The previous page/run was interrupted or left. This is an incomplete sample.") +
+              (saved.pendingQuestion
+                ? "\nA request was in flight when last saved; its completion is unknown. Do not assume an answer arrived."
+                : "") +
+              "\nThis is a local browser report, not an independent server audit. No automatic resume/retry.";
+            renderLog(saved.records);
+            saveStatus.textContent =
+              "Restored only the saved local record. Old pre-save-version results cannot be recovered here.";
+            start.textContent = "Start a NEW check — up to 10 real questions";
+            copy.disabled = false;
+          } catch {
+            saveStatus.textContent =
+              "Saved report unreadable/unavailable; it was not accepted as proof. No request or automatic retry was made.";
+          }
+        }
+        restoreProgress();
+        copy.addEventListener("click", async () => {
+          const summary = [status.textContent, result.textContent, log.textContent].join("\n\n");
+          try {
+            if (typeof navigator === "undefined" || !navigator.clipboard?.writeText)
+              throw new Error("clipboard_unavailable");
+            await navigator.clipboard.writeText(summary);
+            saveStatus.textContent = "Visible result copied. No network or AI request was made.";
+          } catch {
+            saveStatus.textContent =
+              "Clipboard unavailable. Copy the visible result and log manually; no request was made.";
+          }
+        });
         function visitorId() {
           if (identity) return identity;
           try {
@@ -165,14 +292,16 @@
           return identity;
         }
         function finish(message) {
+          finalMessage = message;
           status.textContent = "Check finished. No more requests will be sent.";
           result.textContent = `${records.filter((r) => r.ok).length}/10 completed Mistral answers.\n${message}\nActual question attempts sent: ${attemptsSent}. No retry or paid fallback was used.`;
+          saveProgress("finished");
         }
         function record(data) {
-          records.push(data);
-          log.textContent = records
-            .map((r, i) => `${i + 1}. ${r.ok ? "OK" : "STOP"} · ${r.detail}`)
-            .join("\n");
+          pendingQuestion = false;
+          records.push({ ok: data.ok === true, detail: String(data.detail).slice(0, 600) });
+          renderLog(records);
+          saveProgress("waiting");
         }
         function delay(ms) {
           return new Promise((resolve) => {
@@ -210,9 +339,38 @@
           stop.disabled = true;
           status.textContent = "Stopping. An already-sent request may still use allowance.";
         });
+        if (typeof window !== "undefined")
+          window.addEventListener("pagehide", () => {
+            if (!started || phase === "finished") return;
+            stopped = true;
+            saveProgress("interrupted");
+            controller?.abort();
+            clearTimeout(waitTimer);
+            wake?.();
+            wake = null;
+            stop.disabled = true;
+          });
         start.addEventListener("click", async () => {
           if (started) return;
+          // New explicit consent, never a silent continuation of an interrupted run.
+          if (restoredReport) {
+            try {
+              localStorage.setItem(REPORT_KEY + ":previous", JSON.stringify(restoredReport));
+            } catch {
+              /* Current result still stays visible until explicit Start. */
+            }
+          }
+          records.length = 0;
+          attemptsSent = 0;
+          pendingQuestion = false;
+          finalMessage = "";
+          stopped = false;
+          reportId = crypto.randomUUID(); // Local report ID, never sent as visitor identity.
+          startedAt = Date.now();
+          result.textContent = "";
+          log.textContent = "";
           started = true;
+          saveProgress("preflight");
           start.disabled = true;
           stop.disabled = false;
           try {
@@ -266,6 +424,8 @@
               let response, data;
               try {
                 attemptsSent++;
+                pendingQuestion = true;
+                saveProgress("request");
                 ({ response, data } = await request(
                   "/chat",
                   {
