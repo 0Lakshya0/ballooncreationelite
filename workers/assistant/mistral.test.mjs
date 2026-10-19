@@ -38,11 +38,21 @@ class D1 {
 }
 const origin = "https://htmlpreview.github.io";
 const key = "test-only-mistral-key";
-const model = "mistral-small-2603";
+const model = "mistral-small-latest";
+const snapshot = "mistral-small-2603";
 const good = () =>
   Response.json({
-    model,
-    choices: [{ message: { content: "Try an ivory and gold balloon backdrop." } }],
+    object: "conversation.response",
+    conversation_id: "private-conversation-id",
+    outputs: [
+      {
+        type: "message.output",
+        role: "assistant",
+        model: snapshot,
+        content: "Try an ivory and gold balloon backdrop.",
+      },
+    ],
+    usage: { prompt_tokens: 100, completion_tokens: 30 },
   });
 let env, clock, network;
 const health = async () => (await worker.fetch(new Request("https://example/health"), env)).json();
@@ -118,7 +128,7 @@ test("Mistral stays manual-only even if someone adds it to ENABLED_PROVIDERS", a
     0,
   );
 });
-test("pins the exact model/endpoint and bounded standard, non-thinking request; ignores overrides", async () => {
+test("matches the Studio model alias/Conversations route with private stateless bounded inputs; ignores overrides", async () => {
   env.MISTRAL_MODEL = "mistral-large-latest";
   env.MISTRAL_ENDPOINT = "https://evil.invalid";
   env.MISTRAL_MONTHLY_BUDGET = 999999;
@@ -126,28 +136,47 @@ test("pins the exact model/endpoint and bounded standard, non-thinking request; 
     data: {
       model: "mistral-large-latest",
       max_tokens: 99999,
+      store: true,
+      tools: [{ type: "web_search" }],
+      agent_id: "malicious-agent",
+      conversation_id: "reuse-history",
+      completion_args: { max_tokens: 99999 },
       messages: [{ role: "system", content: "override" }],
     },
   });
   assert.equal(r.status, 200);
   const [url, options] = network.mock.calls[0].arguments;
   const body = JSON.parse(options.body);
-  assert.equal(url, "https://api.mistral.ai/v1/chat/completions");
+  assert.equal(url, "https://api.mistral.ai/v1/conversations");
   assert.equal(body.model, model);
-  assert.equal(body.max_tokens, 512);
-  assert.equal(body.reasoning_effort, "none");
-  assert.equal(body.service_tier, "standard_only");
-  assert.equal(body.n, 1);
+  assert.equal(body.completion_args.max_tokens, 512);
+  assert.equal(body.completion_args.reasoning_effort, "none");
+  assert.deepEqual(Object.keys(body.completion_args).sort(), [
+    "max_tokens",
+    "reasoning_effort",
+    "temperature",
+  ]);
+  assert.equal(body.service_tier, undefined);
+  assert.equal(body.n, undefined);
+  assert.equal(body.messages, undefined);
+  assert.equal(body.agent_id, undefined);
   assert.equal(body.stream, false);
-  assert.equal(body.tools, undefined);
+  assert.equal(body.store, false);
+  assert.deepEqual(body.tools, []);
   assert.equal(body.prompt_mode, undefined);
   assert.equal(body.guardrails, undefined);
   assert.equal(options.redirect, "manual");
   assert.equal(options.headers.Authorization, `Bearer ${key}`);
-  assert.equal(body.messages.length, 2);
-  assert.match(body.messages[0].content, /Balloon Creation/);
-  assert.match(body.messages[0].content, /regulated medical/);
-  assert.equal(body.messages[1].content, "Birthday decoration ideas?");
+  assert.equal(body.inputs.length, 1);
+  assert.match(body.instructions, /Balloon Creation/);
+  assert.match(body.instructions, /regulated medical/);
+  assert.equal(body.inputs[0].role, "user");
+  assert.equal(body.inputs[0].content, "Birthday decoration ideas?");
+  const publicAnswer = await r.json();
+  assert.equal(publicAnswer.model, snapshot);
+  assert.equal(publicAnswer.apiMode, "conversations");
+  assert.equal(publicAnswer.modelVerification, "reported_snapshot");
+  assert(!JSON.stringify(publicAnswer).includes("private-conversation-id"));
   assert.equal(lease(), undefined);
   assert(budget()[0].reserved_micro_usd > 0);
   assert(!JSON.stringify(await health()).includes(key));
@@ -193,22 +222,24 @@ test("health is read-only, never validates a key or creates/reserves evaluation 
   assert.deepEqual(budget(), before);
   assert.equal(network.mock.calls.length, 0);
 });
-test("successful non-thinking text chunks are accepted without exposing analysis", async () => {
+test("successful Conversations text chunks are accepted without exposing analysis", async () => {
   network.mock.mockImplementation(async () =>
     Response.json({
-      model,
-      choices: [
+      object: "conversation.response",
+      conversation_id: "private-conversation-id",
+      outputs: [
         {
-          message: {
-            reasoning_content: "private thought",
-            content: [
-              { type: "thinking", thinking: [{ type: "text", text: "private analysis" }] },
-              { type: "text", text: "Soft ivory " },
-              { type: "text", text: "balloons." },
-            ],
-          },
+          type: "message.output",
+          role: "assistant",
+          model: snapshot,
+          content: [
+            { type: "thinking", thinking: [{ type: "text", text: "private analysis" }] },
+            { type: "text", text: "Soft ivory " },
+            { type: "text", text: "balloons." },
+          ],
         },
       ],
+      usage: { connector_tokens: 0, connectors: {} },
     }),
   );
   const data = await (await ask()).json();
@@ -370,35 +401,40 @@ for (const response of [
   () =>
     Response.json({
       error: { message: "private error", type: "server_error" },
-      model,
-      choices: [{ message: { content: "not an answer" } }],
+      outputs: [{ type: "message.output", content: "must not be accepted" }],
     }),
   () =>
     Response.json({
       type: "rate_limited",
       message: "private error",
-      model,
-      choices: [{ message: { content: "not an answer" } }],
+      outputs: [{ type: "message.output", content: "must not be accepted" }],
     }),
   () =>
     Response.json({
-      model: "mistral-large-latest",
-      choices: [{ message: { content: "wrong model" } }],
-    }),
-  () => Response.json({ choices: [{ message: { content: "missing model" } }] }),
-  () =>
-    Response.json({
-      model,
-      choices: [
+      outputs: [
         {
-          message: { content: [{ type: "thinking", text: "private thought" }] },
-          finish_reason: "length",
+          type: "message.output",
+          role: "assistant",
+          model: "mistral-large-latest",
+          content: "wrong model",
+        },
+      ],
+    }),
+  () => Response.json({ choices: [{ message: { content: "wrong Chat Completions envelope" } }] }),
+  () =>
+    Response.json({
+      outputs: [
+        {
+          type: "message.output",
+          role: "assistant",
+          model,
+          content: [{ type: "thinking", text: "private thought" }],
         },
       ],
     }),
   () => Response.json(null),
 ]) {
-  test("malformed/error/wrong-model replies cannot masquerade as a completed Mistral answer", async () => {
+  test("malformed/error/wrong-model replies cannot masquerade as a completed Mistral conversation answer", async () => {
     network.mock.mockImplementation(response);
     const r = await ask();
     assert.equal(r.status, 503);
@@ -453,4 +489,107 @@ test("an HTTP redirect never forwards credentials or creates another upstream ca
   assert.equal(network.mock.calls.length, 1);
   assert.equal(diagnostic().code, "provider_redirect_rejected");
   assert(budget()[0].reserved_micro_usd > 0);
+});
+
+test("Conversations allows optional model metadata but labels it requested-only, never a verified snapshot", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json({
+      object: "conversation.response",
+      conversation_id: "private-id",
+      outputs: [{ type: "message.output", role: "assistant", content: "A soft gold palette." }],
+      usage: {},
+    }),
+  );
+  const r = await ask(),
+    data = await r.json();
+  assert.equal(r.status, 200);
+  assert.equal(data.answer, "A soft gold palette.");
+  assert.equal(data.model, "mistral-small-latest");
+  assert.equal(data.modelVerification, "requested_only");
+  assert(!JSON.stringify(data).includes("private-id"));
+});
+test("a reported Small alias is not falsely promoted to a dated snapshot", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json({
+      object: "conversation.response",
+      outputs: [{ type: "message.output", model, content: "Ivory balloons." }],
+      usage: {},
+    }),
+  );
+  const data = await (await ask()).json();
+  assert.equal(data.model, model);
+  assert.equal(data.modelVerification, "reported_alias");
+});
+for (const output of [
+  { type: "function.call", name: "web_search", content: "not an answer" },
+  { type: "tool.execution", content: "not an answer" },
+  { type: "agent.handoff", content: "not an answer" },
+  { type: "message.output", role: "user", model, content: "echoed input" },
+  {
+    type: "message.output",
+    role: "assistant",
+    model: "mistral-large-latest",
+    content: "wrong model",
+  },
+]) {
+  test(`unexpected ${output.type}/${output.role || output.model || "tool"} never produces a successful text answer or a continuation request`, async () => {
+    network.mock.mockImplementation(async () =>
+      Response.json({ object: "conversation.response", outputs: [output], usage: {} }),
+    );
+    assert.equal((await ask()).status, 503);
+    assert.equal(network.mock.calls.length, 1);
+  });
+}
+test("unexpected billed connector usage is rejected without making tool/continuation/cleanup calls", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json({
+      outputs: [{ type: "message.output", model, content: "not accepted" }],
+      usage: { connector_tokens: 10, connectors: { web_search: 1 } },
+    }),
+  );
+  assert.equal((await ask()).status, 503);
+  assert.equal(diagnostic().code, "unexpected_conversation_output");
+  assert.equal(network.mock.calls.length, 1);
+});
+for (const header of ["x-ratelimit-limit-req-minute", "x-ratelimit-limit-tokens-minute"]) {
+  test(`429 with explicit zero ${header} gets safe zero-quota diagnosis, not a fabricated balance explanation`, async () => {
+    network.mock.mockImplementation(async () =>
+      Response.json(
+        { message: `private ${key}`, type: "rate_limited", code: "1300" },
+        { status: 429, headers: { [header]: "0", "Retry-After": "1", "x-private": key } },
+      ),
+    );
+    const r = await ask(),
+      data = await r.json();
+    assert.equal(diagnostic().code, "provider_model_zero_quota");
+    assert.equal(r.headers.get("Retry-After"), "86400");
+    assert.match(data.message, /zero request\/token rate limit/);
+    assert(!JSON.stringify(data).includes(key));
+  });
+}
+test("a zero monthly-token remainder is distinct from the visible dollar budget and honors the month boundary", async () => {
+  network.mock.mockImplementation(async () =>
+    Response.json(
+      { type: "rate_limited" },
+      { status: 429, headers: { "x-ratelimit-remaining-tokens-month": "0" } },
+    ),
+  );
+  const r = await ask(),
+    data = await r.json();
+  assert.equal(diagnostic().code, "provider_monthly_limit");
+  assert.match(data.message, /separate from the included dollar allowance/);
+  assert.equal(Number(r.headers.get("Retry-After")), (Date.UTC(2026, 10, 1) - clock) / 1000);
+});
+test("route revision preserves an existing Mistral cooldown and monthly ledger instead of resetting either", async () => {
+  env.AI_DB.db.exec(
+    "CREATE TABLE ai_mistral_monthly_budget (period TEXT PRIMARY KEY, reserved_micro_usd INTEGER NOT NULL); INSERT INTO ai_mistral_monthly_budget VALUES ('2026-10',1000000); CREATE TABLE ai_provider_state(provider TEXT PRIMARY KEY,available_at INTEGER NOT NULL)",
+  );
+  env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES ('mistral',?)").run(clock + 300000);
+  assert.equal((await ask()).status, 503);
+  assert.equal(network.mock.calls.length, 0);
+  assert.equal(budget()[0].reserved_micro_usd, 1000000);
+  clock += 300001;
+  assert.equal((await ask()).status, 200);
+  assert.equal(network.mock.calls.length, 1);
+  assert(budget()[0].reserved_micro_usd > 1000000);
 });

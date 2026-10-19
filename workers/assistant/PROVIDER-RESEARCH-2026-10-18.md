@@ -2,6 +2,10 @@
 
 **Checked: 18 October 2026. Scope: Balloon Creation's current Cloudflare-backed, customer-facing website in India.**
 
+## Latest evaluation finding — 19 October 2026
+
+The deployed Chat Completions Small snapshot evaluation failed at its first upstream request (429). The owner's official Studio returned a reply and exports **`/v1/conversations` with `mistral-small-latest`**, a different endpoint/model-alias context. A revised manual-only Conversations adapter is prepared with stateless storage, no tools and all existing quotas/ledger/cooldown preserved; **166 mocked tests pass**, but the revised public API path is not deployed/real-tested yet. The alias is not a frozen snapshot; response metadata must distinguish reported snapshot/alias from requested-only identity. This difference is not proof of the failure's cause, actual capacity or production entitlement. Conversations remains a preview API and customer activation is not approved. See the current Worker README before any action.
+
 ## Account-specific update — 19 October 2026
 
 The owner's Mistral screenshots now confirm **Free plan**, **$10/month API/Studio allowance ($0 used)** and **PAYG currently off**, plus `mistral-small-2603` at **20k TPM / 1 RPS**. The separate Vibe Code allowance is not additional API credit. This clears the previously unknown numerical account-budget gate for evaluation; it does not establish real availability, sufficient daily throughput, or resolve the no-card commercial-terms ambiguity. The owner now confirms privately creating the key. A bounded manual-only evaluation adapter and tests are prepared; no real inference or production activation has occurred. Earlier findings below describe the pre-account research stage.

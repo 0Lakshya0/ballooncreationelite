@@ -11,14 +11,21 @@ const goodHealth = () =>
   Response.json({
     status: "configured",
     setup: { evaluationProviders: ["gemini", "groq", "cloudflare", "mistral"] },
-    mistral: { model: "mistral-small-2603", evaluationOnly: true },
+    mistral: { model: "mistral-small-latest", apiMode: "conversations", evaluationOnly: true },
     diagnostics: {
       storageReadable: true,
       providers: [{ provider: "mistral", retryAfterSeconds: 0 }],
     },
   });
 const good = () =>
-  Response.json({ answer: "Ivory and gold balloons.", provider: "mistral", remaining: 40 });
+  Response.json({
+    answer: "Ivory and gold balloons.",
+    provider: "mistral",
+    model: "mistral-small-2603",
+    modelVerification: "reported_snapshot",
+    apiMode: "conversations",
+    remaining: 40,
+  });
 function fixture({ health = goodHealth, reply = good, storageBlocked = false } = {}) {
   let clock = 100000,
     seq = 0;
@@ -167,7 +174,7 @@ test("active cooldown blocks all inference without clearing or shortening the pr
       Response.json({
         status: "configured",
         setup: { evaluationProviders: ["mistral"] },
-        mistral: { model: "mistral-small-2603", evaluationOnly: true },
+        mistral: { model: "mistral-small-latest", apiMode: "conversations", evaluationOnly: true },
         diagnostics: {
           storageReadable: true,
           providers: [{ provider: "mistral", retryAfterSeconds: 283 }],
@@ -193,7 +200,7 @@ test("missing, changed or unreadable setup never spends AI allowance", async () 
       Response.json({
         status: "configured",
         setup: { evaluationProviders: ["mistral"] },
-        mistral: { model: "mistral-small-2603", evaluationOnly: true },
+        mistral: { model: "mistral-small-latest", apiMode: "conversations", evaluationOnly: true },
         diagnostics: { storageReadable: false },
       }),
   ]) {
@@ -223,7 +230,15 @@ test("app daily limit is inconclusive and does not trigger identity reset or pai
 });
 test("remaining app allowance zero stops before another request", async () => {
   const f = fixture({
-    reply: () => Response.json({ answer: "Safe ideas.", provider: "mistral", remaining: 0 }),
+    reply: () =>
+      Response.json({
+        answer: "Safe ideas.",
+        provider: "mistral",
+        model: "mistral-small-latest",
+        modelVerification: "reported_alias",
+        apiMode: "conversations",
+        remaining: 0,
+      }),
   });
   await f.start();
   assert.equal(f.posts().length, 1);
@@ -277,6 +292,9 @@ test("safety refusal on a benign prompt is not presented as a usable capacity su
     reply: () =>
       Response.json({
         provider: "mistral",
+        model: "mistral-small-latest",
+        modelVerification: "requested_only",
+        apiMode: "conversations",
         answer:
           "I can help with safe decoration and event-planning ideas, but not instructions that could harm someone. Please contact our team for a safe alternative.",
       }),
@@ -336,6 +354,9 @@ test("capacity questions include English, Hindi and Hinglish; real answer snippe
       Response.json({
         answer: "<img onerror=alert(1)> Safe ivory balloons.",
         provider: "mistral",
+        model: "mistral-small-latest",
+        modelVerification: "reported_alias",
+        apiMode: "conversations",
         remaining: 40,
       }),
   });
@@ -345,4 +366,67 @@ test("capacity questions include English, Hindi and Hinglish; real answer snippe
   await pending;
   assert.match(f.nodes.log.textContent, /<img onerror/);
   assert.equal(f.nodes.log.innerHTML, undefined);
+});
+
+test("old Chat Completions setup cannot be mistaken for the new Conversations test", async () => {
+  const f = fixture({
+    health: () =>
+      Response.json({
+        status: "configured",
+        setup: { evaluationProviders: ["mistral"] },
+        mistral: { model: "mistral-small-2603", evaluationOnly: true },
+        diagnostics: {
+          storageReadable: true,
+          providers: [{ provider: "mistral", retryAfterSeconds: 0 }],
+        },
+      }),
+  });
+  await f.start();
+  assert.equal(f.posts().length, 0);
+});
+test("response proof must come from Conversations and a known requested/reported Small model", async () => {
+  for (const extra of [
+    { apiMode: "chat" },
+    { model: "mistral-large-latest" },
+    { modelVerification: "guessed" },
+  ]) {
+    const f = fixture({
+      reply: () =>
+        Response.json({
+          answer: "Not a verified route.",
+          provider: "mistral",
+          model: "mistral-small-latest",
+          apiMode: "conversations",
+          modelVerification: "reported_alias",
+          ...extra,
+        }),
+    });
+    await f.start();
+    assert.match(f.nodes.result.textContent, /0\/10/);
+    assert.equal(f.posts().length, 1);
+  }
+});
+test("provider zero-quota header diagnosis stops the paced test after one attempt without retry", async () => {
+  const f = fixture({
+    reply: () =>
+      Response.json(
+        {
+          error: "providers_unavailable",
+          diagnostics: {
+            providers: [
+              {
+                provider: "mistral",
+                lastResult: "provider_model_zero_quota",
+                upstreamHttpStatus: 429,
+                retryAfterSeconds: 86400,
+              },
+            ],
+          },
+        },
+        { status: 503 },
+      ),
+  });
+  await f.start();
+  assert.equal(f.posts().length, 1);
+  assert.match(f.nodes.result.textContent, /NOT qualified/);
 });

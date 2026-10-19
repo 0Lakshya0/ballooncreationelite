@@ -229,7 +229,7 @@ test("Z.ai-only test is explicit, keeps visitor identity and never changes activ
 });
 
 test("Mistral evaluation selector sends only an explicit Mistral request, never automatic fallback", async () => {
-  assert.match(html, /<option value="mistral">Mistral Small 4 only/);
+  assert.match(html, /<option value="mistral">Mistral Small Conversations only/);
   const f = fixture(() =>
     Response.json({ answer: "Safe ivory palette.", provider: "mistral", remaining: 49 }),
   );

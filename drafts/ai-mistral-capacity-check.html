@@ -79,11 +79,13 @@
   </head>
   <body>
     <main>
-      <small>Balloon Creation · Mistral Small 4 only</small>
+      <small>Balloon Creation · Mistral Small · Studio Conversations route</small>
       <h1>Does it answer more than one question?</h1>
       <p>
-        Sirf owner evaluation. Normal website fallback mein Mistral activate nahi hai. Free mode aur
-        PAYG off rakhna. Yeh controlled sample check hai—unlimited ya daily capacity ka proof nahi.
+        Sirf owner evaluation. Studio-exported Conversations route aur Small latest alias ka test
+        hai; frozen snapshot ka claim nahi. Normal website fallback mein Mistral activate nahi hai.
+        Free mode aur PAYG off rakhna. Yeh controlled sample check hai—unlimited ya daily capacity
+        ka proof nahi.
       </p>
       <ul>
         <li>
@@ -233,7 +235,8 @@
               !h ||
               h.status !== "configured" ||
               !h.setup?.evaluationProviders?.includes("mistral") ||
-              h.mistral?.model !== "mistral-small-2603" ||
+              h.mistral?.model !== "mistral-small-latest" ||
+              h.mistral?.apiMode !== "conversations" ||
               h.mistral?.evaluationOnly !== true
             ) {
               finish(
@@ -319,7 +322,9 @@
                 });
                 const providerLimited =
                   diag?.lastResult === "rate_or_quota_limit" ||
-                  diag?.lastResult === "free_access_unavailable";
+                  diag?.lastResult === "free_access_unavailable" ||
+                  diag?.lastResult === "provider_model_zero_quota" ||
+                  diag?.lastResult === "provider_monthly_limit";
                 finish(
                   providerLimited
                     ? "Provider limit/free-access block interrupted this paced sample. Mistral is NOT qualified for dependable capacity. Do not add payment, change models, clear cooldown or rotate keys."
@@ -329,6 +334,11 @@
               }
               if (
                 data.provider !== "mistral" ||
+                data.apiMode !== "conversations" ||
+                !["mistral-small-latest", "mistral-small-2603"].includes(data.model) ||
+                !["reported_snapshot", "reported_alias", "requested_only"].includes(
+                  data.modelVerification,
+                ) ||
                 typeof data.answer !== "string" ||
                 !data.answer.trim()
               ) {
@@ -356,7 +366,7 @@
               }
               record({
                 ok: true,
-                detail: `Mistral answer · ${(elapsed / 1000).toFixed(1)}s · ${data.answer.replace(/\s+/g, " ").slice(0, 160)}`,
+                detail: `Mistral answer (${data.model}; ${data.modelVerification}) · ${(elapsed / 1000).toFixed(1)}s · ${data.answer.replace(/\s+/g, " ").slice(0, 160)}`,
               });
               if (i === questions.length - 1) {
                 finish(
