@@ -227,3 +227,16 @@ test("Z.ai-only test is explicit, keeps visitor identity and never changes activ
   assert.equal(f.nodes.status.dataset.kind, "success");
   assert.match(f.nodes.details.textContent, /zai/i);
 });
+
+test("Mistral evaluation selector sends only an explicit Mistral request, never automatic fallback", async () => {
+  assert.match(html, /<option value="mistral">Mistral Small 4 only/);
+  const f = fixture(() =>
+    Response.json({ answer: "Safe ivory palette.", provider: "mistral", remaining: 49 }),
+  );
+  f.nodes.provider.value = "mistral";
+  assert.equal(f.calls.length, 0);
+  await f.submit();
+  assert.equal(JSON.parse(f.calls[0][1].body).provider, "mistral");
+  assert.equal(f.nodes.status.dataset.kind, "success");
+  assert.match(f.nodes.details.textContent, /mistral/i);
+});

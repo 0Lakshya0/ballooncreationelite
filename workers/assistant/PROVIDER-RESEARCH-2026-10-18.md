@@ -2,6 +2,10 @@
 
 **Checked: 18 October 2026. Scope: Balloon Creation's current Cloudflare-backed, customer-facing website in India.**
 
+## Account-specific update — 19 October 2026
+
+The owner's Mistral screenshots now confirm **Free plan**, **$10/month API/Studio allowance ($0 used)** and **PAYG currently off**, plus `mistral-small-2603` at **20k TPM / 1 RPS**. The separate Vibe Code allowance is not additional API credit. This clears the previously unknown numerical account-budget gate for evaluation; it does not establish real availability, sufficient daily throughput, or resolve the no-card commercial-terms ambiguity. The owner now confirms privately creating the key. A bounded manual-only evaluation adapter and tests are prepared; no real inference or production activation has occurred. Earlier findings below describe the pre-account research stage.
+
 ## Seedha nateeja
 
 **Fastest sensible next evaluation: Mistral AI Free mode, with Mistral Small 4 as the model to investigate. This is a candidate recommendation, NOT production approval or a reliability claim.** First inspect the actual free account's per-model rate/monthly allowance and resolve the commercial no-card terms ambiguity described below. Do not create a key, change Cloudflare, or activate another provider before that gate.
@@ -22,13 +26,13 @@ No newly researched provider has been deployed or called for real. No failure pr
 
 ## Ranked comparison
 
-| Option | Verified positive evidence | Remaining problem | Recommendation |
-|---|---|---|---|
-| **Mistral Free mode** | Official quickstart: API enabled by default, no card. Subscription docs: included monthly usage; with PAYG disabled, access can stop rather than spend prepaid funds. | Exact free-model throughput/monthly quota is account-visible, not established here. Official support describes the lowest Free limits as evaluation/prototyping. Commercial Additional Terms §2 mention a valid payment method, creating an unresolved no-card commercial-use documentation issue. | **Next account/terms qualification candidate**, not yet a production-approved provider. Inspect limits before any API key/code/deploy. |
-| **Aion Labs Free** | Default Free tier; 15 requests/minute, 20k tokens/minute and **20k tokens/day**. Pricing explicitly says daily allowance and no card. Terms §4 explicitly allow commercial apps serving end users. | Small daily allowance; models are roleplay/storytelling-oriented and some are multi-model/reasoning systems. Real performance, Hindi/Hinglish quality, safety and output-token accounting have not been tested. | Eligible to evaluate as a **small secondary direct provider**, not a high-volume/reliable primary. |
-| **Netlify AI Gateway + GPT-4.1-nano** | Free credit-based plan: 300 credits every month, hard limit, no auto recharge. AI Gateway available on Free; GPT-4.1-nano listed. Commercial Free hosting is explicitly supported. | **Architecture restriction:** Functions must primarily serve a Netlify-hosted website. Also shared monthly credit pool, production-deploy/compute/bandwidth charges, hard pause at exhaustion. Owner account activation/performance not verified. | **Conditional hosting-dependent alternative**, NOT a drop-in Cloudflare-only provider. No migration/account/bridge without approval. |
-| **Ollama Cloud Free** | Official pricing says Free included usage resets monthly, and Free allows one concurrent request with bounded queuing. API calls from apps are documented. | Included free amount/starter-model access and useful account capacity are not established. A one-concurrent-request figure is not a daily allowance. | Hold until account allowance and models are verified; no reliability claim. |
-| **OVHcloud anonymous AI Endpoints** | Official docs: anonymous access at 2 RPM per IP/model; 400 RPM is the authenticated tier. | Anonymous shared-IP rate is small, production/ongoing-free entitlement needs clarification; paid authenticated limits are not free allowance. | Not a primary low-failure recommendation for this website. No IP/key rotation. |
+| Option                                | Verified positive evidence                                                                                                                                                                         | Remaining problem                                                                                                                                                                                                                                                                                  | Recommendation                                                                                                                         |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mistral Free mode**                 | Official quickstart: API enabled by default, no card. Subscription docs: included monthly usage; with PAYG disabled, access can stop rather than spend prepaid funds.                              | Exact free-model throughput/monthly quota is account-visible, not established here. Official support describes the lowest Free limits as evaluation/prototyping. Commercial Additional Terms §2 mention a valid payment method, creating an unresolved no-card commercial-use documentation issue. | **Next account/terms qualification candidate**, not yet a production-approved provider. Inspect limits before any API key/code/deploy. |
+| **Aion Labs Free**                    | Default Free tier; 15 requests/minute, 20k tokens/minute and **20k tokens/day**. Pricing explicitly says daily allowance and no card. Terms §4 explicitly allow commercial apps serving end users. | Small daily allowance; models are roleplay/storytelling-oriented and some are multi-model/reasoning systems. Real performance, Hindi/Hinglish quality, safety and output-token accounting have not been tested.                                                                                    | Eligible to evaluate as a **small secondary direct provider**, not a high-volume/reliable primary.                                     |
+| **Netlify AI Gateway + GPT-4.1-nano** | Free credit-based plan: 300 credits every month, hard limit, no auto recharge. AI Gateway available on Free; GPT-4.1-nano listed. Commercial Free hosting is explicitly supported.                 | **Architecture restriction:** Functions must primarily serve a Netlify-hosted website. Also shared monthly credit pool, production-deploy/compute/bandwidth charges, hard pause at exhaustion. Owner account activation/performance not verified.                                                  | **Conditional hosting-dependent alternative**, NOT a drop-in Cloudflare-only provider. No migration/account/bridge without approval.   |
+| **Ollama Cloud Free**                 | Official pricing says Free included usage resets monthly, and Free allows one concurrent request with bounded queuing. API calls from apps are documented.                                         | Included free amount/starter-model access and useful account capacity are not established. A one-concurrent-request figure is not a daily allowance.                                                                                                                                               | Hold until account allowance and models are verified; no reliability claim.                                                            |
+| **OVHcloud anonymous AI Endpoints**   | Official docs: anonymous access at 2 RPM per IP/model; 400 RPM is the authenticated tier.                                                                                                          | Anonymous shared-IP rate is small, production/ongoing-free entitlement needs clarification; paid authenticated limits are not free allowance.                                                                                                                                                      | Not a primary low-failure recommendation for this website. No IP/key rotation.                                                         |
 
 ## 1. Mistral: best next direct-provider evaluation, with explicit gates
 
@@ -112,11 +116,11 @@ Published rates for GPT-4.1-nano: **$0.10/M input, $0.40/M output**. Netlify con
 
 Assume 250 of the 300 monthly credits remain for AI/compute/requests, with 50 reserved for deployment/other usage; assume a 1 GB function and no cache discount:
 
-| Per answer assumption | AI credits | Compute credits | Request credits | Approx. answers from 250 credits |
-|---|---:|---:|---:|---:|
-| 1,000 input + 512 output tokens, 5s runtime | 0.054864 | 0.013889 | 0.0002 | 3,625 |
-| 2,000 input + 512 output tokens, 10s runtime | 0.072864 | 0.027778 | 0.0002 | 2,479 |
-| 4,500 input + 512 output tokens, 20s runtime | 0.117864 | 0.055556 | 0.0002 | 1,439 |
+| Per answer assumption                        | AI credits | Compute credits | Request credits | Approx. answers from 250 credits |
+| -------------------------------------------- | ---------: | --------------: | --------------: | -------------------------------: |
+| 1,000 input + 512 output tokens, 5s runtime  |   0.054864 |        0.013889 |          0.0002 |                            3,625 |
+| 2,000 input + 512 output tokens, 10s runtime |   0.072864 |        0.027778 |          0.0002 |                            2,479 |
+| 4,500 input + 512 output tokens, 20s runtime |   0.117864 |        0.055556 |          0.0002 |                            1,439 |
 
 These are budget calculations only, excluding variable bandwidth and any other team/project use. They do not prove throughput, successful answers, provider availability or actual free-account access. More deployments, longer answers, idle/runtime overhead, other Netlify projects or large images reduce capacity. Unlimited Agent Runner use must not be assumed free.
 
@@ -126,22 +130,22 @@ Exhausting Free credits pauses all projects on the team until reset; an architec
 
 ## Options not recommended under the current constraints
 
-| Option | Reason / evidence |
-|---|---|
-| Z.ai | Already failed this owner's capacity qualification: first paced request got 429. Disabled and not to be retested. |
-| OpenRouter Free | Existing owner key, previous timeout/429 failures; disabled. Do not ask for a new key or paid top-up. |
-| NVIDIA API Catalog trial | Trial Terms §1.2/§1.4 prohibit production without a separate subscription. Model-weight licenses do not override API trial terms. |
-| Vercel AI Gateway | Current official getting-started requires a valid payment method for free credits; Hobby also has non-commercial restrictions. $5/month doesn't satisfy no-card eligibility. |
-| Modal | $30 recurring compute credits are real, but official billing/intro requires a payment method, including GPU access. |
-| GitHub Models | Current canonical documentation says fully retired 30 July 2026. Older free-limit pages are stale. Copilot is not a replacement website inference API. |
-| SiliconFlow international Qwen3-8B | Current official model page lists $0.06/M input and output, not zero. Starter credit/old Chinese-site free-model lists do not prove ongoing free access for this user. |
-| Novita | Official sources conflict, and live catalog/examples explicitly label some zero-price models **TIME LIMITED FREE**. Do not count a launch promo or referral credits as ongoing free allowance. |
-| inference.sh | Official Starter pricing has $0 included credits/month; free access to the platform is not free model compute. Promotional credits expire. |
-| Arli AI | Official text-generation docs say free accounts get **5 requests per model every 2 days for testing**. Not a useful sustained provider for this requirement. |
-| Pollinations | Free/Quest Pollen terms don't guarantee fixed future grants/amounts/timing. Not qualified as predictable business capacity. |
-| Cohere | Free trial API usage is non-commercial/evaluation, not this public business website. |
-| HF / SambaNova / Cerebras | Earlier official billing checks already failed the ongoing-no-card/no-payment requirements; don't repeat outdated roundup claims. |
-| Eden AI | No newly verified ongoing-free production allowance here. Free sandbox testing or BYOK is not an extra independent funded model quota. |
+| Option                             | Reason / evidence                                                                                                                                                                              |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Z.ai                               | Already failed this owner's capacity qualification: first paced request got 429. Disabled and not to be retested.                                                                              |
+| OpenRouter Free                    | Existing owner key, previous timeout/429 failures; disabled. Do not ask for a new key or paid top-up.                                                                                          |
+| NVIDIA API Catalog trial           | Trial Terms §1.2/§1.4 prohibit production without a separate subscription. Model-weight licenses do not override API trial terms.                                                              |
+| Vercel AI Gateway                  | Current official getting-started requires a valid payment method for free credits; Hobby also has non-commercial restrictions. $5/month doesn't satisfy no-card eligibility.                   |
+| Modal                              | $30 recurring compute credits are real, but official billing/intro requires a payment method, including GPU access.                                                                            |
+| GitHub Models                      | Current canonical documentation says fully retired 30 July 2026. Older free-limit pages are stale. Copilot is not a replacement website inference API.                                         |
+| SiliconFlow international Qwen3-8B | Current official model page lists $0.06/M input and output, not zero. Starter credit/old Chinese-site free-model lists do not prove ongoing free access for this user.                         |
+| Novita                             | Official sources conflict, and live catalog/examples explicitly label some zero-price models **TIME LIMITED FREE**. Do not count a launch promo or referral credits as ongoing free allowance. |
+| inference.sh                       | Official Starter pricing has $0 included credits/month; free access to the platform is not free model compute. Promotional credits expire.                                                     |
+| Arli AI                            | Official text-generation docs say free accounts get **5 requests per model every 2 days for testing**. Not a useful sustained provider for this requirement.                                   |
+| Pollinations                       | Free/Quest Pollen terms don't guarantee fixed future grants/amounts/timing. Not qualified as predictable business capacity.                                                                    |
+| Cohere                             | Free trial API usage is non-commercial/evaluation, not this public business website.                                                                                                           |
+| HF / SambaNova / Cerebras          | Earlier official billing checks already failed the ongoing-no-card/no-payment requirements; don't repeat outdated roundup claims.                                                              |
+| Eden AI                            | No newly verified ongoing-free production allowance here. Free sandbox testing or BYOK is not an extra independent funded model quota.                                                         |
 
 Additional official references:
 

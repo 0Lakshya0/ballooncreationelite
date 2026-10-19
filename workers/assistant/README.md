@@ -1,6 +1,6 @@
 # Balloon Creation — external AI backend
 
-**Current (2026-10-18): Z.ai removal independently verified.** After the owner confirmed the setting, fresh read-only health `zai-removed-owner-confirm-20261018-v7` reports enabled providers exactly `gemini,groq,cloudflare`, revision `zai-free-flash-pool-2`, unchanged limits and the existing successful diagnostics. The `zai` model metadata in health only describes the installed optional adapter; it does not mean Z.ai is enabled. Its failed qualification remains 0/10 with only one attempt actually sent. Do not retest/re-enable Z.ai or repeat its setup. The owner requires a larger **reliable** ongoing-₹0 pool, not providers useful for one or two questions. No fourth provider currently meets that verified reliability/eligibility threshold; the larger-pool task is unfinished. Do not promise a failure probability, sustained daily capacity or a completion date without evidence. Main website: https://clck.ru/3WYxPa. Older sections are historical.
+**Current (2026-10-19): Mistral owner account/key stage completed; evaluation code prepared, NOT deployed or answer-tested.** Owner screenshots confirm Free plan, $10/month API/Studio allowance ($0 used), PAYG off, `mistral-small-2603` at 20k TPM / 1 RPS; the owner confirms creating the key privately. Local release `mistral-free-evaluation-1` is manual-evaluation-only and cannot add Mistral to automatic customer fallback. Production remains Gemini/Groq/Cloudflare; Z.ai/OpenRouter stay disabled. New setup uses Secret `MISTRAL_API_KEY` and Text `MISTRAL_FREE_EVALUATION=true`, **without changing `ENABLED_PROVIDERS`**. No API-key value belongs in chat, screenshots, Git or frontend code. No real inference was performed. Live pre-update health remains `zai-free-flash-pool-2`. Main website: https://clck.ru/3WYxPa. Older sections are historical.
 
 **Built with Llama.** The proposed Cloudflare fallback uses Meta Llama 3.2 via Cloudflare Workers AI. [Model and license](https://developers.cloudflare.com/workers-ai/models/llama-3.2-3b-instruct/).
 
@@ -68,7 +68,7 @@ Requires Node 22.13+ for its built-in SQLite test adapter:
 
 ```sh
 node --check workers/assistant/worker.js
-node --test workers/assistant/worker.test.mjs workers/assistant/zai.test.mjs workers/assistant/connection-check.test.mjs workers/assistant/capacity-check.test.mjs
+node --test workers/assistant/*.test.mjs
 ```
 
 The tests use the worker's real SQLite SQL with in-memory `node:sqlite` and mocked provider HTTP responses, never real keys. They cover fail-closed setup, secret-safe status/errors, CORS, validation/body caps, visitor/IP/site/time quotas, conditional atomic reservations, reset, fallback order, Retry-After cooldown/recovery, free-only OpenRouter configuration, safety refusal handling and storage/network failures. They are not a live Cloudflare deployment, actual-provider availability, free-plan CPU benchmark or end-to-end real-answer verification.
@@ -209,13 +209,11 @@ Prepared `drafts/ai-zai-capacity-check.html`: **zero network on load**, explicit
 
 Capacity-check publication: **https://clck.ru/3WYypt** → HTMLPreview pinned `2f46865eb974423ad324cbef689308083ffe409b/drafts/ai-zai-capacity-check.html`. Public redirect/page render verified; GitHub blob `171042f4901d3f0df88f220b47997466738288e8`, **15,160 bytes**, matches local source. The page is still Ready with zero calls on load. No real capacity run has been started or completed by the agent. Owner Start is explicit consent to at most ten real attempts; result remains pending. Main website remains https://clck.ru/3WYxPa.
 
-
 ### Capacity qualification failed on the first attempt — 2026-10-18
 
 Owner screenshot of https://clck.ru/3WYypt confirms **0/10** completed Z.ai answers, **1** actual question attempt, HTTP 503 `providers_unavailable`, safe category `rate_or_quota_limit`, upstream HTTP **429**, 300s pause. This is not ten consumed AI attempts, proof of only one question/day, or an invalid user question. The remaining nine were never sent because the page stops on the first error. Read-only production health `zai-capacity-first-request-failed-owner-20261018-v6` independently confirms the fresh failure at `2026-10-18T13:11:05.034Z`, with 245s local cooldown remaining and the other providers unchanged.
 
 Decision: the account/model did not meet the owner's reliability requirement. Do not sell it as a useful backup based on the earlier single answer. Recommend removing only `zai` from `ENABLED_PROVIDERS`, not deleting Secrets or changing the functioning Worker source. Removal is owner-controlled and still pending health verification. Do not ask for another test, wait-and-retry cycle, top-up, model switch, extra account/key or payment. The next provider must have current official ongoing-zero-cost/production eligibility and meaningful usage evidence before any working-capacity claim.
-
 
 ### Removal confirmed; stricter next-provider screening — 2026-10-18
 
@@ -231,7 +229,6 @@ Fresh official research, before asking the owner for another account/key:
 
 Result: there is currently no newly verified fourth provider that can honestly be recommended as low-failure, production-eligible and ongoing ₹0. This is a screening result, not proof no such provider exists. No new account creation, Secret replacement, deployment, real AI calls or payment was performed/requested. Keep candidate status separate from working providers; protect the functioning pool while investigating remaining eligibility/capacity gaps.
 
-
 ### Additional screening after repeated reliability request — 2026-10-18
 
 The owner again asks for the next provider only if failure risk is low. Do not turn this into another blind signup or claim the three-provider pool is complete. Further official checks rule out two commonly repeated free-API recommendations:
@@ -240,7 +237,6 @@ The owner again asks for the next provider only if failure risk is low. Do not t
 - **Nscale:** current quickstart/overview includes adding at least $5 credit, while the changelog advertises $5 starter credits. Neither establishes an ongoing zero-cost quota; exclude under the no-payment/no-trial requirement. https://docs.nscale.com/docs/getting-started/overview ; https://docs.nscale.com/changelog/changelog .
 
 No new fourth provider has been qualified. No account, API key, real inference, deployment or runtime change was requested/performed. Existing Z.ai removal remains independently confirmed by health v7. The honest current outcome is a working configured three-provider pool with the larger reliable ongoing-₹0 expansion still unresolved—not a reason to manufacture a low-failure claim or ask for repeated tests.
-
 
 ### Deeper research result and next evaluation — 2026-10-18
 
@@ -252,3 +248,38 @@ Full deliverable: `PROVIDER-RESEARCH-2026-10-18.md`. Research only: no new real 
 - **Vercel Gateway/Modal:** official setup/billing require payment method; excluded. **Arli AI:** official free allowance only five requests per model every two days, not useful here. **inference.sh:** Starter has zero included monthly credits. **Novita:** official blogs conflict and live model catalog advertises time-limited free offers, not a verified ongoing service.
 
 Recommend proceeding only with a low-effort Mistral **Free account limits/eligibility inspection** before any adapter/Secret/deploy; it is not production approval. Preserve the functioning three-provider pool; keep Z.ai/OpenRouter disabled. Current main remains https://clck.ru/3WYxPa. Read the full report before changing this recommendation or advertising Netlify as an immediate external API option.
+
+### Mistral owner account evidence — 2026-10-19
+
+The owner supplied actual Limits and Subscription screenshots, superseding the previously unknown account-budget gate:
+
+- Limits card: exact `mistral-small-2603`, **20,000 tokens/minute**, **1.00 request/second**. These are throughput limits, not a daily request entitlement.
+- Subscription: **Current plan Free**. Included **API/Studio** usage shows **$0 used against a $10 monthly allowance**, resetting on the first calendar day of each month. The separate **$10 Vibe Code allowance must not be added** to the API budget.
+- API pay-as-you-go has an **Enable** button, so it is currently not enabled. The screen explicitly says API keys/free-tier use are available by default. Do not press Enable, add a card, purchase credits or upgrade.
+- Fresh official Small 4 Standard pricing remains $0.15/M input and $0.60/M output: https://docs.mistral.ai/inference/pricing . At 1,000 input + 512 output tokens, the credit-budget cost is $0.0004572/request (~21.8k requests from $10); 2,000 + 512 costs $0.0006072 (~16.5k). These are illustrative budget calculations, NOT measured completed answers, actual RPD or uptime guarantees. Allow for longer inputs, reasoning, shared Studio usage and operational buffers. App-wide 50/visitor, 200/IP, 500/site attempts per day still apply across providers.
+
+Next: reuse an existing suitable Mistral API key if one exists; otherwise create one privately in the existing workspace, named `balloon-creation`. Store its full value privately; never paste it in chat, a screenshot, browser code or Git. No key creation or inference was performed by the agent. Then prepare a pinned, bounded-output adapter/tests; do not activate automatically or count Mistral as working before controlled real validation. Keep Free mode/PAYG off and resolve the documented no-card commercial-use terms ambiguity before customer production approval. Z.ai/OpenRouter stay disabled; Gemini/Groq/Cloudflare remain untouched.
+
+## Reviewed Mistral manual-evaluation release — 2026-10-19
+
+**Local revision `mistral-free-evaluation-1`; not yet deployed. 151 mocked SQLite/controller tests pass, plus `node --check`.** This is not a real account/model availability or reliability result. Actual owner key value was never received or read. Existing native frontend/portable main, design, keys, bindings, origins, visitor identity and app caps are unchanged.
+
+### Source and safety guards
+
+- Exact GA model `mistral-small-2603`, standard `https://api.mistral.ai/v1/chat/completions`, no variable/client override, `reasoning_effort=none`, `service_tier=standard_only`, one non-streaming completion, 512 output tokens, no tools/search/priority add-ons. Model/API docs: https://docs.mistral.ai/models/mistral-small-4-0-26-03 ; https://docs.mistral.ai/api/endpoint/chat . Accept only that exact returned model and nonempty text (including text chunks, excluding thinking/tool chunks).
+- Explicit `MISTRAL_FREE_EVALUATION` must equal the string `true` and key must exist. Even if someone adds `mistral` to `ENABLED_PROVIDERS`, it cannot join automatic fallback in this revision. Health lists normal providers under `setup.enabledProviders` and Mistral separately under `setup.evaluationProviders`; metadata explicitly says `evaluationOnly: true`. Evaluation-only setup without a normal provider returns `evaluation_only` for ordinary requests without reserving quota/inference.
+- Owner must keep Free mode and PAYG off. The model itself is normally priced; the observed recurring Free allowance covers evaluation. Local cost reservations do NOT independently verify plan state or replace provider billing controls. No customer production activation until terms/quality/sustained availability are cleared.
+- Local **$8/calendar-UTC-month** reservation ceiling vs observed $10 Free allowance, using uncached Standard prices ($0.15/M input, $0.60/M output), conservative UTF-8-byte input upper bound +512 template margin and all 512 output tokens. No refunds on failed/uncertain requests. Shared Studio/other account use and future pricing can exhaust the actual Free allowance earlier; this is not an exact provider-balance meter.
+- **Separate** `ai_mistral_monthly_budget` and `ai_mistral_dispatches` tables: existing Cloudflare daily cleanup cannot erase monthly Mistral accounting. Atomic conditional SQL links one dispatch to its month reservation. Rolling 60s local token reservations cap at **18k**, minimum **1100ms** start gap, plus conservative one-in-flight 60s token-owned lease. These are below observed throughput limits, not promised provider capacity. Only explicit Mistral requests create these tables; normal providers' request SQL stays unchanged.
+- HTTP 402 stops Free-access probing until next UTC month, with no card/PAYG/top-up/upgrade advice. 429 honors Retry-After; no automatic retry or model/key switch. No raw errors, prompts, identity hashes, keys or internal lease tokens in diagnostics. Timeouts/disconnects retain their bounded lease and cost reservation; stale response tokens cannot release new owners.
+- Generic manual-test cooldown copy now correctly says **selected test provider** rather than implying every enabled website provider was disabled.
+- Existing quotas (50/visitor, 200/IP, 500/site attempts/day; 1500 chars; 2s gap) and 20s/provider, 32s shared, 3-attempt budgets are preserved. Adding evaluation does not rotate salts or reset visitor usage. Z.ai remains a disabled historical adapter, not a tested/recommended backup.
+
+### Owner-controlled setup sequence — one meaningful step at a time
+
+1. Current owner action: in the existing Cloudflare `ballooncreation-assistant` Worker, privately save Secret **`MISTRAL_API_KEY`** with the full key already created in Mistral, plus Text **`MISTRAL_FREE_EVALUATION=true`**. If already set correctly, do not recreate/replace them. Keep all existing keys/bindings and **`ENABLED_PROVIDERS=gemini,groq,cloudflare`** unchanged. Old deployed source ignores these two new fields; it does not call Mistral.
+2. Then deploy the reviewed complete Worker file once. This is changed code, not an unchanged repeat deployment. Verify revision and evaluation/normal-provider separation by read-only health before any real test.
+3. Publish/provide the prepared `drafts/ai-mistral-capacity-check.html` link only when setup is ready. It makes zero requests on load; Start explicitly authorizes at most ten selected-Mistral attempts, at least 60s apart, English/Hindi/Hinglish benign prompts, stopping on any failure without retries/fallback. Answer snippets render as plaintext for human review. Existing visitor identity/site caps apply. No payment/key entry on that page. A 10/10 sample is not a daily capacity, answer-quality or uptime guarantee.
+4. Keep customer automatic Mistral disabled. The commercial no-card terms ambiguity, actual successful answers/quality and sustained capacity are separate acceptance gates; do not call the larger provider pool finished.
+
+Tests: **107 earlier regressions +25 Mistral worker cases +18 Mistral capacity-controller cases +1 manual-selector case =151**. They cover disabled/free opt-in, automatic-pool exclusion, exact endpoint/model/body, Unicode/rolling rate guard, atomic month cap and rollover, Cloudflare/month-ledger isolation, lease/timeouts/no refunds, HTTP 402/429/redirect/malformed model/error replies, normal backup preservation, persistent identity, no automatic inference, paced ten-call ceiling, cancellation and plaintext multilingual answer previews. No new full-frontend visual regression is claimed because no frontend app/design code changed.

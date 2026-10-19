@@ -143,6 +143,7 @@
           <option value="cloudflare">Cloudflare Workers AI only</option>
           <option value="gemini">Gemini only</option>
           <option value="groq">Groq only</option>
+          <option value="mistral">Mistral Small 4 only — evaluation</option>
           <option value="zai">Z.ai GLM-4.7-Flash only</option>
           <option value="openrouter">OpenRouter only</option>
         </select>
@@ -222,7 +223,9 @@ Birthday ke liye 3 safe balloon decoration ideas Hinglish mein batao.</textarea>
               body: JSON.stringify({
                 question,
                 visitorId: visitorId(),
-                ...(["cloudflare", "gemini", "groq", "zai", "openrouter"].includes(provider.value)
+                ...(["cloudflare", "gemini", "groq", "mistral", "zai", "openrouter"].includes(
+                  provider.value,
+                )
                   ? { provider: provider.value }
                   : {}),
               }),

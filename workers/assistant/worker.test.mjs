@@ -360,7 +360,7 @@ test("legacy cooldown is observable without clearing it, spending quota or calli
   env.AI_DB.db.prepare("INSERT INTO ai_provider_state VALUES (?, ?)").run("gemini", clock + 60_000);
   const response = await worker.fetch(new Request("https://assistant.example/health"), env);
   const data = await response.json();
-  assert.equal(data.revision, "zai-free-flash-pool-2");
+  assert.equal(data.revision, "mistral-free-evaluation-1");
   assert.equal(data.diagnostics.providers[0].retryAfterSeconds, 60);
   assert.equal(data.diagnostics.providers[0].lastResult, "not_recorded_by_previous_version");
   assert.equal(network.mock.calls.length, 0);
@@ -500,7 +500,7 @@ test("one eligible provider gets a 20-second deadline rather than the old 8 seco
   const health = await (
     await worker.fetch(new Request("https://assistant.example/health"), env)
   ).json();
-  assert.equal(health.revision, "zai-free-flash-pool-2");
+  assert.equal(health.revision, "mistral-free-evaluation-1");
   assert.equal(health.timing.providerMaxSeconds, 20);
   assert.equal(health.timing.upstreamBudgetSeconds, 32);
 });
