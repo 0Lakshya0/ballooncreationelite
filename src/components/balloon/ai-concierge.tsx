@@ -21,7 +21,7 @@ import {
   clamp,
   dockPosition,
   DOCK_KEY,
-  ORB_SIZE,
+  orbDimensions,
   readDock,
   snapDock,
   type Dock,
@@ -39,6 +39,15 @@ const viewportNow = (): Viewport => ({
   height: window.visualViewport?.height || window.innerHeight,
   top: window.visualViewport?.offsetTop || 0,
 });
+
+// Reserve only the space occupied by the existing motion control, including the
+// higher mobile About placement. No global z-index/layout changes are needed.
+function leftDockClearance(height: number) {
+  const r = document.querySelector<HTMLElement>(".site-motion-control")?.getBoundingClientRect();
+  return r && r.width > 0 && r.height > 0 && r.bottom > height / 2
+    ? Math.max(14, height - r.top + 12)
+    : 14;
+}
 
 export function AIConciergeProvider({ children }: { children: ReactNode }) {
   const ref = useRef<Handle>(null);
@@ -86,7 +95,12 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
     const resize = () => {
       const current = viewportNow();
       setViewport(current);
-      const position = dockPosition(dockRef.current, current.width, current.height);
+      const position = dockPosition(
+        dockRef.current,
+        current.width,
+        current.height,
+        leftDockClearance(current.height),
+      );
       setPoint(position);
       pointRef.current = position;
       drag.current = null;
@@ -94,12 +108,14 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
     };
     resize();
     window.addEventListener("resize", resize);
+    document.addEventListener("bce:motionchange", resize);
     window.visualViewport?.addEventListener("resize", resize);
     window.visualViewport?.addEventListener("scroll", resize);
     return () => {
       alive.current = false;
       abort.current?.abort();
       window.removeEventListener("resize", resize);
+      document.removeEventListener("bce:motionchange", resize);
       window.visualViewport?.removeEventListener("resize", resize);
       window.visualViewport?.removeEventListener("scroll", resize);
     };
@@ -189,10 +205,20 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
 
   function settle(position: Point) {
     const current = viewportNow();
-    const next = snapDock(position, current.width, current.height);
+    const next = snapDock(
+      position,
+      current.width,
+      current.height,
+      leftDockClearance(current.height),
+    );
     setDock(next);
     dockRef.current = next;
-    const snapped = dockPosition(next, current.width, current.height);
+    const snapped = dockPosition(
+      next,
+      current.width,
+      current.height,
+      leftDockClearance(current.height),
+    );
     setPoint(snapped);
     pointRef.current = snapped;
     try {
@@ -241,7 +267,14 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
             id: event.pointerId,
             x: event.clientX,
             y: event.clientY,
-            origin: pointRef.current || dockPosition(dock, viewport.width, viewport.height),
+            origin:
+              pointRef.current ||
+              dockPosition(
+                dock,
+                viewport.width,
+                viewport.height,
+                leftDockClearance(viewport.height),
+              ),
             moved: false,
           };
           event.currentTarget.setPointerCapture?.(event.pointerId);
@@ -255,8 +288,16 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
           current.moved = true;
           setDragging(true);
           const next = {
-            x: clamp(current.origin.x + dx, 8, viewport.width - ORB_SIZE - 8),
-            y: clamp(current.origin.y + dy, 8, viewport.height - ORB_SIZE - 8),
+            x: clamp(
+              current.origin.x + dx,
+              8,
+              viewport.width - orbDimensions(viewport.width).width - 8,
+            ),
+            y: clamp(
+              current.origin.y + dy,
+              8,
+              viewport.height - orbDimensions(viewport.width).height - 8,
+            ),
           };
           setPoint(next);
           pointRef.current = next;
@@ -274,7 +315,9 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
         onKeyDown={(event) => {
           if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
           event.preventDefault();
-          const current = pointRef.current || dockPosition(dock, viewport.width, viewport.height);
+          const current =
+            pointRef.current ||
+            dockPosition(dock, viewport.width, viewport.height, leftDockClearance(viewport.height));
           settle({
             x:
               event.key === "ArrowLeft"
@@ -286,8 +329,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
           });
         }}
       >
-        <AIOrb paused={open} />
-        <span className="bce-ai-orb-caption">Ask AI</span>
+        <AIOrb paused={open || dragging} />
+        <span className="bce-ai-orb-caption">Ask Bloon</span>
       </button>
       <span id="bce-ai-drag-help" className="sr-only">
         Drag to move; release to dock at the nearest side. Arrow keys reposition. Enter opens chat.

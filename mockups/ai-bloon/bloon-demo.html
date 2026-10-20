@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bloon – AI mascot demo</title>
+<style>
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#faf6ef;font-family:system-ui,sans-serif;color:#4b3a3c}
+  .hint{position:fixed;top:24px;left:0;right:0;text-align:center;font-size:14px;opacity:.7}
+  .orb{position:relative;width:160px;height:160px;border:0;padding:0;background:transparent;cursor:pointer;filter:drop-shadow(0 12px 14px #784b472c)}
+  .orb::before{content:"";position:absolute;inset:20px 22px 22px;border-radius:50%;background:radial-gradient(circle at 42% 36%,#fffdf7d8,#eadfc6a1 58%,#d5c3a000 77%);transition:transform .28s}
+  .orb:hover::before{transform:scale(1.08)}
+  .mascot{position:relative;display:block;width:160px;height:160px;animation:float 3.8s ease-in-out infinite;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+  .mascot svg{display:block;width:160px;height:160px;overflow:visible}
+  .orb:hover .mascot{animation:none;transform:translateY(-6px) rotate(-3deg) scale(1.04)}
+  .bce-ai-wave-arm{opacity:0;transform:translate(3px,5px) scale(.84);transform-box:fill-box;transform-origin:20% 90%;transition:opacity .18s,transform .22s cubic-bezier(.2,.8,.2,1)}
+  .bce-ai-right-rest{transition:opacity .2s}
+  .is-greeting .bce-ai-right-rest{opacity:0}
+  .is-greeting .bce-ai-wave-arm{opacity:1;transform:none}
+  .bce-ai-wave-hand{transform-box:fill-box;transform-origin:20% 82%}
+  .is-greeting .bce-ai-wave-hand{animation:wave .52s ease-in-out 3}
+  .bce-ai-pupils{transform:translate(var(--x,0px),var(--y,0px));transition:transform .16s ease-out,opacity .18s}
+  .bce-ai-pupils rect{transform-box:fill-box;transform-origin:center;animation:blink 5.8s ease-in-out infinite}
+  .bce-ai-happy-eyes,.bce-ai-cheeks{opacity:0;transition:opacity .18s}
+  .is-greeting .bce-ai-pupils{opacity:0}
+  .is-greeting .bce-ai-happy-eyes,.is-greeting .bce-ai-cheeks{opacity:1}
+  .bubble{position:absolute;right:calc(100% + 6px);top:-6px;width:max-content;max-width:200px;padding:9px 13px;border:1px solid #e3c9b5;border-radius:16px 16px 4px 16px;background:linear-gradient(145deg,#fffdf9,#f7ebe2);box-shadow:0 8px 22px #4a33302e;font-weight:600;font-size:14px;line-height:1.35;opacity:0;transform:translateY(4px) scale(.92);transition:opacity .2s,transform .2s;pointer-events:none}
+  .is-greeting .bubble{opacity:1;transform:none}
+  .caption{position:absolute;top:calc(100% - 2px);left:50%;transform:translateX(-50%);padding:3px 12px;border:1px solid #dfc5a2;border-radius:999px;background:linear-gradient(180deg,#fffaf2,#f5e7d6);color:#87564c;font-weight:600;font-size:13px;letter-spacing:.04em;white-space:nowrap}
+  @keyframes float{50%{transform:translateY(-4px)}}
+  @keyframes wave{0%,100%{transform:rotate(0)}24%,72%{transform:rotate(15deg)}48%,90%{transform:rotate(-13deg)}}
+  @keyframes blink{0%,94%,96%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<p class="hint">Bloon par cursor le jao 👋 (har baar nayi greeting)</p>
+<button class="orb" id="orb" type="button" aria-label="Open Bloon chat">
+  <span class="mascot" id="mascot" aria-hidden="true">
+    <svg viewBox="0 0 100 100" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="headId" cx="30%" cy="20%" r="90%">
+            <stop offset="0%" stop-color="#fff6f0" />
+            <stop offset="20%" stop-color="#f7d9cb" />
+            <stop offset="46%" stop-color="#e3a996" />
+            <stop offset="72%" stop-color="#bd7a6c" />
+            <stop offset="100%" stop-color="#7d4a4f" />
+          </radialGradient>
+          <linearGradient id="rimId" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#fff8f2" stop-opacity="0.1" />
+            <stop offset="55%" stop-color="#fff8f2" stop-opacity="0" />
+            <stop offset="100%" stop-color="#4e2c36" stop-opacity="0.28" />
+          </linearGradient>
+          <linearGradient id="visorId" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3b3040" />
+            <stop offset="100%" stop-color="#1f1a25" />
+          </linearGradient>
+          <linearGradient id="suitId" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#5a4656" />
+            <stop offset="55%" stop-color="#3f3240" />
+            <stop offset="100%" stop-color="#2a222c" />
+          </linearGradient>
+          <linearGradient id="goldId" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f6e2b8" />
+            <stop offset="100%" stop-color="#b98d55" />
+          </linearGradient>
+          <filter id="glowId" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="0.9" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <clipPath id="clipId">
+            <path d="M50 3.5 C33.4 3.5 21 16.6 21 32.6 C21 46.6 30.2 56.6 43 60.2 L50 61.8 L57 60.2 C69.8 56.6 79 46.6 79 32.6 C79 16.6 66.6 3.5 50 3.5 Z" />
+          </clipPath>
+        </defs>
+        <g class="bce-ai-left-arm">
+          <path
+            d="M40.5 72 C36 75 33 79.5 31.5 84.5"
+            fill="none"
+            stroke="#3a2e3b"
+            stroke-linecap="round"
+            stroke-width="5.6"
+          />
+          <circle cx="31.2" cy="86" r="3.5" fill="#fffaf3" stroke="#c7ae94" stroke-width="0.9" />
+        </g>
+        <g class="bce-ai-right-rest">
+          <path
+            d="M59.5 72 C64 75 67 79.5 68.5 84.5"
+            fill="none"
+            stroke="#3a2e3b"
+            stroke-linecap="round"
+            stroke-width="5.6"
+          />
+          <circle cx="68.8" cy="86" r="3.5" fill="#fffaf3" stroke="#c7ae94" stroke-width="0.9" />
+        </g>
+        <path
+          class="bce-ai-torso"
+          d="M40 69.2 C36.6 75 36.2 84.5 38.2 92 C45 96.2 55 96.2 61.8 92 C63.8 84.5 63.4 75 60 69.2 C56 66.6 44 66.6 40 69.2Z"
+          fill="url(#suitId)"
+          stroke="#241d26"
+          stroke-opacity="0.55"
+          stroke-width="0.8"
+        />
+        <path d="M44.6 67.8 L50 79.5 L55.4 67.8 C53.6 67.3 46.4 67.3 44.6 67.8Z" fill="#fbf4ec" />
+        <path
+          d="M44.6 67.8 L50 79.5 L46.6 84 L41.6 71Z M55.4 67.8 L50 79.5 L53.4 84 L58.4 71Z"
+          fill="#4f3e4d"
+          stroke="#2a222c"
+          stroke-opacity="0.5"
+          stroke-width="0.5"
+        />
+        <path
+          d="M45.6 66.6 L50 68.9 L45.6 71.2Z M54.4 66.6 L50 68.9 L54.4 71.2Z"
+          fill="url(#goldId)"
+        />
+        <circle cx="50" cy="68.9" r="1.25" fill="#e9cf9c" />
+        <circle cx="56.4" cy="77.4" r="1.45" fill="url(#goldId)" />
+        <path d="M56.4 78.85 L56.4 80.4" stroke="#d9bb85" stroke-width="0.45" />
+        <path d="M47.2 61.2 L52.8 61.2 L51.6 64.6 L48.4 64.6Z" fill="#a8665f" />
+        <path
+          class="bce-ai-balloon-body"
+          d="M50 3.5 C33.4 3.5 21 16.6 21 32.6 C21 46.6 30.2 56.6 43 60.2 L50 61.8 L57 60.2 C69.8 56.6 79 46.6 79 32.6 C79 16.6 66.6 3.5 50 3.5 Z"
+          fill="url(#headId)"
+          stroke="#8a5552"
+          stroke-opacity="0.45"
+          stroke-width="1"
+        />
+        <path d="M50 3.5 C33.4 3.5 21 16.6 21 32.6 C21 46.6 30.2 56.6 43 60.2 L50 61.8 L57 60.2 C69.8 56.6 79 46.6 79 32.6 C79 16.6 66.6 3.5 50 3.5 Z" fill="url(#rimId)" />
+        <g clip-path="url(#clipId)">
+          <path
+            d="M32 12.5 C26.8 17.6 24.4 23.6 24.2 30 C24.2 31.8 26.2 31.9 26.6 30 C27.6 24.6 30.2 19.6 34.6 15.6 C36.6 13.8 33.8 10.8 32 12.5Z"
+            fill="#fffaf6"
+            opacity="0.7"
+          />
+          <ellipse
+            cx="39"
+            cy="9.6"
+            rx="4.6"
+            ry="1.5"
+            transform="rotate(-20 39 9.6)"
+            fill="#fffaf6"
+            opacity="0.75"
+          />
+        </g>
+        <rect
+          x="28.2"
+          y="20.5"
+          width="43.6"
+          height="28"
+          rx="14"
+          fill="url(#visorId)"
+          stroke="#fbe6da"
+          stroke-opacity="0.75"
+          stroke-width="1.1"
+        />
+        <path
+          d="M34 24.6 C40 22.6 60 22.6 66 24.6"
+          fill="none"
+          stroke="#ffffff"
+          stroke-linecap="round"
+          stroke-width="1.1"
+          opacity="0.16"
+        />
+        <g class="bce-ai-cheeks">
+          <ellipse cx="34.6" cy="41.4" rx="3" ry="1.6" fill="#f08f86" opacity="0.5" />
+          <ellipse cx="65.4" cy="41.4" rx="3" ry="1.6" fill="#f08f86" opacity="0.5" />
+        </g>
+        <g class="bce-ai-eyes" filter="url(#glowId)">
+          <g class="bce-ai-pupils">
+            <rect x="39.4" y="28.4" width="5.6" height="9.8" rx="2.8" fill="#fff4df" />
+            <rect x="55" y="28.4" width="5.6" height="9.8" rx="2.8" fill="#fff4df" />
+          </g>
+          <path
+            class="bce-ai-happy-eyes"
+            d="M39 34.6 Q42.2 29.8 45.4 34.6 M54.6 34.6 Q57.8 29.8 61 34.6"
+            fill="none"
+            stroke="#fff4df"
+            stroke-linecap="round"
+            stroke-width="2.2"
+          />
+          <path
+            class="bce-ai-smile"
+            d="M45.6 41.6 Q50 45.2 54.4 41.6"
+            fill="none"
+            stroke="#ffe7d0"
+            stroke-linecap="round"
+            stroke-width="1.7"
+          />
+        </g>
+        <g class="bce-ai-wave-arm">
+          <path
+            d="M59.5 72 C66.5 70 72 64 75.6 57.6"
+            fill="none"
+            stroke="#3a2e3b"
+            stroke-linecap="round"
+            stroke-width="5.6"
+          />
+          <g class="bce-ai-wave-hand">
+            <path
+              d="M76 57 C72.8 54.5 72 51.4 74 49.1 C75.8 47.1 78.1 48.8 79.2 51.7 L81.3 44.4 C82.1 41.3 85.1 42 85.2 45 L84.5 50.8 L87.3 44.3 C88.6 41.5 91.4 42.6 90.6 45.5 L88.4 52.1 L91.7 48.5 C93.7 46.4 96.1 48.2 94.7 50.8 L91.2 57 C88.9 61.1 82.2 63 78.4 59.6Z"
+              fill="#fffaf3"
+              stroke="#b89d82"
+              stroke-linejoin="round"
+              stroke-width="0.9"
+            />
+          </g>
+        </g>
+      </svg>
+    <span class="bubble" id="bubble"></span>
+  </span>
+  <span class="caption">Ask Bloon</span>
+</button>
+<script>
+  const greetings = [
+    "Hey! What are we celebrating?",
+    "Hello\u2014what mood are you imagining?",
+    "Welcome! How should guests feel?",
+    "Calm and elegant, or bold and bright?",
+    "What would make this feel like your day?",
+    "Need ideas to help guests feel at ease?",
+    "Want to shape the mood with light and colour?",
+    "Planning a moment that matters?",
+    "Let\u2019s create a warm, memorable welcome.",
+    "Tell me your vision; I\u2019ll help refine it.",
+  ];
+  let i = 0;
+  const orb = document.getElementById("orb"), mascot = document.getElementById("mascot"), bubble = document.getElementById("bubble");
+  const look = (e) => {
+    const r = orb.getBoundingClientRect();
+    const clamp = (v) => Math.max(-1, Math.min(1, v));
+    orb.style.setProperty("--x", (clamp((e.clientX - r.left - r.width / 2) / (r.width / 2)) * 1.4).toFixed(2) + "px");
+    orb.style.setProperty("--y", (clamp((e.clientY - r.top - r.height / 2) / (r.height / 2)) * 1.4).toFixed(2) + "px");
+  };
+  orb.addEventListener("pointerenter", (e) => {
+    if (e.pointerType === "touch") return;
+    look(e);
+    bubble.textContent = greetings[i++ % greetings.length];
+    mascot.classList.add("is-greeting");
+  });
+  orb.addEventListener("pointermove", (e) => { if (e.pointerType !== "touch") look(e); });
+  orb.addEventListener("pointerleave", () => {
+    mascot.classList.remove("is-greeting");
+    orb.style.setProperty("--x", "0px"); orb.style.setProperty("--y", "0px");
+  });
+</script>
+</body>
+</html>

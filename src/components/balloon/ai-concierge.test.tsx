@@ -131,3 +131,11 @@ it.each([
     expect(fetch).toHaveBeenCalledTimes(1);
   },
 );
+
+it("uses the owner-approved Ask Bloon caption without changing the shared chat or spending allowance", () => {
+  mount();
+  expect(screen.getByText("Ask Bloon")).toBeInTheDocument();
+  open();
+  expect(screen.getByRole("dialog")).toBeInTheDocument();
+  expect(fetch).not.toHaveBeenCalled();
+});

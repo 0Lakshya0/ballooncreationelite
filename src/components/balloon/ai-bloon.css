@@ -1,0 +1,177 @@
+/* Bloon: original owner SVG + animation values, scoped to the AI launcher only. */
+.bce-ai-bloon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: var(--bloon-size, 96px);
+  height: var(--bloon-size, 96px);
+  font-family: system-ui, sans-serif;
+  color: #4b3a3c;
+}
+.bce-ai-bloon::before {
+  content: "";
+  position: absolute;
+  inset: 12.5% 13.75% 13.75%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 36%, #fffdf7d8, #eadfc6a1 58%, #d5c3a000 77%);
+  transition: transform 0.28s;
+}
+.bce-ai-bloon[data-greeting="true"]::before {
+  transform: scale(1.08);
+}
+.bce-ai-mascot-visual {
+  position: relative;
+  display: block;
+  width: var(--bloon-size, 96px);
+  height: var(--bloon-size, 96px);
+  animation: bce-bloon-float 3.8s ease-in-out infinite;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bce-ai-mascot-visual svg {
+  display: block;
+  width: var(--bloon-size, 96px);
+  height: var(--bloon-size, 96px);
+  overflow: visible;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-mascot-visual {
+  animation: none;
+  transform: translateY(-6px) rotate(-3deg) scale(1.04);
+}
+.bce-ai-bloon .bce-ai-wave-arm {
+  opacity: 0;
+  transform: translate(3px, 5px) scale(0.84);
+  transform-box: fill-box;
+  transform-origin: 20% 90%;
+  transition:
+    opacity 0.18s,
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bce-ai-bloon .bce-ai-right-rest {
+  transition: opacity 0.2s;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-right-rest {
+  opacity: 0;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-wave-arm {
+  opacity: 1;
+  transform: none;
+}
+.bce-ai-bloon .bce-ai-wave-hand {
+  transform-box: fill-box;
+  transform-origin: 20% 82%;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-wave-hand {
+  animation: bce-bloon-wave 0.52s ease-in-out 3;
+}
+.bce-ai-bloon .bce-ai-pupils {
+  transform: translate(var(--x, 0px), var(--y, 0px));
+  transition:
+    transform 0.16s ease-out,
+    opacity 0.18s;
+}
+.bce-ai-bloon .bce-ai-pupils rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bce-bloon-blink 5.8s ease-in-out infinite;
+}
+.bce-ai-bloon .bce-ai-happy-eyes,
+.bce-ai-bloon .bce-ai-cheeks {
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-pupils {
+  opacity: 0;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-happy-eyes,
+.bce-ai-bloon[data-greeting="true"] .bce-ai-cheeks {
+  opacity: 1;
+}
+.bce-ai-bloon .bce-ai-greeting-bubble {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: var(--bloon-bubble-top, -6px);
+  box-sizing: content-box;
+  width: max-content;
+  max-width: min(200px, calc(100vw - var(--bloon-size, 96px) - 68px));
+  padding: 9px 13px;
+  border: 1px solid #e3c9b5;
+  border-radius: 16px 16px 4px 16px;
+  background: linear-gradient(145deg, #fffdf9, #f7ebe2);
+  box-shadow: 0 8px 22px #4a33302e;
+  color: #4b3a3c;
+  font:
+    600 14px/1.35 system-ui,
+    sans-serif;
+  text-align: left;
+  overflow-wrap: anywhere;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(4px) scale(0.92);
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    visibility 0.2s;
+  pointer-events: none;
+}
+.bce-ai-orb[data-side="left"] .bce-ai-greeting-bubble {
+  top: 18px;
+  right: auto;
+  left: calc(100% + 6px);
+  border-radius: 16px 16px 16px 4px;
+}
+.bce-ai-bloon[data-greeting="true"] .bce-ai-greeting-bubble {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+@keyframes bce-bloon-float {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes bce-bloon-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  24%,
+  72% {
+    transform: rotate(15deg);
+  }
+  48%,
+  90% {
+    transform: rotate(-13deg);
+  }
+}
+@keyframes bce-bloon-blink {
+  0%,
+  94%,
+  96%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+.bce-ai-bloon[data-motion="off"] *,
+.bce-ai-bloon[data-motion="off"]::before {
+  animation: none !important;
+  transition: none !important;
+}
+.bce-ai-bloon[data-motion="off"] .bce-ai-mascot-visual,
+.bce-ai-bloon[data-motion="off"]::before {
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bce-ai-bloon *,
+  .bce-ai-bloon::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .bce-ai-bloon .bce-ai-mascot-visual,
+  .bce-ai-bloon::before {
+    transform: none !important;
+  }
+}

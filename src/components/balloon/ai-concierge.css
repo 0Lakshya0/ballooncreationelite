@@ -1,13 +1,15 @@
-/* Self-contained warm-gold assistant; no changes to the existing search styling. */
+/* Owner-approved Bloon launcher; existing chat/search styles below stay unchanged. */
 .bce-ai-orb {
   position: fixed;
   z-index: 45;
-  width: 64px;
-  height: 64px;
+  --bloon-size: 96px;
+  width: var(--bloon-size);
+  height: calc(var(--bloon-size) + 26px);
   padding: 0;
   border: 0;
   background: transparent;
-  color: #fff5dc;
+  color: #4b3a3c;
+  font-family: system-ui, sans-serif;
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -16,77 +18,31 @@
     left 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
     top 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   outline-offset: 4px;
-  filter: drop-shadow(0 7px 7px #8e662b32);
+  filter: drop-shadow(0 12px 14px #784b472c);
 }
 .bce-ai-orb.is-dragging {
   cursor: grabbing;
   transition: none;
-  filter: drop-shadow(0 10px 9px #8e662b45);
-}
-.bce-ai-sphere {
-  display: block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-  transform: translateZ(0);
-}
-.bce-ai-sphere::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at 30% 22%,
-    #fff4c9 0%,
-    #e8c675 24%,
-    #be913e 52%,
-    #957036 80%,
-    #d9b267 100%
-  );
-  box-shadow:
-    inset -3px -4px 7px #7e58282b,
-    inset 2px 2px 5px #fff7df99;
-}
-.bce-ai-sphere:has(canvas[data-ready="true"])::before {
-  opacity: 0;
-}
-.bce-ai-sphere canvas {
-  position: absolute;
-  inset: 0;
-  width: 64px;
-  height: 64px;
-  opacity: 0;
-  pointer-events: none;
-}
-.bce-ai-sphere canvas[data-ready="true"] {
-  opacity: 1;
-}
-.bce-ai-monogram {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding-top: 1px;
-  font-family: var(--font-display, Georgia, serif);
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -1px;
-  text-shadow: 0 1px 3px #66491685;
-  pointer-events: none;
 }
 .bce-ai-orb-caption {
   position: absolute;
-  top: calc(100% - 2px);
-  left: 0;
-  width: 100%;
-  color: #8e734b;
-  font: 500 10px/1.4 var(--font-sans, sans-serif);
-  letter-spacing: 0.08em;
-  text-shadow: 0 1px 3px #fff8e4;
+  top: calc(var(--bloon-size) - 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  border: 1px solid #dfc5a2;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fffaf2, #f5e7d6);
+  color: #87564c;
+  font:
+    600 13px/1.2 system-ui,
+    sans-serif;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 .bce-ai-orb:focus-visible {
   outline: 2px solid #ac8441;
-  border-radius: 50%;
+  border-radius: 24px;
 }
 .bce-ai-overlay {
   position: fixed;
@@ -381,6 +337,9 @@
   }
 }
 @media (max-width: 480px) {
+  .bce-ai-orb {
+    --bloon-size: 84px;
+  }
   .bce-ai-panel {
     border-radius: 23px;
   }
