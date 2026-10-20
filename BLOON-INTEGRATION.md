@@ -25,7 +25,11 @@
 - Search browser response was intercepted locally: exactly one mock POST, **zero real AI calls**. No provider setup or capacity test performed.
 - Public immutable artifact/link provenance and exact portable smoke results are recorded separately in `PHONE-VIEW.md` after publication.
 
-## Published artifact
+## Original Bloon publication (historical)
 
 - MAIN: **https://clck.ru/3Wb9bY**. Source `da9a04ce6f4f6ef9ca934615ccccd0685edb8238`; artifact `a14db499e26a271e69e53e4342cb69d3e912eea7`.
 - Exact portable browser smoke PASS at 320/390/768/1440 in independent contexts with a simulated remote HTMLPreview base: responsive dimensions, bounded greetings, chat; desktop About/shared pause-resume; zero external requests/page errors. Inline script syntax/source metadata and GitHub blob integrity verified separately; public short-link redirect/render shows Ask Bloon.
+
+## Current MAIN after other-chat integration
+
+**https://clck.ru/3WbFXT** — source `ced2c252bc1fd3c2fbe81b961f0395129c2de1d4`, artifact `ed22bdbd92221a5a1734ef273592cb7ffaa487dc`. Same compact owner mascot/animations; docking now also reserves existing About/collection bars and new Home/service contact actions, using resize observation. See `PHONE-VIEW.md` for exact-artifact tests/provenance.

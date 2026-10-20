@@ -1,4 +1,22 @@
-## Latest MAIN website — compact owner-supplied Bloon mascot (2026-10-20)
+## Latest MAIN website — other-chat upgrades merged without replacing current features (2026-10-20)
+
+**https://clck.ru/3WbFXT**
+
+- Source `ced2c252bc1fd3c2fbe81b961f0395129c2de1d4`; immutable artifact `ed22bdbd92221a5a1734ef273592cb7ffaa487dc`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/ed22bdbd92221a5a1734ef273592cb7ffaa487dc/drafts/main-website-phone.html`.
+- GitHub API/local integrity match: blob `5fa49f4734da5b26ba83abcc8aae5a5ea6439353`, **12,347,581 bytes**. Embedded source metadata/inline script syntax verified. New short link successfully redirects and renders Home with new creation links, trust band, process and FAQ.
+- Incoming screenshot branch `arena/d4819b41-ballooncreationelite` head `556c469220a5bcd98ece07fa9128d30e09ae545c` is tree-identical to merged main/PR#1 commit `4d608f7a876ced1d605c504e913d1dee1f341cba`. Differences were selectively integrated on this session's branch, not a wholesale overwrite. Detailed scope/exclusions: `MAIN-UPGRADE-INTEGRATION.md`.
+- Added five detailed creation pages, working Home/header/related links, six-image galleries, three quote-only packages and FAQ per page, preselected enquiry forms, Home statistics/process/FAQ, navigation/progress and accessible areas modal, WebP photos, social/LocalBusiness/FAQ/Service/Breadcrumb metadata, contextual form error/WhatsApp fallback and scroll-triggered contact actions.
+- Existing About/collection bars are **not duplicated**. New contact bar appears only on Home/creation routes; existing route bars retain their own controls. Responsive Bloon docking observes their size changes and avoids the contact/pause controls. No restored footer or source-placeholder customer-review panels; no catalogue prices.
+- Approved actual logo, compact Bloon (84/96px), original SVG animations, shared chat/search/typewriter, About, 25-style/150-option collections and actual full-site WebGL liquid preserved. Worker/provider source/settings/secrets unchanged; provider expansion remains paused.
+- **96 frontend tests / 11 files**, TypeScript, targeted ESLint and native production build PASS. Native browser checks at 320/390/768/1440 verify unclipped header, actual advancing WebGL, dialogs/menu/Escape, creation/related navigation, form prefill, gallery/packages/FAQ, phone validation and contact clearance/motion controls. Final native actual-touch check verifies drag/tap/dock persistence, reduced motion and shared search using one intercepted mock; unknown service HTTP404 verified.
+- **Exact final artifact** Chromium PASS at 320/390/768/1440 under a simulated HTMLPreview remote base: responsive bounds, real advancing WebGL, new Home sections, creation navigation and fragment reload, loaded embedded hero images, gallery/packages, absent footer/proof, zero page errors and zero uncontrolled external requests. Mobile additionally checks **all five service deep links**, bottom-docked Bloon clear of new contact bar, About/collection navigation with no duplicate controls and their existing bars unobstructed. Desktop additionally checks shared search (one local intercepted mock), About and global pause/resume. This is separate from the successful public redirect/render fetch.
+- **Zero real AI calls, zero real enquiry submissions**. Public static form honestly cannot save to the private database and offers WhatsApp/call; no fake successful submission.
+- Native LIVE PREVIEW: **Balloon Creation website · 8080**. Old immutable links, including 3Wb9bY, remain previous versions. Intermediate 3WbFCg was superseded before delivery; use the new link above.
+
+---
+
+## Previous MAIN website — compact owner-supplied Bloon mascot (2026-10-20)
 
 **https://clck.ru/3Wb9bY**
 

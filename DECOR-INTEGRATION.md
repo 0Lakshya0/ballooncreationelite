@@ -1,6 +1,6 @@
 ## Current publication — 2026-10-20
 
-Main website: **https://clck.ru/3Wb9bY**. Owner-supplied compact Bloon launcher: 84px mobile / 96px desktop, original SVG look and animations; existing shared chat/search/drag/docking preserved. All approved About, collections and actual WebGL background source remain unchanged. Source `da9a04ce6f4f6ef9ca934615ccccd0685edb8238`, pinned portable artifact `a14db499e26a271e69e53e4342cb69d3e912eea7`. Publication/testing details: `PHONE-VIEW.md` and `BLOON-INTEGRATION.md`. AI/provider work remains paused; backend/settings untouched. Earlier links and visual checks below are historical.
+MAIN: **https://clck.ru/3WbFXT**. The other Arena chat's unique creation pages/site features are merged while this page's approved design/content, compact Bloon, shared chat/search and actual WebGL remain. No duplicate contact/selection bars or restored footer. Source `ced2c252bc1fd3c2fbe81b961f0395129c2de1d4`; pinned portable artifact `ed22bdbd92221a5a1734ef273592cb7ffaa487dc`. Details/results: `PHONE-VIEW.md` and `MAIN-UPGRADE-INTEGRATION.md`. Backend/provider settings untouched; AI expansion paused. Earlier links/tests below are historical.
 
 ---
 
