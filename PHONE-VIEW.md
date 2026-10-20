@@ -1,4 +1,20 @@
-## Latest MAIN website — accurate Cloudflare / Z.ai AI-answer attribution
+## Latest MAIN website — compact owner-supplied Bloon mascot (2026-10-20)
+
+**https://clck.ru/3Wb9bY**
+
+- Source `da9a04ce6f4f6ef9ca934615ccccd0685edb8238`; immutable artifact `a14db499e26a271e69e53e4342cb69d3e912eea7`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/a14db499e26a271e69e53e4342cb69d3e912eea7/drafts/main-website-phone.html`.
+- GitHub API verifies blob `7857f4667a0ee5d51ae4bc2dde3cc7e14c3e60ba`, **10,999,612 bytes**, matching local artifact. Embedded source metadata and inline script syntax verified. Public short link redirects to the pinned artifact and rendered updated Home with **Ask Bloon**.
+- Owner's exact uploaded SVG mascot replaces only the former AI orb visual. Final compact canvas: **84px mobile (≤480px), 96px desktop**; 26px extra caption space. Same gradients/geometry, floating/blinking, waving greeting arm, happy eyes/blush, cursor-following pupils, ten rotating local greetings and caption. Reference SHA and implementation details: `BLOON-INTEGRATION.md`.
+- Existing shared chat/search, mouse/touch drag, nearest-side snap, remembered height/side, keyboard focus/repositioning and global motion controls preserved. Left docking avoids obscuring the existing pause control. Main WebGL fluid, Home/About/collection design, search/typewriter, header, photos and removed footer unchanged.
+- **82 frontend tests / 9 files**, TypeScript, targeted ESLint and native production build PASS. Native compact width checks at 320/390/768/1440 completed in split runs; fresh actual-mobile browser verifies touch drag/tap, dock reload, reduced motion and shared search with exactly one intercepted mock response.
+- **Exact portable artifact** tested in Chromium at 320/390/768/1440 with independent contexts and a simulated HTMLPreview remote base: 84/84/96/96px launcher canvases, caption dimensions, viewport/greeting bounds, chat open/close, no page errors and **zero external requests**. Desktop additionally verifies About navigation, single shared launcher and shared pause/resume. These are exact-artifact browser tests, separate from the successful public redirect/render fetch.
+- **No real AI requests**, backend edits, keys, settings, provider deployment/research or capacity tests. AI provider work remains paused; older provider instructions/results below describe historical snapshots, not current action items.
+- Native LIVE PREVIEW remains **Balloon Creation website · port 8080**. Old immutable links (including 3WYxPa) retain the old orb; use the new main link above.
+
+---
+
+## Previous MAIN website — accurate Cloudflare / Z.ai AI-answer attribution
 
 **https://clck.ru/3WYxPa**
 

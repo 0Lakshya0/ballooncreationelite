@@ -1,6 +1,6 @@
-## Current publication — 2026-10-18
+## Current publication — 2026-10-20
 
-Main website: **https://clck.ru/3WYxPa**. Label-only AI provider attribution update; all approved design, About, collections and WebGL source are unchanged. Source `8c28aea35b9f4d50c067d5b4f6831b42ad3ddeba`, pinned portable artifact `6c4e7966842c87a8273789e94c854ac4ba521971`. Publication/testing details: `PHONE-VIEW.md`. Earlier links and visual checks below are historical.
+Main website: **https://clck.ru/3Wb9bY**. Owner-supplied compact Bloon launcher: 84px mobile / 96px desktop, original SVG look and animations; existing shared chat/search/drag/docking preserved. All approved About, collections and actual WebGL background source remain unchanged. Source `da9a04ce6f4f6ef9ca934615ccccd0685edb8238`, pinned portable artifact `a14db499e26a271e69e53e4342cb69d3e912eea7`. Publication/testing details: `PHONE-VIEW.md` and `BLOON-INTEGRATION.md`. AI/provider work remains paused; backend/settings untouched. Earlier links and visual checks below are historical.
 
 ---
 

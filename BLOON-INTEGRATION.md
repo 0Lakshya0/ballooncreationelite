@@ -24,3 +24,8 @@
 - Fresh actual mobile context (390px, mobile + touch enabled from creation): native touch drag left, no accidental dialog, tap to open, remembered dock on reload, reduced-motion animation suppression and shared-search submission PASS. Changing an existing desktop context to raw touch mid-run was not a reliable harness; it is not counted as a pass.
 - Search browser response was intercepted locally: exactly one mock POST, **zero real AI calls**. No provider setup or capacity test performed.
 - Public immutable artifact/link provenance and exact portable smoke results are recorded separately in `PHONE-VIEW.md` after publication.
+
+## Published artifact
+
+- MAIN: **https://clck.ru/3Wb9bY**. Source `da9a04ce6f4f6ef9ca934615ccccd0685edb8238`; artifact `a14db499e26a271e69e53e4342cb69d3e912eea7`.
+- Exact portable browser smoke PASS at 320/390/768/1440 in independent contexts with a simulated remote HTMLPreview base: responsive dimensions, bounded greetings, chat; desktop About/shared pause-resume; zero external requests/page errors. Inline script syntax/source metadata and GitHub blob integrity verified separately; public short-link redirect/render shows Ask Bloon.
