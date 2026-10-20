@@ -45,10 +45,10 @@ function portablePhoneView(): Plugin {
         id.endsWith("/service-details.ts")
       ) {
         const glob =
-          "import.meta.glob<string>('/src/assets/categories/*.webp', { eager: true, import: 'default' })";
-        if (!source.includes(glob))
+          /import\.meta\.glob<string>\(\s*["']\/src\/assets\/categories\/\*\.webp["'],\s*\{\s*eager:\s*true,\s*import:\s*["']default["'],?\s*\}\s*\)/;
+        if (!glob.test(source))
           throw new Error("Category photo glob changed; update the phone adapter.");
-        return source.replace(glob, JSON.stringify(thumbs));
+        return source.replace(glob, () => JSON.stringify(thumbs));
       }
       if (id.endsWith("/DecorTypesSection.tsx")) {
         const expected =
