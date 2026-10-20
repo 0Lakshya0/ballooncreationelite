@@ -1,3 +1,4 @@
+import { OccasionGrid } from "@/components/balloon/creations/OccasionGrid";
 import { openAreasDialog } from "@/lib/area-events";
 import { AreasTrigger } from "@/components/balloon/areas-dialog";
 import { SiteHeader } from "@/components/balloon/site-header";
@@ -328,46 +329,11 @@ function Index() {
                 we make every occasion unmistakably yours.
               </p>
               <span>
-                EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} />
+                EXPLORE ALL 20 OCCASIONS <ArrowDown size={14} />
               </span>
             </div>
           </div>
-          <div className="portfolio-grid">
-            {celebrations.map((item, index) => (
-              <article className={`creation reveal creation-${index + 1}`} key={item.name}>
-                <Link
-                  className="creation-image"
-                  to="/creations/$slug"
-                  params={{ slug: item.slug }}
-                  aria-label={`Explore ${item.name}`}
-                >
-                  <img
-                    src={item.image}
-                    alt={`${item.name}: bespoke luxury flower and balloon styling`}
-                    width={1024}
-                    height={1024}
-                    loading="lazy"
-                  />
-                  <span className="image-tag">{item.tag}</span>
-                  <span className="creation-hover">EXPLORE THE EXPERIENCE</span>
-                  <span className="image-action">
-                    <ArrowUpRight size={21} />
-                  </span>
-                </Link>
-                <div className="creation-caption">
-                  <span className="creation-index">0{index + 1}</span>
-                  <div>
-                    <h3>
-                      <Link to="/creations/$slug" params={{ slug: item.slug }}>
-                        {item.name}
-                      </Link>
-                    </h3>
-                    <p>{item.subtitle}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+          <OccasionGrid />
           <div className="portfolio-note reveal">
             <span>YOUR STORY. YOUR STYLE. YOUR ONE-OF-A-KIND CELEBRATION.</span>
             <a href="#concierge">

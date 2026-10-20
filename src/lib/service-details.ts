@@ -1,3 +1,4 @@
+import { getOccasion, occasionPages } from "./occasion-catalogue";
 import wedding from "@/assets/wedding.webp";
 import birthday from "@/assets/birthday.webp";
 import anniversary from "@/assets/anniversary.webp";
@@ -1086,6 +1087,7 @@ export const serviceDetails: ServiceDetail[] = [
   },
 ];
 
-export const getService = (slug: string) => serviceDetails.find((item) => item.slug === slug);
+export const getService = (slug: string) =>
+  getOccasion(slug) ?? serviceDetails.find((item) => item.slug === slug);
 
-export const serviceSlugs = serviceDetails.map((item) => item.slug);
+export const serviceSlugs = [...occasionPages, ...serviceDetails].map((item) => item.slug);

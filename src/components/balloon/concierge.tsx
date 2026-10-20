@@ -1,3 +1,5 @@
+import { occasionNames } from "@/lib/occasion-entries";
+import { signatureOccasionNames } from "@/lib/occasion-choices";
 import { STATIC_INQUIRY_MESSAGE } from "@/lib/concierge-messages";
 import { useState, type FormEvent } from "react";
 import {
@@ -10,7 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { celebrations, contact, whatsappLink } from "@/lib/celebrations";
+import { contact, whatsappLink } from "@/lib/celebrations";
 import { submitInquiry } from "@/lib/concierge.functions";
 
 const todayInIndia = () => new Date(Date.now() + 330 * 60_000).toISOString().slice(0, 10);
@@ -159,8 +161,8 @@ export function Concierge({
                     <option value="" disabled>
                       Select your celebration
                     </option>
-                    {celebrations.map((item) => (
-                      <option key={item.name}>{item.name}</option>
+                    {[...occasionNames, ...signatureOccasionNames].map((name) => (
+                      <option key={name}>{name}</option>
                     ))}
                   </select>
                 </label>

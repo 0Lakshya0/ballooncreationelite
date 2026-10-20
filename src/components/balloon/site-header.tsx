@@ -79,6 +79,9 @@ export function SiteHeader() {
               Our creations
             </Link>
             <div className="nav-drop-panel" role="group" aria-label="Our creations">
+              <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
+                Browse all 20 occasions <ArrowUpRight size={13} />
+              </Link>
               {serviceDetails.map((service) => (
                 <Link
                   key={service.slug}
@@ -116,6 +119,9 @@ export function SiteHeader() {
             <Phone size={14} /> {contact.label}
           </a>
           <div className="nav-mobile-only nav-mobile-creations">
+            <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
+              Browse all 20 occasions
+            </Link>
             {serviceDetails.map((service) => (
               <Link
                 key={service.slug}

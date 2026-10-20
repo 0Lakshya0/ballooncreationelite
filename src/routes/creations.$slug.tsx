@@ -1,3 +1,4 @@
+import { OccasionDetailPage } from "@/components/balloon/creations/OccasionDetailPage";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { SiteHeader } from "@/components/balloon/site-header";
@@ -109,5 +110,9 @@ function ServiceNotFound() {
 
 function ServicePage() {
   const service = Route.useLoaderData();
-  return <CreationDetailPage key={service.slug} service={service} />;
+  return "kind" in service ? (
+    <OccasionDetailPage key={service.slug} occasion={service} />
+  ) : (
+    <CreationDetailPage key={service.slug} service={service} />
+  );
 }

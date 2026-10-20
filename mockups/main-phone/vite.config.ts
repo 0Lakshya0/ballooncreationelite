@@ -42,7 +42,8 @@ function portablePhoneView(): Plugin {
         id.endsWith("/category-marquee.tsx") ||
         id.endsWith("/hero-slides.ts") ||
         id.endsWith("/celebrations.ts") ||
-        id.endsWith("/service-details.ts")
+        id.endsWith("/service-details.ts") ||
+        id.endsWith("/occasion-catalogue.ts")
       ) {
         const glob =
           /import\.meta\.glob<string>\(\s*["']\/src\/assets\/categories\/\*\.webp["'],\s*\{\s*eager:\s*true,\s*import:\s*["']default["'],?\s*\}\s*\)/;

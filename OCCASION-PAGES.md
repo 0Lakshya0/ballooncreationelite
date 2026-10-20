@@ -1,0 +1,21 @@
+# All 20 moving-circle occasions — simple customer journeys
+
+## Scope (owner request, 2026-10-20)
+
+Every existing circle now links to its matching occasion page. Home's previous five-card listing is replaced by a complete, matching 20-card browser: Birthday, Kids Birthday, Baby Shower, Welcome Baby, Naming Ceremony, Anniversary, Proposal, Room Surprise, First Night, Bachelor Party, Wedding, House Warming, Car Decoration, Pet Decoration, Farewell Party, Corporate Events, Showroom Setup, Grand Opening, Exhibition Stall, Annual Day Function.
+
+- Single name/slug/photo/group source: `occasion-entries.ts`; content/images/ideas/FAQs: `occasion-catalogue.ts`.
+- Home has all 20 cards, local name/description search, five group-filter buttons, accessible result count and reset for empty results. No data/API requests on filtering.
+- Same `/creations/$slug` route, simpler reusable `OccasionDetailPage` template for 20 new slugs. The five existing signature pages and URLs are retained (25 total supported slugs), accessible from the existing header menu; the menu also links to the full occasion browser.
+- Plain English matching the existing site: short introduction, four inclusion ideas, three selectable styling ideas, occasion-specific planning/safety/access note, optional date/area, four FAQs and three related occasions. No fixed catalogue prices, fabricated reviews, urgency claims, automatic booking or preset availability promise.
+- Suggestions for comfort: explicit **Help me choose** / unsure path, no required idea/date/venue, clear next steps, case-specific venue/pet/child/vehicle considerations, contextual WhatsApp draft, call and preselected callback links. No personal information is required on the new local planner.
+- Selecting/clearing an idea and editing optional fields only updates local React state. WhatsApp links encode occasion, selected idea (or unsure request), date and area; the customer reviews/sends in WhatsApp. No new AI usage, fetch, storage or automatic message submission. State resets when switching occasion routes.
+- Callback uses the existing Home enquiry form. UI choices and server-side occasion whitelist accept all 20 names plus the five existing signature names. Only that whitelist is extended: database schema/RPC, rate limiting, phone/date validation and secret handling are unchanged. The public static form still honestly cannot save private enquiries.
+- Original 20 circle names, photo mapping/order, carousel movement/keyboard controls, site search/typewriter, About, separate decor collection, logo, actual WebGL liquid and compact Bloon/chat/docking are preserved. Footer stays absent. No provider/key/Worker/configuration work, inference or real enquiry submission.
+
+## Verification
+
+- All 20 category-to-card/page/image/allowed-name mappings tested; five legacy slugs retained, unknown names/slugs rejected. Every new page render is tested for ideas, inclusions, FAQs, selection/clear, optional field draft, callback routing and zero fetches; local grid filtering/empty reset and circle link semantics covered.
+- Native Chromium at 320/390/768/1440: all 20 cards and circles; local filters/search; Car Decoration navigation/image; three ideas, four FAQs, select/unsure draft with date and area; callback prefills correct Home occasion; keyboard activation of Birthday circle; no horizontal overflow; real advancing WebGL, one Bloon and shared pause/resume; no page errors and zero AI calls. Afterward, title wording/breadcrumb layout were tightened without altering the journey. Final exact portable validation is recorded in `PHONE-VIEW.md`.
+- TypeScript, frontend suite, targeted ESLint and native production build run before publication. ESLint retains the existing component-plus-`categories` export fast-refresh warning in CategoryMarquee; no lint errors. Carousel mechanics are checked in the browser; its observer hook is mocked only for the unit link-semantics assertion.
+- Public artifact/link provenance and final test totals: `PHONE-VIEW.md` after publication.
