@@ -1,4 +1,21 @@
-## Latest MAIN website — other-chat upgrades merged without replacing current features (2026-10-20)
+## Latest MAIN website — all 20 circle occasions and simple customer pages (2026-10-20)
+
+**https://clck.ru/3WbQrC**
+
+- Runtime source `62c61e0e615c92dbebf4d0720a1c89ae9a54cfdd`; immutable phone artifact `3f829493a37d6236b9a6ad2edd9110e1ba170257`. Subsequent verification-only commit `d1da107` adds route tests for all 20 new slugs; no runtime/artifact change.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/3f829493a37d6236b9a6ad2edd9110e1ba170257/drafts/main-website-phone.html`.
+- Local/GitHub API integrity match: blob `bea5b15ac697549c7bcae3af37067620ddfc86d1`, **12,767,759 bytes**. Embedded source metadata and inline JavaScript syntax verified. Public short URL successfully redirects to this target and renders the updated Home: 20 occasion circles, all-20 card browser, filters and matching content. This public fetch/render check is separate from the exact-file Chromium checks below.
+- Every moving-circle occasion has a matching Home card and simple page, with four inclusion ideas, three selectable styling ideas, optional date/venue, clear/unsure path, practical planning note, four FAQs, related occasions and contextual WhatsApp/call/callback links. Full scope/data paths: `OCCASION-PAGES.md`. Home search/filter/reset is local. Existing five premium creation pages remain accessible, not replaced or redirected.
+- Callback uses the existing Home form with the correct occasion preselected. UI and native server-side **occasion whitelist only** expanded to accept 20 names plus existing five names; database schema/RPC, other validations, keys, Worker/providers/settings unchanged. **The phone artifact is static and cannot save a private database enquiry**; its existing truthful WhatsApp/call fallback remains. No fake successful submissions.
+- **140 frontend tests / 12 files**, TypeScript and native production build PASS. Targeted ESLint: no errors, one retained fast-refresh warning for CategoryMarquee's exported categories. Route tests cover all 20 new and five legacy paths; component/data tests cover mapping, content, filtering, selection, unsure path, contextual links and no automatic fetch.
+- Native Chromium **320/390/768/1440** PASS: 20 cards/circles, group/name filters, Car Decoration image/selection/clear, date/area WhatsApp draft, FAQ, correct callback prefill, Birthday circle keyboard activation, no horizontal overflow, advancing real WebGL, single Bloon and shared pause/resume, no page errors/AI calls. Final clean restart confirms correct Car heading and HTTP200 through preview Host.
+- **Exact final phone artifact**, independently loaded under simulated HTMLPreview/raw-GitHub base in Chromium at **320/390/768/1440**: 20 cards/circles; filter/empty reset; card navigation; Birthday deep-link fragment reload; loaded embedded images; selection and unsure WhatsApp drafts with date/area; callback prefill; keyboard circle activation; responsive bounds; advancing WebGL; one Bloon; chat dialog open/close and shared motion controls. Mobile additionally directly reloads **all 20 occasion fragment URLs**, checking images, three ideas, four FAQs, absent footer and no overflow; also tests reduced motion, original Mega Birthdays packages and About/collection navigation. All runs: **zero page errors and zero external requests**. Remote resources were intercepted/blocked for this deterministic exact-artifact test; no live AI or real leads were submitted.
+- About/25-style/150-option collections, compact owner SVG Bloon animations/84–96px size, shared AI/search/typewriter, brand, actual full-site WebGL, old signature content and absent footer preserved. AI work stays paused.
+- Native LIVE PREVIEW: **Balloon Creation website · port 8080**. `3WbFXT` and older links are immutable previous versions; use the new link above for all 20 journeys.
+
+---
+
+## Previous MAIN website — other-chat upgrades merged without replacing current features (2026-10-20)
 
 **https://clck.ru/3WbFXT**
 

@@ -1,3 +1,9 @@
+## Latest publication — 20 simple occasion pages (2026-10-20)
+
+MAIN: **https://clck.ru/3WbQrC**. Source `62c61e0e615c92dbebf4d0720a1c89ae9a54cfdd`; pinned phone artifact `3f829493a37d6236b9a6ad2edd9110e1ba170257`. Every circle now has a matching Home card and simple dedicated page, local filters/search, selectable ideas, unsure help and contextual contact. Existing five signature pages, About/collection, compact Bloon/chat/search and actual WebGL remain; footer stays absent. No provider/configuration changes or real AI/enquiry submissions. Only existing enquiry occasion validation was expanded (no database/RPC changes). Static phone view uses honest WhatsApp/call fallback, not private database saves. **140 tests / 12 files**, TypeScript, native build and four-width native/exact-phone browser checks pass; targeted lint has no errors/one existing refresh warning. Exact public redirect/render, GitHub blob integrity, detailed scope and test boundaries: `PHONE-VIEW.md`, `OCCASION-PAGES.md`. Older links/results below are historical.
+
+---
+
 # Bloon launcher — owner SVG integration
 
 ## Approved reference and size

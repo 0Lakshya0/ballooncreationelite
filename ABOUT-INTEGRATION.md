@@ -1,4 +1,10 @@
-## Current publication — 2026-10-20
+## Latest publication — 20 simple occasion pages (2026-10-20)
+
+MAIN: **https://clck.ru/3WbQrC**. Source `62c61e0e615c92dbebf4d0720a1c89ae9a54cfdd`; pinned phone artifact `3f829493a37d6236b9a6ad2edd9110e1ba170257`. Every circle now has a matching Home card and simple dedicated page, local filters/search, selectable ideas, unsure help and contextual contact. Existing five signature pages, About/collection, compact Bloon/chat/search and actual WebGL remain; footer stays absent. No provider/configuration changes or real AI/enquiry submissions. Only existing enquiry occasion validation was expanded (no database/RPC changes). Static phone view uses honest WhatsApp/call fallback, not private database saves. **140 tests / 12 files**, TypeScript, native build and four-width native/exact-phone browser checks pass; targeted lint has no errors/one existing refresh warning. Exact public redirect/render, GitHub blob integrity, detailed scope and test boundaries: `PHONE-VIEW.md`, `OCCASION-PAGES.md`. Older links/results below are historical.
+
+---
+
+## Previous publication — 2026-10-20
 
 MAIN: **https://clck.ru/3WbFXT**. The other Arena chat's unique creation pages/site features are merged while this page's approved design/content, compact Bloon, shared chat/search and actual WebGL remain. No duplicate contact/selection bars or restored footer. Source `ced2c252bc1fd3c2fbe81b961f0395129c2de1d4`; pinned portable artifact `ed22bdbd92221a5a1734ef273592cb7ffaa487dc`. Details/results: `PHONE-VIEW.md` and `MAIN-UPGRADE-INTEGRATION.md`. Backend/provider settings untouched; AI expansion paused. Earlier links/tests below are historical.
 
