@@ -34,11 +34,51 @@ import { heroSlides } from "@/lib/hero-slides";
 import logoAsset from "@/assets/profile-logo.jpg.asset.json";
 const logo = logoAsset.url;
 
+const SITE_URL = "https://ballooncreationelite.lovable.app";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Balloon Creation",
+  description:
+    "Bespoke flower and balloon styling for weddings, birthdays, anniversaries, baby showers and devotional celebrations in Indore. Expert setup in 2 hours.",
+  url: SITE_URL,
+  image: `${SITE_URL}/og-cover.jpg`,
+  telephone: "+91-74898-63753",
+  priceRange: "₹₹",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Indore",
+    addressRegion: "Madhya Pradesh",
+    addressCountry: "IN",
+  },
+  areaServed: { "@type": "City", name: "Indore" },
+  sameAs: [contact.instagram],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "09:00",
+      closes: "21:00",
+    },
+  ],
+};
+
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>): { occasion?: string } =>
-    typeof search["occasion"] === "string" && search["occasion"]
-      ? { occasion: search["occasion"] }
-      : {},
+  validateSearch: (search: Record<string, unknown>): { occasion?: string } => {
+    const occasion = search["occasion"];
+    return typeof occasion === "string" && occasion ? { occasion } : {};
+  },
   head: () => ({
     meta: [
       { title: "Balloon Creation — Bespoke Celebrations in Indore" },
@@ -47,6 +87,7 @@ export const Route = createFileRoute("/")({
         content:
           "Bespoke flower and balloon aesthetics for extraordinary weddings, birthdays and intimate celebrations. Discover Balloon Creation, Indore’s premier event boutique.",
       },
+      { name: "theme-color", content: "#fbf4e6" },
       { property: "og:title", content: "Balloon Creation — Beautifully Beyond Ordinary" },
       {
         property: "og:description",
@@ -54,23 +95,17 @@ export const Route = createFileRoute("/")({
           "Luxury flowers, sculptural balloons and magical memories. Bespoke celebrations in Indore, flawlessly set up in 2 hours.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://ballooncreationelite.lovable.app/og-cover.jpg" },
-      { name: "theme-color", content: "#fbf4e6" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: `${SITE_URL}/og-cover.jpg` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${SITE_URL}/og-cover.jpg` },
     ],
+    links: [{ rel: "canonical", href: SITE_URL }],
     scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }),
-      },
+      { type: "application/ld+json", children: JSON.stringify(structuredData) },
+      { type: "application/ld+json", children: JSON.stringify(faqData) },
     ],
   }),
   component: Index,

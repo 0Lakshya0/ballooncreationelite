@@ -32,7 +32,10 @@ export function StickyCta() {
       document.dispatchEvent(new Event("bce:layoutchange")),
     );
     return () => cancelAnimationFrame(frame);
-  }, [shown]);
+  }, [shown, pathname]);
+
+  // These pages already have their own contact/selection bar: do not duplicate it.
+  if (pathname === "/about" || pathname === "/decor-collections") return null;
 
   return (
     <>

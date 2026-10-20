@@ -45,8 +45,8 @@ function dockClearance(height: number, side: "left" | "right") {
   let clearance = 14;
   const selectors =
     side === "left"
-      ? [".site-motion-control", ".mobile-cta.is-shown"]
-      : [".wa-float.is-shown", ".mobile-cta.is-shown"];
+      ? [".site-motion-control", ".mobile-cta.is-shown", ".ab-mobile-bar", ".bce-decor .selbar"]
+      : [".wa-float.is-shown", ".mobile-cta.is-shown", ".ab-mobile-bar", ".bce-decor .selbar"];
   for (const selector of selectors) {
     const r = document.querySelector<HTMLElement>(selector)?.getBoundingClientRect();
     if (r && r.width > 0 && r.height > 0 && r.top < height && r.bottom > height / 2)
@@ -114,17 +114,29 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       setDragging(false);
     };
     resize();
+    const controls = typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
+    const layout = () => {
+      resize();
+      controls?.disconnect();
+      document
+        .querySelectorAll(
+          ".site-motion-control, .mobile-cta, .wa-float, .ab-mobile-bar, .bce-decor .selbar",
+        )
+        .forEach((el) => controls?.observe(el));
+    };
+    layout();
     window.addEventListener("resize", resize);
-    document.addEventListener("bce:motionchange", resize);
-    document.addEventListener("bce:layoutchange", resize);
+    document.addEventListener("bce:motionchange", layout);
+    document.addEventListener("bce:layoutchange", layout);
     window.visualViewport?.addEventListener("resize", resize);
     window.visualViewport?.addEventListener("scroll", resize);
     return () => {
       alive.current = false;
       abort.current?.abort();
       window.removeEventListener("resize", resize);
-      document.removeEventListener("bce:motionchange", resize);
-      document.removeEventListener("bce:layoutchange", resize);
+      document.removeEventListener("bce:motionchange", layout);
+      document.removeEventListener("bce:layoutchange", layout);
+      controls?.disconnect();
       window.visualViewport?.removeEventListener("resize", resize);
       window.visualViewport?.removeEventListener("scroll", resize);
     };
