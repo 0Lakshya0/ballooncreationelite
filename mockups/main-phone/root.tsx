@@ -1,3 +1,4 @@
+import { StickyCta } from "@/components/balloon/sticky-cta";
 import { AIConciergeProvider } from "@/components/balloon/ai-concierge";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
@@ -11,6 +12,7 @@ function PhoneRoot() {
     <QueryClientProvider client={queryClient}>
       <AIConciergeProvider>
         <Outlet />
+        <StickyCta />
       </AIConciergeProvider>
       <Toaster position="top-center" />
     </QueryClientProvider>

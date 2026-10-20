@@ -8,19 +8,22 @@ const router = createRouter({
   context: { queryClient: new QueryClient() },
   history: createMemoryHistory({
     initialEntries: [
-      window.location.hash === "#about"
-        ? "/about"
-        : window.location.hash === "#decor-collections"
-          ? "/decor-collections"
-          : "/",
+      window.location.hash.startsWith("#creations/")
+        ? "/" + window.location.hash.slice(1)
+        : window.location.hash === "#about"
+          ? "/about"
+          : window.location.hash === "#decor-collections"
+            ? "/decor-collections"
+            : "/",
     ],
   }),
   scrollRestoration: true,
 });
 router.subscribe("onResolved", () => {
   const { pathname, hash } = router.state.location;
-  const fragment =
-    pathname === "/about"
+  const fragment = pathname.startsWith("/creations/")
+    ? pathname.slice(1)
+    : pathname === "/about"
       ? "about"
       : pathname === "/decor-collections"
         ? "decor-collections"

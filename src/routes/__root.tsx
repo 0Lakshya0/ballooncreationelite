@@ -1,3 +1,4 @@
+import { StickyCta } from "@/components/balloon/sticky-cta";
 import { AIConciergeProvider } from "@/components/balloon/ai-concierge";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -136,6 +137,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <AIConciergeProvider><Outlet /></AIConciergeProvider> breaks all child routes. */}
       <AIConciergeProvider>
         <Outlet />
+        <StickyCta />
       </AIConciergeProvider>
       <Toaster position="top-center" />
     </QueryClientProvider>

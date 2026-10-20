@@ -14,6 +14,7 @@ export function dockPosition(
   width: number,
   height: number,
   leftBottomClearance = MARGIN,
+  rightBottomClearance = MARGIN,
 ): Point {
   const size = orbDimensions(width);
   return {
@@ -23,7 +24,10 @@ export function dockPosition(
       clamp(dock.ratio, 0, 1) *
         Math.max(
           0,
-          height - size.height - MARGIN - (dock.side === "left" ? leftBottomClearance : MARGIN),
+          height -
+            size.height -
+            MARGIN -
+            (dock.side === "left" ? leftBottomClearance : rightBottomClearance),
         ),
   };
 }
@@ -32,6 +36,7 @@ export function snapDock(
   width: number,
   height: number,
   leftBottomClearance = MARGIN,
+  rightBottomClearance = MARGIN,
 ): Dock {
   const size = orbDimensions(width);
   const side = point.x + size.width / 2 < width / 2 ? "left" : "right";
@@ -41,7 +46,10 @@ export function snapDock(
       (point.y - MARGIN) /
         Math.max(
           1,
-          height - size.height - MARGIN - (side === "left" ? leftBottomClearance : MARGIN),
+          height -
+            size.height -
+            MARGIN -
+            (side === "left" ? leftBottomClearance : rightBottomClearance),
         ),
       0,
       1,

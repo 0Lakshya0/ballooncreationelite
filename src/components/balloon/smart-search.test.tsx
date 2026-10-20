@@ -1,6 +1,6 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
-import { readFileSync } from "node:fs";
+import { indoreAreas as areas } from "@/lib/indore-areas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SmartSearch } from "./smart-search";
 import { categories } from "./category-marquee";
@@ -9,11 +9,7 @@ import { contact } from "@/lib/celebrations";
 const { toastSuccess } = vi.hoisted(() => ({ toastSuccess: vi.fn() }));
 vi.mock("sonner", () => ({ toast: { success: toastSuccess } }));
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-// Exercise the real existing location catalogue without duplicating it in a fixture.
-const source = readFileSync("src/routes/index.tsx", "utf8");
-const areas = [
-  ...source.match(/const indoreAreas = \[([\s\S]*?)\]\.sort/)![1]!.matchAll(/'([^']+)'/g),
-].map((match) => match[1]!);
+// Exercise the shared location catalogue after extraction from the homepage.
 let root: ReturnType<typeof createRoot>;
 let box: HTMLDivElement;
 let input: HTMLInputElement;

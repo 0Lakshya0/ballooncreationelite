@@ -1,84 +1,137 @@
-import { SmartSearch } from '@/components/balloon/smart-search';
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from 'react';
-import { SiteLiquidBackground } from '@/components/balloon/site-liquid-background';
-import { DecorCollectionsButton } from '@/components/balloon/decor-collections-button';
-import { observeVisibility } from '@/lib/visibility';
-import '@/components/balloon/decor/home-integration.css';
-import '@/components/balloon/readability.css';
-import { ArrowDown, ArrowUpRight, Clock3, Gem, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Concierge } from '@/components/balloon/concierge';
-import { RotatingLines } from '@/components/balloon/rotating-lines';
-import { CategoryMarquee } from '@/components/balloon/category-marquee';
-import { celebrations, contact } from '@/lib/celebrations';
-import { heroSlides } from '@/lib/hero-slides';
-import logoAsset from '@/assets/profile-logo.jpg.asset.json';
+import { openAreasDialog } from "@/lib/area-events";
+import { AreasTrigger } from "@/components/balloon/areas-dialog";
+import { SiteHeader } from "@/components/balloon/site-header";
+import { TrustBand } from "@/components/balloon/trust-band";
+import { Process } from "@/components/balloon/process";
+import { Faq } from "@/components/balloon/faq";
+import { indoreAreas } from "@/lib/indore-areas";
+import { faqs } from "@/lib/site-content";
+import { SmartSearch } from "@/components/balloon/smart-search";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { SiteLiquidBackground } from "@/components/balloon/site-liquid-background";
+import { DecorCollectionsButton } from "@/components/balloon/decor-collections-button";
+import { observeVisibility } from "@/lib/visibility";
+import "@/components/balloon/decor/home-integration.css";
+import "@/components/balloon/readability.css";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Clock3,
+  Gem,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Sparkles,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Concierge } from "@/components/balloon/concierge";
+import { RotatingLines } from "@/components/balloon/rotating-lines";
+import { CategoryMarquee } from "@/components/balloon/category-marquee";
+import { celebrations, contact } from "@/lib/celebrations";
+import { heroSlides } from "@/lib/hero-slides";
+import logoAsset from "@/assets/profile-logo.jpg.asset.json";
 const logo = logoAsset.url;
 
-export const Route = createFileRoute('/')({
-  head: () => ({ meta: [
-    { title: 'Balloon Creation — Bespoke Celebrations in Indore' },
-    { name: 'description', content: 'Bespoke flower and balloon aesthetics for extraordinary weddings, birthdays and intimate celebrations. Discover Balloon Creation, Indore’s premier event boutique.' },
-    { property: 'og:title', content: 'Balloon Creation — Beautifully Beyond Ordinary' },
-    { property: 'og:description', content: 'Luxury flowers, sculptural balloons and magical memories. Bespoke celebrations in Indore, flawlessly set up in 2 hours.' },
-    { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
+export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): { occasion?: string } =>
+    typeof search["occasion"] === "string" && search["occasion"]
+      ? { occasion: search["occasion"] }
+      : {},
+  head: () => ({
+    meta: [
+      { title: "Balloon Creation — Bespoke Celebrations in Indore" },
+      {
+        name: "description",
+        content:
+          "Bespoke flower and balloon aesthetics for extraordinary weddings, birthdays and intimate celebrations. Discover Balloon Creation, Indore’s premier event boutique.",
+      },
+      { property: "og:title", content: "Balloon Creation — Beautifully Beyond Ordinary" },
+      {
+        property: "og:description",
+        content:
+          "Luxury flowers, sculptural balloons and magical memories. Bespoke celebrations in Indore, flawlessly set up in 2 hours.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://ballooncreationelite.lovable.app/og-cover.jpg" },
+      { name: "theme-color", content: "#fbf4e6" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
+        }),
+      },
+    ],
+  }),
   component: Index,
 });
 
 const standards = [
-  { icon: Sparkles, number: '01', title: 'Bespoke Artistry', detail: '1000+ custom designs', copy: 'Never off the shelf. Every colour, curve and detail is thoughtfully composed around your story.' },
-  { icon: Clock3, number: '02', title: 'Flawless Execution', detail: 'Expert setup in 2 hours', copy: 'Precision behind the scenes. Perfection in the spotlight. We handle the details, you live the moment.' },
-  { icon: Gem, number: '03', title: 'Premium Materials', detail: 'Only the exceptional', copy: 'Exquisite blooms, premium balloons and carefully chosen finishes. A difference you can feel.' },
+  {
+    icon: Sparkles,
+    number: "01",
+    title: "Bespoke Artistry",
+    detail: "1000+ custom designs",
+    copy: "Never off the shelf. Every colour, curve and detail is thoughtfully composed around your story.",
+  },
+  {
+    icon: Clock3,
+    number: "02",
+    title: "Flawless Execution",
+    detail: "Expert setup in 2 hours",
+    copy: "Precision behind the scenes. Perfection in the spotlight. We handle the details, you live the moment.",
+  },
+  {
+    icon: Gem,
+    number: "03",
+    title: "Premium Materials",
+    detail: "Only the exceptional",
+    copy: "Exquisite blooms, premium balloons and carefully chosen finishes. A difference you can feel.",
+  },
 ];
 
 const taglines: [string, string][] = [
-  ['We Don’t Just Decorate, We Create', 'Magical Memories.'],
-  ['We Decorate', 'Your Happiness.'],
-  ['Bespoke Flower & Balloon Artistry in', 'Indore.'],
-  ['Transforming Ordinary Spaces Into', 'Extraordinary Celebrations.'],
-  ['Turning Your Dream Celebrations Into', 'Breathtaking Reality.'],
-  ['Where Your Deepest Emotions Meet Our', 'Finest Artistry.'],
-  ['Crafting Beautiful Backdrops for Your', 'Lifelong Memories.'],
-  ['The Secret Behind Every', 'Smiling and Beautiful Gathering.'],
-  ['Elegant Balloon & Floral Aesthetics for', 'Elite Events.'],
-  ['Celebrating Your Love and Milestones with', 'Luxury Decor.'],
-  ['Where Modern Luxury Meets', 'Unforgettable Celebrations.'],
-  ['Filling Every Corner of Your Venue with', 'Joy and Shine.'],
-  ['Breathtaking Setups for the Days', 'You’ll Never Forget.'],
-  ['Adding a Touch of Perfection to Your', 'Most Special Days.'],
-  ['Making Every Milestone Look', 'Absolutely Legendary.'],
+  ["We Don’t Just Decorate, We Create", "Magical Memories."],
+  ["We Decorate", "Your Happiness."],
+  ["Bespoke Flower & Balloon Artistry in", "Indore."],
+  ["Transforming Ordinary Spaces Into", "Extraordinary Celebrations."],
+  ["Turning Your Dream Celebrations Into", "Breathtaking Reality."],
+  ["Where Your Deepest Emotions Meet Our", "Finest Artistry."],
+  ["Crafting Beautiful Backdrops for Your", "Lifelong Memories."],
+  ["The Secret Behind Every", "Smiling and Beautiful Gathering."],
+  ["Elegant Balloon & Floral Aesthetics for", "Elite Events."],
+  ["Celebrating Your Love and Milestones with", "Luxury Decor."],
+  ["Where Modern Luxury Meets", "Unforgettable Celebrations."],
+  ["Filling Every Corner of Your Venue with", "Joy and Shine."],
+  ["Breathtaking Setups for the Days", "You’ll Never Forget."],
+  ["Adding a Touch of Perfection to Your", "Most Special Days."],
+  ["Making Every Milestone Look", "Absolutely Legendary."],
 ];
 
-const indoreAreas = [
-  'Vijay Nagar', 'Palasia', 'New Palasia', 'Old Palasia', 'Scheme 54', 'Scheme 78', 'Scheme 94', 'Scheme 103', 'Scheme 114', 'Scheme 136', 'Scheme 140',
-  'AB Road', 'MG Road', 'Rajwada', 'Sarafa Bazaar', 'Khajrana', 'Bengali Square', 'Geeta Bhawan', 'Bhawarkua', 'Tower Square', 'Regal Square',
-  'Sudama Nagar', 'Annapurna Nagar', 'Dwarkapuri', 'Navlakha', 'Sapna Sangeeta', 'Snehlataganj', 'LIG Colony', 'Tilak Nagar', 'Khatiwala Tank',
-  'South Tukoganj', 'Tukoganj', 'Race Course Road', 'Yeshwant Niwas Road', 'Residency Area', 'Chhawani', 'Mhow Naka', 'Sanyogitaganj',
-  'Rau', 'Pithampur Road', 'Bypass Road', 'Super Corridor', 'Nipania', 'Lasudia', 'Kanadia Road', 'Bicholi Mardana', 'Bicholi Hapsi',
-  'Umiya Nagar', 'Mahalaxmi Nagar', 'Nanda Nagar', 'Pardeshipura', 'Sukhlia', 'MR 10', 'MR 11', 'Ring Road', 'Airport Road', 'Khandwa Road',
-  'Sanwer Road', 'Depalpur Road', 'Simrol', 'Hatod', 'Manpur', 'Rajendra Nagar', 'Kesarbagh', 'Musakhedi', 'Azad Nagar', 'Vaishali Nagar',
-  'Gulmohar Colony', 'Saket Nagar', 'Shalimar Township', 'Silver Springs', 'Apollo DB City', 'Greater Brajeshwari', 'Treasure Island Area',
-  'Malhar Mega Mall Area', 'C21 Mall Area', 'Orbit Mall Area', 'Phoenix Citadel Area', 'Sarwate Bus Stand Area', 'Vijay Stambh Area',
-  'Patnipura', 'Chandan Nagar', 'Gauri Nagar', 'Hira Nagar', 'Juni Indore', 'Ranipura', 'Bada Ganpati Area', 'Krishnapura',
-].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
-
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [areasOpen, setAreasOpen] = useState(false);
-  const [occasion, setOccasion] = useState('');
+  const search = Route.useSearch();
+  const [occasion, setOccasion] = useState(search.occasion ?? "");
   const [line, setLine] = useState(0);
   const [fading, setFading] = useState<number | null>(null);
   const index = useRef(0);
   const [slide, setSlide] = useState(0);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const t = setInterval(() => setSlide(s => (s + 1) % heroSlides.length), 5000);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 5000);
     return () => clearInterval(t);
   }, []);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = setInterval(() => {
       setFading(index.current);
       index.current = (index.current + 1) % taglines.length;
@@ -87,74 +140,240 @@ function Index() {
     return () => clearInterval(timer);
   }, []);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    document.documentElement.classList.add('motion-ready');
-    const stops = Array.from(document.querySelectorAll('.reveal'), element => {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !("IntersectionObserver" in window)
+    )
+      return;
+    document.documentElement.classList.add("motion-ready");
+    const stops = Array.from(document.querySelectorAll(".reveal"), (element) => {
       let stop = () => {};
-      stop = observeVisibility(element, visible => { if (visible) { element.classList.add('is-visible'); stop(); } });
+      stop = observeVisibility(element, (visible) => {
+        if (visible) {
+          element.classList.add("is-visible");
+          stop();
+        }
+      });
       return () => stop();
     });
-    return () => { stops.forEach(stop => stop()); document.documentElement.classList.remove('motion-ready'); };
+    return () => {
+      stops.forEach((stop) => stop());
+      document.documentElement.classList.remove("motion-ready");
+    };
   }, []);
-  function chooseOccasion(name: string) {
-    setOccasion(name);
-    document.getElementById('concierge')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  }
-  const current = taglines[line] ?? ['', ''];
-  const out = fading === null ? null : taglines[fading] ?? null;
-  return <div className="site-liquid-shell">
-    <SiteLiquidBackground />
-    <header className="site-header"><div className="page-width nav-layout">
-      <a href="#" className="brand" aria-label="Balloon Creation home" onClick={e => { const el = e.currentTarget; el.classList.remove('is-playing'); void el.offsetWidth; el.classList.add('is-playing'); setTimeout(() => el.classList.remove("is-playing"), 9000); }}><span className="brand-mark-wrap"><img src={logo} className="brand-mark" alt="Balloon Creation logo" width={512} height={512} /></span><span className="brand-text"><span className="brand-name">Balloon Creation</span><span className="brand-rise"><span className="brand-descriptor">We Decorate Your Happiness</span></span></span></a>
-      <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
-        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Our creations</a><a href="#standard" onClick={() => setMenuOpen(false)}>The signature standard</a><Link to="/about" onClick={() => setMenuOpen(false)}>About us</Link><a href="#concierge" onClick={() => setMenuOpen(false)}>Let’s celebrate</a>
-      </nav>
-      <Button variant="luxury" className="nav-consultation" asChild><a href="#concierge">Request Consultation <ArrowUpRight /></a></Button>
-      <Button variant="ghost" size="icon" className="mobile-menu" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
-    </div></header>
-    <main>
-      <section className="hero">
-        {heroSlides.map((s, i) => <img key={s.name} src={s.image} className={i === slide ? 'hero-image hero-slide is-active' : 'hero-image hero-slide'} alt={i === slide ? `${s.name} decoration by Balloon Creation` : ''} aria-hidden={i !== slide} width={1920} height={1024} fetchPriority={i === 0 ? 'high' : 'low'} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />)}
-        <div className="hero-wash" />
-        <div className="page-width hero-content">
-          <img src={logo} className="hero-mark" alt="Balloon Creation emblem" width={512} height={512} />
-          <span className="eyebrow hero-eyebrow"><span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY</span>
-          <h1 className="hero-title" aria-live="polite">
-            {taglines.map(([start, end], i) => <span className="tagline-sizer" aria-hidden="true" key={`size-${i}`}>{start} <em>{end}</em></span>)}
-            {out && <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">{out[0]} <em>{out[1]}</em></span>}
-            <span key={`in-${line}`} className="tagline tagline-in">{current[0]} <em>{current[1]}</em></span>
-          </h1>
-          <p>Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in 2 hours.</p>
-          <div className="hero-actions"><Button variant="luxury" asChild><a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! I would love to plan a bespoke celebration.')}`} target="_blank" rel="noreferrer"><MessageCircle />Let’s talk on WhatsApp<ArrowUpRight /></a></Button><Button variant="glass" asChild><a href={`tel:${contact.phone}`}><Phone />Call our concierge</a></Button></div>
-          <div className="hero-footnote"><span className="little-line" /> THOUGHTFULLY DESIGNED. BEAUTIFULLY REMEMBERED.</div>
+
+  const nearSlide = (i: number) =>
+    i === slide ||
+    i === (slide + 1) % heroSlides.length ||
+    i === (slide - 1 + heroSlides.length) % heroSlides.length;
+  const current = taglines[line] ?? ["", ""];
+  const out = fading === null ? null : (taglines[fading] ?? null);
+  return (
+    <div className="site-liquid-shell">
+      <SiteLiquidBackground />
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main id="main">
+        <section className="hero">
+          {heroSlides.map((s, i) =>
+            nearSlide(i) ? (
+              <img
+                key={s.name}
+                src={s.image}
+                className={
+                  i === slide ? "hero-image hero-slide is-active" : "hero-image hero-slide"
+                }
+                alt={i === slide ? `${s.name} decoration by Balloon Creation` : ""}
+                aria-hidden={i !== slide}
+                width={1920}
+                height={1024}
+                fetchPriority={i === slide ? "high" : "low"}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+            ) : null,
+          )}
+          <div className="hero-wash" />
+          <div className="page-width hero-content">
+            <img
+              src={logo}
+              className="hero-mark"
+              alt="Balloon Creation emblem"
+              width={512}
+              height={512}
+            />
+            <span className="eyebrow hero-eyebrow">
+              <span className="little-line" /> BEAUTIFULLY BEYOND ORDINARY
+            </span>
+            <h1 className="hero-title" aria-live="polite">
+              {taglines.map(([start, end], i) => (
+                <span className="tagline-sizer" aria-hidden="true" key={`size-${i}`}>
+                  {start} <em>{end}</em>
+                </span>
+              ))}
+              {out && (
+                <span key={`out-${fading}`} aria-hidden="true" className="tagline tagline-out">
+                  {out[0]} <em>{out[1]}</em>
+                </span>
+              )}
+              <span key={`in-${line}`} className="tagline tagline-in">
+                {current[0]} <em>{current[1]}</em>
+              </span>
+            </h1>
+            <p>
+              Indore’s premier boutique for bespoke flower &amp; balloon aesthetics. Expert setup in
+              2 hours.
+            </p>
+            <div className="hero-actions">
+              <Button variant="luxury" asChild>
+                <a
+                  href={`${contact.whatsapp}?text=${encodeURIComponent("Hello Balloon Creation! I would love to plan a bespoke celebration.")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <MessageCircle />
+                  Let’s talk on WhatsApp
+                  <ArrowUpRight />
+                </a>
+              </Button>
+              <Button variant="glass" asChild>
+                <a href={`tel:${contact.phone}`}>
+                  <Phone />
+                  Call our concierge
+                </a>
+              </Button>
+            </div>
+            <ul className="hero-trust">
+              <li>2-hour expert setup</li>
+              <li>Premium materials</li>
+              <li>1000+ designs</li>
+            </ul>
+            <div className="hero-footnote">
+              <span className="little-line" /> THOUGHTFULLY DESIGNED. BEAUTIFULLY REMEMBERED.
+            </div>
+          </div>
+          <a className="explore-scroll" href="#portfolio" aria-label="Explore our creations">
+            <span>EXPLORE</span>
+            <ArrowDown size={17} />
+          </a>
+          <div className="service-badge" aria-live="polite">
+            <span className="service-dot" />
+            <span key={slide} className="service-name">
+              {heroSlides[slide]?.name}
+            </span>
+          </div>
+          <div className="hero-caption">
+            <span>THE ART OF CELEBRATION</span>
+            <span>BALLOON CREATION · INDORE</span>
+          </div>
+        </section>
+        <div className="brand-strip">
+          <div className="page-width">
+            <AreasTrigger className="areas-pill">
+              <MapPin size={14} /> Serving All Indore Areas{" "}
+              <span className="areas-view">(View List)</span>
+            </AreasTrigger>
+            <SmartSearch areas={indoreAreas} onLocation={openAreasDialog} />
+            <DecorCollectionsButton />
+          </div>
         </div>
-        <a className="explore-scroll" href="#portfolio" aria-label="Explore our creations"><span>EXPLORE</span><ArrowDown size={17} /></a>
-        <div className="service-badge" aria-live="polite"><span className="service-dot" /><span key={slide} className="service-name">{heroSlides[slide]?.name}</span></div>
-        <div className="hero-caption"><span>THE ART OF CELEBRATION</span><span>BALLOON CREATION · INDORE</span></div>
-      </section>
-      <div className="brand-strip"><div className="page-width"><button type="button" className="areas-pill" onClick={() => setAreasOpen(true)} aria-haspopup="dialog"><MapPin size={14} /> Serving All Indore Areas <span className="areas-view">(View List)</span></button><SmartSearch areas={indoreAreas} onLocation={() => setAreasOpen(true)} /><DecorCollectionsButton /></div></div>
-      <CategoryMarquee />
-      <section className="portfolio section-space page-width" id="portfolio">
-        <div className="section-heading reveal"><div><span className="eyebrow">A WORLD OF CELEBRATIONS</span><RotatingLines /></div><div className="section-intro"><p>From grand gestures to intimate joys,<br />we make every occasion unmistakably yours.</p><span>EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} /></span></div></div>
-        <div className="portfolio-grid">{celebrations.map((item, index) => <article className={`creation reveal creation-${index + 1}`} key={item.name}>
-          <a className="creation-image" href="#concierge" onClick={event => { event.preventDefault(); chooseOccasion(item.name); }} aria-label={`Plan ${item.name}`}><img src={item.image} alt={`${item.name}: bespoke luxury flower and balloon styling`} width={1024} height={1024} loading="lazy" /><span className="image-tag">{item.tag}</span><span className="image-action"><ArrowUpRight size={21} /></span></a>
-          <div className="creation-caption"><span className="creation-index">0{index + 1}</span><div><h3>{item.name}</h3><p>{item.subtitle}</p></div></div>
-        </article>)}</div>
-        <div className="portfolio-note reveal"><span>YOUR STORY. YOUR STYLE. YOUR ONE-OF-A-KIND CELEBRATION.</span><a href="#concierge">Let’s imagine yours <ArrowUpRight size={16} /></a></div>
-      </section>
-      <section className="standard section-space" id="standard"><div className="page-width">
-        <div className="standard-heading reveal"><span className="eyebrow">THE SIGNATURE STANDARD</span><h2>The difference is<br /><em>in every detail.</em></h2><p>Not just a beautiful setup. An exceptional experience, from first idea to final flourish.</p></div>
-        <div className="standards-grid">{standards.map(({ icon: Icon, ...item }) => <div className="standard-item reveal" key={item.number}><div className="standard-top"><Icon size={26} strokeWidth={1.1} /><span>{item.number}</span></div><h3>{item.title}</h3><span className="standard-detail">{item.detail}</span><p>{item.copy}</p></div>)}</div>
-      </div></section>
-      <Concierge occasion={occasion} onOccasionChange={setOccasion} />
-    </main>
-    {areasOpen && <div className="areas-overlay" role="dialog" aria-modal="true" aria-label="Areas we serve in Indore" onClick={() => setAreasOpen(false)}>
-      <div className="areas-modal" onClick={e => e.stopPropagation()}>
-        <div className="areas-head"><span className="eyebrow">WHERE WE CELEBRATE</span><h2>Areas we serve in Indore</h2><button type="button" className="areas-close" aria-label="Close areas list" onClick={() => setAreasOpen(false)}><X size={18} /></button></div>
-        <ul className="areas-list">{indoreAreas.map(area => <li key={area}><MapPin size={13} />{area}</li>)}</ul>
-        <p className="areas-note">Don’t see your area? <a href={`${contact.whatsapp}?text=${encodeURIComponent('Hello Balloon Creation! Do you serve my area in Indore?')}`} target="_blank" rel="noreferrer">Ask us on WhatsApp</a> — we likely do.</p>
-      </div>
-    </div>}
-    <footer className="site-footer page-width"><a className="brand footer-brand" href="#"><span className="brand-balloon">🎈</span>Balloon Creation</a><span>© {new Date().getFullYear()} Balloon Creation. Crafted for your moments.</span><a href="#" className="back-top">BACK TO TOP <ArrowUpRight size={14} /></a></footer>
-  </div>;
+        <CategoryMarquee />
+        <section className="portfolio section-space page-width" id="portfolio">
+          <div className="section-heading reveal">
+            <div>
+              <span className="eyebrow">A WORLD OF CELEBRATIONS</span>
+              <RotatingLines />
+            </div>
+            <div className="section-intro">
+              <p>
+                From grand gestures to intimate joys,
+                <br />
+                we make every occasion unmistakably yours.
+              </p>
+              <span>
+                EXPLORE OUR SIGNATURE CREATIONS <ArrowDown size={14} />
+              </span>
+            </div>
+          </div>
+          <div className="portfolio-grid">
+            {celebrations.map((item, index) => (
+              <article className={`creation reveal creation-${index + 1}`} key={item.name}>
+                <Link
+                  className="creation-image"
+                  to="/creations/$slug"
+                  params={{ slug: item.slug }}
+                  aria-label={`Explore ${item.name}`}
+                >
+                  <img
+                    src={item.image}
+                    alt={`${item.name}: bespoke luxury flower and balloon styling`}
+                    width={1024}
+                    height={1024}
+                    loading="lazy"
+                  />
+                  <span className="image-tag">{item.tag}</span>
+                  <span className="creation-hover">EXPLORE THE EXPERIENCE</span>
+                  <span className="image-action">
+                    <ArrowUpRight size={21} />
+                  </span>
+                </Link>
+                <div className="creation-caption">
+                  <span className="creation-index">0{index + 1}</span>
+                  <div>
+                    <h3>
+                      <Link to="/creations/$slug" params={{ slug: item.slug }}>
+                        {item.name}
+                      </Link>
+                    </h3>
+                    <p>{item.subtitle}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="portfolio-note reveal">
+            <span>YOUR STORY. YOUR STYLE. YOUR ONE-OF-A-KIND CELEBRATION.</span>
+            <a href="#concierge">
+              Let’s imagine yours <ArrowUpRight size={16} />
+            </a>
+          </div>
+        </section>
+        <TrustBand />
+        <section className="standard section-space" id="standard">
+          <div className="page-width">
+            <div className="standard-heading reveal">
+              <span className="eyebrow">THE SIGNATURE STANDARD</span>
+              <h2>
+                The difference is
+                <br />
+                <em>in every detail.</em>
+              </h2>
+              <p>
+                Not just a beautiful setup. An exceptional experience, from first idea to final
+                flourish.
+              </p>
+            </div>
+            <div className="standards-grid">
+              {standards.map(({ icon: Icon, ...item }) => (
+                <div className="standard-item reveal" key={item.number}>
+                  <div className="standard-top">
+                    <Icon size={26} strokeWidth={1.1} />
+                    <span>{item.number}</span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <span className="standard-detail">{item.detail}</span>
+                  <p>{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        <Process />
+        <Faq />
+        <Concierge occasion={occasion} onOccasionChange={setOccasion} />
+      </main>
+    </div>
+  );
 }

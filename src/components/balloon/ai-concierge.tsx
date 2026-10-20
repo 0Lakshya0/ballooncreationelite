@@ -40,13 +40,19 @@ const viewportNow = (): Viewport => ({
   top: window.visualViewport?.offsetTop || 0,
 });
 
-// Reserve only the space occupied by the existing motion control, including the
-// higher mobile About placement. No global z-index/layout changes are needed.
-function leftDockClearance(height: number) {
-  const r = document.querySelector<HTMLElement>(".site-motion-control")?.getBoundingClientRect();
-  return r && r.width > 0 && r.height > 0 && r.bottom > height / 2
-    ? Math.max(14, height - r.top + 12)
-    : 14;
+// Keep docked Bloon clear of the motion toggle and the new contact controls.
+function dockClearance(height: number, side: "left" | "right") {
+  let clearance = 14;
+  const selectors =
+    side === "left"
+      ? [".site-motion-control", ".mobile-cta.is-shown"]
+      : [".wa-float.is-shown", ".mobile-cta.is-shown"];
+  for (const selector of selectors) {
+    const r = document.querySelector<HTMLElement>(selector)?.getBoundingClientRect();
+    if (r && r.width > 0 && r.height > 0 && r.top < height && r.bottom > height / 2)
+      clearance = Math.max(clearance, height - r.top + 12);
+  }
+  return clearance;
 }
 
 export function AIConciergeProvider({ children }: { children: ReactNode }) {
@@ -99,7 +105,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
         dockRef.current,
         current.width,
         current.height,
-        leftDockClearance(current.height),
+        dockClearance(current.height, "left"),
+        dockClearance(current.height, "right"),
       );
       setPoint(position);
       pointRef.current = position;
@@ -109,6 +116,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
     resize();
     window.addEventListener("resize", resize);
     document.addEventListener("bce:motionchange", resize);
+    document.addEventListener("bce:layoutchange", resize);
     window.visualViewport?.addEventListener("resize", resize);
     window.visualViewport?.addEventListener("scroll", resize);
     return () => {
@@ -116,6 +124,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       abort.current?.abort();
       window.removeEventListener("resize", resize);
       document.removeEventListener("bce:motionchange", resize);
+      document.removeEventListener("bce:layoutchange", resize);
       window.visualViewport?.removeEventListener("resize", resize);
       window.visualViewport?.removeEventListener("scroll", resize);
     };
@@ -209,7 +218,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       position,
       current.width,
       current.height,
-      leftDockClearance(current.height),
+      dockClearance(current.height, "left"),
+      dockClearance(current.height, "right"),
     );
     setDock(next);
     dockRef.current = next;
@@ -217,7 +227,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       next,
       current.width,
       current.height,
-      leftDockClearance(current.height),
+      dockClearance(current.height, "left"),
+      dockClearance(current.height, "right"),
     );
     setPoint(snapped);
     pointRef.current = snapped;
@@ -273,7 +284,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
                 dock,
                 viewport.width,
                 viewport.height,
-                leftDockClearance(viewport.height),
+                dockClearance(viewport.height, "left"),
+                dockClearance(viewport.height, "right"),
               ),
             moved: false,
           };
@@ -317,7 +329,13 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
           event.preventDefault();
           const current =
             pointRef.current ||
-            dockPosition(dock, viewport.width, viewport.height, leftDockClearance(viewport.height));
+            dockPosition(
+              dock,
+              viewport.width,
+              viewport.height,
+              dockClearance(viewport.height, "left"),
+              dockClearance(viewport.height, "right"),
+            );
           settle({
             x:
               event.key === "ArrowLeft"

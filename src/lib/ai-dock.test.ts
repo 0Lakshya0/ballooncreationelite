@@ -27,3 +27,11 @@ it("reserves the existing motion control on the left without restricting right-s
   const right = snapDock({ x: 390, y: 900 }, 390, 900, 148);
   expect(dockPosition(right, 390, 900, 148)).toEqual({ x: 292, y: 776 });
 });
+
+// Desktop WhatsApp/mobile contact bar must not obscure a bottom-docked launcher.
+it("reserves right contact-control clearance", () => {
+  const d = { side: "right" as const, ratio: 1 };
+  const point = dockPosition(d, 390, 844, 120, 90);
+  expect(point.y + 110).toBe(844 - 90);
+  expect(snapDock(point, 390, 844, 120, 90)).toEqual(d);
+});

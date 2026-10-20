@@ -38,7 +38,12 @@ function portablePhoneView(): Plugin {
     },
     transform(source, id) {
       if (id.includes("/src/assets/profile-logo.jpg.asset.json")) return undefined;
-      if (id.endsWith("/category-marquee.tsx") || id.endsWith("/hero-slides.ts")) {
+      if (
+        id.endsWith("/category-marquee.tsx") ||
+        id.endsWith("/hero-slides.ts") ||
+        id.endsWith("/celebrations.ts") ||
+        id.endsWith("/service-details.ts")
+      ) {
         const glob =
           "import.meta.glob<string>('/src/assets/categories/*.webp', { eager: true, import: 'default' })";
         if (!source.includes(glob))
@@ -71,7 +76,11 @@ function portablePhoneView(): Plugin {
           /\/decor-types\/fonts\/([^"')\s]+)/g,
           (_all, name: string) => fonts[name] ?? _all,
         );
-      if (id.endsWith("/src/routes/index.tsx") || id.endsWith("/about/AboutUsPage.tsx"))
+      if (
+        id.endsWith("/src/routes/index.tsx") ||
+        id.endsWith("/about/AboutUsPage.tsx") ||
+        id.endsWith("/site-header.tsx")
+      )
         return source.replace(
           "const logo = logoAsset.url;",
           `const logo = ${JSON.stringify(dataUri("public/favicon.png", "image/png"))};`,
