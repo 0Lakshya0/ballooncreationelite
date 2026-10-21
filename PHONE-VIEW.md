@@ -1,4 +1,20 @@
-## Latest MAIN website — all 20 circle occasions and simple customer pages (2026-10-20)
+## Latest MAIN website — compact six-card discovery + mobile search icon (2026-10-21)
+
+**https://clck.ru/3WbkAU**
+
+- Runtime source `746da77115457ace99106b430f1f862761f09c3c`; pinned artifact `47e8cf5fc90949e68cd951263dec2cb86a73c09c`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/47e8cf5fc90949e68cd951263dec2cb86a73c09c/drafts/main-website-phone.html`.
+- GitHub API/local blob match `dab817bcb7d21a6624ffc2eeecc74ac4e7436dda`, **12,769,571 bytes**. Embedded source metadata and JavaScript syntax verified. Public short-link redirect/render verified: Home shows **Showing 6 of 20 occasions**, six matching cards and **Explore more occasions**.
+- Home starts with six cards, expands by six (6 → 12 → 18 → 20), then hides the exhausted Explore button. **Show fewer occasions** restores six and returns focus to the browser heading. Live count, comfort copy and matching accessible button controls. Filters/search immediately show all matches, even outside the initial six; changing filters/search or empty-result reset returns the unfiltered browser to six. All 20 circles/pages and legacy five pages remain; no new page/API calls.
+- Mobile smart-search SVG previously inherited an 11px width from `.brand-strip svg`, smaller than its own 14px combined padding, leaving no drawable glyph. Existing icon rule now uses `.smart-search > .smart-icon`, preserving its gold 32px circle/18px glyph on all widths. Smart-search logic, AI/typewriter and desktop appearance unchanged. Occasion-finder SVG cannot flex-shrink; its input can shrink normally.
+- **142 tests / 12 files**, TypeScript, targeted changed-component ESLint, native production build and phone build PASS. Added regression coverage for incremental counts/unique cards/exhausted button, collapse/focus, searching hidden occasions and reset. No real AI calls or enquiry submissions; providers/backend/database unchanged.
+- Native Chromium at **320/390/768/1440** verifies six initial cards, all 20 circles, 6→12→18→20→6, focus after collapse, full search/group filtering, empty-result reset, initially hidden Car Decoration page and callback prefill, no overflow/page errors. Native 320/390/768 ran with normal animation; desktop completed separately with reduced motion after the combined runner exceeded its waiting window. Icon verified as **32×32px with an 18px drawable interior**, confirmed visually on mobile.
+- **Exact final artifact** Chromium with simulated HTMLPreview/raw-GitHub base at **320/390/768/1440**, reduced motion: same card expansion/collapse, filters/search/reset, hidden category navigation and callback prefill, icon dimensions, no overflow/page errors and **zero external requests**. Artifact bytes intercepted locally; public redirect/render independently verified above. Prior broad all-20-page/Bloon/WebGL checks below are historical; those features were not redesigned in this update.
+- Static phone-view enquiry saving remains unavailable by design: WhatsApp/call fallback is retained; no fake saved enquiry. Native LIVE PREVIEW: **Balloon Creation website · 8080**. Earlier `3WbQrC` is the previous all-20-visible version.
+
+---
+
+## Previous MAIN website — all 20 circle occasions and simple customer pages (2026-10-20)
 
 **https://clck.ru/3WbQrC**
 

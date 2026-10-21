@@ -1,4 +1,10 @@
-## Latest publication — 20 simple occasion pages (2026-10-20)
+## Latest publication — compact Home and mobile search fix (2026-10-21)
+
+MAIN: **https://clck.ru/3WbkAU**. Source `746da77115457ace99106b430f1f862761f09c3c`; pinned phone artifact `47e8cf5fc90949e68cd951263dec2cb86a73c09c`. Home initially shows six occasion cards, with **Explore more occasions** (+6), **Show fewer**, live showing/total count and immediate full-result search/filtering. All 20 occasion pages/circles and five legacy pages remain. Mobile smart-search icon sizing fixed without changing search/typewriter/AI behavior. About/collection, compact Bloon and WebGL unchanged. **142 tests / 12 files**, TypeScript, targeted lint/builds and native/exact-phone browser checks at four widths pass. No provider work or real AI/enquiry calls. Public redirect/render, integrity and exact verification boundaries: `PHONE-VIEW.md`. Earlier links/results below are historical.
+
+---
+
+## Previous publication — 20 simple occasion pages (2026-10-20)
 
 MAIN: **https://clck.ru/3WbQrC**. Source `62c61e0e615c92dbebf4d0720a1c89ae9a54cfdd`; pinned phone artifact `3f829493a37d6236b9a6ad2edd9110e1ba170257`. Every circle now has a matching Home card and simple dedicated page, local filters/search, selectable ideas, unsure help and contextual contact. Existing five signature pages, About/collection, compact Bloon/chat/search and actual WebGL remain; footer stays absent. No provider/configuration changes or real AI/enquiry submissions. Only existing enquiry occasion validation was expanded (no database/RPC changes). Static phone view uses honest WhatsApp/call fallback, not private database saves. **140 tests / 12 files**, TypeScript, native build and four-width native/exact-phone browser checks pass; targeted lint has no errors/one existing refresh warning. Exact public redirect/render, GitHub blob integrity, detailed scope and test boundaries: `PHONE-VIEW.md`, `OCCASION-PAGES.md`. Older links/results below are historical.
 
