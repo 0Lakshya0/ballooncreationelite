@@ -57,9 +57,9 @@ it("gives every circle one unique matching card/page, correct image and allowed 
   expect(getService("__proto__")).toBeUndefined();
   expect(isKnownOccasion("not a supported occasion")).toBe(false);
 });
-it("shows all 20 cards and filters locally with a working empty-state reset", async () => {
+it("starts with six cards and filters all occasions locally with a working reset", async () => {
   await mount(() => <OccasionGrid />);
-  expect(document.querySelectorAll(".occasion-card")).toHaveLength(20);
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   fireEvent.click(screen.getByRole("button", { name: "Work & events" }));
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   fireEvent.change(screen.getByRole("searchbox", { name: "Find an occasion" }), {
@@ -74,8 +74,36 @@ it("shows all 20 cards and filters locally with a working empty-state reset", as
     target: { value: "zzzzzz" },
   });
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(0);
-  fireEvent.click(screen.getByRole("button", { name: "Show all occasions" }));
-  expect(document.querySelectorAll(".occasion-card")).toHaveLength(20);
+  fireEvent.click(screen.getByRole("button", { name: "Reset search & filters" }));
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
+});
+it("progressively reveals six more without duplicates and collapses back with focus", async () => {
+  await mount(() => <OccasionGrid />);
+  expect(screen.getByRole("status")).toHaveTextContent("Showing 6 of 20 occasions");
+  for (const count of [12, 18, 20]) {
+    fireEvent.click(screen.getByRole("button", { name: "Explore more occasions" }));
+    expect(document.querySelectorAll(".occasion-card")).toHaveLength(count);
+  }
+  expect(screen.queryByRole("button", { name: "Explore more occasions" })).toBeNull();
+  expect(
+    new Set(
+      Array.from(document.querySelectorAll(".occasion-card a"), (a) => a.getAttribute("href")),
+    ).size,
+  ).toBe(20);
+  fireEvent.click(screen.getByRole("button", { name: "Show fewer occasions" }));
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
+  expect(screen.getByRole("heading", { name: "Choose your occasion" })).toHaveFocus();
+});
+it("finds an initially hidden occasion directly and shows all matching search results", async () => {
+  await mount(() => <OccasionGrid />);
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "Car Decoration" } });
+  expect(screen.getByRole("link", { name: "Explore Car Decoration" })).toBeInTheDocument();
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(1);
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "a" } });
+  expect(document.querySelectorAll(".occasion-card").length).toBeGreaterThan(6);
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "" } });
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
+  expect(screen.getByRole("button", { name: "Explore more occasions" })).toBeInTheDocument();
 });
 it("makes each moving circle a real link, not just a label", async () => {
   await mount(() => <CategoryMarquee />);

@@ -32,6 +32,7 @@
   min-width: 230px;
 }
 .occasion-search input {
+  min-width: 0;
   width: 100%;
   min-height: 48px;
   outline: none;
@@ -644,4 +645,55 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
+}
+
+/* Compact Home discovery; search and filters still reveal every matching result. */
+.occasion-search > svg {
+  flex: 0 0 18px;
+  color: #755431;
+}
+.occasion-browser-heading {
+  scroll-margin-top: 130px;
+}
+.occasion-browser-heading:focus-visible {
+  outline: 2px solid #a17b43;
+  outline-offset: 6px;
+}
+.occasion-browse-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+  text-align: center;
+}
+.occasion-browse-actions .luxury-button {
+  min-height: 48px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.occasion-show-fewer {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 48px;
+  padding: 10px 16px;
+  color: #755431;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.occasion-browse-actions p {
+  flex-basis: 100%;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}
+@media (max-width: 480px) {
+  .occasion-browse-actions .luxury-button {
+    width: 100%;
+    justify-content: center;
+  }
 }
