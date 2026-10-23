@@ -18,7 +18,16 @@ import { OccasionDetailPage } from "./OccasionDetailPage";
 import { OccasionGrid } from "./OccasionGrid";
 vi.mock("../decor/liquid-renderer", () => ({ mountLiquidSurfaces: vi.fn(() => vi.fn()) }));
 vi.mock("embla-carousel-react", () => ({
-  default: () => [() => {}, { scrollPrev: () => {}, scrollNext: () => {} }],
+  default: () => {
+    const api = {
+      scrollPrev: () => {},
+      scrollNext: () => {},
+      plugins: () => ({}),
+      on: () => api,
+      off: () => api,
+    };
+    return [() => {}, api];
+  },
 }));
 afterEach(() => {
   cleanup();
@@ -104,6 +113,24 @@ it("finds an initially hidden occasion directly and shows all matching search re
   fireEvent.change(screen.getByRole("searchbox"), { target: { value: "" } });
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   expect(screen.getByRole("button", { name: "Explore more occasions" })).toBeInTheDocument();
+});
+it("connects all twenty circles to exactly the same destination as their matching cards", async () => {
+  await mount(() => (
+    <>
+      <CategoryMarquee />
+      <OccasionGrid />
+    </>
+  ));
+  for (let i = 0; i < 3; i++)
+    fireEvent.click(screen.getByRole("button", { name: "Explore more occasions" }));
+  const circles = document.querySelectorAll(".category-link");
+  const cards = document.querySelectorAll(".occasion-card a");
+  expect(circles).toHaveLength(20);
+  expect(cards).toHaveLength(20);
+  circles.forEach((circle, index) => {
+    expect(circle.getAttribute("href")).toBe(cards[index]?.getAttribute("href"));
+    expect(circle.getAttribute("aria-label")).toBe(cards[index]?.getAttribute("aria-label"));
+  });
 });
 it("makes each moving circle a real link, not just a label", async () => {
   await mount(() => <CategoryMarquee />);

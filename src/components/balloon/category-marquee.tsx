@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { occasionEntries } from "@/lib/occasion-entries";
 import "./creations/occasions.css";
-import { useId } from "react";
+import { useEffect, useId } from "react";
+import { bindCategoryMotion } from "@/lib/category-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 
@@ -17,12 +18,15 @@ export function CategoryMarquee() {
     AutoScroll({
       speed: 0.35,
       direction: "backward",
-      startDelay: 600,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      startDelay: 0,
+      // Own the bounded press/release lifecycle; do not wait for drag to settle.
+      stopOnInteraction: true,
+      stopOnMouseEnter: false,
+      stopOnFocusIn: false,
       breakpoints: { "(prefers-reduced-motion: reduce)": { active: false } },
     }),
   ]);
+  useEffect(() => (carousel ? bindCategoryMotion(carousel) : undefined), [carousel]);
   return (
     <section className="category-section" id="categories" aria-labelledby={headingId}>
       <div className="page-width category-heading">
@@ -37,24 +41,28 @@ export function CategoryMarquee() {
         onKeyDown={(event) => {
           if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
           event.preventDefault();
-          if (event.key === "ArrowLeft") carousel?.scrollPrev();
-          else carousel?.scrollNext();
+          const autoScroll = carousel?.plugins().autoScroll;
+          const wasPlaying = autoScroll?.isPlaying();
+          autoScroll?.stop();
+          if (event.key === "ArrowLeft") carousel?.scrollPrev(true);
+          else carousel?.scrollNext(true);
+          if (wasPlaying) autoScroll?.play(0);
         }}
       >
         <ul className="category-track">
-          {categories.map((name, index) => (
+          {occasionEntries.map(({ name, slug, photo }) => (
             <li className="category-item" key={name}>
               <Link
                 className="category-link"
                 to="/creations/$slug"
-                params={{ slug: occasionEntries[index]!.slug }}
+                params={{ slug }}
                 aria-label={`Explore ${name}`}
               >
                 <span className="category-orb">
                   <img
                     src={
                       photos[
-                        `/src/assets/categories/category-${String(index + 1).padStart(2, "0")}.webp`
+                        `/src/assets/categories/category-${String(photo).padStart(2, "0")}.webp`
                       ]
                     }
                     alt=""
