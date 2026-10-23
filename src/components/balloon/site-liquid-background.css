@@ -169,22 +169,23 @@
   font-display: swap;
   src: url("/decor-types/fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2");
 }
-/* Part the photography gently: the liquid remains visible behind the hero, too. */
+/* Owner-requested photo-first hero: remove the double fading of real photos.
+   The global liquid stays unchanged; a soft cream wash protects the copy only. */
 .site-liquid-shell .hero-image {
-  mask-image: linear-gradient(90deg, transparent, #0005 38%, #000 72%);
+  mask-image: linear-gradient(90deg, #000c, #000 58%);
 }
 .site-liquid-shell .hero-slide.is-active {
-  opacity: 0.68;
+  opacity: 1;
 }
 .site-liquid-shell .hero-wash {
-  background: linear-gradient(100deg, #fff7e966, #fff7e922 56%, transparent);
+  background: linear-gradient(100deg, #fff7e9cc, #fff7e9a3 32%, #fff7e91a 64%, transparent 82%);
 }
 @media (max-width: 540px) {
   .site-liquid-shell .hero-image {
-    mask-image: linear-gradient(180deg, #0002, #0005 50%, #000);
+    mask-image: linear-gradient(180deg, #000e, #000 50%);
   }
   .site-liquid-shell .hero-wash {
-    background: linear-gradient(180deg, #fff7e966, #fff7e944 48%, #fff7e91a);
+    background: linear-gradient(180deg, #fff7e980, #fff7e957 48%, #fff7e914);
   }
   .site-motion-control {
     min-height: 32px;

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { occasionEntries } from "@/lib/occasion-entries";
+import { realOccasionPhotos } from "@/lib/occasion-photos";
 import "./creations/occasions.css";
 import { useEffect, useId } from "react";
 import { bindCategoryMotion } from "@/lib/category-motion";
@@ -60,14 +61,16 @@ export function CategoryMarquee() {
               >
                 <span className="category-orb">
                   <img
+                    data-occasion-photo={slug}
                     src={
+                      realOccasionPhotos[slug] ??
                       photos[
                         `/src/assets/categories/category-${String(photo).padStart(2, "0")}.webp`
                       ]
                     }
                     alt=""
-                    width={256}
-                    height={256}
+                    width={320}
+                    height={320}
                     loading="lazy"
                     decoding="async"
                     draggable={false}

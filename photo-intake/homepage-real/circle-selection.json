@@ -1,0 +1,22 @@
+{
+  "matches": {
+    "baby-shower": "baby-shower",
+    "welcome-baby": "welcome-baby",
+    "anniversary": "anniversary",
+    "proposal": "proposal-garden",
+    "room-surprise": "proposal-room",
+    "first-night": "first-night",
+    "bachelor-party": "bachelor-party",
+    "wedding": "wedding",
+    "house-warming": "house-warming",
+    "car-decoration": "car-decoration",
+    "pet-decoration": "pet-themed-celebration",
+    "farewell-party": "farewell-party",
+    "corporate-events": "corporate-events",
+    "grand-opening": "grand-opening",
+    "annual-day-function": "annual-day",
+    "naming-ceremony": "floral-swing"
+  },
+  "missing": ["birthday", "kids-birthday", "showroom-setup"],
+  "note": "Matching occasion portraits. The floral baby-cradle setup is suitable for Naming Ceremony; Product Launch is not used as a substitute for Showroom Setup. Exhibition Stall stays excluded. Three missing circles retain their existing editorial placeholders."
+}
