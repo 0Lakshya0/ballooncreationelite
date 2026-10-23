@@ -6,7 +6,8 @@ import { SmartSearch } from "./smart-search";
 import { categories } from "./category-marquee";
 import { contact } from "@/lib/celebrations";
 
-const { toastSuccess } = vi.hoisted(() => ({ toastSuccess: vi.fn() }));
+const { toastSuccess, navigate } = vi.hoisted(() => ({ toastSuccess: vi.fn(), navigate: vi.fn() }));
+vi.mock("@tanstack/react-router", () => ({ useRouter: () => ({ navigate }) }));
 vi.mock("sonner", () => ({ toast: { success: toastSuccess } }));
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 // Exercise the shared location catalogue after extraction from the homepage.
@@ -88,99 +89,76 @@ describe("SmartSearch three-layer salesman logic", () => {
   it("groups simultaneous service and location results and preserves empty-query suggestions", () => {
     act(() => input.focus());
     expect(box.querySelectorAll(".smart-head")).toHaveLength(2);
-    expect(box.querySelectorAll(".smart-results button")).toHaveLength(10);
+    expect(box.querySelectorAll(".smart-results button, .smart-results a")).toHaveLength(10);
     search("a");
     expect(result()).toHaveTextContent("🎈 Services");
     expect(result()).toHaveTextContent("📍 Locations");
-    expect(box.querySelectorAll("button").length).toBe(
-      categories.filter((s) => s.toLowerCase().includes("a")).length +
-        areas.filter((a) => a.toLowerCase().includes("a")).length,
+    expect(
+      box.querySelectorAll(".smart-results button, .smart-results a").length,
+    ).toBeLessThanOrEqual(16);
+  });
+  it.each([
+    "birthday",
+    "birtday",
+    "brithday",
+    "bday",
+    "janamdin",
+    "जन्मदिन",
+    "birthday decoration",
+  ])("immediately shows real Birthday links for %s without locking typing", (query) => {
+    search(query);
+    const anchor = result()!.querySelector<HTMLAnchorElement>('a[href="/creations/birthday"]');
+    expect(anchor).not.toBeNull();
+    expect(input.readOnly).toBe(false);
+    expect(input.value).toBe(query);
+    expect(result()).not.toHaveTextContent(/checking feasibility|verifying stock/i);
+  });
+  it("never leaves an unknown query empty or invents stock/feasibility", () => {
+    search("zxqv998877");
+    expect(result()).toHaveTextContent("No exact match");
+    expect(result()).toHaveTextContent("Popular occasions");
+    expect(result()!.querySelectorAll('a[href^="/creations/"]')).toHaveLength(5);
+    expect(result()).not.toHaveTextContent(/Yes! We can create|Verifying stock/i);
+    expect(new URL(link("Discuss your idea on WhatsApp").href).searchParams.get("text")).toBe(
+      "Hi, can you help with zxqv998877?",
     );
   });
-  it("shows two 750ms simulation phases then the exact success card and encoded original query", () => {
-    const query = 'Underwater & "ocean" theme 🐠?';
-    search(`  ${query}  `);
-    expect(result()).toBeNull();
-    advance(499);
-    expect(input.value).toBe(`  ${query}  `);
-    advance(1);
-    expect(input.value).toBe("🔄 Checking feasibility...");
-    expect(input.readOnly).toBe(true);
-    advance(749);
-    expect(input.value).toBe("🔄 Checking feasibility...");
-    advance(1);
-    expect(input.value).toBe("✨ Verifying stock...");
-    advance(749);
-    expect(result()).not.toHaveTextContent("✅ Yes!");
-    advance(1);
-    expect(input.value).toBe(`  ${query}  `);
-    expect(input.readOnly).toBe(false);
-    expect(result()).toHaveTextContent(`✅ Yes! We can create '${query}'.`);
-    expect(result()).toHaveTextContent("This is a unique request. Let's discuss details.");
-    const url = new URL(link("Chat on WhatsApp").href);
-    expect(url.searchParams.get("text")).toBe(`Hi, can you do ${query}?`);
-    expect(result()).not.toHaveTextContent(/No Result|Not found/i);
-  });
-  it("debounces typing and cancels obsolete checks when a newer match or keyword arrives", () => {
-    search("Underwater");
-    advance(400);
-    search("Underwater theme");
-    advance(400);
-    expect(input.value).toBe("Underwater theme");
-    search("Vijay Nagar");
-    advance(3000);
-    expect(result()).toHaveTextContent("📍 Vijay Nagar");
-    expect(input.value).toBe("Vijay Nagar");
-    search("Moon castle");
-    advance(500);
-    search("price");
-    advance(3000);
-    expect(result()).toHaveTextContent("Estimates start ₹1,999");
-    expect(result()).not.toHaveTextContent("Moon castle");
-  });
-  it("cancels on clear, Escape, outside click and unmount without reopening stale success cards", () => {
-    search("Underwater theme");
-    advance(500);
+  it("dismisses Escape/outside click, clears results and never reopens stale content", () => {
+    search("birthday");
     escape();
     advance(3000);
     expect(result()).toBeNull();
-    expect(input.value).toBe("Underwater theme");
-    expect(input.readOnly).toBe(false);
-    search("Moon castle");
-    advance(500);
+    search("wedding");
     act(() => document.body.dispatchEvent(new Event("pointerdown", { bubbles: true })));
-    advance(3000);
     expect(result()).toBeNull();
-    search("Moon castle");
     search("");
-    advance(3000);
-    expect(input.value).toBe("");
     expect(result()).toHaveTextContent("🎈 Services");
-    search("Moon castle");
-    act(() => root.unmount());
-    expect(vi.getTimerCount()).toBe(0);
-    root = createRoot(box);
+    expect(input.value).toBe("");
   });
-  it("keeps service navigation and location selection/toast working", () => {
-    const target = document.createElement("div");
-    target.id = "categories";
-    document.body.append(target);
-    const scroll = vi.fn();
-    target.scrollIntoView = scroll;
+  it("opens the selected real page and Enter opens the top exact match; locations still work", () => {
     search("Corporate");
-    act(() => box.querySelector("button")!.click());
-    expect(scroll).toHaveBeenCalledWith({ behavior: "instant", block: "center" });
+    act(() =>
+      result()!.querySelector<HTMLAnchorElement>('a[href="/creations/corporate-events"]')!.click(),
+    );
+    expect(navigate).toHaveBeenCalledWith({
+      to: "/creations/$slug",
+      params: { slug: "corporate-events" },
+    });
     expect(input.value).toBe("");
     expect(result()).toBeNull();
+    search("birthday");
+    act(() => input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true })));
+    expect(navigate).toHaveBeenLastCalledWith({
+      to: "/creations/$slug",
+      params: { slug: "birthday" },
+    });
     search("Vijay Nagar");
-    act(() => box.querySelector("button")!.click());
+    act(() => result()!.querySelector("button")!.click());
     expect(onLocation).toHaveBeenCalledOnce();
     expect(toastSuccess).toHaveBeenCalledWith("Yes! We cover Vijay Nagar.");
   });
-  it("renders arbitrary query content as text, never executable markup", () => {
+  it("renders arbitrary query content as text without executable markup", () => {
     search("<img src=x onerror=alert(1)>");
-    advance(2000);
-    expect(result()).toHaveTextContent("<img src=x onerror=alert(1)>");
     expect(result()!.querySelector("img")).toBeNull();
   });
   it("preserves the existing placeholder typing, hold and deletion timings", () => {

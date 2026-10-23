@@ -59,7 +59,7 @@ it("keeps the existing search local; custom Enter opens and sends to this same c
   fireEvent.change(search, { target: { value: "What is the price?" } });
   fireEvent.keyDown(search, { key: "Enter" });
   expect(fetch).not.toHaveBeenCalled();
-  fireEvent.change(search, { target: { value: "Suggest an ivory theme for my party" } });
+  fireEvent.change(search, { target: { value: "What is the capital of France?" } });
   expect(fetch).not.toHaveBeenCalled();
   fireEvent.keyDown(search, { key: "Enter" });
   await screen.findByText("Try a soft gold arch.");
