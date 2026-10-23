@@ -20,8 +20,10 @@ const todayInIndia = () => new Date(Date.now() + 330 * 60_000).toISOString().sli
 export function Concierge({
   occasion,
   onOccasionChange,
+  compact = false,
 }: {
   occasion: string;
+  compact?: boolean;
   onOccasionChange: (value: string) => void;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -53,46 +55,51 @@ export function Concierge({
   );
 
   return (
-    <section className="concierge section-space" id="concierge">
+    <section
+      className={compact ? "concierge guide-consultation" : "concierge section-space"}
+      id={compact ? undefined : "concierge"}
+    >
       <div className="page-width concierge-layout">
-        <div className="reveal concierge-copy">
-          <span className="eyebrow">THE ELITE CONCIERGE</span>
-          <h2>
-            Your occasion.
-            <br />
-            Our <em>obsession.</em>
-          </h2>
-          <p>
-            Every beautiful celebration begins with a conversation. Tell us what you’re dreaming of
-            — we’ll bring it to life.
-          </p>
-          <div className="concierge-contact">
-            <span className="eyebrow">A MORE PERSONAL CONVERSATION</span>
-            <a href={`tel:${contact.phone}`}>
-              <Phone size={15} />
-              {contact.label}
-              <ArrowUpRight size={16} />
-            </a>
-            <a href={contact.whatsapp} target="_blank" rel="noreferrer">
-              <MessageCircle size={15} />
-              Connect on WhatsApp
-              <ArrowUpRight size={16} />
-            </a>
+        {!compact && (
+          <div className="reveal concierge-copy">
+            <span className="eyebrow">THE ELITE CONCIERGE</span>
+            <h2>
+              Your occasion.
+              <br />
+              Our <em>obsession.</em>
+            </h2>
+            <p>
+              Every beautiful celebration begins with a conversation. Tell us what you’re dreaming
+              of — we’ll bring it to life.
+            </p>
+            <div className="concierge-contact">
+              <span className="eyebrow">A MORE PERSONAL CONVERSATION</span>
+              <a href={`tel:${contact.phone}`}>
+                <Phone size={15} />
+                {contact.label}
+                <ArrowUpRight size={16} />
+              </a>
+              <a href={contact.whatsapp} target="_blank" rel="noreferrer">
+                <MessageCircle size={15} />
+                Connect on WhatsApp
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+            <ul className="concierge-trust" aria-label="Our promises">
+              <li>
+                <Clock3 size={16} aria-hidden="true" /> Reply within the hour, on working days
+              </li>
+              <li>
+                <ShieldCheck size={16} aria-hidden="true" /> Your date held while we design
+              </li>
+              <li>
+                <Check size={16} aria-hidden="true" /> Clear, itemised quote before booking
+              </li>
+            </ul>
+            <span className="location-note">BASED IN INDORE. MADE FOR YOUR MOMENT.</span>
           </div>
-          <ul className="concierge-trust" aria-label="Our promises">
-            <li>
-              <Clock3 size={16} aria-hidden="true" /> Reply within the hour, on working days
-            </li>
-            <li>
-              <ShieldCheck size={16} aria-hidden="true" /> Your date held while we design
-            </li>
-            <li>
-              <Check size={16} aria-hidden="true" /> Clear, itemised quote before booking
-            </li>
-          </ul>
-          <span className="location-note">BASED IN INDORE. MADE FOR YOUR MOMENT.</span>
-        </div>
-        <div className="inquiry-panel reveal">
+        )}
+        <div className={compact ? "inquiry-panel" : "inquiry-panel reveal"}>
           {status === "success" ? (
             <div className="inquiry-success" role="status">
               <span className="success-mark">
@@ -105,8 +112,9 @@ export function Concierge({
                 in good hands.
               </h3>
               <p>
-                Your consultation request has been received. We look forward to creating something
-                extraordinary with you — expect a call within the hour.
+                {compact
+                  ? "Your consultation request has been received. We will get in touch to discuss the details. Your booking and date still need to be confirmed with the team."
+                  : "Your consultation request has been received. We look forward to creating something extraordinary with you — expect a call within the hour."}
               </p>
               <div className="concierge-success-actions">
                 <Button variant="outline" onClick={() => setStatus("idle")}>

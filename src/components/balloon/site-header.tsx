@@ -9,11 +9,10 @@ import logoAsset from "@/assets/profile-logo.jpg.asset.json";
 const logo = logoAsset.url;
 
 const sections = [
-  { href: "/#portfolio", label: "Our creations" },
-  { href: "/#standard", label: "The signature standard" },
-
-  { href: "/#concierge", label: "Let’s celebrate" },
-];
+  { to: "/signature-standard", label: "The signature standard" },
+  { to: "/lets-celebrate", label: "Let’s celebrate" },
+  { to: "/faqs", label: "FAQs" },
+] as const;
 
 export function SiteHeader() {
   const brandTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -95,11 +94,11 @@ export function SiteHeader() {
               ))}
             </div>
           </div>
-          {sections.slice(1).map((link) => (
+          {sections.map((link) => (
             <Link
-              key={link.href}
-              to="/"
-              hash={link.href.split("#")[1]!}
+              key={link.to}
+              to={link.to}
+              activeProps={{ "aria-current": "page" }}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -107,9 +106,6 @@ export function SiteHeader() {
           ))}
           <Link to="/about" onClick={() => setMenuOpen(false)}>
             About us
-          </Link>
-          <Link to="/" hash="faq" className="nav-mobile-only" onClick={() => setMenuOpen(false)}>
-            FAQ
           </Link>
           <a
             href={`tel:${contact.phone}`}
@@ -136,7 +132,7 @@ export function SiteHeader() {
         </nav>
 
         <Button variant="luxury" className="nav-consultation" asChild>
-          <Link to="/" hash="concierge">
+          <Link to="/lets-celebrate" hash="callback" onClick={() => setMenuOpen(false)}>
             Request Consultation <ArrowUpRight />
           </Link>
         </Button>

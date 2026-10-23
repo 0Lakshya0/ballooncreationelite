@@ -8,26 +8,19 @@ const router = createRouter({
   context: { queryClient: new QueryClient() },
   history: createMemoryHistory({
     initialEntries: [
-      window.location.hash.startsWith("#creations/")
+      /^(?:#creations\/|#(?:about|decor-collections|faqs|signature-standard|lets-celebrate)(?:[?#]|$))/.test(
+        window.location.hash,
+      )
         ? "/" + window.location.hash.slice(1)
-        : window.location.hash === "#about"
-          ? "/about"
-          : window.location.hash === "#decor-collections"
-            ? "/decor-collections"
-            : "/",
+        : "/",
     ],
   }),
   scrollRestoration: true,
 });
 router.subscribe("onResolved", () => {
-  const { pathname, hash } = router.state.location;
-  const fragment = pathname.startsWith("/creations/")
-    ? pathname.slice(1)
-    : pathname === "/about"
-      ? "about"
-      : pathname === "/decor-collections"
-        ? "decor-collections"
-        : hash;
+  const { pathname, hash, searchStr } = router.state.location;
+  const fragment =
+    pathname !== "/" ? pathname.slice(1) + searchStr + (hash ? "#" + hash : "") : hash;
   // Absolute same-origin URL: HTMLPreview's remote <base> would resolve a
   // relative history URL against raw.githubusercontent.com and reject it.
   const url = new URL(window.location.href);

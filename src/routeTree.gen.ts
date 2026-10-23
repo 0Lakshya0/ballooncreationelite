@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DecorCollectionsRouteImport } from './routes/decor-collections'
+import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as LetsCelebrateRouteImport } from './routes/lets-celebrate'
+import { Route as SignatureStandardRouteImport } from './routes/signature-standard'
 import { Route as CreationsSlugRouteImport } from './routes/creations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +32,21 @@ const DecorCollectionsRoute = DecorCollectionsRouteImport.update({
   path: '/decor-collections',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LetsCelebrateRoute = LetsCelebrateRouteImport.update({
+  id: '/lets-celebrate',
+  path: '/lets-celebrate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignatureStandardRoute = SignatureStandardRouteImport.update({
+  id: '/signature-standard',
+  path: '/signature-standard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreationsSlugRoute = CreationsSlugRouteImport.update({
   id: '/creations/$slug',
   path: '/creations/$slug',
@@ -39,12 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/decor-collections': typeof DecorCollectionsRoute
+  '/faqs': typeof FaqsRoute
+  '/lets-celebrate': typeof LetsCelebrateRoute
+  '/signature-standard': typeof SignatureStandardRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/decor-collections': typeof DecorCollectionsRoute
+  '/faqs': typeof FaqsRoute
+  '/lets-celebrate': typeof LetsCelebrateRoute
+  '/signature-standard': typeof SignatureStandardRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesById {
@@ -52,20 +76,48 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/decor-collections': typeof DecorCollectionsRoute
+  '/faqs': typeof FaqsRoute
+  '/lets-celebrate': typeof LetsCelebrateRoute
+  '/signature-standard': typeof SignatureStandardRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/decor-collections' | '/creations/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/decor-collections'
+    | '/faqs'
+    | '/lets-celebrate'
+    | '/signature-standard'
+    | '/creations/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/decor-collections' | '/creations/$slug'
-  id: '__root__' | '/' | '/about' | '/decor-collections' | '/creations/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/decor-collections'
+    | '/faqs'
+    | '/lets-celebrate'
+    | '/signature-standard'
+    | '/creations/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/decor-collections'
+    | '/faqs'
+    | '/lets-celebrate'
+    | '/signature-standard'
+    | '/creations/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   DecorCollectionsRoute: typeof DecorCollectionsRoute
+  FaqsRoute: typeof FaqsRoute
+  LetsCelebrateRoute: typeof LetsCelebrateRoute
+  SignatureStandardRoute: typeof SignatureStandardRoute
   CreationsSlugRoute: typeof CreationsSlugRoute
 }
 
@@ -92,6 +144,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DecorCollectionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lets-celebrate': {
+      id: '/lets-celebrate'
+      path: '/lets-celebrate'
+      fullPath: '/lets-celebrate'
+      preLoaderRoute: typeof LetsCelebrateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signature-standard': {
+      id: '/signature-standard'
+      path: '/signature-standard'
+      fullPath: '/signature-standard'
+      preLoaderRoute: typeof SignatureStandardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creations/$slug': {
       id: '/creations/$slug'
       path: '/creations/$slug'
@@ -106,6 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   DecorCollectionsRoute: DecorCollectionsRoute,
+  FaqsRoute: FaqsRoute,
+  LetsCelebrateRoute: LetsCelebrateRoute,
+  SignatureStandardRoute: SignatureStandardRoute,
   CreationsSlugRoute: CreationsSlugRoute,
 }
 export const routeTree = rootRouteImport
