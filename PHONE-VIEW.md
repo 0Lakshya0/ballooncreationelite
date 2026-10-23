@@ -1,4 +1,22 @@
-## Latest MAIN website — matching circle links + maximum three-second press pause (2026-10-23)
+## Latest MAIN website — three dedicated customer pages (2026-10-23)
+
+**https://clck.ru/3Wemmj**
+
+- Runtime source `e4633e61e17bc4ca896289cbdea7f94a47d84aed`; pinned artifact `d70b0737b2a5971e7078bd379a712394dc98802a`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/d70b0737b2a5971e7078bd379a712394dc98802a/drafts/main-website-phone.html`.
+- GitHub API/local integrity match: blob `6de430e044d9207a656c8e1a3cc6de2158691c5f`, **12,802,623 bytes**. Embedded source metadata and all inline JavaScript syntax verified. Public short URL redirects/renders Home; an independent public fetch of the pinned `#faqs` URL renders the actual new 12-answer FAQ interface, rather than Home.
+- Header FAQs, The Signature Standard and Let’s Celebrate now open real `/faqs`, `/signature-standard`, `/lets-celebrate` routes, not Home scroll targets. FAQs appears on desktop too. Request Consultation opens `/lets-celebrate#callback`. Own-page metadata, breadcrumb, active three-page navigation and all-occasion return link. Home/old section hashes remain for existing enquiries/bookmarks; no unrelated Home content removal.
+- FAQs: 12 practical answers, topic filters, local text search, count/reset, native accordions and personal contact. Signature: editorial existing floral photo, three principles, three planning steps and four pre-confirmation checks. Let’s Celebrate: optional occasion/date/area/ideas planner, visible summary, unsure path, encoded WhatsApp review (nothing auto-sent), call and optional callback disclosure. Callback reuses existing form/server logic with a compact presentation and neutral success message. Unknown occasion query rejected; shared supported choice prefills both interfaces. No fixed prices, invented proof, date holds or response/setup-time guarantees added.
+- Portable routing now preserves new route fragments **and their search/inner hash**, including `#lets-celebrate?occasion=Birthday#callback` on direct reload. Static phone form still cannot save private enquiries: the existing honest WhatsApp/call fallback appears, never a fake success.
+- **166 tests / 14 files**, TypeScript, targeted changed-source ESLint (no warnings/errors), native production build and phone build PASS. Added 3 real route matches and 8 guide-interface tests. Detailed scope/preservation and SSR callback hydration fix: `DEDICATED-CUSTOMER-PAGES.md`.
+- Native Chromium **320/390/768/1440**: Home header→FAQ page (not Home scroll), mobile menu closure, FAQ topics/search/reset/accordion, signature image/checklist, optional planner and draft contents, callback disclosure/form/prefill, all three direct page reloads and active tabs, occasion query + callback hash reload, one shared Bloon/chat open/close, no horizontal overflow/footer/page errors. Reviewed actual screenshots; tightened mobile spacing/tabs and CTA layout. Background paused with its existing local control for deterministic new-page UI checks; no new shader/Bloon design or full motion regression is claimed this turn. HTTP200 for Home/all three routes and preview Host verified.
+- **Exact final phone artifact**, fresh Chromium **320/390/768/1440**, reduced-motion mode and simulated HTMLPreview/raw-GitHub base: all the same guide navigation/filter/search/accordion/image/planner/draft/callback/query-hash reload/one-Bloon-dialog/responsive/no-footer checks PASS. Static callback submission explicitly tested against the local static adapter: truthful error/fallback, no success. All runs have **zero page errors and zero external requests**. Public redirect/render and actual public FAQ deep-link fetch above are separate from these locally intercepted exact-artifact tests.
+- Six initial cards/Explore more, mobile search icon, all 20 linked/moving circles with bounded hold behavior, five premium creation pages, original About/collection, compact owner Bloon/shared chat/search/typewriter, actual full-site WebGL and removed footer preserved. No new dependencies, AI/provider/Worker/key/backend/database/RPC/validation work; no real AI or enquiry submissions.
+- Native LIVE PREVIEW: **Balloon Creation website · port 8080**. Previous `3WeFZG` remains the older circle-motion release. Use the new link above for the three customer pages.
+
+---
+
+## Previous MAIN website — matching circle links + maximum three-second press pause (2026-10-23)
 
 **https://clck.ru/3WeFZG**
 
