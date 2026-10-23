@@ -1,3 +1,5 @@
+> Current MAIN: **https://clck.ru/3Wexuz** — the same dedicated pages, now with instant option navigation and no upward entry motion. Latest source/artifact and normal-motion QA: `OPENING-MOTION.md`, `PHONE-VIEW.md`. Original feature-specific verification is retained below.
+
 # Dedicated FAQs, Signature Standard and Let’s Celebrate — 2026-10-23
 
 ## Owner-requested scope
@@ -29,4 +31,4 @@ The new planner is local React state only. It does not store/send personal detai
 
 ## Published final artifact
 
-Latest main: **https://clck.ru/3Wemmj**; source `e4633e61e17bc4ca896289cbdea7f94a47d84aed`, artifact `d70b0737b2a5971e7078bd379a712394dc98802a`, verified local/GitHub blob `6de430e044d9207a656c8e1a3cc6de2158691c5f` / 12,802,623 bytes. Exact final artifact at 320/390/768/1440 (reduced motion, simulated remote base) passes the complete three-page UI/navigation/reload/draft/callback/Bloon checks with no page errors/external requests. Explicit static form submission returns the honest fallback, not fake success. Public short redirect/Home render and pinned #faqs render independently verified. Full test boundaries/provenance in PHONE-VIEW.md.
+Original three-page publication: **https://clck.ru/3Wemmj**; source `e4633e61e17bc4ca896289cbdea7f94a47d84aed`, artifact `d70b0737b2a5971e7078bd379a712394dc98802a`, verified local/GitHub blob `6de430e044d9207a656c8e1a3cc6de2158691c5f` / 12,802,623 bytes. Exact final artifact at 320/390/768/1440 (reduced motion, simulated remote base) passes the complete three-page UI/navigation/reload/draft/callback/Bloon checks with no page errors/external requests. Explicit static form submission returns the honest fallback, not fake success. Public short redirect/Home render and pinned #faqs render independently verified. Full test boundaries/provenance in PHONE-VIEW.md.

@@ -1,4 +1,10 @@
-## Latest publication — dedicated customer pages (2026-10-23)
+## Latest publication — direct option opening, no upward slide (2026-10-23)
+
+MAIN: **https://clck.ru/3Wexuz**. Source `eee461b2b9b94bf259065bb569a7e05816c93321`; phone artifact `c0d932498d4bc22585969119d7add900213a44e2`. All destination/reset/hash jumps and in-page option navigation are instant; page/reveal/dropdown/search-result/chat-panel entries no longer translate vertically. Opacity/blur, interactive hover, circles, exact animated Bloon and WebGL remain. **182 tests / 15 files**, TypeScript, lint/builds and native/exact-phone **320/390/768/1440 normal-motion** entry/navigation checks PASS; all template families additionally checked at 390. Public Home/FAQ render and blob/source/JS integrity verified. No AI/backend/provider work or real submissions. Details/boundaries: `PHONE-VIEW.md`, `OPENING-MOTION.md`. Older publications below are historical.
+
+---
+
+## Previous publication — dedicated customer pages (2026-10-23)
 
 MAIN: **https://clck.ru/3Wemmj**. Source `e4633e61e17bc4ca896289cbdea7f94a47d84aed`; pinned phone artifact `d70b0737b2a5971e7078bd379a712394dc98802a`. Header FAQs, Signature Standard and Let’s Celebrate now have their own real pages: searchable/topic FAQs, editorial approach/checklist, optional planner/WhatsApp review/callback. Request Consultation opens the new page's form. Existing About/collection, six-card browser, 20 linked/moving circles, mobile search icon, compact Bloon/shared chat/search and actual WebGL remain; footer absent. **166 tests / 14 files**, TypeScript, targeted lint/builds and four-width native/exact-phone UI/deep-reload checks pass. No provider/backend/database/validation work or real AI/lead submissions. Public redirect/render, actual FAQ deep link, integrity and full verification boundaries: `PHONE-VIEW.md`, `DEDICATED-CUSTOMER-PAGES.md`. Older entries/links below are historical.
 

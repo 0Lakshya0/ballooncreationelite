@@ -1,4 +1,19 @@
-## Latest MAIN website — three dedicated customer pages (2026-10-23)
+## Latest MAIN website — no bottom-to-top option opening (2026-10-23)
+
+**https://clck.ru/3Wexuz**
+
+- Runtime source `eee461b2b9b94bf259065bb569a7e05816c93321` (core opening changes in `44ab3edcf5f10d72585207286f0f7ef6777df6a1`); pinned artifact `c0d932498d4bc22585969119d7add900213a44e2`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/c0d932498d4bc22585969119d7add900213a44e2/drafts/main-website-phone.html`. GitHub API/local blob **`f73e035d8fd573ccb9082fe96b2e2104bb044efa`**, **12,802,248 bytes**, match. Embedded source metadata and all inline JS parse checks PASS. Public short redirect/Home render and separate pinned `#faqs` render independently verified.
+- Both real/portable routers restore/reset positions and hash targets **instantly**. Raw in-page anchors, collection scrolling and search Explore jump are immediate too, so opening an option no longer travels upward from the previous scroll position. Home/legacy reveal, hero/heading/service-caption entry, About/collection reveal, dropdown/search-result/creation-overlay and chat-panel opening have no vertical offset. Gentle opacity/blur and approved hover remain; no global animation/transform kill switch and no removal of dialog centering.
+- **182 tests / 15 files**, TypeScript, targeted ESLint, native production build and phone build PASS. Sixteen new entry-motion policy tests; existing search Explore test now expects the same instant jump. No dependencies or visual/search/typewriter redesign.
+- Final **native Chromium, 320/390/768/1440**, normal OS motion preference: from the bottom of Home/previous page, actual header FAQ→Signature→Celebrate clicks open at y=0 from the first sampled animation frame (8 samples/destination); captured router reset and callback hash scroll calls explicitly use `instant`. Native menu, route URL, callback disclosure, chat open/close opacity frames, stationary hero, 6 initial cards/20 circle links/one shared Bloon, no horizontal overflow or page errors PASS. At 390, direct Birthday, legacy Mega Birthdays, About and live-motion collection templates additionally have no translated entry/reveal states. HTTP200: Home, three guides, Birthday and preview Host. Final standalone rerun avoids parallel browser/cold-module network-idle timeouts; all final assertions PASS.
+- **Exact final phone artifact**, fresh Chromium at **320/390/768/1440**, normal OS motion preference (NOT reduced motion), simulated HTMLPreview/raw-GitHub base: the same scrolled-header/reset/hash/chat/hero/card/circle/Bloon/overflow/error checks PASS. Raw `href="#"` remote-base handler jumps to y=0 immediately with captured `instant`; computed document scroll behaviour is `auto`. At 390, direct fragments are genuinely reloaded before verifying Birthday/legacy/About/collection entry states. All runs finish with **zero external requests and zero page errors**. These local exact-byte tests are separate from the independent public fetch checks above.
+- Continuous circles and bounded three-second press, true WebGL background, independent collection scenes, exact Bloon SVG animations/drag/dock, normal manual scrolling, six-card browser, three dedicated customer pages, search appearance/typewriter and removed footer preserved. This is entry-motion QA, not a new full shader/carousel/mascot motion regression. No AI/provider/Worker/backend/database/secret work or real AI/lead submissions. Static phone save still truthfully falls back to WhatsApp/call.
+- Scope: `OPENING-MOTION.md`. Native LIVE PREVIEW: **Balloon Creation website · port 8080**. Earlier `3Wemmj` is the original three-page publication; use the new link above for this motion correction.
+
+---
+
+## Previous MAIN website — three dedicated customer pages (2026-10-23)
 
 **https://clck.ru/3Wemmj**
 

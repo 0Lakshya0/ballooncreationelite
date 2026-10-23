@@ -14,3 +14,6 @@ Owner instruction: opening any option must not rise into view or sweep up from t
 ## Verification and publication
 
 TypeScript, native build, targeted lint and **182 frontend tests / 15 files** pass. Sixteen new policy regressions cover both router configurations, entry-keyframe translation, hidden reveal/dropdown/overlay offsets and retention of independent animation systems. Full actual-browser results and immutable phone publication are recorded in the latest `PHONE-VIEW.md` entry after verification.
+
+
+Published MAIN **https://clck.ru/3Wexuz**; source `eee461b2b9b94bf259065bb569a7e05816c93321`, artifact `c0d932498d4bc22585969119d7add900213a44e2`, blob `f73e035d8fd573ccb9082fe96b2e2104bb044efa` / 12,802,248 bytes. Native and exact-phone 320/390/768/1440 entry tests pass under **normal** motion preference, including starting at the bottom and recording instant top/hash resets. All template families checked at 390; exact phone uses genuine fragment reloads and a simulated remote base, with zero external requests/page errors. Public Home and FAQ render separately verified. Current provenance and precise QA limits are in `PHONE-VIEW.md`.
