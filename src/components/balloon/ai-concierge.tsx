@@ -10,13 +10,7 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowUpRight, MessageCircle, Send, X } from "lucide-react";
 import { AIConciergeContext } from "@/lib/ai-concierge-context";
-import {
-  AI_QUESTION_LIMIT,
-  AIRequestError,
-  aiProviderLabel,
-  localBusinessAnswer,
-  requestAI,
-} from "@/lib/ai-client";
+import { AI_QUESTION_LIMIT, AIRequestError, localBusinessAnswer, requestAI } from "@/lib/ai-client";
 import {
   clamp,
   dockPosition,
@@ -28,6 +22,7 @@ import {
   type Point,
 } from "@/lib/ai-dock";
 import { contact } from "@/lib/celebrations";
+import { BLOON_NAME, localBloonAnswer } from "@/lib/bloon-identity";
 import { AIOrb } from "./ai-orb";
 import "./ai-concierge.css";
 
@@ -167,7 +162,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
         setDraft(value);
         return;
       }
-      const local = localBusinessAnswer(question);
+      const identity = localBloonAnswer(question);
+      const local = identity || localBusinessAnswer(question);
       if (!local && Date.now() < retryUntil) {
         setDraft(value);
         setError(
@@ -179,7 +175,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       setDraft("");
       append({ role: "user", text: question });
       if (local) {
-        append({ role: "assistant", text: local, provider: "team" });
+        append({ role: "assistant", text: local, provider: identity ? "bloon" : "team" });
         return;
       }
       busyRef.current = true;
@@ -383,7 +379,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
           <header className="bce-ai-header">
             <div>
               <span className="bce-ai-eyebrow">YOUR CELEBRATION COMPANION</span>
-              <Dialog.Title>Balloon Creation AI</Dialog.Title>
+              <Dialog.Title>{BLOON_NAME}</Dialog.Title>
               <Dialog.Description>We decorate your happiness</Dialog.Description>
             </div>
             <Dialog.Close className="bce-ai-close" aria-label="Close AI chat">
@@ -433,13 +429,13 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
             )}
             {messages.map((message) => (
               <article className={`bce-ai-message is-${message.role}`} key={message.id}>
-                <span>{message.role === "user" ? "YOU" : "BALLOON CREATION"}</span>
+                <span>{message.role === "user" ? "YOU" : BLOON_NAME}</span>
                 <p>{message.text}</p>
                 {message.provider && (
                   <small>
                     {message.provider === "team"
-                      ? "Confirmed business details · no AI request"
-                      : `AI answer · ${aiProviderLabel(message.provider)}`}
+                      ? "Bloon · Confirmed business details · no AI request"
+                      : BLOON_NAME}
                   </small>
                 )}
                 {message.provider === "team" && (
