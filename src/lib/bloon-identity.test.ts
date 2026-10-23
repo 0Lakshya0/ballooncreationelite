@@ -6,6 +6,10 @@ describe("Bloon identity, independent of upstream", () => {
   it.each([
     "What is your name?",
     "Who are you?",
+    "What are you?",
+    "Which AI are you?",
+    "Tu kon hai?",
+    "Apna naam batao",
     "Who am I talking to?",
     "What do they call you?",
     "Identify yourself",
@@ -56,6 +60,7 @@ describe("Bloon identity, independent of upstream", () => {
     "I'm ChatGPT.",
     "My name is Claude.",
     "My name is Spark.",
+    "I am Spark.",
     "I am an AI model developed by OpenAI.",
     "I was created by Google.",
     "मेरा नाम Gemini है।",

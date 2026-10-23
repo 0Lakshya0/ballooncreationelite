@@ -20,7 +20,7 @@ export function localBloonAnswer(question: string): string | null {
     .replace(/[\u200b-\u200f\u202a-\u202e\u2060-\u206f]/gu, "")
     .toLowerCase();
   const self =
-    /\b(?:you|your|yourself|ur|u|tum|tumhara|tumhari|aap|apka|aapka|aapki|tera|teri|apni|apne|khud)\b|तुम|आप|तेरा|तेरी|अपना|अपने|खुद/u.test(
+    /\b(?:you|your|yourself|ur|u|tu|tum|tumhara|tumhari|aap|apka|aapka|aapki|tera|teri|apna|apni|apne|khud)\b|तुम|आप|तेरा|तेरी|अपना|अपने|खुद/u.test(
       text,
     );
   const identity =
@@ -28,7 +28,7 @@ export function localBloonAnswer(question: string): string | null {
       text,
     );
   const direct =
-    /\b(?:who (?:are|r) (?:you|u)|who am i (?:speaking|talking) (?:to|with)|what (?:do|should) (?:they|i|we) call you|introduce yourself|identify yourself|underlying (?:model|provider|engine))\b|^(?:name|naam|nam|नाम)[?! .]*$/iu.test(
+    /\b(?:(?:who|what|which ai|which assistant) (?:are|r) (?:you|u)|who am i (?:speaking|talking) (?:to|with)|what (?:do|should) (?:they|i|we) call you|introduce yourself|identify yourself|underlying (?:model|provider|engine))\b|^(?:name|naam|nam|नाम)[?! .]*$/iu.test(
       text,
     );
   const rename =
@@ -53,13 +53,17 @@ export function enforceBloonIdentity(answer: string, question: string): string {
     "i",
   );
   const hindiClaim = new RegExp(`(?:मेरा नाम|मैं|mera naam|main|mai)\\s+(?:${other})`, "iu");
+  const properNameClaim =
+    /\bI(?: am|[’']m)\s+(?!Bloon\b|An?\b|The\b|Here\b|Happy\b|Glad\b|Sorry\b|Ready\b|Your\b|Able\b|Not\b)[A-Z][a-z][\p{L}\p{N}_-]*/u.test(
+      answer,
+    );
   const renamedClaim =
     /\bmy (?:real |actual )?name (?:is|:)\s+(?!bloon\b)\S+|मेरा नाम\s+(?!bloon\b)\S+|\bmera naam\s+(?!bloon\b)\S+/iu.test(
       answer,
     );
   return (
     localBloonAnswer(question) ||
-    (renamedClaim || selfClaim.test(answer) || hindiClaim.test(answer)
+    (properNameClaim || renamedClaim || selfClaim.test(answer) || hindiClaim.test(answer)
       ? bloonIntroduction(question)
       : answer)
   );
