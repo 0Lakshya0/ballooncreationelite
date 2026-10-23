@@ -147,7 +147,7 @@ export function SmartSearch({ areas, onLocation }: { areas: string[]; onLocation
   };
   const pickService = () => {
     done();
-    document.getElementById("categories")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("categories")?.scrollIntoView({ behavior: "instant", block: "center" });
   };
   const pickPlace = (p: string) => {
     done();

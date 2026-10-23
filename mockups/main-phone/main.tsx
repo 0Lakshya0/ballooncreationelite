@@ -39,11 +39,7 @@ document.addEventListener("click", (event) => {
   const href = anchor?.getAttribute("href");
   if (!href?.startsWith("#")) return;
   event.preventDefault();
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (href === "#") window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
-  else
-    document
-      .getElementById(href.slice(1))
-      ?.scrollIntoView({ behavior: reduced ? "instant" : "smooth" });
+  if (href === "#") window.scrollTo({ top: 0, behavior: "instant" });
+  else document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "instant" });
 });
 createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />);

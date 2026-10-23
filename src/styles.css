@@ -67,7 +67,7 @@
 }
 @layer base {
   * { border-color: var(--border); }
-  html { scroll-behavior: smooth; scroll-padding-top: 106px; }
+  html { scroll-behavior: auto; scroll-padding-top: 106px; }
   body { margin: 0; background: var(--royal-background); color: var(--foreground); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
   h1,h2,h3,p { margin: 0; }
   h1,h2 { font-family: var(--font-display); font-weight: 600; }

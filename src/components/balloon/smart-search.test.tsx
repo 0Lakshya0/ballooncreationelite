@@ -169,7 +169,7 @@ describe("SmartSearch three-layer salesman logic", () => {
     target.scrollIntoView = scroll;
     search("Corporate");
     act(() => box.querySelector("button")!.click());
-    expect(scroll).toHaveBeenCalledWith({ behavior: "smooth", block: "center" });
+    expect(scroll).toHaveBeenCalledWith({ behavior: "instant", block: "center" });
     expect(input.value).toBe("");
     expect(result()).toBeNull();
     search("Vijay Nagar");

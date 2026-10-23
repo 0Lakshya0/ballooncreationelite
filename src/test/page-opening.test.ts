@@ -59,3 +59,15 @@ it("preserves the carousel, background and mascot rather than applying a global 
   expect(ai).toContain("animation: bce-ai-panel-in");
   expect(readFileSync("src/components/balloon/ai-bloon.css", "utf8")).toContain("@keyframes");
 });
+
+it("also makes raw in-page links and search option jumps instant, not just router links", () => {
+  for (const path of ["src/styles.css", "src/components/balloon/decor/approved-decor.css"]) {
+    postcss.parse(readFileSync(path, "utf8")).walkDecls("scroll-behavior", (decl) => {
+      expect(decl.value).toBe("auto");
+    });
+  }
+  expect(readFileSync("mockups/main-phone/main.tsx", "utf8")).not.toContain('"smooth"');
+  expect(readFileSync("src/components/balloon/smart-search.tsx", "utf8")).toContain(
+    'scrollIntoView({ behavior: "instant", block: "center" })',
+  );
+});

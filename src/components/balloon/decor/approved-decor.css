@@ -236,7 +236,7 @@
 
 /* English editorial collection — all overrides stay in this standalone page. */
 .bce-decor{--background:#fbf8f3;--foreground:#3e282d;--secondary:#f3e8e3;--muted-foreground:#756568;--border:#e6d9d2;--gold:#986b46;--rose-gold:#804450;--wine:#542d3b;--blush:#e8c7c0;--font-display:"Cormorant Garamond",Georgia,serif;--font-sans:"Manrope",Arial,sans-serif}
-.bce-decor{scroll-behavior:smooth;scroll-padding-top:104px}
+.bce-decor{scroll-behavior:auto;scroll-padding-top:104px}
 .bce-decor{background:#fbf8f3;padding-bottom:105px}
 .bce-decor button,.bce-decor a{-webkit-tap-highlight-color:transparent}
 .bce-decor a:focus-visible,.bce-decor button:focus-visible{outline:3px solid #a16655;outline-offset:5px}
