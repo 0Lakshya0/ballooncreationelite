@@ -1,4 +1,17 @@
-## Latest MAIN website — Exhibition Stall removed everywhere (2026-10-23)
+## Latest MAIN website — uploaded real homepage photos, batch 1 (2026-10-23)
+
+**https://clck.ru/3WfJ9h**
+
+- Runtime source `b3ea9d4a56e0c82f8b917d1a3ed90fb32e90fcd0`; immutable artifact `fb70060a32496a4cf4b9231965720dd9ca234584`. Target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/fb70060a32496a4cf4b9231965720dd9ca234584/drafts/main-website-phone.html`. Local/GitHub API blob **`5e129e11fcef5c7bb4db7b6390152f273ffccf86`**, **14,994,045 bytes**, match. Embedded source metadata and JS syntax PASS. Public short redirect/Home independently renders the new **Grand Opening decoration inspiration** image/caption, with the retained 19-circle/six-card layout.
+- Applied this first batch now at the owner's request: **17 selected uploaded photos** replace ALL previous generated photos in the homepage animated hero (not all other site galleries). Eighteen untouched originals and source/crop/selection manifest retained in `photo-intake/homepage-real/`; the exhibition-stall upload is excluded from MAIN. Optimized metadata-stripped WebP assets total **2,166,938 bytes**, quality82/no upscaling/retouching/generation; the sideways wedding is rotated upright. Per-image desktop/mobile focal positions and real intrinsic dimensions; neutral alt text, no new unsupported work-authorship claims.
+- Same 5-second rotation, 1.4-second opacity fade, 22-second drift, masks/wash/colours/typography/hero layout/reduced-motion rule. Stable IDs, only active/neighbour images mounted. Portable adapter now accepts static uploaded-photo imports instead of demanding the former generated-category glob. Original search/typewriter/Bloon/WebGL, 19 occasions and exhibition removal preserved. No AI/provider/backend work or live inference/enquiries; previous server Bloon prompt deployment remains pending.
+- **269 tests / 19 files**, TypeScript, targeted ESLint, native build and portable build PASS. Four new hero regressions: selected uploaded-only assets/unique IDs, actual WebP/intrinsic/focal data, upright wedding, exhibition exclusion and preserved animation wiring. Reproducible preparation script and manifest documented in `REAL-HOMEPAGE-PHOTOS.md`.
+- Native **and exact phone bytes** at **320/390/768/1440**, normal motion: real-time slide advancement, configured 1.4s fade, loaded natural image dimensions, correct responsive focal position, 3 mounted images, 19 circles/6 cards/one Bloon, no overflow/JS errors/AI calls. At **390 and1440**, all **17** slides are traversed with controlled browser time; SHA-256 of every actually displayed image equals its corresponding uploaded-photo WebP derivative, upright wedding checked and wraparound verified. At320/768, 2 rendered slide hashes/focals checked. OS reduced-motion reload stays static after10s controlled time. Phone uses simulated remote base and makes zero external requests. Mobile screenshot reviewed; desktop screenshot capture timed out under software WebGL, so it was removed from the functional harness and the remaining checks completed separately—no claim of a full desktop screenshot review or new shader regression.
+- Native LIVE PREVIEW **Balloon Creation website · port8080**. Full scope and intake mapping: `REAL-HOMEPAGE-PHOTOS.md`, `photo-intake/homepage-real/selection.json`. More supplied photos can extend the next batch. `3WfFrh` is the previous occasion-removal publication.
+
+---
+
+## Previous MAIN website — Exhibition Stall removed everywhere (2026-10-23)
 
 **https://clck.ru/3WfFrh**
 

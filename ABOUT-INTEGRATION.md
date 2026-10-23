@@ -1,4 +1,10 @@
-## Latest publication — Exhibition Stall removed (2026-10-23)
+## Latest publication — real uploaded homepage hero photos (2026-10-23)
+
+MAIN **https://clck.ru/3WfJ9h**. Source `b3ea9d4a56e0c82f8b917d1a3ed90fb32e90fcd0`, artifact `fb70060a32496a4cf4b9231965720dd9ca234584`. First batch applied now:17 uploaded photos replace generated slideshow images, desktop/mobile framing and upright wedding, original animation/overlay/layout preserved. Exhibition upload excluded; all19 occasions/6 cards/search/Bloon/WebGL retained. **269 tests /19 files**, TypeScript/lint/builds and native/exact-phone320/390/768/1440 loading/rotation/reduced-motion checks PASS; all17 rendered image hashes/focals checked at390/1440 in each runtime. No new AI/backend work; previous Worker identity prompt deployment still pending. Precise verification/provenance: `PHONE-VIEW.md`, `REAL-HOMEPAGE-PHOTOS.md`. Older entries below are historical.
+
+---
+
+## Previous publication — Exhibition Stall removed (2026-10-23)
 
 MAIN **https://clck.ru/3WfFrh**. Source `5eeeef4d9791ad1c4a6214664a1a33976bb5081e`; artifact `57ea9cd10a54f4421d65527bfe74f67af91fd0e7`. Exhibition Stall removed from circle/card/detail/hero/search/image and all shared enquiry/planner choices; obsolete detail link is unavailable (native404). **19 normal occasions / 24 total detail pages**; counts dynamic, remaining images and designs unchanged. **265 tests / 18 files**, TypeScript/lint/builds and native/exact-phone 320/390/768/1440 deletion, retained navigation and missing-link checks pass, no AI calls. Existing backend Bloon prompt deployment remains pending. Integrity/scope: `PHONE-VIEW.md`, `OCCASION-REMOVAL.md`. Older records below are historical.
 
