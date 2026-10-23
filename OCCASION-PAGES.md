@@ -1,3 +1,5 @@
+> Current MAIN **https://clck.ru/3WfFrh** — Exhibition Stall has subsequently been removed. Current counts: 19 normal occasions and 24 total searchable detail pages. Original feature verification below is historical; see `OCCASION-REMOVAL.md` and `PHONE-VIEW.md`.
+
 # All 20 moving-circle occasions — simple customer journeys
 
 ## Scope (owner request, 2026-10-20)

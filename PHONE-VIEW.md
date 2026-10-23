@@ -1,4 +1,17 @@
-## Latest MAIN website — visible ranked search and direct results (2026-10-23)
+## Latest MAIN website — Exhibition Stall removed everywhere (2026-10-23)
+
+**https://clck.ru/3WfFrh**
+
+- Runtime source `5eeeef4d9791ad1c4a6214664a1a33976bb5081e` (removal source `223d129f83306d544e466154aa99ab5c8bf744ab`); artifact `57ea9cd10a54f4421d65527bfe74f67af91fd0e7`. Target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/57ea9cd10a54f4421d65527bfe74f67af91fd0e7/drafts/main-website-phone.html`. GitHub API/local blob **`5a7451bfc9f88c494e6dc5d8971be6eab30f534d`** / **12,707,341 bytes** match. Embedded source metadata and inline JS syntax pass; artifact contains no Exhibition Stall/old slug/category-19 references. Public short redirect/Home independently renders **19 circles**, **Explore all 19**, **Showing 6 of 19**, and 19-format statistic with no removed option.
+- Removed moving circle, lower card/detail content, rotating hero slide, search alias, unused category-19 asset and derived recommendations/planner/callback choices. Shared enquiry validation rejects the old choice. Old native detail URL returns HTTP404 and both router views show the truthful unavailable page, not a claim it moved/is still offered. No re-numbering of remaining images: Annual Day Function keeps photo 20. Unrelated Showroom Setup/Grand Opening/photo booths remain.
+- All current browse/back/header/Home/stat counts derive from shared data: **19 normal occasions + 5 premium pages = 24 searchable details**. Six initial cards still expand 6→12→18→19. Smart search, instant navigation, bounded circle press, Bloon and backgrounds preserved; no new provider/backend/deployment work. Previous server Bloon prompt deployment remains pending.
+- **265 tests / 18 files**, TypeScript, targeted ESLint and native/phone builds pass. Two explicit cross-catalogue/removal/enquiry/search/retained-route/photo regressions replace two deleted parameterized occasion/route cases. Historical documents and old standalone reference mockups are archival; protected pre-existing bilingual/Worker edits excluded.
+- Final native **and exact final phone bytes**, normal-motion Chromium at **320/390/768/1440**: 19 circle/card hrefs agree; initial 6 then 12/18/19; removed option absent from Home/search/planner/callback including obsolete query prefill; popular fallback still works; actual Birthday search selection opens its retained page with 19-occasion back link; Annual Day retained; old route unavailable (native HTTP404); zero JS errors/AI requests. Phone uses genuine direct-fragment reloads and simulated remote base, with zero external requests. Generic unavailable-copy wording assertion was corrected during QA; all final browser assertions PASS.
+- Scope `OCCASION-REMOVAL.md`. Native LIVE PREVIEW **Balloon Creation website · port 8080**. Previous `3Wf6fJ` is the earlier 20-occasion smart-search release; use the link above now.
+
+---
+
+## Previous MAIN website — visible ranked search and direct results (2026-10-23)
 
 **https://clck.ru/3Wf6fJ**
 

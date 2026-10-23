@@ -1,4 +1,10 @@
-## Latest publication — smarter visible website search (2026-10-23)
+## Latest publication — Exhibition Stall removed (2026-10-23)
+
+MAIN **https://clck.ru/3WfFrh**. Source `5eeeef4d9791ad1c4a6214664a1a33976bb5081e`; artifact `57ea9cd10a54f4421d65527bfe74f67af91fd0e7`. Exhibition Stall removed from circle/card/detail/hero/search/image and all shared enquiry/planner choices; obsolete detail link is unavailable (native404). **19 normal occasions / 24 total detail pages**; counts dynamic, remaining images and designs unchanged. **265 tests / 18 files**, TypeScript/lint/builds and native/exact-phone 320/390/768/1440 deletion, retained navigation and missing-link checks pass, no AI calls. Existing backend Bloon prompt deployment remains pending. Integrity/scope: `PHONE-VIEW.md`, `OCCASION-REMOVAL.md`. Older records below are historical.
+
+---
+
+## Previous publication — smarter visible website search (2026-10-23)
 
 MAIN **https://clck.ru/3Wf6fJ**. Source `dd4d5c2dc2fa6fd2926808b9245b4580e6719acd`; artifact `cd5b3d22706b4b28bfbbe71873bc8248e496ec83`. Exact/related 25-page search, EN/HI/Hinglish aliases, bounded typo matches, full local areas, actual result-page navigation/Enter, immediate honest popular alternatives and viewport-aware visible dropdown. Search look/icon/typewriter unchanged. **265 tests / 17 files**, lint/TypeScript/builds and native/exact-phone 320/390/768/1440 actual result-hit/navigation checks PASS; no AI requests. Existing Bloon server-prompt deployment is still pending; no backend/provider changes in this task. Provenance and precise limits: `PHONE-VIEW.md`, `SMART-SEARCH.md`. Older entries below are historical.
 
