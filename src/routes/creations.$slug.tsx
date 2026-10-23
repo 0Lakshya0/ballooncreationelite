@@ -98,8 +98,10 @@ function ServiceNotFound() {
       <SiteHeader />
       <main id="main" className="service-missing page-width">
         <span className="eyebrow">A LITTLE LOST</span>
-        <h1>That creation has moved.</h1>
-        <p>Explore our signature collections — the one you are looking for is still here.</p>
+        <h1>That creation is not available.</h1>
+        <p>
+          Browse our current occasions and collections to find another idea for your celebration.
+        </p>
         <Link to="/" hash="portfolio" className="service-back">
           <ArrowLeft size={15} /> Back to all creations
         </Link>
