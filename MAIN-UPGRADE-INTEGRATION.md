@@ -1,4 +1,10 @@
-## Latest publication — Bloon identity and reply attribution (2026-10-23)
+## Latest publication — smarter visible website search (2026-10-23)
+
+MAIN **https://clck.ru/3Wf6fJ**. Source `dd4d5c2dc2fa6fd2926808b9245b4580e6719acd`; artifact `cd5b3d22706b4b28bfbbe71873bc8248e496ec83`. Exact/related 25-page search, EN/HI/Hinglish aliases, bounded typo matches, full local areas, actual result-page navigation/Enter, immediate honest popular alternatives and viewport-aware visible dropdown. Search look/icon/typewriter unchanged. **265 tests / 17 files**, lint/TypeScript/builds and native/exact-phone 320/390/768/1440 actual result-hit/navigation checks PASS; no AI requests. Existing Bloon server-prompt deployment is still pending; no backend/provider changes in this task. Provenance and precise limits: `PHONE-VIEW.md`, `SMART-SEARCH.md`. Older entries below are historical.
+
+---
+
+## Previous publication — Bloon identity and reply attribution (2026-10-23)
 
 MAIN: **https://clck.ru/3Wf3YS**. Source `d8684db23d664a2a3add17a09a2152f15d3f1439`; phone artifact `114c165f866dc2815a5ef4ab7afe814901f229b8`. Public assistant attribution is always Bloon; common identity requests are fixed local Bloon AI introductions and conflicting upstream self names are guarded. Provider metadata remains internal and truthful. **237 frontend / 179 mocked Worker tests**, TypeScript/lint/builds and native/exact-phone 320/390/768/1440 branding/identity checks PASS; browser AI replies were mocks, not live inference. **Updated server prompt is source-only and still needs owner deployment to the existing Worker.** No keys/providers/bindings changed. Precise boundaries: `BLOON-IDENTITY.md`, `PHONE-VIEW.md`. Earlier entries below are historical.
 

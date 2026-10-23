@@ -1,4 +1,18 @@
-## Latest MAIN website — Bloon reply attribution and identity (2026-10-23)
+## Latest MAIN website — visible ranked search and direct results (2026-10-23)
+
+**https://clck.ru/3Wf6fJ**
+
+- Source `dd4d5c2dc2fa6fd2926808b9245b4580e6719acd`; immutable phone artifact `cd5b3d22706b4b28bfbbe71873bc8248e496ec83`. Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/cd5b3d22706b4b28bfbbe71873bc8248e496ec83/drafts/main-website-phone.html`. Verified local/GitHub blob **`57dd7556ea4e5c442eee4d244986f523b7ca2bc5`** / **12,808,847 bytes**. Source metadata/inline JS syntax verified; public short redirect and Home render independently verified.
+- All 20 occasion + 5 premium pages and existing full Indore area catalogue searchable. Exact names first; title/alias tokens, joined names, EN/HI/Hinglish words and bounded spelling/transposition matching. Birthday/birtday/brithday/bday/janamdin/जन्मदिन; shaadi/शादी, godbharai and babyshower examples covered. Actual service links open their matching detail page; Enter chooses the leading match instead of scrolling to the category strip.
+- Unknown input immediately shows clearly labelled popular options plus explicit Bloon/WhatsApp help, not an empty region or invented catalogue/stock/feasibility success. Removed fake checking/verifying timers and input locks. Existing price/time/contact shortcuts preserved; AI still requires explicit action and identity questions retain the local Bloon guard. Original search field look/icon and placeholder typing/hold/deletion strings/timings unchanged.
+- Dropdown stacks above following page content, scrolls within available height, flips above/below the field and updates on viewport/scroll/visual-keyboard resize. Recovery for an already typed SSR DOM query included. Ordinary selection remains instant, no vertical entry animation. No backend/provider/Worker/key changes; previous server Bloon prompt deployment remains pending.
+- **265 frontend tests / 17 files**, TypeScript, targeted lint and native/phone builds PASS. 22 ranked-index cases plus updated actual search UI tests: all 25 exact page names, aliases, typos, compact names, location matching, no invented hits, immediate editable results, actual links/Enter, honest alternatives, dismissal, safe rendering and original placeholder timing. Earlier fake-feasibility expectations deliberately replaced. Shared search/AI test uses a genuinely non-catalogue general question rather than expecting a birthday-related request to skip matching services.
+- Final native and **exact phone bytes**, normal-motion Chromium **320/390/768/1440**: 9 exact/typo/Hindi/Hinglish/compact/premium queries rank the expected actual href first; Birthday row receives real pointer hits rather than being hidden behind other content; complete dropdown stays within both 900px and resized 500px viewports; unknown input shows 5 popular real links; Escape dismisses; explicit identity Enter opens local Bloon with zero AI calls; actual mobile tap/desktop Enter opens Birthday detail URL in each router; one mascot/no overflow/page errors. Phone uses simulated HTMLPreview/raw-GitHub base with zero external requests. Resized headless viewport is not a claim of physical soft-keyboard-device testing. No live AI calls/health polls/lead submissions.
+- Scope: `SMART-SEARCH.md`. Native LIVE PREVIEW **Balloon Creation website · port 8080**. Previous `3Wf3YS` is the Bloon identity publication; historical full circle/shader/page UI tests are retained below, not rerun as unrelated work.
+
+---
+
+## Previous MAIN website — Bloon reply attribution and identity (2026-10-23)
 
 **https://clck.ru/3Wf3YS**
 
