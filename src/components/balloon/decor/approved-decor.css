@@ -474,7 +474,7 @@
 .bce-decor .motion-icon{width:11px;height:11px;flex:none}
 .bce-decor .motion-toggle[aria-pressed="true"] .motion-icon{opacity:.45}
 .bce-decor .motion-toggle:disabled{cursor:default}
-.bce-decor[data-motion="on"] .motion-reveal{opacity:0;transform:translate3d(0,18px,0);transition:opacity .8s ease,transform .95s cubic-bezier(.16,.7,.24,1);transition-delay:var(--reveal-delay,0ms)}
+.bce-decor[data-motion="on"] .motion-reveal{opacity:0;transform:none;transition:opacity .8s ease,transform .95s cubic-bezier(.16,.7,.24,1);transition-delay:var(--reveal-delay,0ms)}
 .bce-decor[data-motion="on"] .motion-reveal.is-visible{opacity:1;transform:none}
 .bce-decor[data-motion="on"] .chip.motion-reveal.is-visible:hover{transform:translate3d(0,-4px,0)}
 .bce-decor:not([data-motion="on"]) .section-tone,.bce-decor[data-motion-suspended] .section-tone,.bce-decor .section-scope:not([data-inview="true"]) .section-tone{animation-play-state:paused!important}

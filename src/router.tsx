@@ -9,6 +9,9 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    // Opening a destination must not animate the old scroll position up to the top.
+    scrollRestorationBehavior: "instant",
+    defaultHashScrollIntoView: { behavior: "instant" },
     defaultPreloadStaleTime: 0,
   });
 

@@ -81,7 +81,7 @@
   color: oklch(0.99 0.01 90);
   background: linear-gradient(0deg, oklch(0.22 0.02 60 / 0.48), transparent);
   opacity: 0;
-  transform: translateY(6px);
+  transform: none;
   transition:
     opacity 0.35s ease,
     transform 0.35s var(--motion-ease);
@@ -440,7 +440,7 @@
   backdrop-filter: blur(18px);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-6px);
+  transform: none;
   transition:
     opacity 0.22s ease,
     transform 0.22s var(--motion-ease),

@@ -16,6 +16,9 @@ const router = createRouter({
     ],
   }),
   scrollRestoration: true,
+  // Opening a destination must not animate the old scroll position up to the top.
+  scrollRestorationBehavior: "instant",
+  defaultHashScrollIntoView: { behavior: "instant" },
 });
 router.subscribe("onResolved", () => {
   const { pathname, hash, searchStr } = router.state.location;

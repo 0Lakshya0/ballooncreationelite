@@ -191,8 +191,8 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .site-footer > span { font-size: 8px; color: var(--muted-foreground); }
 .back-top { font-size: 8px; display: flex; align-items: center; gap: 12px; }
 .reveal { transition: opacity .5s ease, transform .65s var(--motion-ease), box-shadow .4s ease; }
-@media (prefers-reduced-motion: no-preference) { .motion-ready .reveal:not(.is-visible) { opacity: 0; transform: translateY(24px); } }
-@keyframes hero-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) { .motion-ready .reveal:not(.is-visible) { opacity: 0; transform: none; } }
+@keyframes hero-in { from { opacity: 0; } to { opacity: 1; } }
 @media(min-width:1600px) { .hero { height: 690px; } .hero h1 { font-size: 76px; } }
 @media(max-width:1100px) { .page-width { width: calc(100% - 72px); } .main-nav { gap: 16px; font-size: 10px; } .brand { font-size: 24px; } .hero h1 { font-size: 58px; } .concierge-layout { gap: 45px; } .inquiry-panel { padding: 28px; } .creation-caption h3 { font-size: 21px; } }
 @media(max-width:800px) { .page-width { width: calc(100% - 44px); } .site-header { height: 77px; } .main-nav { display: none; } .mobile-menu { display: inline-flex; } .nav-layout { gap: 12px; } .nav-consultation { margin-left: auto; } .main-nav.is-open { display: flex; position: absolute; top: 77px; left: 0; right: 0; flex-direction: column; align-items: flex-start; padding: 25px 24px; gap: 25px; background: var(--background); border-bottom: 1px solid var(--border); font-size: 13px; } .hero { height: 620px; } .hero h1 { font-size: 54px; } .hero-wash { background: linear-gradient(90deg, var(--glass) 0%, oklch(1 0 0 / .65) 55%, oklch(1 0 0 / .08) 100%); } .hero-caption { display: none; } .brand-strip .strip-center { display: none; } .section-space { padding-block: 70px; } .section-heading h2,.standard-heading h2,.concierge h2 { font-size: 43px; } .section-intro p { max-width: 210px; } .section-intro p br { display: none; } .portfolio-grid { gap: 28px 16px; } .creation-caption { gap: 9px; } .creation-caption h3 { font-size: 20px; } .image-tag { font-size: 6px; top: 10px; left: 10px; padding: 7px; } .standard-item { padding-inline: 23px; } .standard-item h3 { font-size: 24px; } .concierge-layout { grid-template-columns: 1fr; gap: 35px; } .concierge-copy > p { max-width: 400px; } .concierge-contact { margin-top: 25px; } .location-note { margin-top: 26px; } .inquiry-panel { padding: 32px; } .site-footer { flex-wrap: wrap; padding-block: 24px; } }
@@ -215,7 +215,7 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 }
 @keyframes gold-sweep { to { transform: translateX(140%) skewX(-15deg); } }
 @keyframes royal-drift { from { transform: scale(1.03) translateX(-.5%); } to { transform: scale(1.095) translateX(.5%); } }
-@keyframes scroll-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scroll-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion:no-preference) {
   .hero-content > * { animation: scroll-in .7s var(--motion-ease) both; }
   .hero-content > :nth-child(2) { animation-delay: .06s; }
@@ -364,8 +364,8 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
   .aura-in { animation: aura-in 3s cubic-bezier(.4,0,.2,1) both; }
   .aura-out { animation: aura-out 3s cubic-bezier(.4,0,.2,1) both; }
 }
-@keyframes aura-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes aura-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }
+@keyframes aura-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes aura-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes fluid-in { from { opacity: 0; } to { opacity: .34; } }
 @keyframes fluid-flow { from { transform: translateX(0); } to { transform: translateX(25%); } }
 
@@ -432,7 +432,7 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .service-badge { position: absolute; right: 36px; bottom: 112px; z-index: 3; display: flex; align-items: center; gap: 12px; padding: 14px 24px; border-radius: 999px; background: oklch(0.2 0.02 60 / .42); backdrop-filter: blur(16px) saturate(140%); border: 1px solid oklch(0.8 0.11 80 / .7); box-shadow: 0 12px 40px -12px oklch(0.2 0.02 60 / .5); overflow: hidden; }
 .service-dot { width: 8px; height: 8px; border-radius: 50%; background: oklch(0.82 0.12 82); box-shadow: 0 0 12px oklch(0.82 0.12 82); flex: none; }
 .service-name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 24px; letter-spacing: .02em; color: oklch(0.97 0.02 85); white-space: nowrap; animation: service-in .9s ease both; }
-@keyframes service-in { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes service-in { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: none; } }
 @media (max-width: 800px) { .service-badge { right: 22px; bottom: 24px; padding: 10px 18px; } .service-name { font-size: 19px; } }
 @media (prefers-reduced-motion: reduce) { .hero-slide { transition: none; } .service-name { animation: none; } }
 
@@ -461,4 +461,4 @@ h2 em { font-weight: 600; color: var(--rose-gold); }
 .brand-strip .smart-head { display: block; padding: 8px 12px 4px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: var(--gold); }
 .smart-results button, .smart-empty { display: block; width: 100%; text-align: left; padding: 9px 12px; border-radius: 12px; font-size: 14px; color: var(--foreground); letter-spacing: 0; text-transform: none; }
 .smart-results button:hover, .smart-empty:hover { background: color-mix(in oklab, var(--gold) 12%, transparent); }
-@keyframes smart-in { from { opacity: 0; transform: translateY(-6px); } }
+@keyframes smart-in { from { opacity: 0; } }
