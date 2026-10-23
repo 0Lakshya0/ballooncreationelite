@@ -109,12 +109,6 @@ export const occasionEntries = [
     photo: 18,
   },
   {
-    name: "Exhibition Stall",
-    slug: "exhibition-stall",
-    group: "Work & events",
-    photo: 19,
-  },
-  {
     name: "Annual Day Function",
     slug: "annual-day-function",
     group: "Work & events",

@@ -29,7 +29,6 @@ export const heroSlides: { name: string; image: string }[] = [
   { name: "Pet Decoration", image: cat(14) },
   { name: "Showroom Setup", image: cat(17) },
   { name: "Grand Opening", image: cat(18) },
-  { name: "Exhibition Stall", image: cat(19) },
   { name: "Room Surprise", image: cat(8) },
   { name: "Farewell Party", image: cat(15) },
   { name: "Annual Day Function", image: cat(20) },

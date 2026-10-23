@@ -70,7 +70,7 @@ describe("SmartSearch three-layer salesman logic", () => {
     expect(link(`Call ${contact.label}`).getAttribute("href")).toBe(`tel:${contact.phone}`);
   });
   it("searches every real service and location, including Corporate without a false Rate interception", () => {
-    expect(categories).toHaveLength(20);
+    expect(categories).toHaveLength(19);
     expect(areas.length).toBeGreaterThanOrEqual(80);
     for (const service of categories) {
       search(`  ${service.toUpperCase()}  `);

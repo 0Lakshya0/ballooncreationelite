@@ -1,3 +1,4 @@
+import { occasionEntries } from "@/lib/occasion-entries";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, Check, ChevronDown, MessageCircle, Phone } from "lucide-react";
@@ -223,7 +224,7 @@ export function OccasionDetailPage({ occasion }: { occasion: OccasionPage }) {
             ))}
           </div>
           <Link className="occasion-back" to="/" hash="portfolio">
-            <ArrowLeft size={17} /> Back to all 20 occasions
+            <ArrowLeft size={17} /> Back to all {occasionEntries.length} occasions
           </Link>
         </section>
       </main>

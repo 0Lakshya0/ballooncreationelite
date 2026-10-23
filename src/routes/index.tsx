@@ -1,3 +1,4 @@
+import { occasionEntries } from "@/lib/occasion-entries";
 import { OccasionGrid } from "@/components/balloon/creations/OccasionGrid";
 import { openAreasDialog } from "@/lib/area-events";
 import { AreasTrigger } from "@/components/balloon/areas-dialog";
@@ -329,7 +330,7 @@ function Index() {
                 we make every occasion unmistakably yours.
               </p>
               <span>
-                EXPLORE ALL 20 OCCASIONS <ArrowDown size={14} />
+                EXPLORE ALL {occasionEntries.length} OCCASIONS <ArrowDown size={14} />
               </span>
             </div>
           </div>

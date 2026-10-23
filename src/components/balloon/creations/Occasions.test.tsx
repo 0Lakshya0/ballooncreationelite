@@ -49,9 +49,9 @@ async function mount(component: () => React.ReactNode, path = "/") {
   return router;
 }
 it("gives every circle one unique matching card/page, correct image and allowed enquiry name", () => {
-  expect(occasionEntries).toHaveLength(20);
+  expect(occasionEntries).toHaveLength(19);
   expect(categories).toEqual(occasionPages.map((x) => x.name));
-  expect(new Set(serviceSlugs).size).toBe(25);
+  expect(new Set(serviceSlugs).size).toBe(24);
   for (const entry of occasionPages) {
     expect(getService(entry.slug)).toBe(entry);
     expect(entry.heroImage).toContain(`category-${String(entry.photo).padStart(2, "0")}.webp`);
@@ -70,14 +70,14 @@ it("starts with six cards and filters all occasions locally with a working reset
   await mount(() => <OccasionGrid />);
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   fireEvent.click(screen.getByRole("button", { name: "Work & events" }));
-  expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
+  expect(document.querySelectorAll(".occasion-card")).toHaveLength(5);
   fireEvent.change(screen.getByRole("searchbox", { name: "Find an occasion" }), {
-    target: { value: "Exhibition" },
+    target: { value: "Annual" },
   });
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(1);
-  expect(screen.getByRole("link", { name: "Explore Exhibition Stall" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Explore Annual Day Function" })).toHaveAttribute(
     "href",
-    "/creations/exhibition-stall",
+    "/creations/annual-day-function",
   );
   fireEvent.change(screen.getByRole("searchbox", { name: "Find an occasion" }), {
     target: { value: "zzzzzz" },
@@ -88,8 +88,8 @@ it("starts with six cards and filters all occasions locally with a working reset
 });
 it("progressively reveals six more without duplicates and collapses back with focus", async () => {
   await mount(() => <OccasionGrid />);
-  expect(screen.getByRole("status")).toHaveTextContent("Showing 6 of 20 occasions");
-  for (const count of [12, 18, 20]) {
+  expect(screen.getByRole("status")).toHaveTextContent("Showing 6 of 19 occasions");
+  for (const count of [12, 18, 19]) {
     fireEvent.click(screen.getByRole("button", { name: "Explore more occasions" }));
     expect(document.querySelectorAll(".occasion-card")).toHaveLength(count);
   }
@@ -98,7 +98,7 @@ it("progressively reveals six more without duplicates and collapses back with fo
     new Set(
       Array.from(document.querySelectorAll(".occasion-card a"), (a) => a.getAttribute("href")),
     ).size,
-  ).toBe(20);
+  ).toBe(19);
   fireEvent.click(screen.getByRole("button", { name: "Show fewer occasions" }));
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   expect(screen.getByRole("heading", { name: "Choose your occasion" })).toHaveFocus();
@@ -114,7 +114,7 @@ it("finds an initially hidden occasion directly and shows all matching search re
   expect(document.querySelectorAll(".occasion-card")).toHaveLength(6);
   expect(screen.getByRole("button", { name: "Explore more occasions" })).toBeInTheDocument();
 });
-it("connects all twenty circles to exactly the same destination as their matching cards", async () => {
+it("connects all nineteen circles to exactly the same destination as their matching cards", async () => {
   await mount(() => (
     <>
       <CategoryMarquee />
@@ -125,8 +125,8 @@ it("connects all twenty circles to exactly the same destination as their matchin
     fireEvent.click(screen.getByRole("button", { name: "Explore more occasions" }));
   const circles = document.querySelectorAll(".category-link");
   const cards = document.querySelectorAll(".occasion-card a");
-  expect(circles).toHaveLength(20);
-  expect(cards).toHaveLength(20);
+  expect(circles).toHaveLength(19);
+  expect(cards).toHaveLength(19);
   circles.forEach((circle, index) => {
     expect(circle.getAttribute("href")).toBe(cards[index]?.getAttribute("href"));
     expect(circle.getAttribute("aria-label")).toBe(cards[index]?.getAttribute("aria-label"));
@@ -135,7 +135,7 @@ it("connects all twenty circles to exactly the same destination as their matchin
 it("makes each moving circle a real link, not just a label", async () => {
   await mount(() => <CategoryMarquee />);
   const links = document.querySelectorAll(".category-link");
-  expect(links).toHaveLength(20);
+  expect(links).toHaveLength(19);
   links.forEach((link, index) =>
     expect(link).toHaveAttribute("href", `/creations/${occasionEntries[index]!.slug}`),
   );

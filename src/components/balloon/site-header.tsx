@@ -1,3 +1,4 @@
+import { occasionEntries } from "@/lib/occasion-entries";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, Phone, X } from "lucide-react";
@@ -79,7 +80,7 @@ export function SiteHeader() {
             </Link>
             <div className="nav-drop-panel" role="group" aria-label="Our creations">
               <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
-                Browse all 20 occasions <ArrowUpRight size={13} />
+                Browse all {occasionEntries.length} occasions <ArrowUpRight size={13} />
               </Link>
               {serviceDetails.map((service) => (
                 <Link
@@ -116,7 +117,7 @@ export function SiteHeader() {
           </a>
           <div className="nav-mobile-only nav-mobile-creations">
             <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
-              Browse all 20 occasions
+              Browse all {occasionEntries.length} occasions
             </Link>
             {serviceDetails.map((service) => (
               <Link

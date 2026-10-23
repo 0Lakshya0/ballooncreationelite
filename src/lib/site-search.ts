@@ -20,7 +20,6 @@ const aliases: Record<string, string> = {
   "corporate-events": "office corporate company business work event function",
   "showroom-setup": "showroom shop store retail display setup",
   "grand-opening": "inauguration opening ribbon launch shop store उद्घाटन",
-  "exhibition-stall": "exhibition expo stall trade fair booth",
   "annual-day-function": "annual day school college stage performance function",
   "devotional-celebrations":
     "puja pooja devotional ganesh ganpati mataji mandir temple festival पूजा गणेश",

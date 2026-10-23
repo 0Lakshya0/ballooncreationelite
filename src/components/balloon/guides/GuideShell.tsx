@@ -1,3 +1,4 @@
+import { occasionEntries } from "@/lib/occasion-entries";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -39,7 +40,8 @@ export function GuideShell({ current, children }: { current: string; children: R
         <div className="guide-end">
           <span>YOUR OCCASION. YOUR PACE.</span>
           <Link to="/" hash="portfolio">
-            Browse all 20 occasions <ArrowUpRight size={17} aria-hidden="true" />
+            Browse all {occasionEntries.length} occasions{" "}
+            <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
         </div>
       </main>

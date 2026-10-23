@@ -31,8 +31,8 @@ describe("local ranked catalogue search", () => {
     ["mega birthdays", "mega-birthdays"],
   ])("%s ranks %s first", (query, slug) => expect(search(query)[0]?.slug).toBe(slug));
   it("finds every actual occasion and all premium pages without duplicate slugs", () => {
-    expect(searchServices).toHaveLength(25);
-    expect(new Set(searchServices.map((s) => s.slug)).size).toBe(25);
+    expect(searchServices).toHaveLength(24);
+    expect(new Set(searchServices.map((s) => s.slug)).size).toBe(24);
     for (const item of searchServices) expect(search(item.name)[0]?.slug).toBe(item.slug);
   });
   it("matches multiple intents while prioritising exact names", () => {

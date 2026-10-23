@@ -1,3 +1,4 @@
+import { occasionEntries } from "./occasion-entries";
 import { areasCovered } from "./indore-areas";
 
 export type Stat = { value: number; suffix: string; label: string; note: string };
@@ -22,8 +23,8 @@ export const stats: Stat[] = [
     note: "Doorstep styling across the city and beyond.",
   },
   {
-    value: 20,
-    suffix: "+",
+    value: occasionEntries.length,
+    suffix: "",
     label: "Celebration formats",
     note: "From first birthdays to grand openings.",
   },

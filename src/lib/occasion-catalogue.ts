@@ -199,17 +199,6 @@ const content: Record<
     ideaNames: ["Opening entrance", "Entrance and ribbon area", "Opening-day venue setup"],
     note: "Tell us the opening time and frontage size. Confirm permission for outdoor decoration and keep a weather backup.",
   },
-  "exhibition-stall": {
-    summary: "Help visitors recognise your stall with a clear, coordinated display.",
-    inclusions: [
-      "Brand-colour planning",
-      "Display backdrop",
-      "Counter accents",
-      "Visitor photo area",
-    ],
-    ideaNames: ["Counter and backdrop", "Branded booth styling", "Stall and entrance plan"],
-    note: "Share stall dimensions and organiser rules. Furniture, electrical work and structural fabrication are discussed separately.",
-  },
   "annual-day-function": {
     summary: "A neat stage and welcome area for your school, college or company function.",
     inclusions: [
