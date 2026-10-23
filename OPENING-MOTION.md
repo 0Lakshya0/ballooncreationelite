@@ -1,3 +1,5 @@
+> Current MAIN: **https://clck.ru/3Wf3YS** — later frontend Bloon-identity update. Previous page/motion implementation and verification below remain unchanged; server prompt deployment remains pending. See `BLOON-IDENTITY.md`.
+
 # No bottom-to-top option/page opening — 2026-10-23
 
 Owner instruction: opening any option must not rise into view or sweep up from the previous page’s scroll position.

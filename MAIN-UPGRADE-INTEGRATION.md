@@ -1,4 +1,10 @@
-## Latest publication — direct option opening, no upward slide (2026-10-23)
+## Latest publication — Bloon identity and reply attribution (2026-10-23)
+
+MAIN: **https://clck.ru/3Wf3YS**. Source `d8684db23d664a2a3add17a09a2152f15d3f1439`; phone artifact `114c165f866dc2815a5ef4ab7afe814901f229b8`. Public assistant attribution is always Bloon; common identity requests are fixed local Bloon AI introductions and conflicting upstream self names are guarded. Provider metadata remains internal and truthful. **237 frontend / 179 mocked Worker tests**, TypeScript/lint/builds and native/exact-phone 320/390/768/1440 branding/identity checks PASS; browser AI replies were mocks, not live inference. **Updated server prompt is source-only and still needs owner deployment to the existing Worker.** No keys/providers/bindings changed. Precise boundaries: `BLOON-IDENTITY.md`, `PHONE-VIEW.md`. Earlier entries below are historical.
+
+---
+
+## Previous publication — direct option opening, no upward slide (2026-10-23)
 
 MAIN: **https://clck.ru/3Wexuz**. Source `eee461b2b9b94bf259065bb569a7e05816c93321`; phone artifact `c0d932498d4bc22585969119d7add900213a44e2`. All destination/reset/hash jumps and in-page option navigation are instant; page/reveal/dropdown/search-result/chat-panel entries no longer translate vertically. Opacity/blur, interactive hover, circles, exact animated Bloon and WebGL remain. **182 tests / 15 files**, TypeScript, lint/builds and native/exact-phone **320/390/768/1440 normal-motion** entry/navigation checks PASS; all template families additionally checked at 390. Public Home/FAQ render and blob/source/JS integrity verified. No AI/backend/provider work or real submissions. Details/boundaries: `PHONE-VIEW.md`, `OPENING-MOTION.md`. Older publications below are historical.
 

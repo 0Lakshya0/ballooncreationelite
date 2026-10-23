@@ -1,4 +1,18 @@
-## Latest MAIN website — no bottom-to-top option opening (2026-10-23)
+## Latest MAIN website — Bloon reply attribution and identity (2026-10-23)
+
+**https://clck.ru/3Wf3YS**
+
+- Runtime source `d8684db23d664a2a3add17a09a2152f15d3f1439` (main identity source/prompt commit `d08a8160b923e85cd135736cbfa40cc2f5393536`); pinned artifact `114c165f866dc2815a5ef4ab7afe814901f229b8`. Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/114c165f866dc2815a5ef4ab7afe814901f229b8/drafts/main-website-phone.html`.
+- GitHub API/local blob **`d8ed1f5e1ccc1228fe570be0010c824466090aa8`**, **12,804,808 bytes**, match. Embedded source metadata/inline JS syntax verified; public short redirect/Home rendering independently verified.
+- Shared dialog title, assistant headings and response attribution use **Bloon**, not provider names. Internal actual provider metadata and remaining allowance remain truthful. Local business replies retain their confirmed/no-request distinction. Deterministic EN/HI/Hinglish common identity/indirect/rename/Unicode questions use a fixed Bloon AI introduction without network/credits. Client guards conflicting provider/proper-name self introductions from an older upstream; factual discussions of AI products and ordinary safe replies are retained.
+- **237 frontend tests / 16 files**, TypeScript, targeted lint, native/phone builds and **179 mocked Worker/controller tests** PASS. Source details/limits: `BLOON-IDENTITY.md`.
+- Final native **and exact phone artifact** at **320/390/768/1440**, normal motion: Bloon title/footers; four English/Hindi/Hinglish identity questions with zero API requests; known/unknown provider metadata all attributed to Bloon (seven metadata variants at 390); conflicting arbitrary-name introduction corrected; factual AI-tool explanation preserved; close/reopen history; one mascot/no overflow/page errors. Phone uses simulated remote HTMLPreview base with zero external requests. All upstream replies are **intercepted mocks**, not live-provider compliance claims. Previous full page/circle/background/entry-motion QA below remains historical and those designs were not changed.
+- **SERVER DEPLOYMENT PENDING:** updated standalone Worker SYSTEM_PROMPT applies Bloon identity across existing provider paths, but it has NOT been deployed to the remote Worker here. One owner-side deployment of the changed `workers/assistant/worker.js` is needed for the server instruction, with existing keys/providers/bindings unchanged. Frontend branding/local guard is available in the new website now. No live health/inference requests, provider-pool changes, new credentials, billing or lead submissions. No absolute adversarial-prompt guarantee is claimed.
+- Native LIVE PREVIEW: **Balloon Creation website · port 8080**. `3Wexuz` remains the preceding no-upward-opening release.
+
+---
+
+## Previous MAIN website — no bottom-to-top option opening (2026-10-23)
 
 **https://clck.ru/3Wexuz**
 

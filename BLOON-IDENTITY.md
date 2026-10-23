@@ -16,3 +16,8 @@ Prompting and intent/pattern guards are defense in depth, not a mathematical gua
 ## Verification
 
 TypeScript, targeted lint, native/phone builds and 237 frontend tests / 16 files pass. New identity tests include English/Hindi/Hinglish, indirect/rename/extraction/Unicode cases, no-network handling, conflicting upstream introductions and retention of normal content/provider metadata. UI tests verify seven known/unknown provider metadata values all render Bloon and shared search uses the same identity guard. 179 mocked Node/SQLite Worker/controller tests pass, including Gemini and OpenAI-compatible system-role checks. Exact final browser publication details are in PHONE-VIEW.md.
+
+
+## Published frontend
+
+**https://clck.ru/3Wf3YS** — source `d8684db23d664a2a3add17a09a2152f15d3f1439`, artifact `114c165f866dc2815a5ef4ab7afe814901f229b8`; verified blob `d8ed1f5e1ccc1228fe570be0010c824466090aa8` / 12,804,808 bytes. Final native and exact portable 320/390/768/1440 browser checks pass, with locally intercepted provider replies and no real AI calls; remote-base portable runs make no external requests. Public redirect/Home render separately verified. This publication does **not** deploy the Worker prompt.

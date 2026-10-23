@@ -1,3 +1,5 @@
+> Current MAIN: **https://clck.ru/3Wf3YS** — later frontend Bloon-identity update. Previous page/motion implementation and verification below remain unchanged; server prompt deployment remains pending. See `BLOON-IDENTITY.md`.
+
 > Current MAIN: **https://clck.ru/3Wexuz** — the same dedicated pages, now with instant option navigation and no upward entry motion. Latest source/artifact and normal-motion QA: `OPENING-MOTION.md`, `PHONE-VIEW.md`. Original feature-specific verification is retained below.
 
 # Dedicated FAQs, Signature Standard and Let’s Celebrate — 2026-10-23
