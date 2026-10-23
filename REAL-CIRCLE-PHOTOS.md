@@ -11,3 +11,5 @@
 - Same 19 links, motion/drag/press-release lifecycle, at-most-3s hold pause, six initial cards, search/typewriter, Bloon and full-site WebGL remain unchanged. No backend/provider deployment or inference.
 
 Verification and immutable phone publication are recorded in PHONE-VIEW.md.
+
+Published MAIN **https://clck.ru/3WfK85**. Runtime source `2a14efa827b6e7dd269bb0aba8e6c536b099b5ff`, artifact `9acb39776423883f8ed13da890ae3361050c3799`, verified GitHub/local blob `d451159ed3f01138486bbe0a1bc5cbe678325c20` /15,549,264bytes. **273 tests /20 files**, TypeScript and native/portable builds PASS. Native and exact-phone320/390/768/1440 browser checks PASS for all19 circle byte hashes/routes,16 real portraits +3 retained placeholders, hero opacity1/nontransparent masks, real-time rotation/reduced motion and no overflow/JS errors/AI calls.390-mobile and1440-desktop first-slide screenshots reviewed; full boundaries in PHONE-VIEW.md.

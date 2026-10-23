@@ -1,4 +1,10 @@
-## Latest publication — real uploaded homepage hero photos (2026-10-23)
+## Latest publication — real circle photos and clearer homepage (2026-10-24)
+
+MAIN **https://clck.ru/3WfK85**. Runtime source `2a14efa827b6e7dd269bb0aba8e6c536b099b5ff`, artifact `9acb39776423883f8ed13da890ae3361050c3799`. **16/19 circle portraits** now use matching uploads (including floral baby cradle for Naming Ceremony); Birthday/Kids Birthday/Showroom Setup retain their editorial images pending suitable uploads. Hero photo opacity1 and stronger masks make the17 uploaded slides clearly visible; soft cream wash protects text. Other layout/animation/WebGL/search/Bloon/19 occasions remain unchanged. **273 tests /20 files**, TypeScript/builds and native/exact-phone320/390/768/1440 checks PASS; all19 circle bytes/routes verified in each case. No AI/backend changes. Exact provenance and scope: `PHONE-VIEW.md`, `REAL-CIRCLE-PHOTOS.md`. Older entries below are historical.
+
+---
+
+## Previous publication — real uploaded homepage hero photos (2026-10-23)
 
 MAIN **https://clck.ru/3WfJ9h**. Source `b3ea9d4a56e0c82f8b917d1a3ed90fb32e90fcd0`, artifact `fb70060a32496a4cf4b9231965720dd9ca234584`. First batch applied now:17 uploaded photos replace generated slideshow images, desktop/mobile framing and upright wedding, original animation/overlay/layout preserved. Exhibition upload excluded; all19 occasions/6 cards/search/Bloon/WebGL retained. **269 tests /19 files**, TypeScript/lint/builds and native/exact-phone320/390/768/1440 loading/rotation/reduced-motion checks PASS; all17 rendered image hashes/focals checked at390/1440 in each runtime. No new AI/backend work; previous Worker identity prompt deployment still pending. Precise verification/provenance: `PHONE-VIEW.md`, `REAL-HOMEPAGE-PHOTOS.md`. Older entries below are historical.
 

@@ -1,4 +1,18 @@
-## Latest MAIN website — uploaded real homepage photos, batch 1 (2026-10-23)
+## Latest MAIN website — real circle portraits and clearer hero photos (2026-10-24)
+
+**https://clck.ru/3WfK85**
+
+- Runtime source `2a14efa827b6e7dd269bb0aba8e6c536b099b5ff`; immutable artifact `9acb39776423883f8ed13da890ae3361050c3799`. Target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/9acb39776423883f8ed13da890ae3361050c3799/drafts/main-website-phone.html`. GitHub API and local blob **`d451159ed3f01138486bbe0a1bc5cbe678325c20`**, **15,549,264 bytes**, match. Embedded source metadata/JS syntax PASS; public short link followed to the correct artifact and rendered Home independently.
+- **16 of 19 circles** use genuinely matching owner-uploaded photos, including the floral baby cradle for **Naming Ceremony** after full-size inspection. Separate metadata-stripped320-square WebPs total **415,878 bytes**, made from originals with the same wedding correction and selected focal centres. **Birthday, Kids Birthday, Showroom Setup** are missing matching uploads and keep their previous editorial circle portraits. Product Launch is NOT relabelled as Showroom Setup; Exhibition remains excluded. This inventory concerns the19 circles, not every gallery/25 decor style/legacy service page.
+- Hero active opacity **.68 → 1**, no more near-transparent left/top/middle mask. Photos now substantially clearer; soft cream wash under the copy, not new text backplates. Existing17-image selection, framing, layout, typography,5s rotation/1.4s fade/22s drift and reduced-motion policy unchanged. Global liquid shader/colour material/search/Bloon/19 detail links/six initial cards/press-release drag lifecycle untouched. Only circle profiles changed, not cards/detail galleries.
+- **273 tests /20 files PASS**, including four new circle/manifest/visibility regressions. Final TypeScript, native and portable builds PASS. Targeted ESLint has **0 errors**, with the existing mixed category-constant/component export Fast Refresh warning. Python checked every portrait is320×320/metadata-free.
+- Browser **native + exact portable bytes**, each **320/390/768/1440**: all **19 circle image hashes** match their intended16 real portraits and3 retained originals, all real portraits load at320×320, all19 matching detail links retained. Computed hero active opacity1 and nontransparent mask, actual7s rotation,1.4s transition and two actual hero photo/focal byte checks per case PASS. Reloaded OS reduced-motion stays static after10s controlled time. Six cards/one Bloon, no overflow/JS errors/AI requests; remote-base portable runs make zero external requests. A first harness run sampled the normal start of a slide fade at0; waiting for fade completion corrected that timing assertion, with no app changes. Successful native320/390 run plus remaining6 cases completed the matrix.
+- **390-mobile and1440-desktop Home screenshots reviewed**, with Grand Opening photo noticeably visible and readable copy. This is not a claim of a frame-by-frame/all17-photo visual contrast audit; the prior release tested all17 rendered photo byte hashes/orientation. Source provenance, missing inventory and rebuild command: `REAL-CIRCLE-PHOTOS.md`, `photo-intake/homepage-real/circle-selection.json`.
+- Native LIVE PREVIEW **Balloon Creation website · port8080** remains healthy. No provider/backend deployment or live inference/enquiry. `3WfJ9h` is the previous17-hero-photo publication.
+
+---
+
+## Previous MAIN website — uploaded real homepage photos, batch 1 (2026-10-23)
 
 **https://clck.ru/3WfJ9h**
 
