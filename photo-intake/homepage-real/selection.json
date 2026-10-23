@@ -1,0 +1,22 @@
+{
+  "photos": [
+    {"id":"grand-opening","source":"182a41bf2257acb12eb0c31b7dd8459c.jpg","name":"Grand Opening","desktop":"50% 45%","mobile":"70% 50%"},
+    {"id":"baby-shower","source":"1b378ae61fbdf94690ecd8e0b8dc966d.jpg","name":"Baby Shower","desktop":"50% 42%","mobile":"50% 50%"},
+    {"id":"anniversary","source":"c64069fe181c69d6ea340d61ce2be61f.jpg","name":"Anniversary","desktop":"50% 38%","mobile":"50% 50%"},
+    {"id":"first-night","source":"52375ba7479138a27f51bb604519b47b.jpg","name":"First Night","desktop":"50% 48%","mobile":"50% 50%"},
+    {"id":"wedding","source":"d4a61d7bed88e24fccf94617701d809b.jpg","name":"Wedding","rotate":90,"desktop":"50% 55%","mobile":"47% 50%"},
+    {"id":"welcome-baby","source":"8828bf47eccf63a0fb7e339913103cc8.jpg","name":"Welcome Baby","desktop":"50% 43%","mobile":"50% 50%"},
+    {"id":"floral-swing","source":"2de0c7fa4659188eb230f157df6b6ab2.jpg","name":"Floral Swing","desktop":"50% 45%","mobile":"50% 50%"},
+    {"id":"house-warming","source":"d1ea0d61d2b01bcec710ddff6b449fa5.jpg","name":"House Warming","desktop":"50% 45%","mobile":"40% 50%"},
+    {"id":"corporate-events","source":"29dc4ae9e8f69e3c808e0eb0679632eb.jpg","name":"Corporate Events","desktop":"50% 40%","mobile":"52% 50%"},
+    {"id":"car-decoration","source":"7ad8255b7826a11a35f58d3853d7836a.jpg","name":"Car Decoration","desktop":"50% 56%","mobile":"50% 50%"},
+    {"id":"bachelor-party","source":"bc17198b5e43497c019c1923f164c70d.jpg","name":"Bachelor Party","desktop":"50% 44%","mobile":"50% 50%"},
+    {"id":"pet-themed-celebration","source":"4ed7ecf49c452936277317146b1c58f4.jpg","name":"Pet-themed Celebration","desktop":"50% 45%","mobile":"50% 50%"},
+    {"id":"product-launch","source":"e25a103c5b30dbe0e0babf0ecaa78532.jpg","name":"Product Launch","desktop":"50% 40%","mobile":"50% 50%"},
+    {"id":"proposal-garden","source":"8609323b847e3df12d8a8925279c47c0.jpg","name":"Proposal","desktop":"50% 37%","mobile":"50% 50%"},
+    {"id":"proposal-room","source":"a3660e6a0a81107859b5ba5ae5d8bef4.jpg","name":"Room Surprise","desktop":"50% 40%","mobile":"50% 50%"},
+    {"id":"farewell-party","source":"9ac565d3a2d2f0c2bfb7983dc9aadad1.jpg","name":"Farewell Party","desktop":"50% 40%","mobile":"50% 50%"},
+    {"id":"annual-day","source":"4976e7c614e88d7c1f56fa784a5785a2.jpg","name":"Annual Day Function","desktop":"50% 45%","mobile":"50% 50%"}
+  ],
+  "excluded": [{"source":"7f1242acc3533637e515de145c25f3c4.jpg","reason":"Exhibition-stall image: that service was explicitly removed. Retained only in original intake, not shown in MAIN."}]
+}

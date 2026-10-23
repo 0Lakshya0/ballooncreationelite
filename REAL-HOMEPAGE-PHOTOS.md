@@ -1,0 +1,10 @@
+# Owner-supplied homepage hero photos — batch 1, 2026-10-23
+
+Owner requested applying this first batch now rather than waiting for remaining uploads. Eighteen originals are stored unchanged in `photo-intake/homepage-real/`; 17 are selected for the homepage's existing rotating hero. The exhibition-stall upload is excluded to respect its prior removal. Missing occasion photos are not filled with generated placeholders in this hero.
+
+- Every hero image now imports from `src/assets/homepage-real/`, with an auditable source/selection/caption/crop manifest. Corrected the sideways wedding image 90° counter-clockwise. WebP quality 82, no upscaling, correct intrinsic dimensions, stripped output metadata, original image content/text/branding retained. Selected image total 2,166,938 bytes.
+- Desktop/mobile object-position values are per image, without changing cover fitting, overlays, hero layout, colours, typewriter, 5-second rotation, 1.4-second opacity fade or 22-second drift. Stable image IDs are used as React keys; only active/neighbour slides remain mounted. Existing reduced-motion behaviour is unchanged. Photo alt text is neutral inspiration, not an unsupported new authorship assertion.
+- Updated portable phone adapter to stop expecting the removed generated-category glob in hero-slides.ts; static uploaded-photo imports are now embedded by the existing inline-assets build. Existing category/service/about/collection photos are intentionally not replaced: request is specifically homepage animated background photography.
+- Nineteen occasion circles, six initial cards/search, removed exhibition service, exact Bloon SVG/chat, true WebGL background and all page functionality retained. No AI/provider/Worker/backend changes or live enquiries/inference; previous server Bloon prompt deployment is still pending.
+
+TypeScript, targeted lint, native build and 269 frontend tests / 19 files pass. Four added hero regressions check uploaded-only/unique assets, real WebP files/dimensions/focal points, correct wedding orientation, exclusion of exhibition and preserved timing/animation wiring. Final browser/publication provenance is in PHONE-VIEW.md.

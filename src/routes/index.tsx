@@ -10,7 +10,7 @@ import { indoreAreas } from "@/lib/indore-areas";
 import { faqs } from "@/lib/site-content";
 import { SmartSearch } from "@/components/balloon/smart-search";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SiteLiquidBackground } from "@/components/balloon/site-liquid-background";
 import { DecorCollectionsButton } from "@/components/balloon/decor-collections-button";
 import { observeVisibility } from "@/lib/visibility";
@@ -217,15 +217,22 @@ function Index() {
           {heroSlides.map((s, i) =>
             nearSlide(i) ? (
               <img
-                key={s.name}
+                key={s.id}
+                data-hero-slide={s.id}
                 src={s.image}
                 className={
                   i === slide ? "hero-image hero-slide is-active" : "hero-image hero-slide"
                 }
-                alt={i === slide ? `${s.name} decoration by Balloon Creation` : ""}
+                alt={i === slide ? `${s.name} decoration inspiration` : ""}
                 aria-hidden={i !== slide}
-                width={1920}
-                height={1024}
+                width={s.width}
+                height={s.height}
+                style={
+                  {
+                    "--hero-position": s.position,
+                    "--hero-mobile-position": s.mobilePosition,
+                  } as CSSProperties
+                }
                 fetchPriority={i === slide ? "high" : "low"}
                 loading={i === 0 ? "eager" : "lazy"}
                 decoding="async"
