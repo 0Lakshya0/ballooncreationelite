@@ -1,4 +1,10 @@
-## Latest publication — compact Home and mobile search fix (2026-10-21)
+## Latest publication — direct circle links and bounded hold pause (2026-10-23)
+
+MAIN: **https://clck.ru/3WeFZG**. Source `0bd459a4b2d8c3eaec92f0e663b1047787876c1b`; pinned phone artifact `49b391d1a2dc5c7330e3a6992f69fbdf661adea8`. All 20 circles open their matching card's detail page, including initially hidden cards. Hover/focus never stop the row; real hold pauses, release resumes immediately and the pause cannot exceed three seconds even while held. OS reduced motion, dragging and responsive cleanup retained. Six-card Home/Explore more/mobile search icon, About/collection, compact Bloon and WebGL unchanged. **155 tests / 13 files**, TypeScript, builds and four-width native/exact-phone touch/mouse motion/navigation checks pass; lint has no errors/one existing refresh warning. No provider/backend/database work or real AI/enquiry calls. Integrity and verification boundaries: `PHONE-VIEW.md`, `OCCASION-PAGES.md`. Earlier links/results below are historical.
+
+---
+
+## Previous publication — compact Home and mobile search fix (2026-10-21)
 
 MAIN: **https://clck.ru/3WbkAU**. Source `746da77115457ace99106b430f1f862761f09c3c`; pinned phone artifact `47e8cf5fc90949e68cd951263dec2cb86a73c09c`. Home initially shows six occasion cards, with **Explore more occasions** (+6), **Show fewer**, live showing/total count and immediate full-result search/filtering. All 20 occasion pages/circles and five legacy pages remain. Mobile smart-search icon sizing fixed without changing search/typewriter/AI behavior. About/collection, compact Bloon and WebGL unchanged. **142 tests / 12 files**, TypeScript, targeted lint/builds and native/exact-phone browser checks at four widths pass. No provider work or real AI/enquiry calls. Public redirect/render, integrity and exact verification boundaries: `PHONE-VIEW.md`. Earlier links/results below are historical.
 

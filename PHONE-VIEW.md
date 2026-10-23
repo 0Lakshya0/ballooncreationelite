@@ -1,4 +1,21 @@
-## Latest MAIN website — compact six-card discovery + mobile search icon (2026-10-21)
+## Latest MAIN website — matching circle links + maximum three-second press pause (2026-10-23)
+
+**https://clck.ru/3WeFZG**
+
+- Runtime source `0bd459a4b2d8c3eaec92f0e663b1047787876c1b`; pinned artifact `49b391d1a2dc5c7330e3a6992f69fbdf661adea8`.
+- Target: `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/49b391d1a2dc5c7330e3a6992f69fbdf661adea8/drafts/main-website-phone.html`.
+- Local/GitHub API integrity match: blob `cbcc62969ea1615ee3fee248015f3c034857f282`, **12,770,976 bytes**. Embedded source metadata and inline JavaScript syntax verified. Public short URL successfully redirects/renders this exact publication with 20 circle links and the existing compact six-card browser.
+- Circle links render directly from the shared occasion slug/name/photo entry and open the same detail page as the matching card. All 20 work even when only six cards are visible. Existing five premium pages, grid search/filter/Explore more, fixed mobile search icon, About/collection, Bloon/chat/search/typewriter, background and footer policy remain unchanged.
+- Same backward speed/loop/dragging; hover/focus no longer pause. Actual hold pauses, release/cancel resumes without waiting for drag settle or a start delay. The maximum pause is **3,000ms even while still held**. Repeated fingers cannot reset/extend the deadline or freeze the row after the cap. Resize/reinitialisation preserves time remaining; release outside/cancel/blur/visibility and navigation cleanup are handled. OS reduced motion remains respected. Implementation/scope: `OCCASION-PAGES.md` and `src/lib/category-motion.ts`.
+- **155 tests / 13 files**, TypeScript and native/phone production builds PASS. Targeted ESLint has no errors/one retained CategoryMarquee export fast-refresh warning. Added exact 20-circle↔20-card link comparison and fake-clock release, three-second cutoff, extra pointers before/after cap, responsive reinitialisation, document release/cancel/visibility/blur, reduced motion and unmount coverage.
+- Native Chromium at **320/390/768/1440**, in split runs: physical touch/mouse press holds still; release moves immediately; holding past three seconds moves before release; no hover/focus freeze; cancellation resumes; switching OS motion preference works; visible circle image tap/click navigates to its matching detail; 20 card/circle hrefs identical; six-card Home retained; no overflow/page errors. At 390, every circle's click handler additionally opens the correct one of all 20 pages, including initially hidden cards. Background manually paused with its existing local control solely to isolate carousel motion. Early serverless single-process Chromium runs stalled RAF despite an active plugin; final multi-process browser checks avoid that harness limitation.
+- **Exact final portable artifact** at **320/390/768/1440**, each in fresh normal multi-process Chromium with simulated HTMLPreview/raw-GitHub base: all the same physical touch/mouse hold, immediate release, held-past-3s movement, hover/focus, cancel and OS-motion checks PASS; actual visible circle tap opens correct detail; Home remains six cards; all 20 expanded card hrefs match circles; no overflow/page errors and **zero external requests**. Mobile additionally activates all 20 circle click handlers and validates their actual detail routes. Public redirect/render above is independent of these locally intercepted exact-file tests.
+- No AI/provider/Worker/backend/database configuration edits, new dependencies, real AI requests or real enquiry submissions. Static phone-view private enquiry saves remain unavailable; existing honest WhatsApp/call fallback retained.
+- Native LIVE PREVIEW: **Balloon Creation website · port 8080**, Host-header HTTP200 confirmed. Older `3WbkAU` is the previous compact-grid version.
+
+---
+
+## Previous MAIN website — compact six-card discovery + mobile search icon (2026-10-21)
 
 **https://clck.ru/3WbkAU**
 
