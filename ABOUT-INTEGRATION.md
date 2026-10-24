@@ -1,4 +1,10 @@
-## Latest publication — family batch2 (2026-10-24)
+## Latest publication — Anniversary batch1 (2026-10-24)
+
+MAIN **https://clck.ru/3Wft73**. Source `8f81bd944daf8056bfbf87728360645f24826eaf`; artifact `84e9b80ac45ac74eabf17a19a6aaeffa3c6654ec`; local/remote blob `943de6d331975092c7deec1aa7cb448e264815c7` /20,918,300bytes match.10 retained files →8 unique additions BC-58…65; third-anniversary repeat and existing BC-08 blue25th ring deduplicated by exact bytes.65 photos/20 sections:Anniversary9 (3→9),Birthday7/Kids14/Baby18/Proposal2 unchanged.297 tests/26 files,TS/lint/builds PASS; native390/1440 + portable320/390/768/1440 six cases PASS (65 image hashes,9-photo scoped wrap/BC65 enquiry/duplicates once/independent paging/compact/wide/insets/shortlist/Bloon/no overflow/errors/AI), isolated portable390/1440 new BC58 reloads PASS. Previous complex1440 race not claimed fixed.17 hero/19 circles/19 covers intact; no backend/provider/video changes. Full provenance/QA boundaries in PHONE-VIEW.md; prior entries historical.
+
+---
+
+## Previous publication — family batch2 (2026-10-24)
 
 MAIN **https://clck.ru/3WfsuX**. Source `d804b0f4bbc4ad7a9a596e48b146db947343f011`; artifact `98897f61dc9d62565e523b0e908f1275176147c4`; local/GitHub blob `e6dbb91e77a4c412ef5eb7bd396c94223c11a1cb` /20,105,201bytes match.9 supplied files added BC-49…57:7 Baby Shower,2 explicit first birthdays (blue car/Boss Baby) in Kids Birthday.57 unique photos/20 exact sections:Baby18/Kids14/Birthday7/Proposal2.294 tests/25 files,TS/lint/builds PASS; native390/1440 + portable320/390/768/1440 six cases PASS, all57 hashes/multi-step paging/style-local18&14 viewers/new kids wrap/compact/wide/save-inset/shortlist/Bloon/no overflow/errors/AI; isolated portable390/1440 reloads PASS. Previous complex1440 race not claimed fixed.17 hero/19 circles/19 covers/presentation preserved; no backend/provider/video changes. Full provenance/QA boundaries in PHONE-VIEW.md; prior entries historical.
 

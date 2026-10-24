@@ -1,4 +1,20 @@
-## Latest MAIN publication — family batch2 (2026-10-24)
+## Latest MAIN publication — Anniversary batch1 (2026-10-24)
+
+**https://clck.ru/3Wft73** — Our Creations. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/84e9b80ac45ac74eabf17a19a6aaeffa3c6654ec/drafts/main-website-phone.html#our-creations`.
+
+- Source `8f81bd944daf8056bfbf87728360645f24826eaf`, artifact `84e9b80ac45ac74eabf17a19a6aaeffa3c6654ec`. Local/GitHub blob **`943de6d331975092c7deec1aa7cb448e264815c7`**, **20,918,300bytes**, match; embedded source/JS syntax PASS. Independently followed short link:65 moments/20 exact-style collections, Anniversary9, initial33 cards, Anniversary3/9 Explore more. Previous delivered3WfsuX is historical.
+-10 original files retained unchanged with SHA-256 manifest. **8 unique additions BC-58…65;2 exact duplicates**: third-anniversary picture sent twice (BC-65 appears once), blue25th anniversary ring already existing as BC-08 (same bytes as prior retained original). New settings include photo-heart lights,1st/25th/3rd anniversary rings, rose-heart backdrop and outdoor silver setup. No client/date/venue claims inferred; supplied imagery is not independently verified client work.
+- **Anniversary9**, own existing romantic section/3→9 paging/9-photo viewer. Birthday7/Kids14/Baby18/Proposal2 unchanged; other15 styles1 each. Total65 photos/20 sections; initial33. Existing57 entries/refs/shortlists preserved; original17 hero/19 circles/19 cover assignments untouched. Anniversary save circles now inset25px, matching existing Baby Shower protection inside100px corners; no other design change.
+-8 WebPs **607,808bytes**, no metadata/upscaling/cropping/rotation/colour changes/watermark removal/AI editing.10 original JPEGs noGPS. No actual videos, backend/provider changes, inference or enquiries. Remaining legacy AI imagery elsewhere still awaits appropriate supplied style uploads.
+- **297 tests /26 files PASS**, TypeScript/targeted ESLint/native production/embedded-phone builds PASS.3 new tests cover10 original hashes/both duplicate byte equality/stable refs,9-photo Anniversary isolation, approved-home conservation. Page totals/paging updated to33→65; removed unsupported `exact:true` from the prior full-name Testing Library opener (string name already exact), resolving TS2769 without changing customer code.
+- Browser **native390/1440 + exact portable320/390/768/1440 six feature cases PASS**. All65 image hashes match supplied derivatives,20 sections, Anniversary3→9/1/9↔9/9, BC-65 WhatsApp enquiry; existing BC-08 and third-anniversary card each once. Birthday7/Kids14/Baby18 and independent paging/style-local wrap verified; legacy compact236×182/wide-stage/Kids jungle/save insets/BC-39 shortlist-storage-WhatsApp/Bloon clearance preserved; no expanded-grid overflow/page errors/AI. Portable0external requests;390 normal motion/WebGL, others OS-reduce. **Isolated portable390/1440 reloads PASS for new BC-58**, proving new look persistence. Previous complex1440 long-sequence reload race not claimed fixed; no fresh native320/768 cases claimed.
+- Anniversary desktop nine-photo overview and mobile photo-heart card visually reviewed; no obvious frame/header/caption issues. Tall element capture may include sticky header mid-image; not duplicated customer UI. Not a full subjective65-photo contrast/crop audit or real-video test. Existing healthy **Balloon Creation website ·port8080** reused.10 protected pre-existing dirty bilingual/provider-doc files remain unstaged.
+
+Intake/rebuild: `OUR-CREATIONS-GALLERY.md`, `photo-intake/gallery-anniversary-batch-1/selection.json`, `scripts/prepare-gallery-anniversary-batch.py`. Choose Anniversary and Explore more to see all9.
+
+---
+
+## Previous MAIN publication — family batch2 (2026-10-24)
 
 **https://clck.ru/3WfsuX** — Our Creations. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/98897f61dc9d62565e523b0e908f1275176147c4/drafts/main-website-phone.html#our-creations`.
 
