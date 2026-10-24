@@ -1159,3 +1159,14 @@
   top: 25px;
   right: 25px;
 }
+
+/* Naming photos keep whole wide stages readable inside their own floral collection. */
+.gc-collection[data-gallery-style="naming-ceremony"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+  object-fit: contain;
+}
+/* Put the full save circle below the elliptical crown, including saved-only single cards. */
+.gc-collection[data-gallery-style="naming-ceremony"] .gc-heart {
+  top: 60px;
+  right: 25px;
+}

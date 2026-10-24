@@ -18,9 +18,9 @@ it("retains all nine received originals and appends BC49–57 without losing pre
   expect(galleryFamilyBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 9 }, (_, i) => `BC-${49 + i}`),
   );
-  expect(galleryMedia).toHaveLength(99);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(99);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(99);
+  expect(galleryMedia).toHaveLength(113);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(113);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(113);
   expect(galleryMedia.find((p) => p.id === "baby-shower-bloom")?.reference).toBe("BC-39");
 });
 it("puts seven shower setups in Baby Shower and both explicit first birthdays in Kids Birthday", () => {
