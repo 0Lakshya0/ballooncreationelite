@@ -63,6 +63,7 @@ export function GalleryMediaView({ item }: { item: GalleryMedia }) {
     <img
       src={item.image}
       alt={`${item.occasion}: ${item.detail}`}
+      style={item.width < 400 && item.height < 400 ? { maxWidth: item.width } : undefined}
       width={item.width}
       height={item.height}
       decoding="async"
@@ -378,11 +379,13 @@ export function CreationGalleryPage() {
                       .slice(0, sectionLimits[section.id] ?? section.initial)
                       .map((item) => (
                         <article
-                          className={
-                            item.width > item.height * 1.45
-                              ? "gc-card gc-card-landscape"
-                              : "gc-card"
-                          }
+                          className={[
+                            "gc-card",
+                            item.width > item.height * 1.45 && "gc-card-landscape",
+                            item.width < 400 && item.height < 400 && "gc-card-small",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")}
                           key={item.id}
                           data-gallery-id={item.id}
                         >

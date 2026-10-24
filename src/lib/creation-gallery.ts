@@ -1,3 +1,4 @@
+import { galleryBabyShowerMedia } from "./gallery-baby-shower";
 import { galleryBatch2Media } from "./gallery-batch-2";
 import { galleryBatchMedia } from "./gallery-batches";
 import { heroSlides } from "./hero-slides";
@@ -216,7 +217,7 @@ export const galleryMedia: GalleryMedia[] = definitions
         "position" in photo && typeof photo.position === "string" ? photo.position : "50% 50%",
     };
   })
-  .concat(galleryBatchMedia, galleryBatch2Media);
+  .concat(galleryBatchMedia, galleryBatch2Media, galleryBabyShowerMedia);
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {
   try {

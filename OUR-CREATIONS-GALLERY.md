@@ -1,3 +1,13 @@
+## Baby Shower batch1 — 2026-10-24
+
+The user supplied10 photos explicitly for Baby Shower. All10 unique originals retained unchanged under `photo-intake/gallery-baby-shower-batch-1/`, with SHA-256/provenance/rotation in `selection.json`. Added BC-39…48 exclusively to Baby Shower (`Baby & family`), including the pink/blue reveal themes, elephants/teddies, floral cradle and traditional Krishna artwork. The new floral cradle is a different setting from the existing Naming Ceremony image; no reassignment/mixing. Existing38 IDs/references and original17 hero/19 circle/19 occasion-cover assignments remain unchanged.
+
+**48 unique gallery photos /20 separate sections**. Baby Shower now11 (previous1+10 new); Birthday7/Kids12/Proposal2 unchanged. Baby Shower retains its approved soft pastel arch framing and independent pagination **3→9→11**; its viewer wraps only its own11 images. All styles initially shows31 cards. Source236×182 Baby in Bloom is genuinely low-resolution: derivative retains236×182 and compact native-sized thumbnail/viewer presentation (no invented/AI enlargement). Better original can later replace the same stable BC-39. Last720×1280 source rotated90°CCW to **1280×720**; Baby Shower wide scenes now share the existing two-column/16:9 treatment (single column at≤440px) so the stage is readable. No other style design changed.
+
+10 metadata-free WebPs **858,902bytes**; originals noGPS. No upscaling, colour editing, watermark removal or generated imagery. No dates/clients/venues inferred from filenames. No actual videos or backend/provider changes. Remaining legacy AI imagery still awaits matching uploads; do not claim the whole site is AI-free. Rebuild: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-baby-shower-batch.py`, then Prettier on `src/lib/gallery-baby-shower.ts`.
+
+---
+
 ## Birthday batch2 — 2026-10-24
 
 Current publication **https://clck.ru/3Wfqo7**; source `e42bf07101819bb50f7014f23f01065b48aa7409`, artifact `489ef5ee588e6e861ca2948e71f6fffbb9ff33ec`.287 tests/23 files,TS/lint/native/phone builds PASS. Native/exact phone320/390/768 full browser cases PASS;1440 gallery/38 image hashes/paging/scoped viewer/storage PASS, complex reload timeout retained as a QA limitation; isolated1440 portable reload passes both previous/current builds. Detailed provenance and boundaries in PHONE-VIEW.md.

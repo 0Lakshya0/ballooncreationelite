@@ -1123,14 +1123,33 @@
 }
 
 /* Keep wide themed sets readable, rather than cutting off their characters. */
-.gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape {
+.gc-collection:is([data-gallery-style="kids-birthday"], [data-gallery-style="baby-shower"])
+  .gc-card-landscape {
   grid-column: span 2;
 }
-.gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape .gc-open img {
+.gc-collection:is([data-gallery-style="kids-birthday"], [data-gallery-style="baby-shower"])
+  .gc-card-landscape
+  .gc-open
+  img {
   aspect-ratio: 16/9;
 }
 @media (max-width: 440px) {
-  .gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape {
+  .gc-collection:is([data-gallery-style="kids-birthday"], [data-gallery-style="baby-shower"])
+    .gc-card-landscape {
     grid-column: span 1;
   }
+}
+
+/* Keep small supplied originals honest: a native-sized photo inside its soft frame. */
+.gc-collection .gc-card-small .gc-open {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4/5;
+}
+.gc-collection .gc-card-small .gc-open img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
