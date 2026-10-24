@@ -11,6 +11,8 @@ The owner clarified that every style must have a physically separate gallery sec
 
 Current test/browser/publication details in PHONE-VIEW.md. Below is the earlier gallery implementation history.
 
+Current publication **https://clck.ru/3Wfp9e**; source `4f710a2625bd17312310dbf0c5a80c84ff87007e`, artifact `0f089cf9edea0c0a440ad2ee5f83e383a77f4b20`; verified blob `558d3541bac47702d6602e03a682cc144272c193` /16,449,539bytes.284 tests/22 files, TypeScript/lint/builds and final native/exact-portable320/390/768/1440 matrix PASS (29 image hashes,20 sections,3 Birthday/8 Kids,independent paging/style-scoped arrows/wrap,16:9 upright jungle/shortlist/Bloon/no overflow/errors/AI). Full boundaries in PHONE-VIEW.md.
+
 ---
 
 # Our Creations: supplied-photo gallery and staged replacement workflow

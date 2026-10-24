@@ -1,4 +1,10 @@
-## Latest publication — Our Creations gallery and supplied occasion covers (2026-10-24)
+## Latest publication — independent style galleries + birthday batch1 (2026-10-24)
+
+MAIN **https://clck.ru/3Wfp9e** (Our Creations). Source `4f710a2625bd17312310dbf0c5a80c84ff87007e`, artifact `0f089cf9edea0c0a440ad2ee5f83e383a77f4b20`.29 unique supplied photos in20 actual separate style sections; Birthday3/Kids8 with distinct presentation and independent paging/viewer navigation.10 originals retained,9 new photos, duplicate princess skipped, jungle upright/wide16:9. Existing17 hero/19 circles/19 occasion covers unchanged.284 tests/22 files, TypeScript/lint/builds and native/exact-phone320/390/768/1440 final matrix PASS, including all29 image hashes/scoped viewer/shortlist/Bloon clearance. Other AI style imagery remains pending matching uploads; no backend/provider changes or real video supplied. Provenance: `PHONE-VIEW.md`, `OUR-CREATIONS-GALLERY.md`. Older entries are historical.
+
+---
+
+## Previous publication — Our Creations gallery and supplied occasion covers (2026-10-24)
 
 MAIN **https://clck.ru/3Wfnzm** (opens the new gallery; Home via header/breadcrumb). Final source `3b6fc5b464432258eb8c2cc796cbe5e2349f33a2`, feature source `e58b3360203acbfe302055a603c27ad77c5cb19f`, artifact `9795197ad946b42d57c344b0a719a0727686f921`.20 supplied gallery photos, filters/full viewer/local saved shortlist/contextual WhatsApp,19 supplied primary occasion covers. Existing19 circles/17-photo hero/main search/Bloon/WebGL preserved.281 tests/21 files, TypeScript/lint/builds PASS; native/exact-phone320/390/768/1440 gallery matrix and final caption-only390/1440 portable recheck PASS. Video support ready but no real clips supplied/tested. Other decor styles/legacy galleries remain pending matching uploads—entire-site AI replacement is NOT complete. No AI/backend deployment. Exact scope/provenance: `PHONE-VIEW.md`, `OUR-CREATIONS-GALLERY.md`. Older entries below are historical.
 
