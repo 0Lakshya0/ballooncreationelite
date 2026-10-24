@@ -1,3 +1,13 @@
+## Birthday batch2 — 2026-10-24
+
+10 additional supplied files archived in `photo-intake/gallery-birthday-batch-2/`, with SHA-256 and decisions in `selection.json`. Added **9 unique photos**:4 Birthday,4 Kids Birthday,1 Proposal (actual "will you marry me?" lettering; not mixed into birthdays). The peach/Navya first-birthday image is a recompressed, vertically cropped repeat of BC-28: visually confirmed and old y30..950 versus new736×920 resized mean RGB error1.50/255. Kept the existing full photo/stable reference once; retained this original too.
+
+Gallery now **38 unique photos in20 exact-style sections**: Birthday7,Kids12,Proposal2,other17 styles1 each. New BC-30…38 append only; all previous IDs/references remain stable. Existing style sections/presentation, style-local viewer, saved shortlist and home hero/circles/occasion covers unchanged. Default shows29 cards (Birthday4/7,Kids6/12); their Explore more controls independently reveal the remaining3 and6 photos. No fictional venue/client claims from filenames. Visible supplier marks preserved. On black/red-rose birthday only neutral screenshot padding is trimmed to `[0,155,736,1205]` (736×1050); all originals retained unchanged.9 metadata-free WebPs total810,772bytes; no upscaling;10 originals no GPS EXIF. No videos in this batch. Remaining site AI photography awaits matching style uploads; no backend/provider changes.
+
+Rebuild: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-birthday-batch-2.py`, then Prettier on `src/lib/gallery-batch-2.ts`. Do not run batch1 generator against batch2. Three new regression tests cover provenance/stable dedup, correct grouping/style-local viewer and approved-home isolation/crop bounds. Prior gallery tests updated for38 photos,7/12 style counts, independent progressive reveal.
+
+---
+
 ## Current update — independent style collections + birthday batch1 (2026-10-24)
 
 The owner clarified that every style must have a physically separate gallery section, with distinct presentation rather than a mixed feed or broad filter alone. Birthday and Kids Birthday must be separate, while later uploads arrive in10-photo batches of20–25 photos per style.

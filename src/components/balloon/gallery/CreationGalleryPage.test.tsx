@@ -43,12 +43,12 @@ async function mount() {
   });
   return router;
 }
-it("curates29 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(29);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(29);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(29);
+it("curates38 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(38);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(38);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(38);
   for (const item of galleryMedia) {
-    expect(item.image).toMatch(/\/(homepage-real|gallery-real|gallery-birthday-batch-1)\//);
+    expect(item.image).toMatch(/\/(homepage-real|gallery-real|gallery-birthday-batch-[12])\//);
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
     expect(item.height).toBeGreaterThan(0);
@@ -65,18 +65,21 @@ it("opens a real page, progressively shows photos, and filters without making ne
   await mount();
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Beautiful moments.");
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(20);
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(27);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(29);
   const kids = within(
     document.querySelector('[data-gallery-style="kids-birthday"]') as HTMLElement,
   );
   expect(kids.getAllByRole("article")).toHaveLength(6);
   fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(29);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(35);
+  expect(document.querySelectorAll('[data-gallery-style="birthday"] .gc-card')).toHaveLength(4);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(38);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Kids Birthday" })).toBeInTheDocument();
-  expect(screen.getByRole("status")).toHaveTextContent("11");
+  expect(screen.getByRole("status")).toHaveTextContent("19");
   expect(screen.queryByRole("group", { name: "Media format" })).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });
@@ -100,7 +103,7 @@ it("saves locally, creates a meaningful WhatsApp shortlist and resets a saved-on
   fireEvent.click(shortlist.getByRole("button", { name: "Clear" }));
   expect(screen.getByRole("status")).toHaveTextContent("No saved looks");
   fireEvent.click(screen.getByRole("button", { name: "Browse all moments" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(27);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(29);
 });
 it("offers keyboard lightbox navigation, close/focus return and a real single-look enquiry", async () => {
   await mount();
@@ -163,12 +166,12 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   const sections = galleryCollections();
   const birthday = sections.find((item) => item.id === "birthday")!;
   const kids = sections.find((item) => item.id === "kids-birthday")!;
-  expect(birthday.items).toHaveLength(3);
-  expect(kids.items).toHaveLength(8);
+  expect(birthday.items).toHaveLength(7);
+  expect(kids.items).toHaveLength(12);
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    29,
+    38,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -183,7 +186,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
   expect(document.querySelector('[data-gallery-style="birthday"]')).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Explore more Kids Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(8);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(12);
   expect(document.querySelector('[data-gallery-id="kids-jungle-adventure"]')).toHaveClass(
     "gc-card-landscape",
   );

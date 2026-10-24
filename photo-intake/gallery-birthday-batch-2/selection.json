@@ -1,0 +1,129 @@
+{
+  "photos": [
+    {
+      "source": "Arco desconstruído_ 30 ideias + tutoriais para uma decoração linda.jpg",
+      "id": "birthday-rose-confetti",
+      "reference": "BC-30",
+      "occasion": "Birthday",
+      "group": "Birthdays",
+      "title": "A little sparkle, a special birthday",
+      "detail": "Rose-gold and charcoal balloons with a confetti-style backdrop and matching dessert plinths.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "4e6bbb85bcd5b1f6c3168a624fd3def4e59abe794f055d677ebb16b41d93915a"
+    },
+    {
+      "source": "Decore special 💕.jpg",
+      "id": "proposal-rose-sparkle",
+      "reference": "BC-31",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "title": "A question beneath the evening sky",
+      "detail": "A floral frame, glowing proposal lettering, rose petals and a sparkling evening setting.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "b2630e92d222e8692c2b2d129d1a98810a4823aca29c1b933e0489c23bed0b7d"
+    },
+    {
+      "source": "Dreamy Outdoor Birthday Decoration Ideas ✨🎈 _ Luxury Garden Birthday Party Setup.jpg",
+      "id": "birthday-garden-monochrome",
+      "reference": "BC-32",
+      "occasion": "Birthday",
+      "group": "Birthdays",
+      "title": "Birthday lights in the garden",
+      "detail": "Black and white balloon framing, warm string lights and a garden birthday backdrop.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "a9e2ad589fa90d13128ddd22c6706aaa95e62bced41479344be662cf8edaf02c"
+    },
+    {
+      "source": "Fab events decoration #eventdecor #partyplanning….jpg",
+      "id": "kids-butterfly-wings",
+      "reference": "BC-33",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "title": "Little wings. Big birthday wishes.",
+      "detail": "A butterfly-wing centrepiece with purple, silver and cream balloons and floral cake plinths.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "d68a7bddff48e8cd0f94a1450fa9075e89c0880abb095ff29e1a4a5b495f9c70"
+    },
+    {
+      "source": "Girl decor idea.jpg",
+      "id": "kids-magical-purple",
+      "reference": "BC-34",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "title": "A little world of purple magic",
+      "detail": "Lavender balloon clusters, character artwork, butterfly details and an illuminated five.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "2f149e82116984f4597d79622bb9fdd787bd18b2c93830d5cfeadfe992e1522d"
+    },
+    {
+      "source": "Happy Birthday Backdrop Sign.jpg",
+      "id": "birthday-black-roses",
+      "reference": "BC-35",
+      "occasion": "Birthday",
+      "group": "Birthdays",
+      "title": "Black balloons. A touch of roses.",
+      "detail": "An asymmetric black balloon arch with red roses, layered birthday panels and warm floor lighting.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "178f80e7318e784d0f606412be2faf6d05daf54f039c1ec391ffb7c496afb06d",
+      "crop": [
+        0,
+        155,
+        736,
+        1205
+      ]
+    },
+    {
+      "source": "Kids birthday party decoration in Dwarka.jpg",
+      "id": "kids-jungle-three",
+      "reference": "BC-36",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "title": "Three cheers for jungle friends",
+      "detail": "Green and gold balloons, friendly jungle animal panels and a glowing three.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "d0dcc35bdf8134d3f697e6e429a7994d3ce0f77f19b474bc4003f08559050840"
+    },
+    {
+      "source": "look of love ❤️ ( jayfer).jpg",
+      "id": "birthday-floral-garden",
+      "reference": "BC-37",
+      "occasion": "Birthday",
+      "group": "Birthdays",
+      "title": "A garden full of birthday wishes",
+      "detail": "A floral birthday arch, pastel balloons, warm hanging lights and a candlelit cake table.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "f8765e7213408b20bd5c9145006bd81d075e777eb1b3f4a91a85bdb02e3b059d"
+    },
+    {
+      "source": "Purple Butterfly #purplebutterfly.jpg",
+      "id": "kids-purple-butterfly-one",
+      "reference": "BC-38",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "title": "One beautiful butterfly year",
+      "detail": "Pink and purple balloon framing, oversized butterfly details and a first-birthday backdrop.",
+      "rotate": 0,
+      "position": "50% 50%",
+      "sha256": "3a25696be32b47c62383147f493fac247b5f9cc97ab9b3d69718a780a265dc21"
+    }
+  ],
+  "duplicates": [
+    {
+      "source": "Isn't She ONEderful First Birthday _ Retro Boho Girl’s Party Ideas.jpg",
+      "sha256": "bd776a173b9449bad4870686ed1d4ec0af14a48f0fe1e5bcbb772c58df9822ec",
+      "existingId": "kids-first-birthday-peach",
+      "existingReference": "BC-28",
+      "existingSource": "photo-intake/gallery-birthday-batch-1/1018165428245752324.jpg",
+      "reason": "Same photograph as BC-28, recompressed and vertically cropped (old y=30..950 of736x981). Visually confirmed; mean RGB delta1.50/255 after184x230 resize. Keep original full photograph and stable reference, not a second card."
+    }
+  ],
+  "note": "Second10-photo batch:4 Birthday,4 Kids Birthday,1 Proposal added;1 cropped/recompressed repeat omitted. No venue/client/ownership claims inferred from filenames. Only neutral screenshot padding cropped on black/rose birthday; original is unchanged."
+}
