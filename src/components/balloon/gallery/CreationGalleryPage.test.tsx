@@ -184,4 +184,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(document.querySelector('[data-gallery-style="birthday"]')).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Explore more Kids Birthday looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(8);
+  expect(document.querySelector('[data-gallery-id="kids-jungle-adventure"]')).toHaveClass(
+    "gc-card-landscape",
+  );
 });

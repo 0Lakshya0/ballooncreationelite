@@ -309,7 +309,8 @@ export function CreationGalleryPage() {
                 <option value="all">All styles · separate collections</option>
                 {allCollections.map((section) => (
                   <option key={section.id} value={section.name}>
-                    {section.name} · {section.items.length} looks
+                    {section.name} · {section.items.length}{" "}
+                    {section.items.length === 1 ? "look" : "looks"}
                   </option>
                 ))}
               </select>

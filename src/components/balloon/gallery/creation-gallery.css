@@ -1121,3 +1121,16 @@
     padding-bottom: 35px;
   }
 }
+
+/* Keep wide themed sets readable, rather than cutting off their characters. */
+.gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape {
+  grid-column: span 2;
+}
+.gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 16/9;
+}
+@media (max-width: 440px) {
+  .gc-collection[data-gallery-style="kids-birthday"] .gc-card-landscape {
+    grid-column: span 1;
+  }
+}
