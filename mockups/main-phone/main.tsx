@@ -8,7 +8,7 @@ const router = createRouter({
   context: { queryClient: new QueryClient() },
   history: createMemoryHistory({
     initialEntries: [
-      /^(?:#creations\/|#(?:about|decor-collections|faqs|signature-standard|lets-celebrate)(?:[?#]|$))/.test(
+      /^(?:#creations\/|#(?:about|our-creations|decor-collections|faqs|signature-standard|lets-celebrate)(?:[?#]|$))/.test(
         window.location.hash,
       )
         ? "/" + window.location.hash.slice(1)

@@ -1,8 +1,5 @@
 import { occasionEntries } from "./occasion-entries";
-const photos = import.meta.glob<string>("/src/assets/categories/*.webp", {
-  eager: true,
-  import: "default",
-});
+import { suppliedOccasionPhotos } from "./supplied-occasion-photos";
 const content: Record<
   string,
   { summary: string; inclusions: string[]; ideaNames: string[]; note: string }
@@ -213,8 +210,7 @@ const content: Record<
 };
 export const occasionPages = occasionEntries.map((entry) => {
   const copy = content[entry.slug]!;
-  const heroImage =
-    photos[`/src/assets/categories/category-${String(entry.photo).padStart(2, "0")}.webp`]!;
+  const heroImage = suppliedOccasionPhotos[entry.slug].image;
   return {
     ...entry,
     kind: "occasion" as const,

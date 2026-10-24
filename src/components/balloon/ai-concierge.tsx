@@ -40,8 +40,20 @@ function dockClearance(height: number, side: "left" | "right") {
   let clearance = 14;
   const selectors =
     side === "left"
-      ? [".site-motion-control", ".mobile-cta.is-shown", ".ab-mobile-bar", ".bce-decor .selbar"]
-      : [".wa-float.is-shown", ".mobile-cta.is-shown", ".ab-mobile-bar", ".bce-decor .selbar"];
+      ? [
+          ".site-motion-control",
+          ".mobile-cta.is-shown",
+          ".ab-mobile-bar",
+          ".bce-decor .selbar",
+          ".gc-shortlist-bar",
+        ]
+      : [
+          ".wa-float.is-shown",
+          ".mobile-cta.is-shown",
+          ".ab-mobile-bar",
+          ".bce-decor .selbar",
+          ".gc-shortlist-bar",
+        ];
   for (const selector of selectors) {
     const r = document.querySelector<HTMLElement>(selector)?.getBoundingClientRect();
     if (r && r.width > 0 && r.height > 0 && r.top < height && r.bottom > height / 2)
@@ -115,7 +127,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       controls?.disconnect();
       document
         .querySelectorAll(
-          ".site-motion-control, .mobile-cta, .wa-float, .ab-mobile-bar, .bce-decor .selbar",
+          ".site-motion-control, .mobile-cta, .wa-float, .ab-mobile-bar, .bce-decor .selbar, .gc-shortlist-bar",
         )
         .forEach((el) => controls?.observe(el));
     };

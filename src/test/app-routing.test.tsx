@@ -12,6 +12,7 @@ describe("App routing", () => {
     ...occasionEntries.map((item) => `/creations/${item.slug}`),
     "/",
     "/decor-collections",
+    "/our-creations",
     "/about",
     "/faqs",
     "/signature-standard",

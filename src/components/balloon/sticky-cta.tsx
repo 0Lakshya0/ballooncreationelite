@@ -35,7 +35,8 @@ export function StickyCta() {
   }, [shown, pathname]);
 
   // These pages already have their own contact/selection bar: do not duplicate it.
-  if (pathname === "/about" || pathname === "/decor-collections") return null;
+  if (pathname === "/about" || pathname === "/decor-collections" || pathname === "/our-creations")
+    return null;
 
   return (
     <>

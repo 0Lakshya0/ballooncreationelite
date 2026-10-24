@@ -71,14 +71,17 @@ export function SiteHeader() {
         <nav className={menuOpen ? "main-nav is-open" : "main-nav"} aria-label="Main navigation">
           <div className="nav-drop">
             <Link
-              to="/"
-              hash="portfolio"
+              to="/our-creations"
+              activeProps={{ "aria-current": "page" }}
               className="nav-drop-trigger"
               onClick={() => setMenuOpen(false)}
             >
               Our creations
             </Link>
             <div className="nav-drop-panel" role="group" aria-label="Our creations">
+              <Link to="/our-creations" onClick={() => setMenuOpen(false)}>
+                View the celebration gallery <ArrowUpRight size={13} />
+              </Link>
               <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
                 Browse all {occasionEntries.length} occasions <ArrowUpRight size={13} />
               </Link>
@@ -116,6 +119,9 @@ export function SiteHeader() {
             <Phone size={14} /> {contact.label}
           </a>
           <div className="nav-mobile-only nav-mobile-creations">
+            <Link to="/our-creations" onClick={() => setMenuOpen(false)}>
+              View the celebration gallery
+            </Link>
             <Link to="/" hash="portfolio" onClick={() => setMenuOpen(false)}>
               Browse all {occasionEntries.length} occasions
             </Link>

@@ -38,11 +38,7 @@ function portablePhoneView(): Plugin {
     },
     transform(source, id) {
       if (id.includes("/src/assets/profile-logo.jpg.asset.json")) return undefined;
-      if (
-        id.endsWith("/celebrations.ts") ||
-        id.endsWith("/service-details.ts") ||
-        id.endsWith("/occasion-catalogue.ts")
-      ) {
+      if (id.endsWith("/celebrations.ts") || id.endsWith("/service-details.ts")) {
         const glob =
           /import\.meta\.glob<string>\(\s*["']\/src\/assets\/categories\/\*\.webp["'],\s*\{\s*eager:\s*true,\s*import:\s*["']default["'],?\s*\}\s*\)/;
         if (!glob.test(source))

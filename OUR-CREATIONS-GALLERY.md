@@ -1,0 +1,26 @@
+# Our Creations: supplied-photo gallery and staged replacement workflow
+
+2026-10-24. Owner asked for a dedicated premium Our Creations/gallery page, ongoing style-by-style replacement of AI images, and support for later video uploads.
+
+## Current implementation
+
+- `/our-creations` is a distinct routed page, reached by the main Our creations header link, desktop/mobile gallery menu entries and a new Home gallery invitation. Existing occasion browsing remains on Home (six initial options/19 circles) and its own detail routes. Phone hash/deep-link bootstrap supports `#our-creations`; destination opening remains instant, without slide-up transitions.
+- **20 supplied photos**, no generated fallback on the gallery:17 existing full-size hero derivatives reused byte-for-byte, plus3 full-size quality82 metadata-stripped WebPs (258,922bytes) generated directly from batch2 originals. All original intakes unchanged; no generative/retouch/upscaling work. Exhibition is not restored; the explicitly assigned floral fair photo appears as Showroom Setup. References BC-01…BC-20 are explicitly stable rather than re-numbered on sorting/insertion.
+- Editorial cream/champagne layout, arch-framed hero, a photographic inset, spacious responsive photo grid with a wider lead image, six occasion filters with counts, nine initial items and progressive reveal, optional saved-only view, deliberate empty/reset state. No new fake reviews, project dates, venues, scarcity, completion counts, before/after stories or owner-authorship verification. Photo titles/captions describe the supplied visuals/occasion rather than invented customer history.
+- Full-photo lightbox with contained uncropped original-aspect images, keyboard arrows/Escape, previous/next wrap, close button, Radix focus trap, focus restoration and body scroll lock. Opening uses opacity only, not upward animation. No forced auto-slideshow.
+- Favourite IDs are validated/deduplicated against the catalogue and stored locally, with corrupt/blocked-storage fallback. A shortlist enquiry passes the exact stable photo references/occasion names to WhatsApp, with optional date/venue blanks; one-look enquiries work directly from the viewer. Nothing is sent automatically; no booking/inference/backend API is triggered. Selection bar has no duplicate mobile contact bar and is included in existing Bloon dock obstacle clearance. Exact mascot, main search/typewriter and all provider/backend configuration are unchanged.
+- The **19 existing occasion cards and their19 detail covers** now reuse matching full-size supplied photos (`supplied-occasion-photos.ts`), not their generated category assets. Circles and17-photo hero are unchanged. Catalogue details/enquiry data still use the same names/slugs. The portable adapter no longer expects a category glob in occasion-catalogue.
+
+## Video readiness, not fictional video content
+
+`GalleryMedia` is an image/video union. For a real future clip, add a stable video entry to `galleryMedia` with `kind: "video"`, a real poster in `image`, `video` source, width/height, group, title, occasion, reference and optional captions track. The same card opens a native controls/playsInline player, poster, preload="none", no autoplay or forced sound, optional captions and load-error message. Changing/closing the viewer unmounts the player. Film format filters/badges appear only when real video entries exist; no fake film section is shown now. **No videos have been supplied or playback-tested yet**; a synthetic unit fixture tests rendering/policy only. Actual upload must be checked/optimised for browser-supported codecs/size before publishing; keep large originals out of Git, and don't blindly inline large videos into the portable artifact.
+
+## Remaining AI-photo replacement is deliberately incomplete
+
+The owner will supply photos one style at a time. Do NOT report the entire site as AI-photo-free. Gallery20, circles19, hero17 and primary occasion cards/covers19 now use supplied photos. Existing25 decor-style collection/option imagery, About's separately approved three-image composition, Signature's old wedding photo, and legacy five long-form service/galleries still need a matching-image review as uploads arrive. Do not overwrite approved composition, use a wrong occasion as filler, delete history, replace original EN/HI variants, or invent proof. Unknown/unprovided styles remain pending rather than mislabeled. Preserve Exhibition removal.
+
+For each next upload: retain provenance/original under photo-intake, confirm intended style, optimise/orient/crop without painting, replace all occurrences of that matching asset in the approved live style, and add an appropriate gallery item with a stable ID/reference and truthful caption. Do not automatically change the homepage slideshow unless requested. Main source is English; protected bilingual variants stay untouched.
+
+Rebuild extra full-size gallery assets: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-photos.py`, then Prettier on `src/lib/gallery-uploaded.ts`. First17 images retain their existing preparation manifest/script. `galleryGroups`, curated media data, validated shortlist and enquiry composition are in `src/lib/creation-gallery.ts`.
+
+Final test/browser/publication provenance is recorded in PHONE-VIEW.md.

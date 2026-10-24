@@ -1,3 +1,4 @@
+import "@/components/balloon/gallery/creation-gallery.css";
 import { occasionEntries } from "@/lib/occasion-entries";
 import { OccasionGrid } from "@/components/balloon/creations/OccasionGrid";
 import { openAreasDialog } from "@/lib/area-events";
@@ -340,6 +341,13 @@ function Index() {
                 EXPLORE ALL {occasionEntries.length} OCCASIONS <ArrowDown size={14} />
               </span>
             </div>
+          </div>
+          <div className="home-gallery-entry">
+            <span>LOOKING FOR A LITTLE INSPIRATION?</span>
+            <Link to="/our-creations">
+              Explore our celebration gallery <ArrowUpRight size={19} />
+            </Link>
+            <p>Find a favourite look, save a few ideas, and make them yours.</p>
           </div>
           <OccasionGrid />
           <div className="portfolio-note reveal">

@@ -1,3 +1,4 @@
+import { suppliedOccasionPhotos } from "@/lib/supplied-occasion-photos";
 import { act } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import {
@@ -54,7 +55,7 @@ it("gives every circle one unique matching card/page, correct image and allowed 
   expect(new Set(serviceSlugs).size).toBe(24);
   for (const entry of occasionPages) {
     expect(getService(entry.slug)).toBe(entry);
-    expect(entry.heroImage).toContain(`category-${String(entry.photo).padStart(2, "0")}.webp`);
+    expect(entry.heroImage).toBe(suppliedOccasionPhotos[entry.slug].image);
     expect(entry.packages).toHaveLength(3);
     expect(entry.faqs).toHaveLength(4);
     expect(isKnownOccasion(entry.name)).toBe(true);
