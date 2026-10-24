@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates86 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(86);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(86);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(86);
+it("curates99 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(99);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(99);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(99);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12])\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -94,7 +94,11 @@ it("opens a real page, progressively shows photos, and filters without making ne
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(84);
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(86);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(90);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(96);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(99);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -191,7 +195,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    86,
+    99,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -245,7 +249,7 @@ it("pages Baby Shower3→9→15→18 independently, keeps small originals compac
   expect(within(dialog).getByRole("heading")).toHaveTextContent("A little peanut is on the way");
   expect(dialog).toHaveTextContent("18 / 18");
 });
-it("pages First Night3→9→11 separately and wraps its11-photo viewer without Anniversary or Room Surprise mixing", async () => {
+it("pages First Night3→9→15→21→24 separately and wraps its24-photo viewer without Anniversary or Room Surprise mixing", async () => {
   await mount();
   fireEvent.change(screen.getByLabelText("Choose a style"), { target: { value: "First Night" } });
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
@@ -254,21 +258,25 @@ it("pages First Night3→9→11 separately and wraps its11-photo viewer without 
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
   expect(within(section).getAllByRole("article")).toHaveLength(9);
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
-  expect(within(section).getAllByRole("article")).toHaveLength(11);
+  expect(within(section).getAllByRole("article")).toHaveLength(15);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(within(section).getAllByRole("article")).toHaveLength(21);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(within(section).getAllByRole("article")).toHaveLength(24);
   expect(screen.queryByRole("button", { name: "Explore more First Night looks" })).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Open First Night: A room made for two" }));
   const dialog = within(screen.getByRole("dialog"));
-  expect(dialog.getByText("1 / 11")).toBeInTheDocument();
+  expect(dialog.getByText("1 / 24")).toBeInTheDocument();
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowLeft" });
-  expect(dialog.getByRole("heading")).toHaveTextContent("A room with love at its heart");
-  expect(dialog.getByText("11 / 11")).toBeInTheDocument();
+  expect(dialog.getByRole("heading")).toHaveTextContent("Soft drapes, a canopy of light");
+  expect(dialog.getByText("24 / 24")).toBeInTheDocument();
   expect(
     new URL(
       dialog.getByRole("link", { name: "Ask about this look" }).getAttribute("href")!,
     ).searchParams.get("text"),
-  ).toContain("BC-86 · First Night");
+  ).toContain("BC-99 · First Night");
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowRight" });
-  expect(dialog.getByText("1 / 11")).toBeInTheDocument();
+  expect(dialog.getByText("1 / 24")).toBeInTheDocument();
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
   expect(screen.queryByRole("dialog")).toBeNull();
 });

@@ -30,19 +30,19 @@ it("retains10 unique original hashes, appends BC77–86 and preserves all earlie
   expect(galleryFirstNightMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 10 }, (_, i) => `BC-${77 + i}`),
   );
-  expect(galleryMedia).toHaveLength(86);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(86);
+  expect(galleryMedia).toHaveLength(99);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(99);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 86 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`),
+    Array.from({ length: 99 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`),
   );
   expect(galleryMedia.find((p) => p.id === "first-night")?.reference).toBe("BC-10");
   expect(galleryMedia.find((p) => p.id === "anniversary-layered-love")?.reference).toBe("BC-76");
 });
-it("keeps all11 First Night photos in their intimate collection without mixing Room Surprise or Anniversary", () => {
+it("keeps all24 First Night photos in their intimate collection without mixing Room Surprise or Anniversary", () => {
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   const first = sections.find((p) => p.id === "first-night")!;
-  expect(first.items).toHaveLength(11);
+  expect(first.items).toHaveLength(24);
   expect(first.layout).toBe("intimate");
   expect(first.radius).toBe("90px 8px 90px 8px");
   expect(first.initial).toBe(3);
@@ -59,7 +59,7 @@ it("keeps all11 First Night photos in their intimate collection without mixing R
     expect(p.occasion).toBe("First Night");
     expect(p.group).toBe("Love & weddings");
     const viewer = collectionViewerItems(p.id, galleryMedia);
-    expect(viewer).toHaveLength(11);
+    expect(viewer).toHaveLength(24);
     expect(viewer.every((q) => q.occasion === "First Night")).toBe(true);
   }
   const message = galleryMessage([galleryFirstNightMedia[0]!, galleryFirstNightMedia[9]!]);
