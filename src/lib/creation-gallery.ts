@@ -42,7 +42,7 @@ const definitions: [string, string, string, Exclude<GalleryGroup, "All moments">
     "A milestone, dressed in gold",
     "Birthday",
     "Birthdays",
-    "White and metallic balloons meet a shimmer backdrop and an illuminated50.",
+    "White and metallic balloons meet a shimmer backdrop and an illuminated 50.",
   ],
   [
     "kids-birthday-princess",
