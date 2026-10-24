@@ -1,4 +1,10 @@
-## Latest publication — all19 supplied circle portraits (2026-10-24)
+## Latest publication — Our Creations gallery and supplied occasion covers (2026-10-24)
+
+MAIN **https://clck.ru/3Wfnzm** (opens the new gallery; Home via header/breadcrumb). Final source `3b6fc5b464432258eb8c2cc796cbe5e2349f33a2`, feature source `e58b3360203acbfe302055a603c27ad77c5cb19f`, artifact `9795197ad946b42d57c344b0a719a0727686f921`.20 supplied gallery photos, filters/full viewer/local saved shortlist/contextual WhatsApp,19 supplied primary occasion covers. Existing19 circles/17-photo hero/main search/Bloon/WebGL preserved.281 tests/21 files, TypeScript/lint/builds PASS; native/exact-phone320/390/768/1440 gallery matrix and final caption-only390/1440 portable recheck PASS. Video support ready but no real clips supplied/tested. Other decor styles/legacy galleries remain pending matching uploads—entire-site AI replacement is NOT complete. No AI/backend deployment. Exact scope/provenance: `PHONE-VIEW.md`, `OUR-CREATIONS-GALLERY.md`. Older entries below are historical.
+
+---
+
+## Previous publication — all19 supplied circle portraits (2026-10-24)
 
 MAIN **https://clck.ru/3Wfmcm**. Runtime source `0d2359b1033369a9c1160e4ba817029cfbc7e547`, artifact `a382de4e95d82fc9bda71fd1e9bc8b4f66ae68c8`. Final three profiles now use supplied50th-birthday/princess/floral-fair photos for Birthday/Kids Birthday/Showroom Setup. All19 circles have supplied images with no generated fallback. Prior16 portraits,17-photo hero/opacity/animation, cards/detail galleries and19 occasions remain unchanged; no Exhibition service restored. **274 tests /20 files**, TypeScript/builds and native/exact-phone390/1440 all19 profile hashes/dimensions/routes PASS. No AI/backend changes. Exact provenance/boundaries: `PHONE-VIEW.md`, `REAL-CIRCLE-PHOTOS.md`. Older entries below are historical.
 
