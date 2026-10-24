@@ -20,10 +20,10 @@ it("retains10 unique original files and appends BC39–48 without duplicating or
   expect(galleryBabyShowerMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 10 }, (_, i) => `BC-${39 + i}`),
   );
-  expect(galleryMedia).toHaveLength(48);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(48);
+  expect(galleryMedia).toHaveLength(57);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(57);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 48 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`),
+    Array.from({ length: 57 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`),
   );
   expect(galleryMedia.find((p) => p.id === "baby-shower")?.reference).toBe("BC-06");
   expect(galleryMedia.find((p) => p.id === "kids-first-birthday-peach")?.reference).toBe("BC-28");
@@ -31,14 +31,14 @@ it("retains10 unique original files and appends BC39–48 without duplicating or
 it("keeps all10 in Baby Shower, including gender reveal and traditional themes, without mixing birthdays", () => {
   const collections = galleryCollections();
   expect(collections).toHaveLength(20);
-  expect(collections.find((p) => p.id === "baby-shower")?.items).toHaveLength(11);
+  expect(collections.find((p) => p.id === "baby-shower")?.items).toHaveLength(18);
   expect(collections.find((p) => p.id === "birthday")?.items).toHaveLength(7);
-  expect(collections.find((p) => p.id === "kids-birthday")?.items).toHaveLength(12);
+  expect(collections.find((p) => p.id === "kids-birthday")?.items).toHaveLength(14);
   for (const photo of galleryBabyShowerMedia) {
     expect(photo.group).toBe("Baby & family");
     expect(photo.occasion).toBe("Baby Shower");
     const viewer = collectionViewerItems(photo.id, galleryMedia);
-    expect(viewer).toHaveLength(11);
+    expect(viewer).toHaveLength(18);
     expect(viewer.every((p) => p.occasion === "Baby Shower")).toBe(true);
   }
 });

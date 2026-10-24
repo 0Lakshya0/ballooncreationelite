@@ -1,3 +1,13 @@
+## Family batch2 — 2026-10-24
+
+**Nine attachments received**, all unique. Retained unchanged originals/SHA-256 manifest in `photo-intake/gallery-family-batch-2/`. Added BC-49…57:7 Baby Shower settings plus2 explicitly first-birthday setups (blue car and Boss Baby), correctly placed in Kids Birthday, not mixed into Baby Shower. No venue/client/city/ownership claims inferred from filenames. No rotations/crops/colour/AI edits needed; metadata-free derivatives, no upscaling.9 WebPs1,040,788bytes;9 originals noGPS.
+
+Total **57 unique gallery photos /20 exact-style sections**. Baby Shower18,Kids Birthday14,Birthday7,Proposal2; other16 styles1 each. Initial31 cards unchanged. Baby Shower independent paging3→9→15→18; Kids6→12→14; Birthday4→7. Each viewer wraps only its exact style, with all prior references/shortlists intact. Original17 hero/19 circle/19 cover assignments and approved presentation/compact236×182 handling/wide-frame/save-button corrections unchanged. No backend/provider/video changes; remaining AI imagery elsewhere awaits corresponding uploads.
+
+Rebuild: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-family-batch-2.py`, then Prettier on `src/lib/gallery-family-batch-2.ts`. Three new regression tests cover all9 original hashes/stable refs,7/2 classification/scoped viewers, unchanged home assignments/no inferred venue claims. Existing page tests updated for57/18/14 and independent multi-step paging; exact tiny-photo opener name avoids matching the new floral-swing title prefix.
+
+---
+
 ## Baby Shower batch1 — 2026-10-24
 
 Current publication **https://clck.ru/3WfsN5**; source `e6e6074720f7621d2a58b53b9e2db2acd4a6e6d1`, artifact `077c3603a6be808374e879c89ef733eae16b7ff8`; blob `fcbc9739ad505d1a72853fd717dd9eb3635f85c3` /18,714,572bytes verified locally/remotely.291 tests/24 files,TS/lint/native+phone builds PASS. Native390/1440 + exact-phone320/390/768/1440 six functional cases PASS, including all48 image hashes, independent paging/scoped viewer/compact natural size/save inset/shortlist/Bloon/no overflow/errors/AI. Isolated phone390/1440 reloads PASS; previous long-sequence1440 race not claimed fixed. Public URL independently rendered48 photos/20 collections/Baby Shower11. Details in PHONE-VIEW.md.

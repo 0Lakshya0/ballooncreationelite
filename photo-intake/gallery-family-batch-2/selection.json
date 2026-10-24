@@ -1,0 +1,114 @@
+{
+  "photos": [
+    {
+      "source": "1129910994046830415.jpg",
+      "id": "kids-blue-car-one",
+      "reference": "BC-49",
+      "title": "A first birthday, ready to roll",
+      "detail": "A little blue car, pale blue balloon clusters, layered panels and an illuminated one.",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "2ecd9da2fe9dedde5957037146a7d853f1d0c07a1d4c4262df01bf303a0ed41b"
+    },
+    {
+      "source": "Baby Shower Decor in NCR Delhi India.jpg",
+      "id": "baby-shower-boy-girl-glow",
+      "reference": "BC-50",
+      "title": "A little surprise, softly glowing",
+      "detail": "Pink and blue Boy and Girl panels with gold balloon accents and coloured uplighting.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "54e97d3dd909f8db0f571828b4f4d6449a67f0e4281f5ccdf8a7f87cd54a6d78"
+    },
+    {
+      "source": "Baby shower decorations.jpg",
+      "id": "baby-shower-pastel-ring",
+      "reference": "BC-51",
+      "title": "A circle of little wishes",
+      "detail": "A pink-and-blue balloon ring, gold shimmer curtain, Baby Shower bunting and baby-character balloons.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "23c6705ce0ba7eeaf03add4d3564a9630befb3a27bd4c50df0c80b40783c67c4"
+    },
+    {
+      "source": "Bear Arch.jpg",
+      "id": "baby-shower-bearly-wait",
+      "reference": "BC-52",
+      "title": "We can bearly wait",
+      "detail": "A neutral outdoor setting with cream and caramel balloons, a teddy bear and a little seating corner.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "80149d4cd62e8b2e0cc563ae1cb6a1d425ee68b7b6402f9d8ba410a2af4feeb8"
+    },
+    {
+      "source": "Beautiful Baby Cribs & Cradles.jpg",
+      "id": "baby-shower-lotus-swing",
+      "reference": "BC-53",
+      "title": "A little bloom, held in flowers",
+      "detail": "A lotus-shaped hanging seat framed by mauve and cream flowers, soft drapes and lanterns.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "663e68bfbba072dbb5f5b268e56e48f951c16dfadec8e714b33b08972d277cb0"
+    },
+    {
+      "source": "Decore  for  baby  shower 🤍 #girlORboy 💙🩷 (1).jpg",
+      "id": "baby-shower-little-details",
+      "reference": "BC-54",
+      "title": "Ten little fingers. A little wonder.",
+      "detail": "A pastel baby-shower signpost with playful lettering, floral details and pink-and-blue balloons.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "af4849a39996babc4060d8f1fa292633c57013b12d9a711058adbe54c57345c7"
+    },
+    {
+      "source": "Diseño Funcional y Seguro para el Sueño del Bebé.jpg",
+      "id": "baby-shower-blue-garden-arch",
+      "reference": "BC-55",
+      "title": "Soft blue beneath the garden roof",
+      "detail": "A cream ribbed Oh Baby arch, pale blue and white balloons, leafy accents and BABY blocks.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "25bdab500f599f489d1ba415bf3cb2a8a8d375e16f6da0933f038d2184f6ad7f"
+    },
+    {
+      "source": "elephant baby shower.jpg",
+      "id": "baby-shower-little-peanut",
+      "reference": "BC-56",
+      "title": "A little peanut is on the way",
+      "detail": "A pale blue elephant-themed backdrop framed with blue, white and grey balloons.",
+      "occasion": "Baby Shower",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "a310111352cf8e3eb3d772c4346e12b8f44862766552ad298e2e0891ede50c34"
+    },
+    {
+      "source": "𝐴𝑙𝑝 𝑈𝑟𝑎𝑠🖤__🟨𝙏𝙖𝙧𝙞𝙝….jpg",
+      "id": "kids-boss-baby-one",
+      "reference": "BC-57",
+      "title": "A little boss. A big first birthday.",
+      "detail": "A Boss Baby-inspired first-birthday setting with black and gold balloons, a shimmer panel and an illuminated one.",
+      "occasion": "Kids Birthday",
+      "group": "Birthdays",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "9bed738637fbdfd914a2d3a18fe16926a8701126281f96375470a0bff8963a11"
+    }
+  ],
+  "duplicates": [],
+  "note": "Nine files received, not ten. Seven Baby Shower photos; blue car and Boss Baby are explicitly first birthdays, so Kids Birthday. All unique against retained input SHA-256; visually distinct from previous supplied photos. No rotation/cropping/colour/AI edits. Keep all prior IDs and approved home/circle/cover assignments. Do not infer venue, client, city or ownership from filenames."
+}

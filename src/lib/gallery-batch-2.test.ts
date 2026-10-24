@@ -22,8 +22,8 @@ it("retains all10 original files, appends nine stable references and omits the c
   expect(galleryMedia.filter((p) => p.id === manifest.duplicates[0].existingId)).toHaveLength(1);
   expect(manifest.duplicates[0].existingReference).toBe("BC-28");
   expect(galleryMedia.find((p) => p.id === "kids-first-birthday-peach")?.reference).toBe("BC-28");
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(48);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(48);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(57);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(57);
 });
 it("separates normal and kids birthdays and classifies proposal lettering by the actual photo", () => {
   expect(galleryBatch2Media.filter((p) => p.occasion === "Birthday")).toHaveLength(4);
@@ -34,7 +34,7 @@ it("separates normal and kids birthdays and classifies proposal lettering by the
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   expect(sections.find((p) => p.id === "birthday")?.items).toHaveLength(7);
-  expect(sections.find((p) => p.id === "kids-birthday")?.items).toHaveLength(12);
+  expect(sections.find((p) => p.id === "kids-birthday")?.items).toHaveLength(14);
   expect(sections.find((p) => p.id === "proposal")?.items).toHaveLength(2);
   for (const photo of galleryBatch2Media) {
     const viewer = collectionViewerItems(photo.id, galleryMedia);

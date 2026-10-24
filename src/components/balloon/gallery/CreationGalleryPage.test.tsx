@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates48 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(48);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(48);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(48);
+it("curates57 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(57);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(57);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(57);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2)\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -74,18 +74,22 @@ it("opens a real page, progressively shows photos, and filters without making ne
   expect(kids.getAllByRole("article")).toHaveLength(6);
   fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(37);
+  fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(39);
   expect(document.querySelectorAll('[data-gallery-style="birthday"] .gc-card')).toHaveLength(4);
   fireEvent.click(screen.getByRole("button", { name: "Explore more Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(40);
-  fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(46);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(42);
   fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(48);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(54);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(57);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Kids Birthday" })).toBeInTheDocument();
-  expect(screen.getByRole("status")).toHaveTextContent("19");
+  expect(screen.getByRole("status")).toHaveTextContent("21");
   expect(screen.queryByRole("group", { name: "Media format" })).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });
@@ -173,11 +177,11 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   const birthday = sections.find((item) => item.id === "birthday")!;
   const kids = sections.find((item) => item.id === "kids-birthday")!;
   expect(birthday.items).toHaveLength(7);
-  expect(kids.items).toHaveLength(12);
+  expect(kids.items).toHaveLength(14);
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    48,
+    57,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -193,12 +197,14 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(document.querySelector('[data-gallery-style="birthday"]')).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Explore more Kids Birthday looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(12);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Kids Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(14);
   expect(document.querySelector('[data-gallery-id="kids-jungle-adventure"]')).toHaveClass(
     "gc-card-landscape",
   );
 });
 
-it("pages Baby Shower3→9→11 independently, keeps small originals compact and wraps only its own photos", async () => {
+it("pages Baby Shower3→9→15→18 independently, keeps small originals compact and wraps only its own photos", async () => {
   await mount();
   fireEvent.change(screen.getByLabelText("Choose a style"), { target: { value: "Baby Shower" } });
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
@@ -209,17 +215,24 @@ it("pages Baby Shower3→9→11 independently, keeps small originals compact and
   fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(9);
   fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(11);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(15);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Baby Shower looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(18);
   expect(screen.queryByRole("button", { name: "Explore more Baby Shower looks" })).toBeNull();
   expect(document.querySelector('[data-gallery-id="baby-shower-krishna-stage"]')).toHaveClass(
     "gc-card-landscape",
   );
-  fireEvent.click(screen.getByRole("button", { name: /Open Baby Shower: A little bloom/ }));
+  fireEvent.click(
+    screen.getByRole("button", {
+      name: "Open Baby Shower: A little bloom, a lovely beginning",
+      exact: true,
+    }),
+  );
   const dialog = screen.getByRole("dialog");
   expect(within(dialog).getByRole("img")).toHaveStyle({ maxWidth: "236px" });
   fireEvent.keyDown(dialog, { key: "ArrowLeft" });
   expect(within(dialog).getByRole("heading")).toHaveTextContent("The sweetest new beginning");
   fireEvent.keyDown(dialog, { key: "ArrowLeft" });
-  expect(within(dialog).getByRole("heading")).toHaveTextContent("Tradition, wrapped in pastel");
-  expect(dialog).toHaveTextContent("11 / 11");
+  expect(within(dialog).getByRole("heading")).toHaveTextContent("A little peanut is on the way");
+  expect(dialog).toHaveTextContent("18 / 18");
 });
