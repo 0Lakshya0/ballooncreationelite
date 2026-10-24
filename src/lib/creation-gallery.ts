@@ -1,3 +1,4 @@
+import { galleryBatchMedia } from "./gallery-batches";
 import { heroSlides } from "./hero-slides";
 import { galleryUploaded } from "./gallery-uploaded";
 
@@ -193,8 +194,8 @@ const referenceById: Record<string, string> = {
   "farewell-party": "BC-19",
   "annual-day": "BC-20",
 };
-export const galleryMedia: GalleryMedia[] = definitions.map(
-  ([id, title, occasion, group, detail]) => {
+export const galleryMedia: GalleryMedia[] = definitions
+  .map<GalleryMedia>(([id, title, occasion, group, detail]) => {
     const photo =
       heroSlides.find((item) => item.id === id) ??
       galleryUploaded[id as keyof typeof galleryUploaded];
@@ -213,8 +214,8 @@ export const galleryMedia: GalleryMedia[] = definitions.map(
       position:
         "position" in photo && typeof photo.position === "string" ? photo.position : "50% 50%",
     };
-  },
-);
+  })
+  .concat(galleryBatchMedia);
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {
   try {

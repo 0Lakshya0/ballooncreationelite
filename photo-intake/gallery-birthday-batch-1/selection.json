@@ -1,0 +1,112 @@
+{
+  "photos": [
+    {
+      "source": "294282156911595427.jpg",
+      "id": "birthday-floral-73",
+      "occasion": "Birthday",
+      "title": "Floral elegance, a special milestone",
+      "detail": "Rose-toned stage panels, a cream sofa and generous floral arrangements.",
+      "rotate": 0,
+      "reference": "BC-21",
+      "position": "50% 50%",
+      "sha256": "6aba11986c390b49854a85fd27968afb8c23172c4aa63f3c5b99750a3b5c1b0b"
+    },
+    {
+      "source": "567946203029283443.jpg",
+      "id": "kids-butterfly-garden",
+      "occasion": "Kids Birthday",
+      "title": "A little butterfly wonderland",
+      "detail": "Pink balloons, butterfly accents and a fairy-garden backdrop.",
+      "rotate": 0,
+      "reference": "BC-22",
+      "position": "50% 50%",
+      "sha256": "1fe5010e7504709dec0dc56e610d67a8c0de2323a567df20c9dc3c9b9fc09272"
+    },
+    {
+      "source": "602778731416603525.jpg",
+      "id": "kids-space-moon",
+      "occasion": "Kids Birthday",
+      "title": "One small step. A big celebration.",
+      "detail": "A moon, astronaut and rocket setting beneath a canopy of blue and cream balloons.",
+      "rotate": 0,
+      "reference": "BC-23",
+      "position": "50% 50%",
+      "sha256": "03661e61e1005d76b8235e86b95014c5cb29a3d4fce3e4f5324847d3813b1b10"
+    },
+    {
+      "source": "630644754111387441.jpg",
+      "id": "kids-jungle-adventure",
+      "occasion": "Kids Birthday",
+      "title": "A wild little adventure",
+      "detail": "Jungle animal cutouts, greenery and a generous green-and-gold balloon frame.",
+      "rotate": 90,
+      "reference": "BC-24",
+      "position": "50% 50%",
+      "sha256": "4d76a1ee61b2d7a83b917c1f5ce31f6cf859594558af403326b6c856a7deb869"
+    },
+    {
+      "source": "719872321733978333.jpg",
+      "id": "kids-mickey-minnie",
+      "occasion": "Kids Birthday",
+      "title": "A party with familiar favourites",
+      "detail": "Mickey-and-Minnie-inspired character panels, pastel balloons and a shimmer centre.",
+      "rotate": 0,
+      "reference": "BC-25",
+      "position": "50% 50%",
+      "sha256": "f8e89ab41ed2ab0217568c0befc1dccb2d186285915c1ecdba386ea8f15d923d"
+    },
+    {
+      "source": "745134700874726128.jpg",
+      "id": "kids-tom-jerry",
+      "occasion": "Kids Birthday",
+      "title": "A playful little chase",
+      "detail": "Tom-and-Jerry-inspired panels with pastel balloon clusters and cake pedestals.",
+      "rotate": 0,
+      "reference": "BC-26",
+      "position": "50% 50%",
+      "sha256": "9e4280ff166c1ee44dab08379cc3e58f01ae8dfff11ace5dcadff2874f6a1b2c"
+    },
+    {
+      "source": "844143523933773827.jpg",
+      "id": "kids-cosmic-purple",
+      "occasion": "Kids Birthday",
+      "title": "A birthday beyond the stars",
+      "detail": "A purple space-themed backdrop, astronaut details and a white balloon foreground.",
+      "rotate": 0,
+      "reference": "BC-27",
+      "position": "50% 50%",
+      "sha256": "65bfb0993011298e717e3db4b24e23618cf7b4bc0ba29537a9a54ce449416d17"
+    },
+    {
+      "source": "1018165428245752324.jpg",
+      "id": "kids-first-birthday-peach",
+      "occasion": "Kids Birthday",
+      "title": "One wonderful little year",
+      "detail": "A peach and gold first-birthday setting with personalised panels and balloon accents.",
+      "rotate": 0,
+      "reference": "BC-28",
+      "position": "50% 50%",
+      "sha256": "39a9eefea566e7cd7a94ebe88264ab2d8b2933970a2126637e4120e58a17bb2e"
+    },
+    {
+      "source": "Amazon_com_ Birthday Balloon For Women Garland Kit….jpg",
+      "id": "birthday-gold-23",
+      "occasion": "Birthday",
+      "title": "A golden kind of birthday",
+      "detail": "White, cream and gold balloon clusters with illuminated 23 numerals.",
+      "rotate": 0,
+      "reference": "BC-29",
+      "position": "50% 50%",
+      "sha256": "7711e792a7ebe737d2098d2741bd64581804a23d54b5234b7e53fa25aae9b227"
+    }
+  ],
+  "duplicates": [
+    {
+      "source": "889179520199331088.jpg",
+      "existingId": "kids-birthday-princess",
+      "sha256": "5e7a054728deed72c762525177ec6c621e678b3f6a37d4e3d148f904635e7ff6",
+      "reason": "Byte-identical to existing princess photo BC-03; no duplicate gallery entry."
+    }
+  ],
+  "note": "User supplies styles in 10-photo batches. Keep originals and stable references. This batch adds 9 unique images; existing hero/circles/covers unchanged."
+}

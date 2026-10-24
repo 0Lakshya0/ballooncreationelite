@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
@@ -24,6 +24,7 @@ import {
   type GalleryGroup,
   type GalleryMedia,
 } from "@/lib/creation-gallery";
+import { galleryCollections, collectionViewerItems } from "@/lib/gallery-collections";
 import { whatsappLink } from "@/lib/celebrations";
 import "./creation-gallery.css";
 
@@ -76,7 +77,8 @@ export function CreationGalleryPage() {
   const [ready, setReady] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
   const [kind, setKind] = useState("all");
-  const [limit, setLimit] = useState(9);
+  const [style, setStyle] = useState("all");
+  const [sectionLimits, setSectionLimits] = useState<Record<string, number>>({});
   const [activeId, setActiveId] = useState<string | null>(null);
   useEffect(() => {
     try {
@@ -110,13 +112,22 @@ export function CreationGalleryPage() {
         (item) =>
           (group === "All moments" || item.group === group) &&
           (!savedOnly || saved.includes(item.id)) &&
-          (kind === "all" || kind === item.kind),
+          (kind === "all" || kind === item.kind) &&
+          (style === "all" || style === item.occasion),
       ),
-    [group, savedOnly, saved, kind],
+    [group, savedOnly, saved, kind, style],
   );
   const shortlist = galleryMedia.filter((item) => saved.includes(item.id));
   const active = galleryMedia.find((item) => item.id === activeId);
-  const activeIndex = filtered.findIndex((item) => item.id === activeId);
+  const collections = galleryCollections(filtered);
+  const allCollections = galleryCollections();
+  const viewerItems = collectionViewerItems(activeId, filtered);
+  const activeIndex = viewerItems.findIndex((item) => item.id === activeId);
+  const visibleCount = collections.reduce(
+    (total, section) =>
+      total + Math.min(section.items.length, sectionLimits[section.id] ?? section.initial),
+    0,
+  );
   const hasFilms = galleryMedia.some((item) => item.kind === "video");
   const toggle = (id: string) => {
     if (savedOnly && saved.includes(id) && activeId === id) setActiveId(null);
@@ -126,10 +137,11 @@ export function CreationGalleryPage() {
   };
   const changeGroup = (next: GalleryGroup) => {
     setGroup(next);
-    setLimit(9);
+    setStyle("all");
+    setSectionLimits({});
   };
   const step = (direction: number) => {
-    const next = filtered[(activeIndex + direction + filtered.length) % filtered.length];
+    const next = viewerItems[(activeIndex + direction + viewerItems.length) % viewerItems.length];
     if (next) setActiveId(next.id);
   };
   const browse = () =>
@@ -138,9 +150,15 @@ export function CreationGalleryPage() {
       ?.scrollIntoView({ behavior: "instant", block: "start" });
   const reset = () => {
     setGroup("All moments");
+    setStyle("all");
     setSavedOnly(false);
     setKind("all");
-    setLimit(9);
+    setSectionLimits({});
+  };
+  const chooseStyle = (name: string) => {
+    setStyle(name);
+    setGroup("All moments");
+    setSectionLimits({});
   };
   const hero = galleryMedia.find((item) => item.id === "baby-shower")!;
   const accent = galleryMedia.find((item) => item.id === "kids-birthday-princess")!;
@@ -241,7 +259,7 @@ export function CreationGalleryPage() {
             <p>
               Start with an occasion, or simply follow your heart.
               <br />
-              Tap any photo to see the details.
+              Every style has its own collection. Tap a photo to see the details.
             </p>
           </div>
           <div className="gc-tools">
@@ -266,12 +284,36 @@ export function CreationGalleryPage() {
               aria-pressed={savedOnly}
               onClick={() => {
                 setSavedOnly((value) => !value);
-                setLimit(9);
+                setSectionLimits({});
               }}
             >
               <Heart size={17} fill={savedOnly ? "currentColor" : "none"} /> Saved looks{" "}
               <span>{saved.length}</span>
             </button>
+          </div>
+          <div className="gc-style-browser">
+            <div className="gc-style-shortcuts" role="group" aria-label="Birthday collections">
+              <button aria-pressed={style === "Birthday"} onClick={() => chooseStyle("Birthday")}>
+                Birthday <span>Milestones & elegant settings</span>
+              </button>
+              <button
+                aria-pressed={style === "Kids Birthday"}
+                onClick={() => chooseStyle("Kids Birthday")}
+              >
+                Kids Birthday <span>Themes & little adventures</span>
+              </button>
+            </div>
+            <label className="gc-style-select">
+              Choose a style
+              <select value={style} onChange={(event) => chooseStyle(event.target.value)}>
+                <option value="all">All styles · separate collections</option>
+                {allCollections.map((section) => (
+                  <option key={section.id} value={section.name}>
+                    {section.name} · {section.items.length} looks
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
           {hasFilms && (
             <div className="gc-format-filters" role="group" aria-label="Media format">
@@ -285,7 +327,7 @@ export function CreationGalleryPage() {
                   aria-pressed={kind === value}
                   onClick={() => {
                     setKind(value!);
-                    setLimit(9);
+                    setSectionLimits({});
                   }}
                 >
                   {label}
@@ -295,76 +337,136 @@ export function CreationGalleryPage() {
           )}
           <p className="gc-result-count" role="status">
             {filtered.length
-              ? `Showing ${Math.min(limit, filtered.length)} of ${filtered.length} ${savedOnly ? "saved " : ""}moments`
+              ? `Showing ${visibleCount} of ${filtered.length} ${savedOnly ? "saved " : ""}moments in ${collections.length} ${collections.length === 1 ? "collection" : "separate collections"}`
               : savedOnly
                 ? "No saved looks in this collection yet."
                 : "No moments in this collection yet."}
           </p>
           {filtered.length ? (
-            <div className="gc-grid">
-              {filtered.slice(0, limit).map((item) => (
-                <article className="gc-card" key={item.id} data-gallery-id={item.id}>
-                  <div className="gc-picture">
-                    <button
-                      className="gc-open"
-                      aria-label={`Open ${item.occasion}: ${item.title}`}
-                      onClick={(event) => {
-                        opener.current = event.currentTarget;
-                        setActiveId(item.id);
-                      }}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.detail}
-                        width={item.width}
-                        height={item.height}
-                        loading="lazy"
-                        decoding="async"
-                        style={{ objectPosition: item.position }}
-                      />
-                      <span className="gc-view-hint">
-                        {item.kind === "video" ? (
-                          <>
-                            <Play size={16} fill="currentColor" /> Watch film
-                          </>
-                        ) : (
-                          <>
-                            View the moment <ArrowUpRight size={16} />
-                          </>
-                        )}
+            <div className="gc-collections">
+              {collections.map((section, index) => (
+                <section
+                  className={`gc-collection gc-layout-${section.layout}`}
+                  key={section.id}
+                  id={`collection-${section.id}`}
+                  data-gallery-style={section.id}
+                  aria-labelledby={`collection-title-${section.id}`}
+                  style={{ "--gc-collection-radius": section.radius } as CSSProperties}
+                >
+                  <header className="gc-collection-header">
+                    <div className="gc-collection-identity">
+                      <span className="gc-collection-number">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
-                    </button>
-                    <button
-                      className="gc-heart"
-                      aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
-                      aria-pressed={saved.includes(item.id)}
-                      onClick={() => toggle(item.id)}
-                    >
-                      <Heart size={19} fill={saved.includes(item.id) ? "currentColor" : "none"} />
-                    </button>
-                    {item.kind === "video" && (
-                      <span className="gc-film-label">
-                        <Play size={13} /> FILM
-                      </span>
-                    )}
-                  </div>
-                  <div className="gc-card-copy">
-                    <div>
-                      <span>{item.occasion}</span>
-                      <small>{item.reference}</small>
+                      <div>
+                        <span className="eyebrow">{section.eyebrow}</span>
+                        <h3 id={`collection-title-${section.id}`}>{section.name}</h3>
+                      </div>
                     </div>
-                    <h3>
-                      <button
-                        onClick={(event) => {
-                          opener.current = event.currentTarget;
-                          setActiveId(item.id);
-                        }}
-                      >
-                        {item.title}
-                      </button>
-                    </h3>
+                    <div className="gc-collection-intro">
+                      <h4>{section.heading}</h4>
+                      <p>{section.description}</p>
+                      <span>
+                        {section.items.length} {section.items.length === 1 ? "look" : "looks"} · a
+                        collection of its own
+                      </span>
+                    </div>
+                  </header>
+                  <div className="gc-grid">
+                    {section.items
+                      .slice(0, sectionLimits[section.id] ?? section.initial)
+                      .map((item) => (
+                        <article className="gc-card" key={item.id} data-gallery-id={item.id}>
+                          <div className="gc-picture">
+                            <button
+                              className="gc-open"
+                              aria-label={`Open ${item.occasion}: ${item.title}`}
+                              onClick={(event) => {
+                                opener.current = event.currentTarget;
+                                setActiveId(item.id);
+                              }}
+                            >
+                              <img
+                                src={item.image}
+                                alt={item.detail}
+                                width={item.width}
+                                height={item.height}
+                                loading="lazy"
+                                decoding="async"
+                                style={{ objectPosition: item.position }}
+                              />
+                              <span className="gc-view-hint">
+                                {item.kind === "video" ? (
+                                  <>
+                                    <Play size={16} fill="currentColor" /> Watch film
+                                  </>
+                                ) : (
+                                  <>
+                                    View the moment <ArrowUpRight size={16} />
+                                  </>
+                                )}
+                              </span>
+                            </button>
+                            <button
+                              className="gc-heart"
+                              aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
+                              aria-pressed={saved.includes(item.id)}
+                              onClick={() => toggle(item.id)}
+                            >
+                              <Heart
+                                size={19}
+                                fill={saved.includes(item.id) ? "currentColor" : "none"}
+                              />
+                            </button>
+                            {item.kind === "video" && (
+                              <span className="gc-film-label">
+                                <Play size={13} /> FILM
+                              </span>
+                            )}
+                          </div>
+                          <div className="gc-card-copy">
+                            <div>
+                              <span>{item.occasion}</span>
+                              <small>{item.reference}</small>
+                            </div>
+                            <h4>
+                              <button
+                                onClick={(event) => {
+                                  opener.current = event.currentTarget;
+                                  setActiveId(item.id);
+                                }}
+                              >
+                                {item.title}
+                              </button>
+                            </h4>
+                          </div>
+                        </article>
+                      ))}
                   </div>
-                </article>
+                  {section.items.length > (sectionLimits[section.id] ?? section.initial) && (
+                    <div className="gc-section-more">
+                      <button
+                        className="glass-button"
+                        onClick={() =>
+                          setSectionLimits((previous) => ({
+                            ...previous,
+                            [section.id]: (previous[section.id] ?? section.initial) + 6,
+                          }))
+                        }
+                      >
+                        Explore more {section.name} looks <ArrowDown size={17} />
+                      </button>
+                      <span>
+                        Showing{" "}
+                        {Math.min(
+                          section.items.length,
+                          sectionLimits[section.id] ?? section.initial,
+                        )}{" "}
+                        of {section.items.length} in this collection
+                      </span>
+                    </div>
+                  )}
+                </section>
               ))}
             </div>
           ) : (
@@ -375,14 +477,6 @@ export function CreationGalleryPage() {
               <button className="glass-button" onClick={reset}>
                 Browse all moments <ArrowRight size={16} />
               </button>
-            </div>
-          )}
-          {filtered.length > limit && (
-            <div className="gc-more">
-              <button className="glass-button" onClick={() => setLimit((value) => value + 9)}>
-                Discover {Math.min(9, filtered.length - limit)} more moments <ArrowDown size={17} />
-              </button>
-              <p>Take your time. The right idea is worth finding.</p>
             </div>
           )}
         </section>
@@ -527,7 +621,7 @@ export function CreationGalleryPage() {
                     <ChevronLeft size={21} />
                   </button>
                   <span>
-                    {activeIndex + 1} / {filtered.length}
+                    {activeIndex + 1} / {viewerItems.length}
                   </span>
                   <button aria-label="Next moment" onClick={() => step(1)}>
                     <ChevronRight size={21} />

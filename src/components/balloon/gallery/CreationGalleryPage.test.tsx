@@ -17,6 +17,7 @@ import {
   SHORTLIST_KEY,
   type GalleryMedia,
 } from "@/lib/creation-gallery";
+import { galleryCollections, collectionViewerItems } from "@/lib/gallery-collections";
 import { occasionPages } from "@/lib/occasion-catalogue";
 import { suppliedOccasionPhotos } from "@/lib/supplied-occasion-photos";
 vi.mock("../decor/liquid-renderer", () => ({ mountLiquidSurfaces: vi.fn(() => vi.fn()) }));
@@ -42,12 +43,12 @@ async function mount() {
   });
   return router;
 }
-it("curates20 supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(20);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(20);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(20);
+it("curates29 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(29);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(29);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(29);
   for (const item of galleryMedia) {
-    expect(item.image).toMatch(/\/(homepage-real|gallery-real)\//);
+    expect(item.image).toMatch(/\/(homepage-real|gallery-real|gallery-birthday-batch-1)\//);
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
     expect(item.height).toBeGreaterThan(0);
@@ -63,14 +64,19 @@ it("opens a real page, progressively shows photos, and filters without making ne
   const fetch = vi.spyOn(globalThis, "fetch");
   await mount();
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Beautiful moments.");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(9);
-  fireEvent.click(screen.getByRole("button", { name: /Discover 9 more/ }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(18);
-  fireEvent.click(screen.getByRole("button", { name: /Discover 2 more/ }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(20);
+  expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(20);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(27);
+  const kids = within(
+    document.querySelector('[data-gallery-style="kids-birthday"]') as HTMLElement,
+  );
+  expect(kids.getAllByRole("article")).toHaveLength(6);
+  fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(29);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(2);
-  expect(screen.getByRole("status")).toHaveTextContent("2 of 2");
+  expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
+  expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Kids Birthday" })).toBeInTheDocument();
+  expect(screen.getByRole("status")).toHaveTextContent("11");
   expect(screen.queryByRole("group", { name: "Media format" })).toBeNull();
   expect(fetch).not.toHaveBeenCalled();
 });
@@ -94,20 +100,20 @@ it("saves locally, creates a meaningful WhatsApp shortlist and resets a saved-on
   fireEvent.click(shortlist.getByRole("button", { name: "Clear" }));
   expect(screen.getByRole("status")).toHaveTextContent("No saved looks");
   fireEvent.click(screen.getByRole("button", { name: "Browse all moments" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(9);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(27);
 });
 it("offers keyboard lightbox navigation, close/focus return and a real single-look enquiry", async () => {
   await mount();
-  const opener = screen.getByRole("button", { name: /Open Wedding:/ });
+  const opener = screen.getByRole("button", { name: /Open Birthday: A milestone/ });
   fireEvent.click(opener);
   const viewer = screen.getByRole("dialog");
-  expect(within(viewer).getByRole("heading")).toHaveTextContent("A setting for your forever");
-  fireEvent.keyDown(viewer, { key: "ArrowRight" });
   expect(within(viewer).getByRole("heading")).toHaveTextContent("A milestone");
+  fireEvent.keyDown(viewer, { key: "ArrowRight" });
+  expect(within(viewer).getByRole("heading")).toHaveTextContent("Floral elegance");
   const href = within(viewer)
     .getByRole("link", { name: "Ask about this look" })
     .getAttribute("href")!;
-  expect(new URL(href).searchParams.get("text")).toContain("BC-02 · Birthday");
+  expect(new URL(href).searchParams.get("text")).toContain("BC-21 · Birthday");
   fireEvent.click(within(viewer).getByRole("button", { name: "Save this look" }));
   expect(within(viewer).getByRole("button", { name: "Saved to your shortlist" })).toHaveAttribute(
     "aria-pressed",
@@ -151,4 +157,31 @@ it("supports future films with posters/controls/captions, no autoplay/preloading
   expect(video.querySelector("track")).toHaveAttribute("kind", "captions");
   fireEvent.error(video);
   expect(screen.getByRole("alert")).toHaveTextContent("couldn’t load");
+});
+
+it("keeps every exact style independent, gives Birthday/Kids different presentation and scopes viewer navigation", async () => {
+  const sections = galleryCollections();
+  const birthday = sections.find((item) => item.id === "birthday")!;
+  const kids = sections.find((item) => item.id === "kids-birthday")!;
+  expect(birthday.items).toHaveLength(3);
+  expect(kids.items).toHaveLength(8);
+  expect(birthday.layout).not.toBe(kids.layout);
+  expect(birthday.radius).not.toBe(kids.radius);
+  expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
+    29,
+  );
+  for (const section of sections)
+    expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
+  expect(
+    collectionViewerItems("birthday-50th", galleryMedia).every(
+      (item) => item.occasion === "Birthday",
+    ),
+  ).toBe(true);
+  expect(collectionViewerItems(null, galleryMedia)).toEqual([]);
+  await mount();
+  fireEvent.change(screen.getByLabelText("Choose a style"), { target: { value: "Kids Birthday" } });
+  expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
+  expect(document.querySelector('[data-gallery-style="birthday"]')).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Kids Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(8);
 });
