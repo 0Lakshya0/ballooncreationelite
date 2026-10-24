@@ -1,4 +1,19 @@
-## Latest MAIN publication — Baby Shower batch1 (2026-10-24)
+## Latest MAIN publication — family batch2 (2026-10-24)
+
+**https://clck.ru/3WfsuX** — Our Creations. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/98897f61dc9d62565e523b0e908f1275176147c4/drafts/main-website-phone.html#our-creations`.
+
+- Source `d804b0f4bbc4ad7a9a596e48b146db947343f011`, artifact `98897f61dc9d62565e523b0e908f1275176147c4`. Local/remote blob **`e6dbb91e77a4c412ef5eb7bd396c94223c11a1cb`**, **20,105,201bytes**, match; embedded source/JS syntax PASS. Independently followed short link:57 moments/20 separate collections, Baby Shower18/Kids Birthday14/Birthday7/Proposal2, initial31 cards. Previous delivered3WfsN5 is historical.
+- **Nine files received and all9 added**, not a10-file batch.7 Baby Shower photos; blue-car and Boss Baby setups explicitly show first birthdays, so those2 go in Kids Birthday. All unique against retained input hashes and visually distinct from earlier supplied photos. Appended BC-49…57; no existing references removed/reassigned. Baby Shower3→9→15→18 and Kids6→12→14 independent paging, style-local modal counts/wrap18 and14; Birthday7 unchanged. No mixing exact-style photo grids/viewers.
+- Original9 JPEGs archived unchanged with SHA-256 manifest; noGPS.9 WebPs **1,040,788bytes**, noEXIF/upscaling/cropping/rotation/colour changes/watermark removal/AI editing. No client/location/venue claims inferred from filenames. Original17 hero/19 circles/19 covers, previous48 supplied entries, small236×182/wide-frame/favourite-inset handling and approved presentation untouched. No actual videos, backend/provider changes, inference or enquiries; remaining AI elsewhere still awaits corresponding uploads.
+- **294 tests /25 files PASS**, TypeScript/targeted ESLint/native production/embedded-phone builds PASS. Three new provenance/classification/approved-home regressions; updated existing counts/paging/scoped-wrap tests. An initial old test's prefix matcher matched both the original tiny-photo title and new floral-swing title; changed to the exact existing accessible opener name, then focused8 page tests and full294 passed. No customer UI change was needed.
+- Browser **native390/1440 + exact portable320/390/768/1440,6 cases PASS**. All57 rendered image hashes match derivatives;20 sections; Baby18/Kids14/Birthday7; independent paging; new blue-car modal13/14→Boss Baby14/14→Princess1/14, never entering Baby Shower; Baby1/18↔18/18; previous native-size tiny photo including saved-only, upright wide stage/Kids jungle ratios,25px save inset, BC-39 shortlist/storage/WhatsApp/Bloon clearance, no expanded-grid overflow/page errors/AI. Portable0external requests;390 normal motion/WebGL, others OS-reduce. **Isolated exact-phone reload390/1440 PASS** for BC-39. Previous complex1440 long-sequence reload race not retested/claimed fixed; no new native320/768 coverage claimed.
+- One new Baby Shower ring card mobile viewport and neutral teddy card desktop capture visually reviewed; no obvious frame/header/caption issues. Not a full57-photo subjective crop/contrast audit. No CSS/component redesign this batch. Existing healthy LIVE PREVIEW **Balloon Creation website ·port8080** reused; all10 protected dirty bilingual/provider-doc files left unstaged.
+
+Provenance/rebuild: `OUR-CREATIONS-GALLERY.md`, `photo-intake/gallery-family-batch-2/selection.json`, `scripts/prepare-gallery-family-batch-2.py`. Choose Baby Shower or Kids Birthday and use that section's Explore more to reach the appended photos.
+
+---
+
+## Previous MAIN publication — Baby Shower batch1 (2026-10-24)
 
 **https://clck.ru/3WfsN5** — Our Creations. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/077c3603a6be808374e879c89ef733eae16b7ff8/drafts/main-website-phone.html#our-creations`. Choose Baby Shower to browse its dedicated collection.
 

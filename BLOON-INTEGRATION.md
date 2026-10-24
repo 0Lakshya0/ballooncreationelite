@@ -1,4 +1,10 @@
-## Latest publication — Baby Shower batch1 (2026-10-24)
+## Latest publication — family batch2 (2026-10-24)
+
+MAIN **https://clck.ru/3WfsuX**. Source `d804b0f4bbc4ad7a9a596e48b146db947343f011`; artifact `98897f61dc9d62565e523b0e908f1275176147c4`; local/GitHub blob `e6dbb91e77a4c412ef5eb7bd396c94223c11a1cb` /20,105,201bytes match.9 supplied files added BC-49…57:7 Baby Shower,2 explicit first birthdays (blue car/Boss Baby) in Kids Birthday.57 unique photos/20 exact sections:Baby18/Kids14/Birthday7/Proposal2.294 tests/25 files,TS/lint/builds PASS; native390/1440 + portable320/390/768/1440 six cases PASS, all57 hashes/multi-step paging/style-local18&14 viewers/new kids wrap/compact/wide/save-inset/shortlist/Bloon/no overflow/errors/AI; isolated portable390/1440 reloads PASS. Previous complex1440 race not claimed fixed.17 hero/19 circles/19 covers/presentation preserved; no backend/provider/video changes. Full provenance/QA boundaries in PHONE-VIEW.md; prior entries historical.
+
+---
+
+## Previous publication — Baby Shower batch1 (2026-10-24)
 
 MAIN **https://clck.ru/3WfsN5**. Final source `e6e6074720f7621d2a58b53b9e2db2acd4a6e6d1`; artifact `077c3603a6be808374e879c89ef733eae16b7ff8`; local/remote blob `fcbc9739ad505d1a72853fd717dd9eb3635f85c3` /18,714,572bytes verified.10 unique supplied Baby Shower photos BC-39…48; section now11, total48/20 separate styles. Birthday7/Kids12/Proposal2 unchanged. Compact236×182 original preserved without enlargement, final stage upright1280×720/wide framing; Baby arch save circles inset25px.291 tests/24 files,TS/lint/builds PASS; native390/1440 + exact-phone320/390/768/1440 six feature cases PASS (48 hashes/scoped viewer/paging/compact/shortlist/Bloon/no overflow/errors/AI), isolated phone390/1440 reloads PASS. Old complex1440 sequence not claimed fixed.17 hero/19 circles/19 covers preserved; no backend/provider/video changes. Full provenance/QA boundaries in PHONE-VIEW.md; prior entries historical.
 
