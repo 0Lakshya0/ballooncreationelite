@@ -30,17 +30,17 @@ it("retains all15 originals, appends14 unique BC100–113 and omits the resized 
   expect(galleryNamingMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 14 }, (_, i) => `BC-${100 + i}`),
   );
-  expect(galleryMedia).toHaveLength(113);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(113);
+  expect(galleryMedia).toHaveLength(118);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(118);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 113 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 118 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
 });
-it("keeps15 Naming Ceremony photos independent from Baby Shower and Welcome Baby, with stable three-digit enquiries", () => {
+it("keeps20 Naming Ceremony photos independent from Baby Shower and Welcome Baby, with stable three-digit enquiries", () => {
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   const naming = sections.find((p) => p.id === "naming-ceremony")!;
-  expect(naming.items).toHaveLength(15);
+  expect(naming.items).toHaveLength(20);
   expect(naming.layout).toBe("floral");
   expect(naming.radius).toBe("50% 50% 8px 8px / 90px 90px 8px 8px");
   expect(naming.initial).toBe(3);
@@ -58,7 +58,7 @@ it("keeps15 Naming Ceremony photos independent from Baby Shower and Welcome Baby
     expect(p.occasion).toBe("Naming Ceremony");
     expect(p.group).toBe("Baby & family");
     const viewer = collectionViewerItems(p.id, galleryMedia);
-    expect(viewer).toHaveLength(15);
+    expect(viewer).toHaveLength(20);
     expect(viewer.every((q) => q.occasion === "Naming Ceremony")).toBe(true);
   }
   const message = galleryMessage([galleryNamingMedia[0]!, galleryNamingMedia[13]!]);

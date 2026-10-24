@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates113 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(113);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(113);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(113);
+it("curates118 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(118);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(118);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(118);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12]|gallery-naming-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12]|gallery-naming-batch-[12])\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -110,6 +110,8 @@ it("opens a real page, progressively shows photos, and filters without making ne
   expect(document.querySelectorAll(".gc-card")).toHaveLength(107);
   expand("naming-ceremony", "Naming Ceremony");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(113);
+  expand("naming-ceremony", "Naming Ceremony");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(118);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -206,7 +208,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    113,
+    118,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -291,19 +293,19 @@ it("pages First Night3→9→15→21→24 separately and wraps its24-photo viewe
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
   expect(screen.queryByRole("dialog")).toBeNull();
 });
-it("pages Naming Ceremony3→9→15 independently, keeps wide stages whole and wraps its15-photo viewer", async () => {
+it("pages Naming Ceremony3→9→15→20 independently, keeps wide stages whole and wraps its20-photo viewer", async () => {
   await mount();
   fireEvent.change(screen.getByLabelText("Choose a style"), {
     target: { value: "Naming Ceremony" },
   });
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
   expect(document.querySelectorAll(".gc-card")).toHaveLength(3);
-  for (const n of [9, 15]) {
+  for (const n of [9, 15, 20]) {
     fireEvent.click(screen.getByRole("button", { name: "Explore more Naming Ceremony looks" }));
     expect(document.querySelectorAll(".gc-card")).toHaveLength(n);
   }
   expect(screen.queryByRole("button", { name: "Explore more Naming Ceremony looks" })).toBeNull();
-  expect(document.querySelectorAll(".gc-card-landscape")).toHaveLength(4);
+  expect(document.querySelectorAll(".gc-card-landscape")).toHaveLength(5);
   expect(document.querySelector('[data-gallery-id="naming-floral-stage"]')).toHaveClass(
     "gc-card-landscape",
   );
@@ -312,17 +314,19 @@ it("pages Naming Ceremony3→9→15 independently, keeps wide stages whole and w
     screen.getByRole("button", { name: "Open Naming Ceremony: A little name. A lot of love." }),
   );
   const dialog = screen.getByRole("dialog");
-  expect(dialog).toHaveTextContent("1 / 15");
+  expect(dialog).toHaveTextContent("1 / 20");
   fireEvent.keyDown(dialog, { key: "ArrowLeft" });
-  expect(within(dialog).getByRole("heading")).toHaveTextContent("A little storybook beginning");
-  expect(dialog).toHaveTextContent("15 / 15");
+  expect(within(dialog).getByRole("heading")).toHaveTextContent(
+    "Gold, silver and a little sparkle",
+  );
+  expect(dialog).toHaveTextContent("20 / 20");
   expect(
     new URL(
       within(dialog).getByRole("link", { name: "Ask about this look" }).getAttribute("href")!,
     ).searchParams.get("text"),
-  ).toContain("BC-113 · Naming Ceremony");
+  ).toContain("BC-118 · Naming Ceremony");
   fireEvent.keyDown(dialog, { key: "ArrowRight" });
-  expect(dialog).toHaveTextContent("1 / 15");
+  expect(dialog).toHaveTextContent("1 / 20");
   fireEvent.keyDown(dialog, { key: "Escape" });
   expect(screen.queryByRole("dialog")).toBeNull();
 });

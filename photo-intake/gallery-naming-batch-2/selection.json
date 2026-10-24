@@ -1,0 +1,66 @@
+{
+  "photos": [
+    {
+      "source": "naming-photo-floral-frame-original.jpg",
+      "id": "naming-photo-floral-frame",
+      "reference": "BC-114",
+      "title": "A little story, framed in flowers",
+      "detail": "A white decorative cradle beneath red and white floral framing, with a personalised photo backdrop.",
+      "occasion": "Naming Ceremony",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "f75543b26e7451d4ea22d08ec3eee7d7feb967ff536c19b6e7ef3aed852bee9e"
+    },
+    {
+      "source": "naming-peacock-floral-swing-original.jpg",
+      "id": "naming-peacock-floral-swing",
+      "reference": "BC-115",
+      "title": "A peacock, petals and a little swing",
+      "detail": "A gold-toned decorative swing with pink floral framing, a peacock-inspired accent and a white draped stage.",
+      "occasion": "Naming Ceremony",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "d67ec088726b4ea881307b20c9b678615d06ab8bbee762c25d5b35e56aee8ed7"
+    },
+    {
+      "source": "naming-purple-crescent-cradle-original.jpg",
+      "id": "naming-purple-crescent-cradle",
+      "reference": "BC-116",
+      "title": "A little cradle, a crescent of flowers",
+      "detail": "A floral cradle suspended inside a purple crescent-shaped frame with white and red flowers and softly draped fabric.",
+      "occasion": "Naming Ceremony",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "e8a5fc84ac1dc43f1bbef285f706fa4ef65f1988cb11e19baa73c373a9e10873"
+    },
+    {
+      "source": "naming-illustrated-welcome-sign-original.jpg",
+      "id": "naming-illustrated-welcome-sign",
+      "reference": "BC-117",
+      "title": "A little welcome, beautifully illustrated",
+      "detail": "A blue illustrated naming-ceremony welcome sign on an easel, with a baby-in-a-swing motif and bell-shaped details.",
+      "occasion": "Naming Ceremony",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "11a829797869f65011a942d5803f568c30bae9557bca31bec3bafc8adc77980d"
+    },
+    {
+      "source": "naming-gold-silver-balloons-original.jpg",
+      "id": "naming-gold-silver-balloons",
+      "reference": "BC-118",
+      "title": "Gold, silver and a little sparkle",
+      "detail": "Gold and silver-toned balloon framing with naming-ceremony foil lettering, a shimmer backdrop and blue star accents.",
+      "occasion": "Naming Ceremony",
+      "group": "Baby & family",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "f8f25a3eca234d59559560be87bf1a08616a0c66288b31ec4a9c0cafb0d16a67"
+    }
+  ],
+  "duplicates": [],
+  "note": "5 additional Naming Ceremony images, all unique against retained SHA hashes, perceptual comparison and within this batch. Originals retained unchanged under neutral names. Keep all supplier marks, printed personal text, dates and image borders intact. The illustrated welcome-sign image has placeholder-like printed date text; do not assert a real event/date/client or independently verified photography. No inferred identities, venue/supplier affiliation, gender/religion, fresh-material, safe-sleep, authenticity/ownership claims. No file cropping/rotation/upscaling/retouching/AI/colour editing. Existing113 refs/home/circle/covers/other style assignments preserved."
+}

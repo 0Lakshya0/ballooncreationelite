@@ -1,3 +1,13 @@
+## Naming Ceremony batch2 — 2026-10-25
+
+5 more images for the same Naming Ceremony collection, all unique against previous SHA/perceptual comparison and each other. Retained original bytes and hashes in `photo-intake/gallery-naming-batch-2/`;5 originals noGPS,5 metadata-free WebPs502,052bytes. New stable refs BC-114…118; old113 refs/shortlists unchanged. No file cropping/rotation/upscaling/retouching/AI/colour editing/watermark or printed-text removal. Neutral captions do not infer personal names/dates/venue/supplier affiliation/gender/religion/ownership/authenticity/fresh-material/safe-sleep claims. The illustrated welcome-board reference contains placeholder-like date text; it is not asserted as a real client's dated event or independently verified photography.
+
+118 gallery images /20 separate styles. Naming Ceremony now20 (old15+5), meeting20–25/style target, own existing floral collection with3→9→15→20 paging and20-photo scoped viewer. Initial all-style cards37 unchanged. Existing Naming-only4:3 contain rule automatically handles the new landscape photo (5 in Naming overall); save60px/25px inset unchanged. No CSS/page-component/hero/circle/cover/search/backend/provider changes. Baby18/Welcome Baby1/First Night24/Anniversary20/Kids14/Birthday7 unchanged. The previously omitted resized BC09 duplicate remains once only.
+
+Generator `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-naming-batch-2.py`, then format generated `src/lib/gallery-naming-batch-2.ts`.3 new data tests verify5 hashes/uniqueness/BC114–118 and old refs,20-photo isolation/unchanged other styles/three-digit inquiries, approved home/circle/covers/neutral captions. Existing global/page totals updated to118, Naming20 and5wide cards; full/browser results recorded above in latest publication entry.
+
+---
+
 ## Latest MAIN — Naming Ceremony batch1 (2026-10-24)
 
 **https://clck.ru/3Wfy2U** — opens Our Creations. Source **`82a11cad615a2bec557fd61d035c6393ce1e2166`**, artifact **`c1898f2fedff083f9bac8a3ce2640f4831b2951c`**. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/c1898f2fedff083f9bac8a3ce2640f4831b2951c/drafts/main-website-phone.html#our-creations`. Local/GitHub blob **`cc7f70e5dfe8af7d7a7f9d9991a611ae8de7842e`**, **27,901,779bytes**, equal. Embedded source/all JS syntax PASS; public short link independently followed through both chunks:113moments/20sections/Naming15/First Night24/Anniversary20/Baby18/Kids14/Birthday7/default37/Bloon. Previous3Wfxdx is99-photo history, not the new delivery.

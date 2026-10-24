@@ -30,10 +30,10 @@ it("retains13 unique original hashes, appends BC87–99 and preserves all earlie
   expect(galleryFirstNightBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 13 }, (_, i) => `BC-${87 + i}`),
   );
-  expect(galleryMedia).toHaveLength(113);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(113);
+  expect(galleryMedia).toHaveLength(118);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(118);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 113 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 118 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "first-night")?.reference).toBe("BC-10");
   expect(galleryMedia.find((p) => p.id === "anniversary-layered-love")?.reference).toBe("BC-76");
