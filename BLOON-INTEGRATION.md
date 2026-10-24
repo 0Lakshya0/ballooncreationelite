@@ -1,4 +1,10 @@
-## Latest publication — birthday batch2 (2026-10-24)
+## Latest publication — Baby Shower batch1 (2026-10-24)
+
+MAIN **https://clck.ru/3WfsN5**. Final source `e6e6074720f7621d2a58b53b9e2db2acd4a6e6d1`; artifact `077c3603a6be808374e879c89ef733eae16b7ff8`; local/remote blob `fcbc9739ad505d1a72853fd717dd9eb3635f85c3` /18,714,572bytes verified.10 unique supplied Baby Shower photos BC-39…48; section now11, total48/20 separate styles. Birthday7/Kids12/Proposal2 unchanged. Compact236×182 original preserved without enlargement, final stage upright1280×720/wide framing; Baby arch save circles inset25px.291 tests/24 files,TS/lint/builds PASS; native390/1440 + exact-phone320/390/768/1440 six feature cases PASS (48 hashes/scoped viewer/paging/compact/shortlist/Bloon/no overflow/errors/AI), isolated phone390/1440 reloads PASS. Old complex1440 sequence not claimed fixed.17 hero/19 circles/19 covers preserved; no backend/provider/video changes. Full provenance/QA boundaries in PHONE-VIEW.md; prior entries historical.
+
+---
+
+## Previous publication — birthday batch2 (2026-10-24)
 
 MAIN **https://clck.ru/3Wfqo7**. Source `e42bf07101819bb50f7014f23f01065b48aa7409`; artifact `489ef5ee588e6e861ca2948e71f6fffbb9ff33ec`; blob `4b6ce831acc0621015318f8cbd500d7808288c32` /17,565,640bytes verified locally/remotely.9 new supplied images from10 files:4 Birthday,4 Kids Birthday,1 Proposal; cropped Navya repeat omitted, BC-28 preserved.38 photos/20 separate sections (Birthday7/Kids12/Proposal2), original treatments/independent paging/scoped viewer intact.287 tests/23 files,TS/lint/builds PASS. Native/exact-phone320/390/768 full cases PASS;1440 gallery/image/paging/viewer/storage checks pass, but complex same-tab reload wait timed out; isolated1440 portable reload passes previous and current artifacts. Full QA boundaries in PHONE-VIEW.md. Hero17/circles19/covers19 unchanged; no backend/provider changes or actual videos. Earlier entries are historical.
 
