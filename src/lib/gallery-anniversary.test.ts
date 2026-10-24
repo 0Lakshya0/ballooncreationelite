@@ -23,15 +23,15 @@ it("retains all10 originals, appends8 photos and verifies both byte-identical du
   expect(galleryAnniversaryMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 8 }, (_, i) => `BC-${i + 58}`),
   );
-  expect(galleryMedia).toHaveLength(65);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(65);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(65);
+  expect(galleryMedia).toHaveLength(76);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(76);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(76);
 });
-it("keeps9 Anniversary looks in their own romantic collection with no birthday or proposal mixing", () => {
+it("keeps20 Anniversary looks in their own romantic collection with no birthday or proposal mixing", () => {
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   const anniversary = sections.find((p) => p.id === "anniversary")!;
-  expect(anniversary.items).toHaveLength(9);
+  expect(anniversary.items).toHaveLength(20);
   expect(anniversary.layout).toBe("romantic");
   expect(sections.find((p) => p.id === "birthday")?.items).toHaveLength(7);
   expect(sections.find((p) => p.id === "kids-birthday")?.items).toHaveLength(14);
@@ -40,7 +40,7 @@ it("keeps9 Anniversary looks in their own romantic collection with no birthday o
     expect(p.group).toBe("Love & weddings");
     expect(p.occasion).toBe("Anniversary");
     const viewer = collectionViewerItems(p.id, galleryMedia);
-    expect(viewer).toHaveLength(9);
+    expect(viewer).toHaveLength(20);
     expect(viewer.every((q) => q.occasion === "Anniversary")).toBe(true);
   }
 });

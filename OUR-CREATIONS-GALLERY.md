@@ -1,3 +1,13 @@
+## Anniversary batch2 — 2026-10-24
+
+11 supplied files retained unchanged with SHA-256 manifest in `photo-intake/gallery-anniversary-batch-2/`. All11 are unique within this batch and against retained original hashes, and visually distinct from existing photos. Added BC-66…76 exclusively to Anniversary as requested, including the Happily Ever After setting under the user's Anniversary context. No venue/client/city/brand/dimension claims inferred from filenames; existing supplier marks remain. Supplied imagery is not independently verified client work. No AI generation, colour edits, rotation, cropping of files or upscaling; first floral-drape thumbnail positioned50%80% to favour the decoration over the ceiling, full image remains in viewer.11 metadata-free WebPs955,386bytes;11 retained originals noGPS.
+
+Total76 gallery photos /20 separate styles. Anniversary now20 (old9+11), own romantic collection with independent3→9→15→20 pagination and20-photo scoped viewer. Birthday7/Kids14/Baby18/Proposal2 unchanged; initial33 all-style cards unchanged. Existing65 refs/shortlists and approved17 hero/19 circle/19 occasion-cover assignments preserved. Existing compact236×182/wide-scene/25px Anniversary save-circle handling unchanged. No backend/provider/video changes; remaining AI elsewhere still awaits matching supplied uploads.
+
+Rebuild: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-anniversary-batch-2.py`, then Prettier on `src/lib/gallery-anniversary-batch-2.ts`.3 new regression tests verify11 hashes/new refs,20-photo isolation/new-reference WhatsApp strings,approved-home preservation/no inferred private/venue/dimension claims. Earlier global/page totals updated to76 and multi-step Anniversary paging.
+
+---
+
 ## Anniversary batch1 — 2026-10-24
 
 Current publication **https://clck.ru/3Wft73**; source `8f81bd944daf8056bfbf87728360645f24826eaf`, artifact `84e9b80ac45ac74eabf17a19a6aaeffa3c6654ec`; verified blob `943de6d331975092c7deec1aa7cb448e264815c7` /20,918,300bytes.297 tests/26 files,TS/lint/native+phone builds PASS. Native390/1440 + exact-phone320/390/768/1440 six feature cases PASS (65 hashes,Anniversary3→9/scoped9-photo wrap/BC65 enquiry/duplicates once,old style paging/compact/wide/insets/shortlist/Bloon/no overflow/errors/AI); isolated portable390/1440 new BC58 reloads PASS. Public URL independently rendered65 photos/20 sections/Anniversary9. Full boundaries in PHONE-VIEW.md.

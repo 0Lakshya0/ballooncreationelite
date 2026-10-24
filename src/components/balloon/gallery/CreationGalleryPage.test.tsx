@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates65 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(65);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(65);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(65);
+it("curates76 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(76);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(76);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(76);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12])\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -87,6 +87,10 @@ it("opens a real page, progressively shows photos, and filters without making ne
   expect(document.querySelectorAll(".gc-card")).toHaveLength(59);
   fireEvent.click(screen.getByRole("button", { name: "Explore more Anniversary looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(65);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Anniversary looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(71);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more Anniversary looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(76);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -183,7 +187,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    65,
+    76,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
