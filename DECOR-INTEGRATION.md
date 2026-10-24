@@ -1,4 +1,10 @@
-## Latest publication — real circle photos and clearer homepage (2026-10-24)
+## Latest publication — all19 supplied circle portraits (2026-10-24)
+
+MAIN **https://clck.ru/3Wfmcm**. Runtime source `0d2359b1033369a9c1160e4ba817029cfbc7e547`, artifact `a382de4e95d82fc9bda71fd1e9bc8b4f66ae68c8`. Final three profiles now use supplied50th-birthday/princess/floral-fair photos for Birthday/Kids Birthday/Showroom Setup. All19 circles have supplied images with no generated fallback. Prior16 portraits,17-photo hero/opacity/animation, cards/detail galleries and19 occasions remain unchanged; no Exhibition service restored. **274 tests /20 files**, TypeScript/builds and native/exact-phone390/1440 all19 profile hashes/dimensions/routes PASS. No AI/backend changes. Exact provenance/boundaries: `PHONE-VIEW.md`, `REAL-CIRCLE-PHOTOS.md`. Older entries below are historical.
+
+---
+
+## Previous publication — real circle photos and clearer homepage (2026-10-24)
 
 MAIN **https://clck.ru/3WfK85**. Runtime source `2a14efa827b6e7dd269bb0aba8e6c536b099b5ff`, artifact `9acb39776423883f8ed13da890ae3361050c3799`. **16/19 circle portraits** now use matching uploads (including floral baby cradle for Naming Ceremony); Birthday/Kids Birthday/Showroom Setup retain their editorial images pending suitable uploads. Hero photo opacity1 and stronger masks make the17 uploaded slides clearly visible; soft cream wash protects text. Other layout/animation/WebGL/search/Bloon/19 occasions remain unchanged. **273 tests /20 files**, TypeScript/builds and native/exact-phone320/390/768/1440 checks PASS; all19 circle bytes/routes verified in each case. No AI/backend changes. Exact provenance and scope: `PHONE-VIEW.md`, `REAL-CIRCLE-PHOTOS.md`. Older entries below are historical.
 

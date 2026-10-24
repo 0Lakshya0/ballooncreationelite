@@ -1,4 +1,18 @@
-## Latest MAIN website — real circle portraits and clearer hero photos (2026-10-24)
+## Latest MAIN website — final three supplied circle photos (2026-10-24)
+
+**https://clck.ru/3Wfmcm**
+
+- Source `0d2359b1033369a9c1160e4ba817029cfbc7e547`; immutable phone artifact `a382de4e95d82fc9bda71fd1e9bc8b4f66ae68c8`. Target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/a382de4e95d82fc9bda71fd1e9bc8b4f66ae68c8/drafts/main-website-phone.html`. GitHub/local blob **`a25c013dc9f72671a94ce40267ec0a1b5042fd88`** and size **15,280,838 bytes** match; embedded source metadata and JS syntax PASS. Public short link independently followed/rendered the correct artifact/Home.
+- Final missing circle portraits now supplied: **Birthday →50th birthday**, **Kids Birthday →pastel princess setup**, **Showroom Setup →floral fair display**, explicitly following the owner's assignments. **All19 circles** now use uploaded images; generated-category fallback removed from circles, map requires every occasion slug at compile time. No claim that all other site images are owner-supplied or that these reference images depict the owner's work.
+- Three original JPEGs retained byte-identically in `photo-intake/homepage-real/circle-batch-2/`; three new metadata-free320-square WebPs **76,296 bytes**; all19 total **492,174 bytes**. Existing16 portrait bytes and all hero source/assets/CSS unchanged. Fair photo explicitly authorized for Showroom circle only, not the17-photo hero and not restoration of Exhibition Stall. Cards/detail galleries remain unchanged.
+- Thumbnail preparer reads both source batches; `--only-new` avoided re-encoding the approved16. Portable adapter's obsolete circle-category-glob replacement removed. All19 detail routes, normal press/drag lifecycle, existing Bloon/search/header/WebGL/hero opacity1 and animation remain unchanged. No provider/backend work, inference or enquiries.
+- **274 tests /20 files PASS**, TypeScript/native build/phone build PASS. Targeted lint0 errors, same pre-existing Fast Refresh mixed-export warning.11 targeted photo/removal/hero regressions PASS, including a new explicit three-upload mapping/no-hero-addition test. All three cropped previews visually reviewed.
+- Browser native **390/1440**, and exact portable bytes under simulated remote base **390/1440**, OS reduced-motion: **all19 rendered circle hashes/dimensions/routes** match supplied portraits, all320-square, the3 requested replacements present, hero initial source unchanged/computed opacity1, six cards/one Bloon, no overflow/JS errors/AI requests. Portable makes0 external requests. No new full normal-motion/320/768 matrix or screenshot claim; motion/layout untouched and prior release's broader matrix remains historical below.
+- Source/provenance: `REAL-CIRCLE-PHOTOS.md`, `photo-intake/homepage-real/circle-selection.json`. Live preview **Balloon Creation website ·port8080**. `3WfK85` is the previous16-real-circle publication. Unrelated10 dirty files remain unstaged.
+
+---
+
+## Previous MAIN website — real circle portraits and clearer hero photos (2026-10-24)
 
 **https://clck.ru/3WfK85**
 

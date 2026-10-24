@@ -6,6 +6,8 @@ Three byte-identical JPEG originals are retained under `photo-intake/homepage-re
 
 `prepare-occasion-thumbnails.py --only-new` adds this batch without re-encoding the previous16. Full regeneration without the flag reads both original batches. `occasion-photos.ts` now requires all19 slug keys at compile time. The phone adapter no longer expects a category-photo glob in the circle component. Existing19 routes and press/drag motion remain unchanged. Publication/testing provenance follows in PHONE-VIEW.md; entries below describe the previous16-circle release.
 
+Published current19-circle update **https://clck.ru/3Wfmcm**. Source `0d2359b1033369a9c1160e4ba817029cfbc7e547`, artifact `a382de4e95d82fc9bda71fd1e9bc8b4f66ae68c8`. Verified blob `a25c013dc9f72671a94ce40267ec0a1b5042fd88` /15,280,838bytes.274 tests/20 files, TypeScript/builds and native/exact-portable390/1440 all19 rendered profile hashes/dimensions/routes PASS; all three cropped previews reviewed. Exact scope and checks in PHONE-VIEW.md.
+
 ---
 
 # Real circle photos and clearer homepage photography
