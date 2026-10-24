@@ -15,8 +15,28 @@
     "corporate-events": "corporate-events",
     "grand-opening": "grand-opening",
     "annual-day-function": "annual-day",
-    "naming-ceremony": "floral-swing"
+    "naming-ceremony": "floral-swing",
+    "birthday": "birthday-50th",
+    "kids-birthday": "kids-birthday-princess",
+    "showroom-setup": "showroom-floral-display"
   },
-  "missing": ["birthday", "kids-birthday", "showroom-setup"],
-  "note": "Matching occasion portraits. The floral baby-cradle setup is suitable for Naming Ceremony; Product Launch is not used as a substitute for Showroom Setup. Exhibition Stall stays excluded. Three missing circles retain their existing editorial placeholders."
+  "missing": [],
+  "note": "All 19 circle portraits now use supplied images. Batch 2 explicitly assigns the wedding-fair floral photo to the Showroom Setup circle only, not to the hero or a restored Exhibition Stall service. Hero selection and the other 16 portraits remain unchanged.",
+  "additionalPhotos": [
+    {
+      "id": "showroom-floral-display",
+      "source": "circle-batch-2/What to Expect at a Wedding Fair - SingaporeBrides.jpg",
+      "desktop": "48% 50%"
+    },
+    {
+      "id": "birthday-50th",
+      "source": "circle-batch-2/50th Birthday Celebration_ #50thbirthday….jpg",
+      "desktop": "50% 52%"
+    },
+    {
+      "id": "kids-birthday-princess",
+      "source": "circle-batch-2/889179520199331088.jpg",
+      "desktop": "50% 50%"
+    }
+  ]
 }

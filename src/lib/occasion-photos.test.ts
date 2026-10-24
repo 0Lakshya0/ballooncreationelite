@@ -6,16 +6,12 @@ const selection = JSON.parse(
   readFileSync("photo-intake/homepage-real/circle-selection.json", "utf8"),
 );
 
-it("replaces only the 16 matching circle portraits and reports the three missing photos", () => {
+it("uses supplied photos in all 19 circles with no remaining editorial placeholders", () => {
   expect(Object.keys(realOccasionPhotos)).toEqual(Object.keys(selection.matches));
-  expect(Object.keys(realOccasionPhotos)).toHaveLength(16);
+  expect(Object.keys(realOccasionPhotos)).toHaveLength(19);
   const missing = occasionEntries.filter((entry) => !realOccasionPhotos[entry.slug]);
   expect(missing.map((entry) => entry.slug)).toEqual(selection.missing);
-  expect(missing.map((entry) => entry.name)).toEqual([
-    "Birthday",
-    "Kids Birthday",
-    "Showroom Setup",
-  ]);
+  expect(missing).toEqual([]);
   for (const [slug, image] of Object.entries(realOccasionPhotos)) {
     expect(occasionEntries.some((entry) => entry.slug === slug)).toBe(true);
     expect(image).toContain(`/occasion-real/${slug}.webp`);
@@ -33,10 +29,10 @@ it("maps aliases and the baby cradle deliberately without misusing the product-l
   expect(Object.values(selection.matches)).not.toContain("product-launch");
   expect(JSON.stringify(selection.matches)).not.toMatch(/exhibition|category-19/);
 });
-it("uses the real portraits only in circles, retains fallback photos, routes and bounded press motion", () => {
+it("uses only supplied circle portraits while preserving routes and bounded press motion", () => {
   const component = readFileSync("src/components/balloon/category-marquee.tsx", "utf8");
-  expect(component).toContain("realOccasionPhotos[slug] ??");
-  expect(component).toContain("/src/assets/categories/category-");
+  expect(component).toContain("src={realOccasionPhotos[slug]}");
+  expect(component).not.toContain("/src/assets/categories/");
   expect(component).toContain('to="/creations/$slug"');
   expect(component).toContain("bindCategoryMotion(carousel)");
   expect(component).toContain("stopOnMouseEnter: false");
@@ -51,4 +47,17 @@ it("removes the compounded low-opacity hero mask without changing the global gol
   expect(css).toContain("opacity: 0.94");
   expect(css).toContain("opacity: 0.52");
   expect(css).toContain("opacity: 0.58");
+});
+
+it("assigns the three new uploads exactly as requested without adding them to the homepage slideshow", () => {
+  expect(selection.matches.birthday).toBe("birthday-50th");
+  expect(selection.matches["kids-birthday"]).toBe("kids-birthday-princess");
+  expect(selection.matches["showroom-setup"]).toBe("showroom-floral-display");
+  expect(selection.additionalPhotos).toHaveLength(3);
+  const hero = readFileSync("src/lib/hero-slides.ts", "utf8");
+  expect(hero).not.toMatch(/birthday-50th|kids-birthday-princess|showroom-floral-display/);
+  for (const photo of selection.additionalPhotos) {
+    const source = readFileSync(`photo-intake/homepage-real/${photo.source}`);
+    expect(source.byteLength).toBeGreaterThan(0);
+  }
 });

@@ -1,3 +1,13 @@
+## Current update — all 19 circle portraits supplied (2026-10-24)
+
+The owner supplied the final three photos and explicitly assigned them to Birthday, Kids Birthday and Showroom Setup. Birthday now uses the gold/white50th-birthday setup; Kids Birthday uses the pastel princess-theme setup; Showroom Setup uses the floral wedding-fair display. All **19 circles** now have supplied images, with no generated-category fallback in the circle component. This does not claim that other galleries/style pages have been replaced or that supplied reference images depict the owner's work.
+
+Three byte-identical JPEG originals are retained under `photo-intake/homepage-real/circle-batch-2/`. Source/crop mappings are in `circle-selection.json` (`additionalPhotos`). New metadata-free320-square WebPs total **76,296 bytes**; all19 portraits total **492,174 bytes**. Existing16 portraits, the complete17-photo hero, its opacity/animation, and all page/gallery photos remain unchanged. The floral fair image was explicitly approved **only for the Showroom Setup circle**; it does not restore the removed Exhibition Stall service or add this image to the hero.
+
+`prepare-occasion-thumbnails.py --only-new` adds this batch without re-encoding the previous16. Full regeneration without the flag reads both original batches. `occasion-photos.ts` now requires all19 slug keys at compile time. The phone adapter no longer expects a category-photo glob in the circle component. Existing19 routes and press/drag motion remain unchanged. Publication/testing provenance follows in PHONE-VIEW.md; entries below describe the previous16-circle release.
+
+---
+
 # Real circle photos and clearer homepage photography
 
 2026-10-24. Follow-up owner request: replace the occasion circles' profile photos with matching uploads, make hero photography substantially easier to see, and report missing occasion photos.

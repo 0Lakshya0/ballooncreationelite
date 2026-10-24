@@ -7,10 +7,6 @@ import { bindCategoryMotion } from "@/lib/category-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 
-const photos = import.meta.glob<string>("/src/assets/categories/*.webp", {
-  eager: true,
-  import: "default",
-});
 export const categories = occasionEntries.map((item) => item.name);
 
 export function CategoryMarquee() {
@@ -51,7 +47,7 @@ export function CategoryMarquee() {
         }}
       >
         <ul className="category-track">
-          {occasionEntries.map(({ name, slug, photo }) => (
+          {occasionEntries.map(({ name, slug }) => (
             <li className="category-item" key={name}>
               <Link
                 className="category-link"
@@ -62,12 +58,7 @@ export function CategoryMarquee() {
                 <span className="category-orb">
                   <img
                     data-occasion-photo={slug}
-                    src={
-                      realOccasionPhotos[slug] ??
-                      photos[
-                        `/src/assets/categories/category-${String(photo).padStart(2, "0")}.webp`
-                      ]
-                    }
+                    src={realOccasionPhotos[slug]}
                     alt=""
                     width={320}
                     height={320}

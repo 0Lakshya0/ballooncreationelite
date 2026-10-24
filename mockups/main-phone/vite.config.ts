@@ -39,7 +39,6 @@ function portablePhoneView(): Plugin {
     transform(source, id) {
       if (id.includes("/src/assets/profile-logo.jpg.asset.json")) return undefined;
       if (
-        id.endsWith("/category-marquee.tsx") ||
         id.endsWith("/celebrations.ts") ||
         id.endsWith("/service-details.ts") ||
         id.endsWith("/occasion-catalogue.ts")

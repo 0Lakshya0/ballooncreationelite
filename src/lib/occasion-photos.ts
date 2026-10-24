@@ -16,10 +16,13 @@ import photo12 from "@/assets/occasion-real/corporate-events.webp";
 import photo13 from "@/assets/occasion-real/grand-opening.webp";
 import photo14 from "@/assets/occasion-real/annual-day-function.webp";
 import photo15 from "@/assets/occasion-real/naming-ceremony.webp";
+import photo16 from "@/assets/occasion-real/birthday.webp";
+import photo17 from "@/assets/occasion-real/kids-birthday.webp";
+import photo18 from "@/assets/occasion-real/showroom-setup.webp";
 
 type OccasionSlug = (typeof occasionEntries)[number]["slug"];
-// Missing occasions deliberately retain the existing editorial thumbnail.
-export const realOccasionPhotos: Partial<Record<OccasionSlug, string>> = {
+// All 19 existing occasion circles have an explicitly assigned supplied photo.
+export const realOccasionPhotos: Record<OccasionSlug, string> = {
   "baby-shower": photo0,
   "welcome-baby": photo1,
   anniversary: photo2,
@@ -36,4 +39,7 @@ export const realOccasionPhotos: Partial<Record<OccasionSlug, string>> = {
   "grand-opening": photo13,
   "annual-day-function": photo14,
   "naming-ceremony": photo15,
+  birthday: photo16,
+  "kids-birthday": photo17,
+  "showroom-setup": photo18,
 };
