@@ -1,3 +1,13 @@
+## First Night batch1 — 2026-10-24
+
+User explicitly chose **First Night / Wedding Room**, not Room Surprise, for all10 supplied photos. Retained unchanged originals and SHA-256 manifest in `photo-intake/gallery-first-night-batch-1/`; all10 unique against previous original hashes and each other, visually distinct from existing BC-10. Added BC-77…86 only to First Night. Originals have noGPS;10 metadata-free WebPs1,207,902bytes, no file cropping, manual rotation, upscaling, colour edits, retouching, watermark/date removal or AI generation. Thumbnail focal positions only; full images in viewer. Neutral setup descriptions, no inferred event date, venue, clients, material/authenticity/ownership or safety claims; supplied render-like reference is not independently verified client photography. The visible timestamp stays in the image but is not asserted as an event date.
+
+Gallery now86 supplied images /20 separate collections. First Night11 (oldBC-10+10new), in existing intimate cream gallery treatment with asymmetric90px/8px corners, independent3→9→11 pagination and11-photo viewer. Initial all-style cards35 (was33; First Night now shows3 rather than1). Anniversary20/Room Surprise1/Baby18/Kids14/Birthday7/Proposal2 unchanged. All76 existing refs/shortlists and approved17home/19circle/19cover assignments preserved; no CSS, page-component or provider/backend changes. Remaining AI elsewhere still awaits matching uploads.
+
+Generator: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-first-night-batch.py`, then format `src/lib/gallery-first-night.ts`.3 new data regressions cover hashes/dedup/stable refs,11-photo isolation/style totals/inquiries, home/circle/cover preservation and neutral copy; new page regression covers3→9→11,11-photo wrapping/BC-86 enquiry. Global/page counts updated to86/default35. Unit key events target the actual dialog, matching its local keyboard handler.
+
+---
+
 ## Latest MAIN — Anniversary batch2 (2026-10-24)
 
 **https://clck.ru/3WfueB** — opens Our Creations. Source **`f59085f8d2bca9e7350adfa3d68963f7f431b872`**; artifact **`02f47929bd0a75366a5f3b1b5a93cb8aad253774`**. Immutable target `https://htmlpreview.github.io/?https://raw.githubusercontent.com/0Lakshya0/ballooncreationelite/02f47929bd0a75366a5f3b1b5a93cb8aad253774/drafts/main-website-phone.html#our-creations`. Local/GitHub blob **`d0cb520288041a7a68e79f66ed25673aa6febd84`**, **22,195,814bytes**, equal. Embedded source/all JS syntax PASS. Public short link independently followed through both chunks:76moments/20sections/Anniversary20/Baby18/Kids14/Birthday7/default33/Bloon. Previous3Wft73 is65-photo history, not the current delivery.
