@@ -377,7 +377,15 @@ export function CreationGalleryPage() {
                     {section.items
                       .slice(0, sectionLimits[section.id] ?? section.initial)
                       .map((item) => (
-                        <article className="gc-card" key={item.id} data-gallery-id={item.id}>
+                        <article
+                          className={
+                            item.width > item.height * 1.45
+                              ? "gc-card gc-card-landscape"
+                              : "gc-card"
+                          }
+                          key={item.id}
+                          data-gallery-id={item.id}
+                        >
                           <div className="gc-picture">
                             <button
                               className="gc-open"
