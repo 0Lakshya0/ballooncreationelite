@@ -1,3 +1,13 @@
+## Anniversary batch1 — 2026-10-24
+
+10 supplied original files retained unchanged with SHA-256 and dedup decisions in `photo-intake/gallery-anniversary-batch-1/selection.json`. Added8 unique Anniversary images BC-58…65.2 byte-identical duplicates omitted from cards: third-anniversary setting sent twice (BC-65 once), blue25th Anniversary LED/ring already present as BC-08 (same prior original bytes; reference/cover preserved). No cropping/rotation/upscaling/colour/watermark/AI changes.8 metadata-free WebPs607,808bytes;10 originals noGPS.
+
+Total65 supplied gallery photos /20 exact-style sections. Anniversary now9, with its own existing romantic presentation and independent3→9 pagination/style-local9-photo viewer; Birthday7/Kids14/Baby18/Proposal2 unchanged. Initial all-style cards33 (previous31 +2 Anniversary cards); all prior57 refs/shortlists preserved. Anniversary save buttons now inset25px, matching Baby Shower's existing protection against100px rounded-corner clipping; other styles unchanged.17 hero/19 circles/19 covers preserved. No backend/provider/video changes or whole-site AI-free claim.
+
+Rebuild: `PYTHONPATH=.cache/photo-tools python3 scripts/prepare-gallery-anniversary-batch.py`, then Prettier on `src/lib/gallery-anniversary.ts`. Three new tests cover original hashes/both exact duplicates/stable references,9-photo Anniversary isolation, unchanged approved home assignments. Existing counts/paging tests updated; removed unsupported Testing Library `exact` option from a pre-existing full-name opener test (name string already exact) so TypeScript passes.
+
+---
+
 ## Family batch2 — 2026-10-24
 
 Current publication **https://clck.ru/3WfsuX**; source `d804b0f4bbc4ad7a9a596e48b146db947343f011`, artifact `98897f61dc9d62565e523b0e908f1275176147c4`; verified blob `e6dbb91e77a4c412ef5eb7bd396c94223c11a1cb` /20,105,201bytes.294 tests/25 files,TS/lint/native+phone builds PASS. Native390/1440 + exact-phone320/390/768/1440 six feature cases PASS (57 exact hashes,independent paging,scoped Baby18/Kids14 viewers,new kids13→14→1 wrap,compact/wide/inset/shortlist/Bloon/no overflow/errors/AI); isolated phone390/1440 reloads PASS. Public link independently rendered57 photos/20 sections/Baby18/Kids14. Full boundaries in PHONE-VIEW.md.

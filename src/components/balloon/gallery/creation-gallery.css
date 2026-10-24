@@ -1153,8 +1153,9 @@
   aspect-ratio: auto;
   object-fit: contain;
 }
-/* Keep the full44px save control inside Baby Shower's generous arch corners. */
-.gc-collection[data-gallery-style="baby-shower"] .gc-heart {
+/* Keep the full44px save control inside generous rounded gallery corners. */
+.gc-collection:is([data-gallery-style="baby-shower"], [data-gallery-style="anniversary"])
+  .gc-heart {
   top: 25px;
   right: 25px;
 }

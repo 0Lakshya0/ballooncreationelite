@@ -1,3 +1,4 @@
+import { galleryAnniversaryMedia } from "./gallery-anniversary";
 import { galleryFamilyBatch2Media } from "./gallery-family-batch-2";
 import { galleryBabyShowerMedia } from "./gallery-baby-shower";
 import { galleryBatch2Media } from "./gallery-batch-2";
@@ -218,7 +219,13 @@ export const galleryMedia: GalleryMedia[] = definitions
         "position" in photo && typeof photo.position === "string" ? photo.position : "50% 50%",
     };
   })
-  .concat(galleryBatchMedia, galleryBatch2Media, galleryBabyShowerMedia, galleryFamilyBatch2Media);
+  .concat(
+    galleryBatchMedia,
+    galleryBatch2Media,
+    galleryBabyShowerMedia,
+    galleryFamilyBatch2Media,
+    galleryAnniversaryMedia,
+  );
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {
   try {

@@ -1,0 +1,119 @@
+{
+  "photos": [
+    {
+      "source": "15 Anniversary Decoration Ideas to Celebrate Love___.jpg",
+      "id": "anniversary-photo-heart",
+      "reference": "BC-58",
+      "title": "Your story, in a heart",
+      "detail": "A heart-shaped photo wall framed with warm lights, rose petals and candle-style accents.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "fd9483b87a6712246e8ae870d5d09c8525627d4eb00b8e4944da7e70ac3bdee9"
+    },
+    {
+      "source": "20 Simple Wedding Anniversary Decoration Ideas At….jpg",
+      "id": "anniversary-silver-one",
+      "reference": "BC-59",
+      "title": "One year. A little silver sparkle.",
+      "detail": "A white and silver balloon ring, warm light strands, anniversary lettering and an illuminated one.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "23df6a65ad9db4c1b9c47b232d9bfa6fe6b7b4a52af1113288ba6a217ff96ca0"
+    },
+    {
+      "source": "25th Anniversary celebration.jpg",
+      "id": "anniversary-colour-twenty-five",
+      "reference": "BC-60",
+      "title": "Twenty-five years, beautifully celebrated",
+      "detail": "A colourful balloon ring with anniversary lettering, ceiling balloons and illuminated25 numerals.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "2a4e37f29bed5f11238a0517ac1f5215aa274ea043c23490a5437a42eb91318f"
+    },
+    {
+      "source": "54817320460421103.jpg",
+      "id": "anniversary-rose-gold-one",
+      "reference": "BC-61",
+      "title": "A first chapter in rose gold",
+      "detail": "Rose-gold and white balloons with butterfly details, silver star accents and an illuminated one.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "d45c92a070b584fc2583c28aa555a39bacbb552dcbdfb1e9503476386d115c22"
+    },
+    {
+      "source": "880524164704819108.jpg",
+      "id": "anniversary-silver-magenta",
+      "reference": "BC-62",
+      "title": "Two colours. One beautiful story.",
+      "detail": "A silver-and-magenta balloon circle with floral backdrop details and glowing anniversary lettering.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "7c7f835b434a9d67e18ce3c4313ecb5ce2591d2643eaff617da8b92edcde4be6"
+    },
+    {
+      "source": "Anniversary back drop decoration.jpg",
+      "id": "anniversary-rose-heart",
+      "reference": "BC-63",
+      "title": "A heart full of roses",
+      "detail": "A red-rose heart framing anniversary lettering, warm hanging lights, flowers and candle-style accents.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "674ca24a487716d5feebdb64a119e60c11620628be065c059a0a8599c40344d3"
+    },
+    {
+      "source": "Anniversary decor.jpg",
+      "id": "anniversary-outdoor-silver",
+      "reference": "BC-64",
+      "title": "Silver moments beneath the evening sky",
+      "detail": "An outdoor silver and white balloon ring, butterfly details, light strands and25 numerals.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "203d6a7add4c7f9201b7e1457f8814556f750ac576df687f5ca5d01c077b99b7"
+    },
+    {
+      "source": "Anniversary Decoration at Home (1).jpg",
+      "id": "anniversary-three-gold",
+      "reference": "BC-65",
+      "title": "Three years, a golden glow",
+      "detail": "A gold-and-rose shimmer backdrop with balloon clusters, anniversary lettering and an illuminated three.",
+      "occasion": "Anniversary",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "b8a5bbdfbe385c65145a34efaaf43bd18774e271568007ba752aa79feba04d2d"
+    }
+  ],
+  "duplicates": [
+    {
+      "source": "Anniversary Decoration at Home.jpg",
+      "existingId": "anniversary-three-gold",
+      "existingReference": "BC-65",
+      "existingSource": "photo-intake/gallery-anniversary-batch-1/Anniversary Decoration at Home (1).jpg",
+      "sha256": "b8a5bbdfbe385c65145a34efaaf43bd18774e271568007ba752aa79feba04d2d",
+      "reason": "Byte-identical repeat within this batch; third-anniversary setting shown once."
+    },
+    {
+      "source": "Anniversary Decoration with LED and Ring.jpg",
+      "existingId": "anniversary",
+      "existingReference": "BC-08",
+      "existingSource": "photo-intake/homepage-real/c64069fe181c69d6ea340d61ce2be61f.jpg",
+      "sha256": "d9c4882426c3301de2d1979c0cb909af2f18d059a03ac21fc7691e0791339e0f",
+      "reason": "Byte-identical to existing Anniversary photo BC-08; retain existing reference and cover."
+    }
+  ],
+  "note": "10 supplied files:8 unique additions,2 exact duplicates (third-anniversary repeat and existing blue25th BC-08). All originals retained; no cropping/rotation/upscaling/AI editing. Keep every existing reference and approved homepage/circle/cover."
+}
