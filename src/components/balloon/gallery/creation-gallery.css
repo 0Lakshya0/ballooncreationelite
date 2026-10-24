@@ -1146,10 +1146,15 @@
   place-items: center;
   aspect-ratio: 4/5;
 }
-.gc-collection .gc-card-small .gc-open img {
+.gc-collection .gc-card.gc-card-small .gc-open img {
   width: auto;
   max-width: 100%;
   height: auto;
   aspect-ratio: auto;
   object-fit: contain;
+}
+/* Keep the full44px save control inside Baby Shower's generous arch corners. */
+.gc-collection[data-gallery-style="baby-shower"] .gc-heart {
+  top: 25px;
+  right: 25px;
 }
