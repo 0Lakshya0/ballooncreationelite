@@ -1,4 +1,10 @@
-## Latest publication — independent style galleries + birthday batch1 (2026-10-24)
+## Latest publication — birthday batch2 (2026-10-24)
+
+MAIN **https://clck.ru/3Wfqo7**. Source `e42bf07101819bb50f7014f23f01065b48aa7409`; artifact `489ef5ee588e6e861ca2948e71f6fffbb9ff33ec`; blob `4b6ce831acc0621015318f8cbd500d7808288c32` /17,565,640bytes verified locally/remotely.9 new supplied images from10 files:4 Birthday,4 Kids Birthday,1 Proposal; cropped Navya repeat omitted, BC-28 preserved.38 photos/20 separate sections (Birthday7/Kids12/Proposal2), original treatments/independent paging/scoped viewer intact.287 tests/23 files,TS/lint/builds PASS. Native/exact-phone320/390/768 full cases PASS;1440 gallery/image/paging/viewer/storage checks pass, but complex same-tab reload wait timed out; isolated1440 portable reload passes previous and current artifacts. Full QA boundaries in PHONE-VIEW.md. Hero17/circles19/covers19 unchanged; no backend/provider changes or actual videos. Earlier entries are historical.
+
+---
+
+## Previous publication — independent style galleries + birthday batch1 (2026-10-24)
 
 MAIN **https://clck.ru/3Wfp9e** (Our Creations). Source `4f710a2625bd17312310dbf0c5a80c84ff87007e`, artifact `0f089cf9edea0c0a440ad2ee5f83e383a77f4b20`.29 unique supplied photos in20 actual separate style sections; Birthday3/Kids8 with distinct presentation and independent paging/viewer navigation.10 originals retained,9 new photos, duplicate princess skipped, jungle upright/wide16:9. Existing17 hero/19 circles/19 occasion covers unchanged.284 tests/22 files, TypeScript/lint/builds and native/exact-phone320/390/768/1440 final matrix PASS, including all29 image hashes/scoped viewer/shortlist/Bloon clearance. Other AI style imagery remains pending matching uploads; no backend/provider changes or real video supplied. Provenance: `PHONE-VIEW.md`, `OUR-CREATIONS-GALLERY.md`. Older entries are historical.
 
