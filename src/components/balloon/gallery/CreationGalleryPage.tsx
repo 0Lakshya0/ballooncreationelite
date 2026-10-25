@@ -382,7 +382,8 @@ export function CreationGalleryPage() {
                           className={[
                             "gc-card",
                             (item.width > item.height * 1.45 ||
-                              (item.occasion === "Naming Ceremony" && item.width > item.height)) &&
+                              (["Naming Ceremony", "Proposal"].includes(item.occasion) &&
+                                item.width > item.height)) &&
                               "gc-card-landscape",
                             item.width < 400 && item.height < 400 && "gc-card-small",
                           ]

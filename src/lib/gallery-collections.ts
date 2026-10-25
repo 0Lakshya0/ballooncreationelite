@@ -57,7 +57,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Proposal",
     "THE QUESTION COLLECTION",
     "One question. A world of feeling.",
-    "Romantic outdoor settings that make the moment feel personal.",
+    "Floral hearts, softly lit paths and personal settings for the moment you ask.",
     "romantic",
     "140px 140px 4px 4px",
     3,

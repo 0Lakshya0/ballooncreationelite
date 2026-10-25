@@ -1160,8 +1160,11 @@
   right: 25px;
 }
 
-/* Naming photos keep whole wide stages readable inside their own floral collection. */
-.gc-collection[data-gallery-style="naming-ceremony"] .gc-card-landscape .gc-open img {
+/* Keep whole Naming stages and Proposal scenes readable without double-width enlargement. */
+.gc-collection:is([data-gallery-style="naming-ceremony"], [data-gallery-style="proposal"])
+  .gc-card-landscape
+  .gc-open
+  img {
   aspect-ratio: 4/3;
   object-fit: contain;
 }
@@ -1169,4 +1172,10 @@
 .gc-collection[data-gallery-style="naming-ceremony"] .gc-heart {
   top: 60px;
   right: 25px;
+}
+
+/* Keep the full44px save control inside the Proposal collection's140px rounded crown. */
+.gc-collection[data-gallery-style="proposal"] .gc-heart {
+  top: 40px;
+  right: 40px;
 }

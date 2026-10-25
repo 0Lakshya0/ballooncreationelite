@@ -1,0 +1,247 @@
+{
+  "photos": [
+    {
+      "source": "proposal-seaside-drapes-original.jpg",
+      "id": "proposal-seaside-drapes",
+      "reference": "BC-119",
+      "title": "A question beside the sea",
+      "detail": "White drapes, red and cream floral clusters and glowing proposal lettering against a coastal backdrop.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 65%",
+      "rotate": 0,
+      "sha256": "ac8d46da72141056364fd2566e6d824481676ece0dae8aa51cba04b32a9e03a3"
+    },
+    {
+      "source": "proposal-red-heart-aisle-original.jpg",
+      "id": "proposal-red-heart-aisle",
+      "reference": "BC-120",
+      "title": "A heart at the end of the aisle",
+      "detail": "A red floral heart with proposal lettering, a red aisle and white candle-style accents beneath a garden shelter.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "3d82454679febb8beaab3d7834a2260099f3586eea4b66baa798c397e650e371"
+    },
+    {
+      "source": "proposal-butterfly-ring-original.jpg",
+      "id": "proposal-butterfly-ring",
+      "reference": "BC-121",
+      "title": "A little light, a big question",
+      "detail": "A floral ring with glowing butterfly accents, tall candle-style stands and proposal lettering beside large windows.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "c74ceab722acc054a44f539f6de5273a58772622f473afce9dec48c160fefa76"
+    },
+    {
+      "source": "proposal-night-rose-ring-original.jpg",
+      "id": "proposal-night-rose-ring",
+      "reference": "BC-122",
+      "title": "Roses, petals and a quiet little question",
+      "detail": "A slim circular frame with red floral clusters, glowing proposal lettering and a petal-strewn foreground.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "7dc95ca55b24757d8e4e57ed4960097eaec54b91dc0c784995deba918655bdca"
+    },
+    {
+      "source": "proposal-white-heart-sunset-original.jpg",
+      "id": "proposal-white-heart-sunset",
+      "reference": "BC-123",
+      "title": "A white heart, beneath a glowing sky",
+      "detail": "A white floral heart and petal-lined approach with warm candle-style accents in a beach setting.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "b2b67d01bd99a2aed59716501bded611a4c1e9f1aa474b8b72069d8150c0b54f"
+    },
+    {
+      "source": "proposal-garden-light-path-original.jpg",
+      "id": "proposal-garden-light-path",
+      "reference": "BC-124",
+      "title": "Follow the lights to your little moment",
+      "detail": "A garden path lined with glass candle-style accents and red petals beneath hanging light strands.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "e2c8d87bf803fb4cbd2a33d00f368dc0025b4c3f953815774209fb40c5cf1f50"
+    },
+    {
+      "source": "proposal-lakeside-rose-frame-original.jpg",
+      "id": "proposal-lakeside-rose-frame",
+      "reference": "BC-125",
+      "title": "A little question, framed by the water",
+      "detail": "Red floral clusters on a layered rectangular frame with proposal lettering and a petal-covered lakeside setting.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "b2503e32990fcdcfbdf3832392bfe7551afa08573779028501fdd7714d9c2407"
+    },
+    {
+      "source": "proposal-moonlit-path-original.jpg",
+      "id": "proposal-moonlit-path",
+      "reference": "BC-126",
+      "title": "A little closer to the moon",
+      "detail": "A glowing moon-inspired backdrop with a red petal path, a petal heart and warm light strands in an outdoor setting.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "7f2ba4b25251582ba0d881cabc693913f233895da467cad68ab13a9eac51954f"
+    },
+    {
+      "source": "proposal-soft-pink-frame-original.jpg",
+      "id": "proposal-soft-pink-frame",
+      "reference": "BC-127",
+      "title": "Soft flowers. A question from the heart.",
+      "detail": "Soft pink floral clusters with glowing proposal lettering and a candle-style aisle beneath an open shelter.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "f79b0ce32329fca1b8efabf641dc1233daccec28713244ca8d5290a60fee2f0e"
+    },
+    {
+      "source": "proposal-red-heart-evening-original.jpg",
+      "id": "proposal-red-heart-evening",
+      "reference": "BC-128",
+      "title": "A heart full of roses, a little evening glow",
+      "detail": "A red floral heart with glowing proposal lettering, tall candle-style accents and a red aisle in an evening setting.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "d5f12217f8137dbb44d889592e58aceda7c782d2c644720938ebf6b2176b8406"
+    },
+    {
+      "source": "proposal-staircase-rose-ring-original.jpg",
+      "id": "proposal-staircase-rose-ring",
+      "reference": "BC-129",
+      "title": "A little glow, a room full of feeling",
+      "detail": "A gold-toned ring with red floral clusters, proposal lettering and scattered petals beside an indoor staircase.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "4bb2f6fa4357aabc9bd84e1f226632517850a9f52e1d9620692cfda82b7c5629"
+    },
+    {
+      "source": "proposal-terrace-heart-original.jpg",
+      "id": "proposal-terrace-heart",
+      "reference": "BC-130",
+      "title": "A little question, a grand red heart",
+      "detail": "A red floral heart and glowing proposal lettering with a red aisle and glass candle-style accents on a terrace.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "676b16fe20eaf579f281ac6ac393fe5e1ae86fded6cecd4ad059210200f82a4d"
+    },
+    {
+      "source": "proposal-white-heart-petals-original.jpg",
+      "id": "proposal-white-heart-petals",
+      "reference": "BC-131",
+      "title": "White petals, a little forever",
+      "detail": "A white floral heart with proposal lettering, glass candle-style accents and white petals across the floor.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "3044de41ce101617f4969cd8ef8cbaa3fabc0bc7cd9d17c3579420c451b923f4"
+    },
+    {
+      "source": "proposal-mixed-floral-heart-original.jpg",
+      "id": "proposal-mixed-floral-heart",
+      "reference": "BC-132",
+      "title": "A heart in all your favourite flowers",
+      "detail": "A mixed red, pink and white floral heart with glowing lettering, petal details and candle-style accents.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "b3cc4551ec4e9561fbc358b7875ab49aa953046bbaa28a292af4b5126af3caf6"
+    },
+    {
+      "source": "proposal-rose-wall-original.jpg",
+      "id": "proposal-rose-wall",
+      "reference": "BC-133",
+      "title": "A wall of roses, a moment for two",
+      "detail": "A red rose-style floral wall with glowing proposal lettering, a red aisle and glass candle-style accents.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "0807c8bbad5db5f23e11d48b9025cccf9598f1edf5eb74d356b4e9d15c16f150"
+    },
+    {
+      "source": "proposal-heart-balloon-aisle-original.jpg",
+      "id": "proposal-heart-balloon-aisle",
+      "reference": "BC-134",
+      "title": "A little love, floating all around",
+      "detail": "A red floral heart with proposal lettering, heart-shaped balloons and a flower-lined red aisle indoors.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "06945cbf88f08d962215b2e4d369a5bfd041c2b824b5e154db2523aeff1c382e"
+    },
+    {
+      "source": "proposal-sheltered-evening-original.jpg",
+      "id": "proposal-sheltered-evening",
+      "reference": "BC-135",
+      "title": "A sheltered little moment, softly lit",
+      "detail": "A red floral ring with glowing proposal lettering and warm candle-style accents beneath a garden shelter.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "9e62bacc2de8ab756e58321340db77c473430010e62302ce6f66f5b3a9aa1e6b"
+    },
+    {
+      "source": "proposal-fairy-light-letters-original.jpg",
+      "id": "proposal-fairy-light-letters",
+      "reference": "BC-136",
+      "title": "A question spelled out in little lights",
+      "detail": "A softly lit draped backdrop with love-themed balloons, illuminated Marry Me letters and a petal-heart aisle.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "72cdf6e57cffaccc1cceb087bc0f35a7e34827928bfc742794ce8765ac757ce3"
+    },
+    {
+      "source": "proposal-red-lantern-ring-original.jpg",
+      "id": "proposal-red-lantern-ring",
+      "reference": "BC-137",
+      "title": "A little question, framed in red",
+      "detail": "Red floral framing with glowing proposal lettering, decorative lanterns and a red aisle in an outdoor setting.",
+      "occasion": "Proposal",
+      "group": "Love & weddings",
+      "position": "50% 50%",
+      "rotate": 0,
+      "sha256": "3947bae57292fb439363db6d55bed5d5155c613687659d7d4c0b2b33543635f8"
+    }
+  ],
+  "duplicates": [
+    {
+      "source": "proposal-existing-garden-repeat-original.jpg",
+      "sha256": "1c45cc52b81adf16fecb67fdabcdf3197179ab295aae893353eb593568ce8499",
+      "existingSource": "photo-intake/homepage-real/8609323b847e3df12d8a8925279c47c0.jpg",
+      "existingSHA256": "1c45cc52b81adf16fecb67fdabcdf3197179ab295aae893353eb593568ce8499",
+      "existingId": "proposal-garden",
+      "existingReference": "BC-05",
+      "reason": "Byte-identical repeat of existing BC05 garden proposal photo.",
+      "detection": {
+        "hammingDistance": 0
+      }
+    }
+  ],
+  "note": "20 supplied Proposal images:19 new,1 exact repeat of BC05 omitted from gallery but retained in intake. Original bytes unchanged, all supplied marks/personal text/source borders preserved. User labels the whole batch Proposal, including indoor/sheltered setups and garden aisle without lettering. Neutral captions: no inferred locations (including cities from filenames), venues/photographer/supplier affiliation, names/dates, fresh materials, safety, ownership/authenticity or independently verified client-photography claims. No file cropping/rotation/upscaling/retouching/AI/colour editing or watermark removal. Old118 refs/shortlists and home/circle/covers/other styles preserved."
+}

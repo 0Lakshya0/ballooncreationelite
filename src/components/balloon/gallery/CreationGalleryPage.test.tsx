@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates118 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(118);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(118);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(118);
+it("curates137 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(137);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(137);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(137);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12]|gallery-naming-batch-[12])\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12]|gallery-naming-batch-[12]|gallery-proposal-batch-1)\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -74,44 +74,50 @@ it("opens a real page, progressively shows photos, and filters without making ne
   await mount();
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Beautiful moments.");
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(20);
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(37);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(38);
   const kids = within(
     document.querySelector('[data-gallery-style="kids-birthday"]') as HTMLElement,
   );
   expect(kids.getAllByRole("article")).toHaveLength(6);
   fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(43);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(44);
   fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(45);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(46);
   expect(document.querySelectorAll('[data-gallery-style="birthday"] .gc-card')).toHaveLength(4);
   expand("birthday", "Birthday");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(48);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(49);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(54);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(55);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(60);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(61);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(63);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(64);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(69);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(70);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(75);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(76);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(80);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(81);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(86);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(87);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(92);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(93);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(98);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(99);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(101);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(102);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(107);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(108);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(113);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(114);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(118);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(119);
+  expand("proposal", "Proposal");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(125);
+  expand("proposal", "Proposal");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(131);
+  expand("proposal", "Proposal");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(137);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -140,7 +146,7 @@ it("saves locally, creates a meaningful WhatsApp shortlist and resets a saved-on
   fireEvent.click(shortlist.getByRole("button", { name: "Clear" }));
   expect(screen.getByRole("status")).toHaveTextContent("No saved looks");
   fireEvent.click(screen.getByRole("button", { name: "Browse all moments" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(37);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(38);
 });
 it("offers keyboard lightbox navigation, close/focus return and a real single-look enquiry", async () => {
   await mount();
@@ -208,7 +214,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    118,
+    137,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -327,6 +333,38 @@ it("pages Naming Ceremony3→9→15→20 independently, keeps wide stages whole 
   ).toContain("BC-118 · Naming Ceremony");
   fireEvent.keyDown(dialog, { key: "ArrowRight" });
   expect(dialog).toHaveTextContent("1 / 20");
+  fireEvent.keyDown(dialog, { key: "Escape" });
+  expect(screen.queryByRole("dialog")).toBeNull();
+});
+it("pages Proposal3→9→15→21 independently, keeps its moon scene whole and wraps only21 proposal images", async () => {
+  await mount();
+  fireEvent.change(screen.getByLabelText("Choose a style"), { target: { value: "Proposal" } });
+  expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(3);
+  for (const n of [9, 15, 21]) {
+    fireEvent.click(screen.getByRole("button", { name: "Explore more Proposal looks" }));
+    expect(document.querySelectorAll(".gc-card")).toHaveLength(n);
+  }
+  expect(screen.queryByRole("button", { name: "Explore more Proposal looks" })).toBeNull();
+  expect(document.querySelector('[data-gallery-id="proposal-moonlit-path"]')).toHaveClass(
+    "gc-card-landscape",
+  );
+  expect(document.querySelectorAll('[data-gallery-id="proposal-garden"]')).toHaveLength(1);
+  fireEvent.click(
+    screen.getByRole("button", { name: "Open Proposal: One question. A beautiful moment." }),
+  );
+  const dialog = screen.getByRole("dialog");
+  expect(dialog).toHaveTextContent("1 / 21");
+  fireEvent.keyDown(dialog, { key: "ArrowLeft" });
+  expect(within(dialog).getByRole("heading")).toHaveTextContent("A little question, framed in red");
+  expect(dialog).toHaveTextContent("21 / 21");
+  expect(
+    new URL(
+      within(dialog).getByRole("link", { name: "Ask about this look" }).getAttribute("href")!,
+    ).searchParams.get("text"),
+  ).toContain("BC-137 · Proposal");
+  fireEvent.keyDown(dialog, { key: "ArrowRight" });
+  expect(dialog).toHaveTextContent("1 / 21");
   fireEvent.keyDown(dialog, { key: "Escape" });
   expect(screen.queryByRole("dialog")).toBeNull();
 });
