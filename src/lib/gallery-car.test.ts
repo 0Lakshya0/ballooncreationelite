@@ -38,10 +38,10 @@ it("retains20 exact originals, adds19 BC301–319 and keeps floral-peacock BC13 
   expect(galleryCarMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 19 }, (_, i) => `BC-${301 + i}`),
   );
-  expect(galleryMedia).toHaveLength(319);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(319);
+  expect(galleryMedia).toHaveLength(338);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 319 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(
     readGalleryShortlist(

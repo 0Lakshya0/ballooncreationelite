@@ -20,10 +20,10 @@ it("retains10 unique original files and appends BC39–48 without duplicating or
   expect(galleryBabyShowerMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 10 }, (_, i) => `BC-${39 + i}`),
   );
-  expect(galleryMedia).toHaveLength(319);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(319);
+  expect(galleryMedia).toHaveLength(338);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 319 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "baby-shower")?.reference).toBe("BC-06");
   expect(galleryMedia.find((p) => p.id === "kids-first-birthday-peach")?.reference).toBe("BC-28");

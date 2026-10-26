@@ -35,10 +35,10 @@ it("retains16 original files (15 new +1 exact repeat) and adds stable BC268–28
   expect(galleryFarewellMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 15 }, (_, i) => `BC-${268 + i}`),
   );
-  expect(galleryMedia).toHaveLength(319);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(319);
+  expect(galleryMedia).toHaveLength(338);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 319 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "farewell-party")?.reference).toBe("BC-19");
   expect(
@@ -61,7 +61,7 @@ it("keeps Farewell Party16 independent, preserves all other styles/Wedding chapt
     initial: 3,
   });
   expect(sections.find((p) => p.id === "farewell-party")?.items).toHaveLength(16);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(56);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(58);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],

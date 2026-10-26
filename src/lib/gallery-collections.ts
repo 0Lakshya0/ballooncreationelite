@@ -209,7 +209,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Annual Day Function",
     "THE SHARED STAGE COLLECTION",
     "Bring the whole celebration into focus.",
-    "Stage decoration for a shared celebration.",
+    "Colourful entrances, themed backdrops and stages for a celebration shared by everyone.",
     "architectural",
     "8px 8px 0 0",
     3,

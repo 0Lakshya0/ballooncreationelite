@@ -1523,3 +1523,19 @@
     letter-spacing: 0.1em;
   }
 }
+
+/* Annual Day keeps the whole stage/entrance, including people, marks and source borders. */
+.gc-collection[data-gallery-style="annual-day-function"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gc-collection[data-gallery-style="annual-day-function"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+}
+.gc-collection[data-gallery-style="annual-day-function"]
+  [data-gallery-id="annual-red-led-stage"]
+  .gc-open
+  img {
+  max-width: 404px;
+  margin-inline: auto;
+}

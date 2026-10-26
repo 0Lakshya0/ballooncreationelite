@@ -67,7 +67,11 @@ export function GalleryMediaView({ item }: { item: GalleryMedia }) {
     <img
       src={item.image}
       alt={`${item.occasion}: ${item.detail}`}
-      style={item.width < 400 && item.height < 400 ? { maxWidth: item.width } : undefined}
+      style={
+        item.occasion === "Annual Day Function" || (item.width < 400 && item.height < 400)
+          ? { maxWidth: item.width }
+          : undefined
+      }
       width={item.width}
       height={item.height}
       decoding="async"
@@ -225,6 +229,7 @@ export function CreationGalleryPage() {
             "Welcome Baby",
             "Farewell Party",
             "Corporate Events",
+            "Annual Day Function",
           ].includes(item.occasion) &&
             item.width > item.height)) &&
           "gc-card-landscape",

@@ -39,10 +39,10 @@ it("retains20 original files (18 new +2 exact repeats) and adds stable BC283–3
   expect(galleryCorporateMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 18 }, (_, i) => `BC-${283 + i}`),
   );
-  expect(galleryMedia).toHaveLength(319);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(319);
+  expect(galleryMedia).toHaveLength(338);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 319 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "corporate-events")?.reference).toBe("BC-14");
   expect(
@@ -65,7 +65,7 @@ it("keeps Corporate Events19 independent, preserves all other styles/Wedding cha
     initial: 3,
   });
   expect(sections.find((p) => p.id === "corporate-events")?.items).toHaveLength(19);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(56);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(58);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
