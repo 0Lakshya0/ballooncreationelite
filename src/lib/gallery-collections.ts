@@ -1,3 +1,4 @@
+import { weddingPart } from "./gallery-wedding-groups";
 import { galleryMedia, type GalleryMedia } from "./creation-gallery";
 export type GalleryCollection = {
   id: string;
@@ -37,7 +38,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Wedding",
     "THE FOREVER COLLECTION",
     "A setting worthy of your forever.",
-    "Explore floral stages and wedding settings with a romantic sense of occasion.",
+    "Mehndi, Haldi, stage decoration and entrances—already arranged for each part of your celebration.",
     "romantic",
     "180px 180px 8px 8px",
     3,
@@ -253,5 +254,11 @@ export function collectionViewerItems(
   items: readonly GalleryMedia[],
 ): GalleryMedia[] {
   const active = items.find((item) => item.id === activeId);
-  return active ? items.filter((item) => item.occasion === active.occasion) : [];
+  return active
+    ? items.filter(
+        (item) =>
+          item.occasion === active.occasion &&
+          (active.occasion !== "Wedding" || weddingPart(item).id === weddingPart(active).id),
+      )
+    : [];
 }

@@ -1179,3 +1179,154 @@
   top: 40px;
   right: 40px;
 }
+
+/* Wedding remains one parent collection, with its own automatically ordered chapters. */
+.gc-wedding-title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.gc-wedding-title-link:hover {
+  color: #996349;
+}
+.gc-wedding-chapters {
+  margin-top: 30px;
+}
+.gc-wedding-welcome {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  justify-content: space-between;
+  border-top: 1px solid #bca17b55;
+  padding-top: 24px;
+}
+.gc-wedding-welcome p {
+  max-width: 560px;
+  color: #756553;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.gc-wedding-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: #805f40;
+  font-size: 13px;
+  padding: 10px 0;
+}
+.gc-wedding-jumps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 50px;
+}
+.gc-wedding-jumps button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  border: 1px solid #bca17b66;
+  border-radius: 16px;
+  padding: 14px 12px;
+  background: #fff9ef77;
+  min-height: 84px;
+}
+.gc-wedding-jumps img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.gc-wedding-jumps span {
+  font-size: 13px;
+  line-height: 1.5;
+  flex: 1;
+}
+.gc-wedding-jumps small {
+  display: block;
+  font-size: 11px;
+  color: #8a6c4a;
+  margin-top: 3px;
+}
+.gc-wedding-chapter {
+  scroll-margin-top: 100px;
+  margin-top: 60px;
+}
+.gc-wedding-chapter > header {
+  display: flex;
+  gap: 22px;
+  max-width: 1000px;
+  margin: 0 auto 28px;
+}
+.gc-wedding-chapter-number {
+  font-family: var(--font-display);
+  font-size: 40px;
+  color: #b39872;
+  line-height: 1;
+}
+.gc-wedding-chapter > header h4 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 400;
+  margin: 8px 0;
+  line-height: 1.2;
+}
+.gc-wedding-chapter p {
+  color: #756553;
+  font-size: 14px;
+  line-height: 1.85;
+  max-width: 540px;
+}
+.gc-wedding-chapter header small {
+  display: block;
+  color: #8a6c4a;
+  font-size: 11px;
+  margin-top: 10px;
+}
+.gc-collection[data-gallery-style="wedding"] .gc-heart {
+  top: 55px;
+  right: 55px;
+}
+.gc-collection[data-gallery-style="wedding"] .gc-wedding-chapter .gc-heart {
+  top: 40px;
+  right: 40px;
+}
+.gc-collection[data-gallery-style="wedding"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+  object-fit: contain;
+}
+@media (max-width: 1000px) {
+  .gc-wedding-jumps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .gc-wedding-welcome {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .gc-wedding-jumps {
+    gap: 8px;
+  }
+  .gc-wedding-jumps button {
+    gap: 8px;
+    padding: 12px 9px;
+  }
+  .gc-wedding-jumps img {
+    width: 38px;
+    height: 38px;
+  }
+  .gc-wedding-jumps button > svg {
+    display: none;
+  }
+  .gc-wedding-jumps span {
+    font-size: 12px;
+  }
+  .gc-wedding-chapter > header {
+    gap: 16px;
+  }
+}

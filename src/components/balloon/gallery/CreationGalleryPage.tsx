@@ -1,3 +1,5 @@
+import { weddingPart, weddingPreview } from "@/lib/gallery-wedding-groups";
+import { WeddingChapters } from "./WeddingChapters";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -126,7 +128,12 @@ export function CreationGalleryPage() {
   const activeIndex = viewerItems.findIndex((item) => item.id === activeId);
   const visibleCount = collections.reduce(
     (total, section) =>
-      total + Math.min(section.items.length, sectionLimits[section.id] ?? section.initial),
+      total +
+      (section.id === "wedding"
+        ? style === "Wedding"
+          ? section.items.length
+          : weddingPreview(section.items).length
+        : Math.min(section.items.length, sectionLimits[section.id] ?? section.initial)),
     0,
   );
   const hasFilms = galleryMedia.some((item) => item.kind === "video");
@@ -161,6 +168,92 @@ export function CreationGalleryPage() {
     setGroup("All moments");
     setSectionLimits({});
   };
+  const navigateWedding = (next: "Wedding" | "all") => {
+    chooseStyle(next);
+    requestAnimationFrame(() =>
+      document
+        .getElementById("collection-wedding")
+        ?.scrollIntoView?.({ behavior: "instant", block: "start" }),
+    );
+  };
+  const openWedding = () => navigateWedding("Wedding");
+  const renderCard = (item: GalleryMedia) => (
+    <article
+      className={[
+        "gc-card",
+        (item.width > item.height * 1.45 ||
+          (["Naming Ceremony", "Proposal", "Wedding"].includes(item.occasion) &&
+            item.width > item.height)) &&
+          "gc-card-landscape",
+        item.width < 400 && item.height < 400 && "gc-card-small",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      key={item.id}
+      data-gallery-id={item.id}
+    >
+      <div className="gc-picture">
+        <button
+          className="gc-open"
+          aria-label={`Open ${item.occasion}: ${item.title}`}
+          onClick={(event) => {
+            opener.current = event.currentTarget;
+            setActiveId(item.id);
+          }}
+        >
+          <img
+            src={item.image}
+            alt={item.detail}
+            width={item.width}
+            height={item.height}
+            loading="lazy"
+            decoding="async"
+            style={{ objectPosition: item.position }}
+          />
+          <span className="gc-view-hint">
+            {item.kind === "video" ? (
+              <>
+                <Play size={16} fill="currentColor" /> Watch film
+              </>
+            ) : (
+              <>
+                View the moment <ArrowUpRight size={16} />
+              </>
+            )}
+          </span>
+        </button>
+        <button
+          className="gc-heart"
+          aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
+          aria-pressed={saved.includes(item.id)}
+          onClick={() => toggle(item.id)}
+        >
+          <Heart size={19} fill={saved.includes(item.id) ? "currentColor" : "none"} />
+        </button>
+        {item.kind === "video" && (
+          <span className="gc-film-label">
+            <Play size={13} /> FILM
+          </span>
+        )}
+      </div>
+      <div className="gc-card-copy">
+        <div>
+          <span>{item.occasion === "Wedding" ? weddingPart(item).name : item.occasion}</span>
+          <small>{item.reference}</small>
+        </div>
+        <h4>
+          <button
+            onClick={(event) => {
+              opener.current = event.currentTarget;
+              setActiveId(item.id);
+            }}
+          >
+            {item.title}
+          </button>
+        </h4>
+      </div>
+    </article>
+  );
   const hero = galleryMedia.find((item) => item.id === "baby-shower")!;
   const accent = galleryMedia.find((item) => item.id === "kids-birthday-princess")!;
   return (
@@ -362,7 +455,19 @@ export function CreationGalleryPage() {
                       </span>
                       <div>
                         <span className="eyebrow">{section.eyebrow}</span>
-                        <h3 id={`collection-title-${section.id}`}>{section.name}</h3>
+                        <h3 id={`collection-title-${section.id}`}>
+                          {section.id === "wedding" && style !== "Wedding" ? (
+                            <button
+                              className="gc-wedding-title-link"
+                              onClick={openWedding}
+                              aria-label="Open Wedding collection"
+                            >
+                              Wedding <ArrowUpRight size={24} />
+                            </button>
+                          ) : (
+                            section.name
+                          )}
+                        </h3>
                       </div>
                     </div>
                     <div className="gc-collection-intro">
@@ -374,112 +479,52 @@ export function CreationGalleryPage() {
                       </span>
                     </div>
                   </header>
-                  <div className="gc-grid">
-                    {section.items
-                      .slice(0, sectionLimits[section.id] ?? section.initial)
-                      .map((item) => (
-                        <article
-                          className={[
-                            "gc-card",
-                            (item.width > item.height * 1.45 ||
-                              (["Naming Ceremony", "Proposal"].includes(item.occasion) &&
-                                item.width > item.height)) &&
-                              "gc-card-landscape",
-                            item.width < 400 && item.height < 400 && "gc-card-small",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                          key={item.id}
-                          data-gallery-id={item.id}
-                        >
-                          <div className="gc-picture">
+                  {section.id === "wedding" && style === "Wedding" ? (
+                    <WeddingChapters
+                      items={section.items}
+                      renderCard={renderCard}
+                      onBack={() => navigateWedding("all")}
+                    />
+                  ) : (
+                    <>
+                      <div className="gc-grid">
+                        {(section.id === "wedding" ? weddingPreview(section.items) : section.items)
+                          .slice(0, sectionLimits[section.id] ?? section.initial)
+                          .map(renderCard)}
+                      </div>
+                      {section.id === "wedding" ? (
+                        <div className="gc-section-more">
+                          <button className="glass-button" onClick={openWedding}>
+                            Explore Wedding collection <ArrowUpRight size={17} />
+                          </button>
+                          <span>Mehndi · Haldi · Stage Decoration · Entrance &amp; Aisle</span>
+                        </div>
+                      ) : (
+                        section.items.length > (sectionLimits[section.id] ?? section.initial) && (
+                          <div className="gc-section-more">
                             <button
-                              className="gc-open"
-                              aria-label={`Open ${item.occasion}: ${item.title}`}
-                              onClick={(event) => {
-                                opener.current = event.currentTarget;
-                                setActiveId(item.id);
-                              }}
+                              className="glass-button"
+                              onClick={() =>
+                                setSectionLimits((previous) => ({
+                                  ...previous,
+                                  [section.id]: (previous[section.id] ?? section.initial) + 6,
+                                }))
+                              }
                             >
-                              <img
-                                src={item.image}
-                                alt={item.detail}
-                                width={item.width}
-                                height={item.height}
-                                loading="lazy"
-                                decoding="async"
-                                style={{ objectPosition: item.position }}
-                              />
-                              <span className="gc-view-hint">
-                                {item.kind === "video" ? (
-                                  <>
-                                    <Play size={16} fill="currentColor" /> Watch film
-                                  </>
-                                ) : (
-                                  <>
-                                    View the moment <ArrowUpRight size={16} />
-                                  </>
-                                )}
-                              </span>
+                              Explore more {section.name} looks <ArrowDown size={17} />
                             </button>
-                            <button
-                              className="gc-heart"
-                              aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
-                              aria-pressed={saved.includes(item.id)}
-                              onClick={() => toggle(item.id)}
-                            >
-                              <Heart
-                                size={19}
-                                fill={saved.includes(item.id) ? "currentColor" : "none"}
-                              />
-                            </button>
-                            {item.kind === "video" && (
-                              <span className="gc-film-label">
-                                <Play size={13} /> FILM
-                              </span>
-                            )}
+                            <span>
+                              Showing{" "}
+                              {Math.min(
+                                section.items.length,
+                                sectionLimits[section.id] ?? section.initial,
+                              )}{" "}
+                              of {section.items.length} in this collection
+                            </span>
                           </div>
-                          <div className="gc-card-copy">
-                            <div>
-                              <span>{item.occasion}</span>
-                              <small>{item.reference}</small>
-                            </div>
-                            <h4>
-                              <button
-                                onClick={(event) => {
-                                  opener.current = event.currentTarget;
-                                  setActiveId(item.id);
-                                }}
-                              >
-                                {item.title}
-                              </button>
-                            </h4>
-                          </div>
-                        </article>
-                      ))}
-                  </div>
-                  {section.items.length > (sectionLimits[section.id] ?? section.initial) && (
-                    <div className="gc-section-more">
-                      <button
-                        className="glass-button"
-                        onClick={() =>
-                          setSectionLimits((previous) => ({
-                            ...previous,
-                            [section.id]: (previous[section.id] ?? section.initial) + 6,
-                          }))
-                        }
-                      >
-                        Explore more {section.name} looks <ArrowDown size={17} />
-                      </button>
-                      <span>
-                        Showing{" "}
-                        {Math.min(
-                          section.items.length,
-                          sectionLimits[section.id] ?? section.initial,
-                        )}{" "}
-                        of {section.items.length} in this collection
-                      </span>
-                    </div>
+                        )
+                      )}
+                    </>
                   )}
                 </section>
               ))}
@@ -607,7 +652,9 @@ export function CreationGalleryPage() {
               </div>
               <div className="gc-viewer-copy">
                 <span className="eyebrow">
-                  {active.occasion} · {active.reference}
+                  {active.occasion}
+                  {active.occasion === "Wedding" ? ` / ${weddingPart(active).name}` : ""} ·{" "}
+                  {active.reference}
                 </span>
                 <Dialog.Title>{active.title}</Dialog.Title>
                 <Dialog.Description>{active.detail}</Dialog.Description>

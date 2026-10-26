@@ -1,3 +1,5 @@
+import { galleryWeddingMedia } from "./gallery-wedding";
+import { weddingPart, type WeddingPartId } from "./gallery-wedding-groups";
 import { galleryProposalMedia } from "./gallery-proposal";
 import { galleryNamingBatch2Media } from "./gallery-naming-batch-2";
 import { galleryNamingMedia } from "./gallery-naming";
@@ -22,6 +24,7 @@ export const galleryGroups = [
 ] as const;
 export type GalleryGroup = (typeof galleryGroups)[number];
 type BaseMedia = {
+  weddingPart?: WeddingPartId;
   id: string;
   reference: string;
   title: string;
@@ -216,6 +219,7 @@ export const galleryMedia: GalleryMedia[] = definitions
       kind: "image",
       title,
       occasion,
+      ...(occasion === "Wedding" ? { weddingPart: "stage" as const } : {}),
       group,
       detail,
       image: photo.image,
@@ -237,6 +241,7 @@ export const galleryMedia: GalleryMedia[] = definitions
     galleryNamingMedia,
     galleryNamingBatch2Media,
     galleryProposalMedia,
+    galleryWeddingMedia,
   );
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {
@@ -261,7 +266,10 @@ export function galleryMessage(items: readonly GalleryMedia[]): string {
     items.length
       ? "I like these looks from Our Creations:"
       : "I would like help choosing a celebration setup.",
-    ...items.map((item) => `${item.reference} · ${item.occasion} — ${item.title}`),
+    ...items.map(
+      (item) =>
+        `${item.reference} · ${item.occasion}${item.occasion === "Wedding" ? ` / ${weddingPart(item).name}` : ""} — ${item.title}`,
+    ),
     "",
     "Event date:",
     "Venue / area:",
