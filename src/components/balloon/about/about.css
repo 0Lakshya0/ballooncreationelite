@@ -190,6 +190,7 @@
 .ab-root .ab-facts {
   display: flex;
   flex-wrap: wrap;
+  row-gap: 18px;
   margin-top: 46px;
   padding-top: 24px;
   border-top: 1px solid var(--ab-line);

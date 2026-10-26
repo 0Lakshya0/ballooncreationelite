@@ -34,8 +34,8 @@ import { RotatingLines } from "@/components/balloon/rotating-lines";
 import { CategoryMarquee } from "@/components/balloon/category-marquee";
 import { celebrations, contact } from "@/lib/celebrations";
 import { heroSlides } from "@/lib/hero-slides";
-import logoAsset from "@/assets/profile-logo.jpg.asset.json";
-const logo = logoAsset.url;
+import brandLogo from "@/assets/brand-logo.png";
+const logo = brandLogo;
 
 const SITE_URL = "https://ballooncreationelite.lovable.app";
 

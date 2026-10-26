@@ -28,3 +28,33 @@ it("does not expose arbitrary server/database errors to visitors", async () => {
   );
   expect(container.textContent).not.toContain("PRIVATE_DATABASE_DETAILS");
 });
+
+it("preserves the failed form brief in the reviewed WhatsApp fallback instead of losing the visitor's details", async () => {
+  vi.mocked(submitInquiry).mockRejectedValueOnce(new Error(STATIC_INQUIRY_MESSAGE));
+  const { container } = render(
+    <Concierge occasion="Birthday" onOccasionChange={() => {}} compact />,
+  );
+  for (const [name, value] of Object.entries({
+    name: "Test Visitor",
+    phone: "9876543210",
+    event_date: "2027-02-28",
+    venue: "Vijay Nagar",
+    vision: "A pale pink backdrop",
+  }))
+    fireEvent.change(container.querySelector(`[name="${name}"]`)!, { target: { value } });
+  fireEvent.submit(container.querySelector("form")!);
+  const alert = await screen.findByRole("alert");
+  const link = alert.querySelector("a")!;
+  const text = new URL(link.href).searchParams.get("text")!;
+  for (const value of [
+    "Test Visitor",
+    "9876543210",
+    "Birthday",
+    "2027-02-28",
+    "Vijay Nagar",
+    "A pale pink backdrop",
+  ])
+    expect(text).toContain(value);
+  expect(text).not.toContain("website:");
+  expect(container.querySelector(".inquiry-success")).toBeNull();
+});

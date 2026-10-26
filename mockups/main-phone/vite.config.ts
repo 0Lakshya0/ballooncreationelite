@@ -37,7 +37,6 @@ function portablePhoneView(): Plugin {
         return path.join(dir, "root.tsx");
     },
     transform(source, id) {
-      if (id.includes("/src/assets/profile-logo.jpg.asset.json")) return undefined;
       if (id.endsWith("/celebrations.ts") || id.endsWith("/service-details.ts")) {
         const glob =
           /import\.meta\.glob<string>\(\s*["']\/src\/assets\/categories\/\*\.webp["'],\s*\{\s*eager:\s*true,\s*import:\s*["']default["'],?\s*\}\s*\)/;
@@ -70,15 +69,6 @@ function portablePhoneView(): Plugin {
         return source.replace(
           /\/decor-types\/fonts\/([^"')\s]+)/g,
           (_all, name: string) => fonts[name] ?? _all,
-        );
-      if (
-        id.endsWith("/src/routes/index.tsx") ||
-        id.endsWith("/about/AboutUsPage.tsx") ||
-        id.endsWith("/site-header.tsx")
-      )
-        return source.replace(
-          "const logo = logoAsset.url;",
-          `const logo = ${JSON.stringify(dataUri("public/favicon.png", "image/png"))};`,
         );
       if (id.endsWith("/src/routes/decor-collections.tsx"))
         return source.replace(

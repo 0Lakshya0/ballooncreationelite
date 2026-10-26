@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CHIP_GROUPS, DECOR_DATA, type Chip, type ChipOption } from "./decor-data";
@@ -297,7 +298,9 @@ export default function DecorTypesSection({
       </section>
       <div className="atelier-signoff wrap">
         <span>We decorate your happiness</span>
-        <a href="#concierge">PLAN YOUR CELEBRATION ↗</a>
+        <Link to="/lets-celebrate" hash="callback">
+          PLAN YOUR CELEBRATION ↗
+        </Link>
       </div>
 
       {/* ---------------- detail sheet ---------------- */}

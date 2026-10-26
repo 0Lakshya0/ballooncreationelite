@@ -1,4 +1,10 @@
 import { act } from "react";
+import {
+  createRouter,
+  createRootRoute,
+  createMemoryHistory,
+  RouterContextProvider,
+} from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
@@ -14,7 +20,17 @@ function mount() {
   const box = document.createElement("div");
   document.body.appendChild(box);
   root = createRoot(box);
-  act(() => root!.render(<DecorTypesSection />));
+  const router = createRouter({
+    routeTree: createRootRoute(),
+    history: createMemoryHistory({ initialEntries: ["/decor-collections"] }),
+  });
+  act(() =>
+    root!.render(
+      <RouterContextProvider router={router}>
+        <DecorTypesSection />
+      </RouterContextProvider>,
+    ),
+  );
   return box;
 }
 const click = (e: Element | null | undefined) =>
@@ -76,6 +92,10 @@ describe("Integrated approved decor collections", () => {
     expect(c.querySelectorAll("canvas")).toHaveLength(6); // no duplicate standalone hero
     expect(c.querySelectorAll("iframe,script,h1,.photo-shoreline")).toHaveLength(0);
     expect(c.textContent).toContain("We decorate your happiness");
+    expect(c.querySelector(".atelier-signoff a")).toHaveAttribute(
+      "href",
+      "/lets-celebrate#callback",
+    );
     expect(CHIP_GROUPS.map((g) => g.chips.length)).toEqual([8, 9, 8]);
   });
   it("opens every style and all 150 options with complete detail and circle-profile markup", () => {

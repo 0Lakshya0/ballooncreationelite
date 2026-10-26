@@ -7,11 +7,12 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview",
+    "preview": "node scripts/preview-production.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:preview": "node --test scripts/preview-production.check.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

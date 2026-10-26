@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollProgress } from "@/components/balloon/scroll-progress";
 import { contact } from "@/lib/celebrations";
 import { serviceDetails } from "@/lib/service-details";
-import logoAsset from "@/assets/profile-logo.jpg.asset.json";
-const logo = logoAsset.url;
+import brandLogo from "@/assets/brand-logo.png";
+const logo = brandLogo;
 
 const sections = [
   { to: "/signature-standard", label: "The signature standard" },

@@ -6,10 +6,10 @@ import wedding from "@/assets/wedding.jpg";
 import anniversary from "@/assets/anniversary.jpg";
 import hall from "@/assets/celebration-hero.jpg";
 import { SiteLiquidBackground } from "../site-liquid-background";
-import logoAsset from "@/assets/profile-logo.jpg.asset.json";
+import brandLogo from "@/assets/brand-logo.png";
 import "../decor/collections-page.css";
 import "./about.css";
-const logo = logoAsset.url;
+const logo = brandLogo;
 
 // Owner-supplied About page, adapted to the existing router and bundled imagery.
 const BRAND = { name: "Balloon Creation", tagline: "We decorate your happiness", years: 10 };

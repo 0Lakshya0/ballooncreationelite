@@ -1,29 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
-import { isKnownOccasion } from "./occasion-choices";
-
-const inquirySchema = z.object({
-  name: z.string().trim().min(2).max(100),
-  phone: z
-    .string()
-    .trim()
-    .regex(/^[+\d\s()-]{10,20}$/)
-    .transform((value) => value.replace(/\D/g, "").replace(/^91(?=\d{10}$)/, ""))
-    .refine((value) => /^\d{10}$/.test(value), "Please enter a valid Indian phone number."),
-  occasion: z.string().refine((value) => isKnownOccasion(value)),
-  event_date: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .refine(
-      (value) =>
-        !Number.isNaN(Date.parse(value)) &&
-        value >= new Date(Date.now() + 330 * 60_000).toISOString().slice(0, 10),
-      "Please choose a current or future date.",
-    ),
-  venue: z.string().trim().min(2).max(200),
-  vision: z.string().trim().max(2000),
-  website: z.string().max(0),
-});
+import { inquirySchema } from "./concierge-validation";
 
 export const submitInquiry = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => inquirySchema.parse(data))

@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { afterEach, expect, it, vi } from "vitest";
 import AboutUsPage, { Photo } from "./AboutUsPage";
-import logoAsset from "@/assets/profile-logo.jpg.asset.json";
+import brandLogo from "@/assets/brand-logo.png";
 vi.mock("../decor/liquid-renderer", () => ({ mountLiquidSurfaces: vi.fn(() => vi.fn()) }));
 afterEach(() => {
   cleanup();
@@ -79,7 +79,7 @@ it("uses collection header layout, the actual Home profile photo, and working ba
   expect(document.querySelector(".collections-page-header .collections-wordmark")).toBeTruthy();
   expect(screen.getByRole("img", { name: "Balloon Creation logo" })).toHaveAttribute(
     "src",
-    logoAsset.url,
+    brandLogo,
   );
   expect(document.querySelector(".ab-brand-mark")).toBeNull();
   expect(screen.queryByRole("button", { name: "Open menu" })).toBeNull();

@@ -1,6 +1,6 @@
 import { occasionNames } from "@/lib/occasion-entries";
 import { signatureOccasionNames } from "@/lib/occasion-choices";
-import { STATIC_INQUIRY_MESSAGE } from "@/lib/concierge-messages";
+import { STATIC_INQUIRY_MESSAGE, consultationDraft } from "@/lib/concierge-messages";
 import { useState, type FormEvent } from "react";
 import {
   ArrowUpRight,
@@ -28,6 +28,7 @@ export function Concierge({
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [error, setError] = useState("");
+  const [failedBrief, setFailedBrief] = useState("");
   const [minDate] = useState(todayInIndia);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -38,6 +39,7 @@ export function Concierge({
       await submitInquiry({ data: Object.fromEntries(form.entries()) });
       setStatus("success");
     } catch (reason) {
+      setFailedBrief(consultationDraft(Object.fromEntries(form.entries())));
       // Server errors can carry infrastructure detail — log it, show something human.
       setError(
         reason instanceof Error && reason.message === STATIC_INQUIRY_MESSAGE
@@ -49,9 +51,10 @@ export function Concierge({
   }
 
   const whatsappHref = whatsappLink(
-    occasion
-      ? `Hello Balloon Creation! I am planning a ${occasion}. Could you share some ideas?`
-      : "Hello Balloon Creation! I would like to plan a celebration.",
+    failedBrief ||
+      (occasion
+        ? `Hello Balloon Creation! I am planning a ${occasion}. Could you share some ideas?`
+        : "Hello Balloon Creation! I would like to plan a celebration."),
   );
 
   return (
