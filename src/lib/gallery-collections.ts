@@ -118,7 +118,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Pet Decoration",
     "THE LITTLE PAWS EDIT",
     "For your smallest favourite guest.",
-    "Playful pet-themed celebration settings.",
+    "Pet portraits, playful photo corners and animal-inspired settings, each with its own little character.",
     "playful",
     "30px 8px 30px 8px",
     3,

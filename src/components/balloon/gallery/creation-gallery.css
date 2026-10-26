@@ -1357,3 +1357,9 @@
   top: 30px;
   right: 30px;
 }
+
+/* Preserve complete Pet Decoration scenes, portraits, signage and source marks. */
+.gc-collection[data-gallery-style="pet-decoration"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}

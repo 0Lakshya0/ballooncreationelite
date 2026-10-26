@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates207 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(207);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(207);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(207);
+it("curates227 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(227);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(227);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(227);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[123]|gallery-naming-batch-[12]|gallery-proposal-batch-1|gallery-wedding-batch-1|gallery-showroom-batch-1|gallery-welcome-baby-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[123]|gallery-naming-batch-[12]|gallery-proposal-batch-1|gallery-wedding-batch-1|gallery-showroom-batch-1|gallery-welcome-baby-batch-1|gallery-pet-batch-1)\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -74,68 +74,74 @@ it("opens a real page, progressively shows photos, and filters without making ne
   await mount();
   expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Beautiful moments.");
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(20);
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(44);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(46);
   const kids = within(
     document.querySelector('[data-gallery-style="kids-birthday"]') as HTMLElement,
   );
   expect(kids.getAllByRole("article")).toHaveLength(6);
   fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(50);
-  fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
   expect(document.querySelectorAll(".gc-card")).toHaveLength(52);
+  fireEvent.click(kids.getByRole("button", { name: "Explore more Kids Birthday looks" }));
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(54);
   expect(document.querySelectorAll('[data-gallery-style="birthday"] .gc-card')).toHaveLength(4);
   expand("birthday", "Birthday");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(55);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(57);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(61);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(63);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(67);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(69);
   expand("baby-shower", "Baby Shower");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(70);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(72);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(76);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(78);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(82);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(84);
   expand("anniversary", "Anniversary");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(87);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(89);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(93);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(95);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(99);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(101);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(105);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(107);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(111);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(113);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(117);
-  expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(123);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(119);
   expand("first-night", "First Night");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(125);
+  expand("first-night", "First Night");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(127);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(131);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(133);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(137);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(139);
   expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(142);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(144);
   expand("proposal", "Proposal");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(148);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(150);
   expand("proposal", "Proposal");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(154);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(156);
   expand("proposal", "Proposal");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(160);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(162);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(166);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(168);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(172);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(174);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(175);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(177);
   expand("welcome-baby", "Welcome Baby");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(181);
-  expand("welcome-baby", "Welcome Baby");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(187);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(183);
   expand("welcome-baby", "Welcome Baby");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(189);
+  expand("welcome-baby", "Welcome Baby");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(191);
+  expand("pet-decoration", "Pet Decoration");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(197);
+  expand("pet-decoration", "Pet Decoration");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(203);
+  expand("pet-decoration", "Pet Decoration");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(209);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -164,7 +170,7 @@ it("saves locally, creates a meaningful WhatsApp shortlist and resets a saved-on
   fireEvent.click(shortlist.getByRole("button", { name: "Clear" }));
   expect(screen.getByRole("status")).toHaveTextContent("No saved looks");
   fireEvent.click(screen.getByRole("button", { name: "Browse all moments" }));
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(44);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(46);
 });
 it("offers keyboard lightbox navigation, close/focus return and a real single-look enquiry", async () => {
   await mount();
@@ -232,7 +238,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    207,
+    227,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -426,7 +432,7 @@ it("opens one Wedding parent into automatically ordered chapters without requiri
     expect(document.querySelectorAll(`[data-wedding-group="${id}"] .gc-card`)).toHaveLength(n);
   fireEvent.click(screen.getByRole("button", { name: /^All collections$/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(20);
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(44);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(46);
 });
 it("direct Wedding selection and heading open show the same chapters, and its photo viewer never mixes Mehndi with Haldi", async () => {
   await mount();
