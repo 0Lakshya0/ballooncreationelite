@@ -1,10 +1,10 @@
 # Gallery style progress — owner/chat only
 
-Updated2026-10-26 after Grand Opening batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
+Updated2026-10-26 after Farewell Party batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
 
 “Batch added” means supplied photos have been received and processed, not that a style is finished forever or meets the aspirational20–25 unique photos/style. Existing reference photos are included in gallery counts, which are not verified owned-client-work counts. Wedding chapters count as one parent style. Deduplicate globally without moving old refs or losing shortlists.
 
-## ✅ Received batches added —13 styles
+## ✅ Received batches added —14 styles
 
 | Style | Current gallery photos |
 | --- | ---: |
@@ -21,10 +21,11 @@ Updated2026-10-26 after Grand Opening batch1. Never display this tracker, pendin
 | Pet Decoration |21|
 | House Warming |21|
 | Grand Opening |21|
+| Farewell Party |16|
 
 Wedding automatically contains Mehndi7 → Haldi6 → Stage Decoration6 → Entrance & Aisle2.
 
-## Pending supplied-photo batches —7 styles
+## Pending supplied-photo batches —6 styles
 
 These styles still have one pre-existing reference each; no supplied batch is recorded yet.
 
@@ -33,13 +34,12 @@ These styles still have one pre-existing reference each; no supplied batch is re
 - 🔴 Bachelor Party
 - 🔴 Corporate Events
 - 🔴 Product Launch
-- 🔴 Farewell Party
 - 🔴 Annual Day Function
 
 ## Latest batch / delivery
 
-20 Grand Opening inputs:all20 unique BC248–267, no repeats. Grand Opening1→21. All old247 refs/shortlists unchanged; next unused BC268. Gallery267 images/20 styles/50 initial cards.69 focused gallery tests/19 files, types/lint/portable production build PASS. Four focused browser cases native390/phone320/390/1440 plus phone390/1440 reloads PASS; desktop uses fresh browser, no historical reload-race-fix claim. User supplied Grand Opening instead of the requested Car Decoration; Car Decoration remains pending and is still recommended next (10 photos).
+16 Farewell inputs:15 new BC268–282 +1 exact existing Farewell Party BC19 repeat, retained once. Farewell Party1→16; all16 supplied scenes now represented. All old267 refs/shortlists unchanged; next unused BC283. Gallery282 images/20styles/52initial/264 expanded non-Wedding cards; Work & events58.72 focused gallery tests/20 files, types/lint/portable production build PASS. Four browser cases native390/phone320/390/1440 plus phone390/1440 reloads PASS; fresh desktop, no historical reload-race-fix claim. Car Decoration remains pending, recommended next10 photos.
 
-Keep all user-classified mixed-celebration entrances, storefronts, ribbon/bow setups and floral opening stand in Grand Opening. Preserve complete scenes, marks, people, signage, printed promotions/contacts/QR codes without authenticity/ownership/client/affiliation/material/safety or promotion-validity claims. Received/processed counts are not verified owned-client-work counts. Continue cached tools/focused QA and avoid unrelated redesign/providers.
+Keep all user-classified graduation/prom/retirement, cinema board, numbered draped celebration backdrop, masquerade and memory-wall scenes in Farewell Party. Preserve whole scenes, source orientation (including sideways graduation source), people/portraits/collages, marks, school/company/personal lettering, dates/numerals/QR codes. No identity/affiliation/authenticity/ownership/client/material/safety/current-date/valid-QR claims. Received/processed ≠verified owned-client work or20–25 photos/style. Continue cached tooling/focused QA, no unrelated redesign/providers.
 
-Source `98a5a8bc6b8ca5dad5c61b6365d2f0cc36c2bad0`; phone artifact `f0d788c7edb46020119de39e4a9a0e23acf5fc7e`; published gallery https://clck.ru/3WgxLW.
+Source `e83c82116c4a1e23f5ffeb7e9e384cc140ed4911`; phone artifact `33ec557f0d5a1829463aca7c62feceb66a65b07f`; published gallery https://clck.ru/3WgyNS.
