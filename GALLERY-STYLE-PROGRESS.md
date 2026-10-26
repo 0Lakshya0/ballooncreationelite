@@ -1,10 +1,10 @@
 # Gallery style progress — owner/chat only
 
-Updated2026-10-26 after Welcome Baby batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
+Updated2026-10-26 after Pet Decoration batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
 
 “Batch added” means supplied photos have been received and processed, not that a style is finished forever or meets the aspirational20–25 unique photos/style. Existing reference photos are included in gallery counts, which are not verified owned-client-work counts. Wedding chapters count as one parent style. Deduplicate globally without moving old refs or losing shortlists.
 
-## ✅ Received batches added —10 styles
+## ✅ Received batches added —11 styles
 
 | Style | Current gallery photos |
 | --- | ---: |
@@ -18,16 +18,16 @@ Updated2026-10-26 after Welcome Baby batch1. Never display this tracker, pending
 | Wedding |21|
 | Showroom Setup |18|
 | Welcome Baby |17|
+| Pet Decoration |21|
 
 Wedding automatically contains Mehndi7 → Haldi6 → Stage Decoration6 → Entrance & Aisle2.
 
-## Pending supplied-photo batches —10 styles
+## Pending supplied-photo batches —9 styles
 
 These styles still have one pre-existing reference each; no supplied batch is recorded yet.
 
 - 🔴 Room Surprise
-- 🔴 Pet Decoration — recommended next:10 photos
-- 🔴 House Warming
+- 🔴 House Warming — recommended next:10 photos
 - 🔴 Car Decoration
 - 🔴 Bachelor Party
 - 🔴 Grand Opening
@@ -38,6 +38,8 @@ These styles still have one pre-existing reference each; no supplied batch is re
 
 ## Latest batch / delivery
 
-18 Welcome Baby inputs:16 unique additions BC192–207; exact BC47 Baby Shower repeat and re-encoded existing BC11 Welcome Baby repeat retained once in their original styles. Welcome Baby1→17;3 more unique photos would reach20, but no invention or forced quota. All old191 refs unchanged; next unused BC208. Gallery207 images/20 styles/44 initial cards.335 distinct tests covered with the unrelated5second Decor test retried successfully in isolation; native/phone builds, six browser cases and two isolated phone reloads PASS. User requested faster future batching; reuse cached tools and avoid unrelated work.
+20 Pet Decoration inputs:all20 unique, new BC208–227, no repeats. Pet Decoration1→21. All old207 refs/shortlists unchanged; next unused BC228. Gallery227 images/20 styles/46 initial cards.63 distinct focused gallery tests across17 files covered successfully (new-test ID corrected and retried), types/lint/portable production build PASS. Four focused browser cases native390/phone320/390/1440 plus phone390/1440 reloads PASS; initial shared-browser1440 selector timeout passed in a fresh-browser rerun, no general race-fix claim. User requests faster batching; focused QA/cached tooling/no unrelated redesign/providers.
 
-Source `fa16cf4a558cf1d9a599b9d67745d3b4e619ae85`; phone artifact `b85767d91e46f33cdb422f557e40bbc6649f07dd`; published gallery https://clck.ru/3WgseH.
+Keep user-classified safari, memory/portrait walls, shop displays, playhouses and pet photo corners in Pet Decoration without ownership, authenticity, affiliation or pet-safety claims; preserve marks and whole scenes. Received/processed counts are not verified owned-client-work counts.
+
+Source `3a02462fe33240d0ec5e73e27109fcefc27fc8c1`; phone artifact `b89c6e4f7ee4da656d684286cba7759f3c50728b`; published gallery https://clck.ru/3Wgtpx.
