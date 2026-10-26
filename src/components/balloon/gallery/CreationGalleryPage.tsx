@@ -1,7 +1,9 @@
+import { carPart, carChapters, type CarPartId } from "@/lib/gallery-car-groups";
+import { CarCollections } from "./CarCollections";
 import { weddingPart, weddingPreview } from "@/lib/gallery-wedding-groups";
 import { WeddingChapters } from "./WeddingChapters";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   ArrowDown,
@@ -74,15 +76,32 @@ export function GalleryMediaView({ item }: { item: GalleryMedia }) {
 }
 
 export function CreationGalleryPage() {
+  const search = useSearch({ strict: false }) as { collection?: string; carPart?: CarPartId };
+  const initialCar = search.collection === "car";
+  const [carSelection, setCarSelection] = useState<CarPartId | null>(
+    initialCar && (search.carPart === "birthday" || search.carPart === "wedding")
+      ? search.carPart
+      : null,
+  );
   const opener = useRef<HTMLButtonElement | null>(null);
   const [group, setGroup] = useState<GalleryGroup>("All moments");
   const [saved, setSaved] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
   const [kind, setKind] = useState("all");
-  const [style, setStyle] = useState("all");
+  const [style, setStyle] = useState(initialCar ? "Car Decoration" : "all");
   const [sectionLimits, setSectionLimits] = useState<Record<string, number>>({});
   const [activeId, setActiveId] = useState<string | null>(null);
+  useEffect(() => {
+    if (search.collection === "car") {
+      setStyle("Car Decoration");
+      setGroup("All moments");
+      setCarSelection(
+        search.carPart === "birthday" || search.carPart === "wedding" ? search.carPart : null,
+      );
+      setSectionLimits({});
+    }
+  }, [search.collection, search.carPart]);
   useEffect(() => {
     try {
       setSaved(readGalleryShortlist(localStorage.getItem(SHORTLIST_KEY)));
@@ -129,11 +148,15 @@ export function CreationGalleryPage() {
   const visibleCount = collections.reduce(
     (total, section) =>
       total +
-      (section.id === "wedding"
-        ? style === "Wedding"
-          ? section.items.length
-          : weddingPreview(section.items).length
-        : Math.min(section.items.length, sectionLimits[section.id] ?? section.initial)),
+      (section.id === "car-decoration"
+        ? style === "Car Decoration" && carSelection
+          ? (carChapters(section.items).find((part) => part.id === carSelection)?.items.length ?? 0)
+          : 0
+        : section.id === "wedding"
+          ? style === "Wedding"
+            ? section.items.length
+            : weddingPreview(section.items).length
+          : Math.min(section.items.length, sectionLimits[section.id] ?? section.initial)),
     0,
   );
   const hasFilms = galleryMedia.some((item) => item.kind === "video");
@@ -145,6 +168,7 @@ export function CreationGalleryPage() {
   };
   const changeGroup = (next: GalleryGroup) => {
     setGroup(next);
+    setCarSelection(null);
     setStyle("all");
     setSectionLimits({});
   };
@@ -158,12 +182,14 @@ export function CreationGalleryPage() {
       ?.scrollIntoView({ behavior: "instant", block: "start" });
   const reset = () => {
     setGroup("All moments");
+    setCarSelection(null);
     setStyle("all");
     setSavedOnly(false);
     setKind("all");
     setSectionLimits({});
   };
   const chooseStyle = (name: string) => {
+    setCarSelection(null);
     setStyle(name);
     setGroup("All moments");
     setSectionLimits({});
@@ -177,6 +203,15 @@ export function CreationGalleryPage() {
     );
   };
   const openWedding = () => navigateWedding("Wedding");
+  const openCar = (part: CarPartId | null = null) => {
+    chooseStyle("Car Decoration");
+    setCarSelection(part);
+    requestAnimationFrame(() =>
+      document
+        .getElementById("collection-car-decoration")
+        ?.scrollIntoView?.({ behavior: "instant", block: "start" }),
+    );
+  };
   const renderCard = (item: GalleryMedia) => (
     <article
       className={[
@@ -439,11 +474,13 @@ export function CreationGalleryPage() {
             </div>
           )}
           <p className="gc-result-count" role="status">
-            {filtered.length
-              ? `Showing ${visibleCount} of ${filtered.length} ${savedOnly ? "saved " : ""}moments in ${collections.length} ${collections.length === 1 ? "collection" : "separate collections"}`
-              : savedOnly
-                ? "No saved looks in this collection yet."
-                : "No moments in this collection yet."}
+            {style === "Car Decoration" && !carSelection && filtered.length
+              ? `Choose Birthday Car Decoration or Wedding Car Decoration · ${filtered.length} ${savedOnly ? "saved " : ""}looks`
+              : filtered.length
+                ? `Showing ${visibleCount} of ${filtered.length} ${savedOnly ? "saved " : ""}moments in ${collections.length} ${collections.length === 1 ? "collection" : "separate collections"}`
+                : savedOnly
+                  ? "No saved looks in this collection yet."
+                  : "No moments in this collection yet."}
           </p>
           {filtered.length ? (
             <div className="gc-collections">
@@ -472,6 +509,14 @@ export function CreationGalleryPage() {
                             >
                               Wedding <ArrowUpRight size={24} />
                             </button>
+                          ) : section.id === "car-decoration" && style !== "Car Decoration" ? (
+                            <button
+                              className="gc-wedding-title-link"
+                              onClick={() => openCar()}
+                              aria-label="Open Car Decoration collection"
+                            >
+                              Car Decoration <ArrowUpRight size={24} />
+                            </button>
                           ) : (
                             section.name
                           )}
@@ -487,7 +532,14 @@ export function CreationGalleryPage() {
                       </span>
                     </div>
                   </header>
-                  {section.id === "wedding" && style === "Wedding" ? (
+                  {section.id === "car-decoration" ? (
+                    <CarCollections
+                      items={section.items}
+                      selected={style === "Car Decoration" ? carSelection : null}
+                      onSelect={openCar}
+                      renderCard={renderCard}
+                    />
+                  ) : section.id === "wedding" && style === "Wedding" ? (
                     <WeddingChapters
                       items={section.items}
                       renderCard={renderCard}
@@ -661,8 +713,12 @@ export function CreationGalleryPage() {
               <div className="gc-viewer-copy">
                 <span className="eyebrow">
                   {active.occasion}
-                  {active.occasion === "Wedding" ? ` / ${weddingPart(active).name}` : ""} ·{" "}
-                  {active.reference}
+                  {active.occasion === "Wedding"
+                    ? ` / ${weddingPart(active).name}`
+                    : active.occasion === "Car Decoration"
+                      ? ` / ${carPart(active).name}`
+                      : ""}{" "}
+                  · {active.reference}
                 </span>
                 <Dialog.Title>{active.title}</Dialog.Title>
                 <Dialog.Description>{active.detail}</Dialog.Description>

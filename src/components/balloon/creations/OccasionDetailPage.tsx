@@ -1,3 +1,5 @@
+import { CarCollectionChoices } from "../gallery/CarCollections";
+import { galleryMedia } from "@/lib/creation-gallery";
 import { occasionEntries } from "@/lib/occasion-entries";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
@@ -36,10 +38,17 @@ export function OccasionDetailPage({ occasion }: { occasion: OccasionPage }) {
           <div>
             <span className="eyebrow">YOUR OCCASION, MADE SIMPLE</span>
             <h1>{occasion.heading}</h1>
-            <p className="occasion-lead">{occasion.promise}</p>
+            <p className="occasion-lead">
+              {occasion.slug === "car-decoration"
+                ? "A birthday surprise or a wedding arrival. Choose your collection and explore the details that feel right for your celebration."
+                : occasion.promise}
+            </p>
             <div className="occasion-actions">
               <a className="occasion-primary" href="#ideas">
-                See 3 styling ideas <ArrowUpRight size={18} />
+                {occasion.slug === "car-decoration"
+                  ? "Choose your car collection"
+                  : "See 3 styling ideas"}{" "}
+                <ArrowUpRight size={18} />
               </a>
               <a className="occasion-secondary" href={message} target="_blank" rel="noreferrer">
                 <MessageCircle size={18} /> Help me choose
@@ -81,54 +90,91 @@ export function OccasionDetailPage({ occasion }: { occasion: OccasionPage }) {
             ))}
           </ul>
         </section>
-        <section className="page-width occasion-section" id="ideas" aria-labelledby="ideas-heading">
-          <div className="occasion-section-heading">
-            <span className="eyebrow">START WITH AN IDEA</span>
-            <h2 id="ideas-heading">Three easy ways to begin</h2>
-            <p>
-              These are ideas to discuss, not fixed-price packages. We can mix colours and details
-              to suit your venue.
-            </p>
-          </div>
-          <div className="occasion-ideas">
-            {occasion.packages.map((pack, index) => (
-              <article
-                className={idea === pack.name ? "occasion-idea is-selected" : "occasion-idea"}
-                key={pack.name}
-              >
-                <span className="occasion-step">0{index + 1}</span>
-                <h3>{pack.name}</h3>
-                <p>{pack.bestFor}</p>
-                <ul>
-                  {pack.includes.map((line) => (
-                    <li key={line}>
-                      <Check size={16} />
-                      {line}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  aria-pressed={idea === pack.name}
-                  onClick={() => setIdea(idea === pack.name ? "" : pack.name)}
+        {occasion.slug === "car-decoration" ? (
+          <section
+            className="page-width occasion-section"
+            id="ideas"
+            aria-labelledby="ideas-heading"
+          >
+            <div className="occasion-section-heading">
+              <span className="eyebrow">CHOOSE YOUR CELEBRATION</span>
+              <h2 id="ideas-heading">Two occasions. Two beautiful journeys.</h2>
+              <p>
+                A birthday surprise or a wedding arrival—choose a collection to see only its
+                matching photos.
+              </p>
+            </div>
+            <CarCollectionChoices
+              items={galleryMedia}
+              renderChoice={(part, content) => (
+                <Link
+                  key={part.id}
+                  className="gc-car-choice"
+                  to="/our-creations"
+                  search={{ collection: "car", carPart: part.id }}
+                  aria-label={`Open ${part.name}`}
                 >
-                  {idea === pack.name ? "Selected — tap to clear" : "Choose this idea"}
-                  <Check size={16} />
+                  {content}
+                </Link>
+              )}
+            />
+          </section>
+        ) : (
+          <>
+            <section
+              className="page-width occasion-section"
+              id="ideas"
+              aria-labelledby="ideas-heading"
+            >
+              <div className="occasion-section-heading">
+                <span className="eyebrow">START WITH AN IDEA</span>
+                <h2 id="ideas-heading">Three easy ways to begin</h2>
+                <p>
+                  These are ideas to discuss, not fixed-price packages. We can mix colours and
+                  details to suit your venue.
+                </p>
+              </div>
+              <div className="occasion-ideas">
+                {occasion.packages.map((pack, index) => (
+                  <article
+                    className={idea === pack.name ? "occasion-idea is-selected" : "occasion-idea"}
+                    key={pack.name}
+                  >
+                    <span className="occasion-step">0{index + 1}</span>
+                    <h3>{pack.name}</h3>
+                    <p>{pack.bestFor}</p>
+                    <ul>
+                      {pack.includes.map((line) => (
+                        <li key={line}>
+                          <Check size={16} />
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      aria-pressed={idea === pack.name}
+                      onClick={() => setIdea(idea === pack.name ? "" : pack.name)}
+                    >
+                      {idea === pack.name ? "Selected — tap to clear" : "Choose this idea"}
+                      <Check size={16} />
+                    </button>
+                  </article>
+                ))}
+              </div>
+              <p className="occasion-help">
+                Not sure yet?{" "}
+                <button type="button" onClick={() => setIdea("")}>
+                  Let us suggest an idea
                 </button>
-              </article>
-            ))}
-          </div>
-          <p className="occasion-help">
-            Not sure yet?{" "}
-            <button type="button" onClick={() => setIdea("")}>
-              Let us suggest an idea
-            </button>
-            . You can still contact us without selecting anything.
-          </p>
-          <p className="sr-only" role="status">
-            {idea ? `Selected: ${idea}` : "No idea selected. You can ask us for suggestions."}
-          </p>
-        </section>
+                . You can still contact us without selecting anything.
+              </p>
+              <p className="sr-only" role="status">
+                {idea ? `Selected: ${idea}` : "No idea selected. You can ask us for suggestions."}
+              </p>
+            </section>
+          </>
+        )}
         <section className="page-width occasion-section occasion-planning-note">
           <h2>Good to know</h2>
           <p>{occasion.planningNote}</p>

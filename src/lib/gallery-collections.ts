@@ -1,3 +1,4 @@
+import { carPart } from "./gallery-car-groups";
 import { weddingPart } from "./gallery-wedding-groups";
 import { galleryMedia, type GalleryMedia } from "./creation-gallery";
 export type GalleryCollection = {
@@ -138,7 +139,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Car Decoration",
     "THE BEAUTIFUL JOURNEY EDIT",
     "Let the celebration travel with you.",
-    "Floral styling for the journey as well as the destination.",
+    "Birthday surprises or wedding arrivals—two collections, each with its own kind of celebration.",
     "editorial",
     "2px 60px 2px 2px",
     3,
@@ -258,7 +259,8 @@ export function collectionViewerItems(
     ? items.filter(
         (item) =>
           item.occasion === active.occasion &&
-          (active.occasion !== "Wedding" || weddingPart(item).id === weddingPart(active).id),
+          (active.occasion !== "Wedding" || weddingPart(item).id === weddingPart(active).id) &&
+          (active.occasion !== "Car Decoration" || carPart(item).id === carPart(active).id),
       )
     : [];
 }

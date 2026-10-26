@@ -1398,3 +1398,128 @@
 .gc-collection[data-gallery-style="corporate-events"] .gc-card-landscape .gc-open img {
   aspect-ratio: 4/3;
 }
+
+/* One Car parent, two photo-led choices. No mixed birthday/wedding photo grid. */
+.gc-car-welcome {
+  max-width: 620px;
+  margin: 0 0 24px;
+  color: var(--color-ink-soft, #766452);
+  line-height: 1.8;
+}
+.gc-car-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.gc-car-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid rgba(150, 112, 60, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 250, 240, 0.7);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  min-width: 0;
+}
+.gc-car-choice:hover {
+  border-color: #ab824c;
+  box-shadow: 0 8px 24px rgba(95, 70, 40, 0.06);
+}
+.gc-car-choice:focus-visible {
+  outline: 2px solid #98703d;
+  outline-offset: 4px;
+}
+.gc-car-choice:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.gc-car-choice > img {
+  width: 100px;
+  height: 134px;
+  object-fit: contain;
+  flex: 0 0 100px;
+  background: #f3ebde;
+  border-radius: 8px;
+}
+.gc-car-choice-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.gc-car-choice-copy > strong {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(21px, 2.2vw, 29px);
+  line-height: 1.25;
+  font-weight: 400;
+}
+.gc-car-choice-copy > span:not(.eyebrow),
+.gc-car-choice-copy > small {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #766452;
+}
+.gc-car-choice-details {
+  display: grid;
+  gap: 3px;
+}
+.gc-car-choice-copy > small {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8d683a;
+}
+.gc-car-chapter-heading {
+  margin: 28px 0 32px;
+}
+.gc-car-chapter-heading h4 {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(27px, 3.4vw, 43px);
+  margin: 10px 0;
+  font-weight: 400;
+}
+.gc-car-chapter-heading p {
+  max-width: 650px;
+  line-height: 1.8;
+  color: #766452;
+}
+.gc-car-chapter-heading small {
+  color: #8d683a;
+}
+.gc-collection[data-gallery-style="car-decoration"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+/* The parent has a60px top-right corner: inset the entire44px heart target. */
+.gc-collection[data-gallery-style="car-decoration"] .gc-heart {
+  top: 25px;
+  right: 25px;
+}
+@media (max-width: 900px) {
+  .gc-car-choices {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 440px) {
+  .gc-car-choice {
+    padding: 16px;
+    gap: 14px;
+  }
+  .gc-car-choice > img {
+    width: 76px;
+    height: 106px;
+    flex-basis: 76px;
+  }
+  .gc-car-choice-copy > .eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+}

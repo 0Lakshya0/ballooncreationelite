@@ -1,3 +1,5 @@
+import { galleryCarMedia } from "./gallery-car-batch-1";
+import { carPart, type CarPartId } from "./gallery-car-groups";
 import { galleryCorporateMedia } from "./gallery-corporate-batch-1";
 import { galleryFarewellMedia } from "./gallery-farewell-batch-1";
 import { galleryGrandOpeningMedia } from "./gallery-grand-opening-batch-1";
@@ -33,6 +35,7 @@ export const galleryGroups = [
 export type GalleryGroup = (typeof galleryGroups)[number];
 type BaseMedia = {
   weddingPart?: WeddingPartId;
+  carPart?: CarPartId;
   id: string;
   reference: string;
   title: string;
@@ -228,6 +231,7 @@ export const galleryMedia: GalleryMedia[] = definitions
       title,
       occasion,
       ...(occasion === "Wedding" ? { weddingPart: "stage" as const } : {}),
+      ...(occasion === "Car Decoration" ? { carPart: "wedding" as const } : {}),
       group,
       detail,
       image: photo.image,
@@ -258,6 +262,7 @@ export const galleryMedia: GalleryMedia[] = definitions
     galleryGrandOpeningMedia,
     galleryFarewellMedia,
     galleryCorporateMedia,
+    galleryCarMedia,
   );
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {
@@ -284,7 +289,7 @@ export function galleryMessage(items: readonly GalleryMedia[]): string {
       : "I would like help choosing a celebration setup.",
     ...items.map(
       (item) =>
-        `${item.reference} · ${item.occasion}${item.occasion === "Wedding" ? ` / ${weddingPart(item).name}` : ""} — ${item.title}`,
+        `${item.reference} · ${item.occasion}${item.occasion === "Wedding" ? ` / ${weddingPart(item).name}` : item.occasion === "Car Decoration" ? ` / ${carPart(item).name}` : ""} — ${item.title}`,
     ),
     "",
     "Event date:",

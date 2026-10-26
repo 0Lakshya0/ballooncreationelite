@@ -147,6 +147,34 @@ it.each(occasionPages)(
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     await mount(() => <OccasionDetailPage occasion={occasion} />, `/creations/${occasion.slug}`);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(occasion.heading);
+    if (occasion.slug === "car-decoration") {
+      expect(document.querySelectorAll(".occasion-idea")).toHaveLength(0);
+      expect(document.querySelectorAll(".gc-car-choice")).toHaveLength(2);
+      for (const [name, part] of [
+        ["Birthday Car Decoration", "birthday"],
+        ["Wedding Car Decoration", "wedding"],
+      ]) {
+        expect(screen.getByRole("link", { name: `Open ${name}` }).getAttribute("href")).toContain(
+          `carPart=${part}`,
+        );
+      }
+      fireEvent.change(screen.getByLabelText("Preferred event date"), {
+        target: { value: "2026-12-20" },
+      });
+      fireEvent.change(screen.getByLabelText(/Venue or area/), {
+        target: { value: "Vijay Nagar" },
+      });
+      const text = new URL(
+        screen
+          .getByRole("link", { name: `Discuss ${occasion.name} on WhatsApp` })
+          .getAttribute("href")!,
+      ).searchParams.get("text")!;
+      expect(text).toContain("Car Decoration");
+      expect(text).toContain("2026-12-20");
+      expect(text).toContain("Vijay Nagar");
+      expect(fetchSpy).not.toHaveBeenCalled();
+      return;
+    }
     expect(document.querySelectorAll(".occasion-idea")).toHaveLength(3);
     expect(document.querySelectorAll(".occasion-faq details")).toHaveLength(4);
     expect(document.querySelectorAll(".occasion-inclusions li")).toHaveLength(4);
