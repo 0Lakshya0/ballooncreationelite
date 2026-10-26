@@ -56,7 +56,7 @@ it("keeps Showroom18 separate with existing architectural mood and all other sty
   expect(section.layout).toBe("architectural");
   expect(section.radius).toBe("0 70px 0 0");
   expect(section.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["wedding", 21],

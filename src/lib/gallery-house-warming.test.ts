@@ -53,7 +53,7 @@ it("keeps House Warming21 independent, preserves all other styles/Wedding chapte
     initial: 3,
   });
   expect(sections.find((p) => p.id === "house-warming")?.items).toHaveLength(21);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
@@ -67,7 +67,7 @@ it("keeps House Warming21 independent, preserves all other styles/Wedding chapte
     ["showroom-setup", 18],
     ["welcome-baby", 17],
     ["pet-decoration", 21],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
   ] as const)
     expect(sections.find((p) => p.id === id)?.items).toHaveLength(n);
   for (const p of galleryHouseWarmingMedia) {

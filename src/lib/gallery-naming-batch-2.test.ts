@@ -37,7 +37,7 @@ it("reaches20 Naming Ceremony looks with style-local navigation and preserves al
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   expect(sections.find((p) => p.id === "naming-ceremony")?.items).toHaveLength(20);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   for (const [id, n] of [
     ["baby-shower", 18],
     ["welcome-baby", 17],

@@ -46,10 +46,10 @@ it("keeps all41 First Night photos in their intimate collection without mixing R
   expect(first.layout).toBe("intimate");
   expect(first.radius).toBe("90px 8px 90px 8px");
   expect(first.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   for (const [id, count] of [
     ["anniversary", 20],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
     ["birthday", 7],
     ["kids-birthday", 14],
     ["baby-shower", 18],

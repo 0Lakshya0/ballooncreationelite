@@ -60,13 +60,13 @@ it("keeps exactly one Wedding parent with ordered Mehndi7,Haldi6,Stage6,Entrance
     "haldi",
     "stage",
   ]);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   for (const [id, n] of [
     ["proposal", 21],
     ["naming-ceremony", 20],
     ["anniversary", 20],
     ["first-night", 41],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
     ["baby-shower", 18],
     ["welcome-baby", 17],
     ["kids-birthday", 14],

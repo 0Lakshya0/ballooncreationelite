@@ -44,7 +44,7 @@ it("keeps20 Naming Ceremony photos independent from Baby Shower and Welcome Baby
   expect(naming.layout).toBe("floral");
   expect(naming.radius).toBe("50% 50% 8px 8px / 90px 90px 8px 8px");
   expect(naming.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   for (const [id, n] of [
     ["baby-shower", 18],
     ["welcome-baby", 17],

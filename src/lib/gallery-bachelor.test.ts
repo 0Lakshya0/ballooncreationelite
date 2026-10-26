@@ -53,7 +53,7 @@ it("keeps Bachelor Party14 independent, preserves all other styles/Wedding chapt
     initial: 3,
   });
   expect(sections.find((p) => p.id === "bachelor-party")?.items).toHaveLength(14);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
@@ -73,7 +73,7 @@ it("keeps Bachelor Party14 independent, preserves all other styles/Wedding chapt
     ["corporate-events", 19],
     ["annual-day-function", 20],
     ["car-decoration", 20],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
   ] as const)
     expect(sections.find((p) => p.id === id)?.items).toHaveLength(n);
   for (const p of galleryBachelorMedia) {

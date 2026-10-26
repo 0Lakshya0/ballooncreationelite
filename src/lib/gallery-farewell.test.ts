@@ -61,7 +61,7 @@ it("keeps Farewell Party16 independent, preserves all other styles/Wedding chapt
     initial: 3,
   });
   expect(sections.find((p) => p.id === "farewell-party")?.items).toHaveLength(16);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
@@ -78,7 +78,7 @@ it("keeps Farewell Party16 independent, preserves all other styles/Wedding chapt
     ["house-warming", 21],
     ["grand-opening", 21],
     ["car-decoration", 20],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
   ] as const)
     expect(sections.find((p) => p.id === id)?.items).toHaveLength(n);
   for (const p of galleryFarewellMedia) {

@@ -1,3 +1,8 @@
+import {
+  collectionItems,
+  collectionPresentation,
+  mediaInCollection,
+} from "./gallery-shared-collections";
 import { carPart } from "./gallery-car-groups";
 import { weddingPart } from "./gallery-wedding-groups";
 import { galleryMedia, type GalleryMedia } from "./creation-gallery";
@@ -69,7 +74,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Room Surprise",
     "BEHIND THE DOOR",
     "A little surprise. A lasting memory.",
-    "Indoor surprises with flowers, balloons and a personal message.",
+    "Room surprises, softly lit corners and romantic settings with flowers, balloons and a personal message.",
     "intimate",
     "18px",
     3,
@@ -228,7 +233,7 @@ export function galleryCollections(
       layout,
       radius,
       initial,
-      items: items.filter((item) => item.occasion === name),
+      items: collectionItems(name, items),
     }))
     .filter((section) => section.items.length > 0);
   // New styles remain separate even before their bespoke presentation is configured.
@@ -253,8 +258,13 @@ export function galleryCollections(
 export function collectionViewerItems(
   activeId: string | null,
   items: readonly GalleryMedia[],
+  collection?: string,
 ): GalleryMedia[] {
   const active = items.find((item) => item.id === activeId);
+  if (active && collection === "Room Surprise" && mediaInCollection(active, collection))
+    return collectionItems(collection, items).map((item) =>
+      collectionPresentation(item, collection),
+    );
   return active
     ? items.filter(
         (item) =>

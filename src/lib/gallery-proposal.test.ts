@@ -51,11 +51,11 @@ it("keeps21 Proposal images independent, preserves all other styles and scopes t
   expect(proposal.layout).toBe("romantic");
   expect(proposal.radius).toBe("140px 140px 4px 4px");
   expect(proposal.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   for (const [id, n] of [
     ["anniversary", 20],
     ["first-night", 41],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
     ["naming-ceremony", 20],
     ["baby-shower", 18],
     ["welcome-baby", 17],

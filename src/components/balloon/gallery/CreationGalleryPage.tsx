@@ -1,3 +1,4 @@
+import { mediaInCollection, collectionPresentation } from "@/lib/gallery-shared-collections";
 import { carPart, carChapters, type CarPartId } from "@/lib/gallery-car-groups";
 import { CarCollections } from "./CarCollections";
 import { weddingPart, weddingPreview } from "@/lib/gallery-wedding-groups";
@@ -96,6 +97,7 @@ export function CreationGalleryPage() {
   const [style, setStyle] = useState(initialCar ? "Car Decoration" : "all");
   const [sectionLimits, setSectionLimits] = useState<Record<string, number>>({});
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeCollection, setActiveCollection] = useState<string>("");
   useEffect(() => {
     if (search.collection === "car") {
       setStyle("Car Decoration");
@@ -139,30 +141,36 @@ export function CreationGalleryPage() {
           (group === "All moments" || item.group === group) &&
           (!savedOnly || saved.includes(item.id)) &&
           (kind === "all" || kind === item.kind) &&
-          (style === "all" || style === item.occasion),
+          (style === "all" || mediaInCollection(item, style)),
       ),
     [group, savedOnly, saved, kind, style],
   );
-  const shortlist = galleryMedia.filter((item) => saved.includes(item.id));
-  const active = galleryMedia.find((item) => item.id === activeId);
-  const collections = galleryCollections(filtered);
-  const allCollections = galleryCollections();
-  const viewerItems = collectionViewerItems(activeId, filtered);
-  const activeIndex = viewerItems.findIndex((item) => item.id === activeId);
-  const visibleCount = collections.reduce(
-    (total, section) =>
-      total +
-      (section.id === "car-decoration"
-        ? style === "Car Decoration" && carSelection
-          ? (carChapters(section.items).find((part) => part.id === carSelection)?.items.length ?? 0)
-          : 0
-        : section.id === "wedding"
-          ? style === "Wedding"
-            ? section.items.length
-            : weddingPreview(section.items).length
-          : Math.min(section.items.length, sectionLimits[section.id] ?? section.initial)),
-    0,
+  const shortlist = galleryMedia
+    .filter((item) => saved.includes(item.id))
+    .map((item) => collectionPresentation(item, style));
+  const collections = galleryCollections(filtered).filter(
+    (section) => style === "all" || section.name === style,
   );
+  const allCollections = galleryCollections();
+  const viewerItems = collectionViewerItems(activeId, filtered, activeCollection);
+  const active = viewerItems.find((item) => item.id === activeId);
+  const activeIndex = viewerItems.findIndex((item) => item.id === activeId);
+  // A shared look is still one photograph: do not inflate counts when both sections expand.
+  const visibleCount = new Set(
+    collections.flatMap((section) => {
+      const visible =
+        section.id === "car-decoration"
+          ? style === "Car Decoration" && carSelection
+            ? (carChapters(section.items).find((part) => part.id === carSelection)?.items ?? [])
+            : []
+          : section.id === "wedding"
+            ? style === "Wedding"
+              ? section.items
+              : weddingPreview(section.items)
+            : section.items.slice(0, sectionLimits[section.id] ?? section.initial);
+      return visible.map((item) => item.id);
+    }),
+  ).size;
   const hasFilms = galleryMedia.some((item) => item.kind === "video");
   const toggle = (id: string) => {
     if (savedOnly && saved.includes(id) && activeId === id) setActiveId(null);
@@ -216,93 +224,98 @@ export function CreationGalleryPage() {
         ?.scrollIntoView?.({ behavior: "instant", block: "start" }),
     );
   };
-  const renderCard = (item: GalleryMedia) => (
-    <article
-      className={[
-        "gc-card",
-        (item.width > item.height * 1.45 ||
-          ([
-            "Naming Ceremony",
-            "Proposal",
-            "Wedding",
-            "Showroom Setup",
-            "Welcome Baby",
-            "Farewell Party",
-            "Corporate Events",
-            "Annual Day Function",
-            "Bachelor Party",
-          ].includes(item.occasion) &&
-            item.width > item.height)) &&
-          "gc-card-landscape",
-        item.width < 400 && item.height < 400 && "gc-card-small",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      key={item.id}
-      data-gallery-id={item.id}
-    >
-      <div className="gc-picture">
-        <button
-          className="gc-open"
-          aria-label={`Open ${item.occasion}: ${item.title}`}
-          onClick={(event) => {
-            opener.current = event.currentTarget;
-            setActiveId(item.id);
-          }}
-        >
-          <img
-            src={item.image}
-            alt={item.detail}
-            width={item.width}
-            height={item.height}
-            loading="lazy"
-            decoding="async"
-            style={{ objectPosition: item.position }}
-          />
-          <span className="gc-view-hint">
-            {item.kind === "video" ? (
-              <>
-                <Play size={16} fill="currentColor" /> Watch film
-              </>
-            ) : (
-              <>
-                View the moment <ArrowUpRight size={16} />
-              </>
-            )}
-          </span>
-        </button>
-        <button
-          className="gc-heart"
-          aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
-          aria-pressed={saved.includes(item.id)}
-          onClick={() => toggle(item.id)}
-        >
-          <Heart size={19} fill={saved.includes(item.id) ? "currentColor" : "none"} />
-        </button>
-        {item.kind === "video" && (
-          <span className="gc-film-label">
-            <Play size={13} /> FILM
-          </span>
-        )}
-      </div>
-      <div className="gc-card-copy">
-        <div>
-          <span>{item.occasion === "Wedding" ? weddingPart(item).name : item.occasion}</span>
-          <small>{item.reference}</small>
-        </div>
-        <h4>
+  const renderCard = (original: GalleryMedia, collection = original.occasion) => {
+    const item = collectionPresentation(original, collection);
+    return (
+      <article
+        className={[
+          "gc-card",
+          (item.width > item.height * 1.45 ||
+            ([
+              "Naming Ceremony",
+              "Proposal",
+              "Wedding",
+              "Showroom Setup",
+              "Welcome Baby",
+              "Farewell Party",
+              "Corporate Events",
+              "Annual Day Function",
+              "Bachelor Party",
+            ].includes(item.occasion) &&
+              item.width > item.height)) &&
+            "gc-card-landscape",
+          item.width < 400 && item.height < 400 && "gc-card-small",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        key={item.id}
+        data-gallery-id={item.id}
+      >
+        <div className="gc-picture">
           <button
+            className="gc-open"
+            aria-label={`Open ${item.occasion}: ${item.title}`}
             onClick={(event) => {
               opener.current = event.currentTarget;
+              setActiveCollection(collection);
               setActiveId(item.id);
             }}
           >
-            {item.title}
+            <img
+              src={item.image}
+              alt={item.detail}
+              width={item.width}
+              height={item.height}
+              loading="lazy"
+              decoding="async"
+              style={{ objectPosition: item.position }}
+            />
+            <span className="gc-view-hint">
+              {item.kind === "video" ? (
+                <>
+                  <Play size={16} fill="currentColor" /> Watch film
+                </>
+              ) : (
+                <>
+                  View the moment <ArrowUpRight size={16} />
+                </>
+              )}
+            </span>
           </button>
-        </h4>
-      </div>
-    </article>
-  );
+          <button
+            className="gc-heart"
+            aria-label={`${saved.includes(item.id) ? "Unsave" : "Save"} ${item.title}`}
+            aria-pressed={saved.includes(item.id)}
+            onClick={() => toggle(item.id)}
+          >
+            <Heart size={19} fill={saved.includes(item.id) ? "currentColor" : "none"} />
+          </button>
+          {item.kind === "video" && (
+            <span className="gc-film-label">
+              <Play size={13} /> FILM
+            </span>
+          )}
+        </div>
+        <div className="gc-card-copy">
+          <div>
+            <span>{item.occasion === "Wedding" ? weddingPart(item).name : item.occasion}</span>
+            <small>{item.reference}</small>
+          </div>
+          <h4>
+            <button
+              onClick={(event) => {
+                opener.current = event.currentTarget;
+                setActiveCollection(collection);
+                setActiveId(item.id);
+              }}
+            >
+              {item.title}
+            </button>
+          </h4>
+        </div>
+      </article>
+    );
+  };
   const hero = galleryMedia.find((item) => item.id === "baby-shower")!;
   const accent = galleryMedia.find((item) => item.id === "kids-birthday-princess")!;
   return (
@@ -543,12 +556,12 @@ export function CreationGalleryPage() {
                       items={section.items}
                       selected={style === "Car Decoration" ? carSelection : null}
                       onSelect={openCar}
-                      renderCard={renderCard}
+                      renderCard={(item) => renderCard(item)}
                     />
                   ) : section.id === "wedding" && style === "Wedding" ? (
                     <WeddingChapters
                       items={section.items}
-                      renderCard={renderCard}
+                      renderCard={(item) => renderCard(item)}
                       onBack={() => navigateWedding("all")}
                     />
                   ) : (
@@ -556,7 +569,7 @@ export function CreationGalleryPage() {
                       <div className="gc-grid">
                         {(section.id === "wedding" ? weddingPreview(section.items) : section.items)
                           .slice(0, sectionLimits[section.id] ?? section.initial)
-                          .map(renderCard)}
+                          .map((item) => renderCard(item, section.name))}
                       </div>
                       {section.id === "wedding" ? (
                         <div className="gc-section-more">

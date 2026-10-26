@@ -59,7 +59,7 @@ it("keeps all41 First Night references in one intimate collection without changi
   expect(section.layout).toBe("intimate");
   expect(section.radius).toBe("90px 8px 90px 8px");
   expect(section.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["wedding", 21],
@@ -67,7 +67,7 @@ it("keeps all41 First Night references in one intimate collection without changi
     ["naming-ceremony", 20],
     ["anniversary", 20],
     ["showroom-setup", 18],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
     ["baby-shower", 18],
     ["welcome-baby", 17],
     ["kids-birthday", 14],

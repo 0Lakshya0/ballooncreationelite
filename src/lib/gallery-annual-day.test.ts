@@ -53,7 +53,7 @@ it("keeps Annual Day Function20 independent, preserves all other styles/Wedding 
     initial: 3,
   });
   expect(sections.find((p) => p.id === "annual-day-function")?.items).toHaveLength(20);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(62);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
@@ -72,7 +72,7 @@ it("keeps Annual Day Function20 independent, preserves all other styles/Wedding 
     ["farewell-party", 16],
     ["corporate-events", 19],
     ["car-decoration", 20],
-    ["room-surprise", 1],
+    ["room-surprise", 21],
   ] as const)
     expect(sections.find((p) => p.id === id)?.items).toHaveLength(n);
   for (const p of galleryAnnualDayMedia) {
