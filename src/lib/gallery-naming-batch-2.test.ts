@@ -24,10 +24,10 @@ it("retains5 unique originals and appends BC114–118 without replacing previous
   expect(galleryNamingBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 5 }, (_, i) => `BC-${114 + i}`),
   );
-  expect(galleryMedia).toHaveLength(174);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
+  expect(galleryMedia).toHaveLength(191);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(191);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 174 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 191 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "floral-swing")?.reference).toBe("BC-09");
   expect(galleryMedia.filter((p) => p.id === "floral-swing")).toHaveLength(1);
@@ -41,7 +41,7 @@ it("reaches20 Naming Ceremony looks with style-local navigation and preserves al
   for (const [id, n] of [
     ["baby-shower", 18],
     ["welcome-baby", 1],
-    ["first-night", 24],
+    ["first-night", 41],
     ["anniversary", 20],
     ["kids-birthday", 14],
     ["birthday", 7],

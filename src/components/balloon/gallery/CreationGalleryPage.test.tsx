@@ -43,13 +43,13 @@ async function mount() {
   });
   return router;
 }
-it("curates174 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
-  expect(galleryMedia).toHaveLength(174);
-  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(174);
-  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(174);
+it("curates191 unique supplied photos with stable references and replaces all19 occasion covers without inventing history", () => {
+  expect(galleryMedia).toHaveLength(191);
+  expect(new Set(galleryMedia.map((item) => item.id)).size).toBe(191);
+  expect(new Set(galleryMedia.map((item) => item.reference)).size).toBe(191);
   for (const item of galleryMedia) {
     expect(item.image).toMatch(
-      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[12]|gallery-naming-batch-[12]|gallery-proposal-batch-1|gallery-wedding-batch-1|gallery-showroom-batch-1)\//,
+      /\/(homepage-real|gallery-real|gallery-birthday-batch-[12]|gallery-baby-shower-batch-1|gallery-family-batch-2|gallery-anniversary-batch-[12]|gallery-first-night-batch-[123]|gallery-naming-batch-[12]|gallery-proposal-batch-1|gallery-wedding-batch-1|gallery-showroom-batch-1)\//,
     );
     expect(item.kind).toBe("image");
     expect(item.width).toBeGreaterThan(0);
@@ -105,25 +105,31 @@ it("opens a real page, progressively shows photos, and filters without making ne
   expand("first-night", "First Night");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(103);
   expand("first-night", "First Night");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(106);
-  expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(112);
-  expand("naming-ceremony", "Naming Ceremony");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(118);
-  expand("naming-ceremony", "Naming Ceremony");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(109);
+  expand("first-night", "First Night");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(115);
+  expand("first-night", "First Night");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(121);
+  expand("first-night", "First Night");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(123);
-  expand("proposal", "Proposal");
+  expand("naming-ceremony", "Naming Ceremony");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(129);
-  expand("proposal", "Proposal");
+  expand("naming-ceremony", "Naming Ceremony");
   expect(document.querySelectorAll(".gc-card")).toHaveLength(135);
+  expand("naming-ceremony", "Naming Ceremony");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(140);
   expand("proposal", "Proposal");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(141);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(146);
+  expand("proposal", "Proposal");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(152);
+  expand("proposal", "Proposal");
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(158);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(147);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(164);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(153);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(170);
   expand("showroom-setup", "Showroom Setup");
-  expect(document.querySelectorAll(".gc-card")).toHaveLength(156);
+  expect(document.querySelectorAll(".gc-card")).toHaveLength(173);
   fireEvent.click(screen.getByRole("button", { name: /^Birthdays/ }));
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Birthday" })).toBeInTheDocument();
@@ -220,7 +226,7 @@ it("keeps every exact style independent, gives Birthday/Kids different presentat
   expect(birthday.layout).not.toBe(kids.layout);
   expect(birthday.radius).not.toBe(kids.radius);
   expect(new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size).toBe(
-    174,
+    191,
   );
   for (const section of sections)
     expect(section.items.every((item) => item.occasion === section.name)).toBe(true);
@@ -274,7 +280,7 @@ it("pages Baby Shower3→9→15→18 independently, keeps small originals compac
   expect(within(dialog).getByRole("heading")).toHaveTextContent("A little peanut is on the way");
   expect(dialog).toHaveTextContent("18 / 18");
 });
-it("pages First Night3→9→15→21→24 separately and wraps its24-photo viewer without Anniversary or Room Surprise mixing", async () => {
+it("pages First Night3→9→15→21→27→33→39→41 separately and wraps its41-photo viewer without Anniversary or Room Surprise mixing", async () => {
   await mount();
   fireEvent.change(screen.getByLabelText("Choose a style"), { target: { value: "First Night" } });
   expect(document.querySelectorAll("[data-gallery-style]")).toHaveLength(1);
@@ -287,21 +293,28 @@ it("pages First Night3→9→15→21→24 separately and wraps its24-photo viewe
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
   expect(within(section).getAllByRole("article")).toHaveLength(21);
   fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
-  expect(within(section).getAllByRole("article")).toHaveLength(24);
+  expect(within(section).getAllByRole("article")).toHaveLength(27);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(within(section).getAllByRole("article")).toHaveLength(33);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(within(section).getAllByRole("article")).toHaveLength(39);
+  fireEvent.click(screen.getByRole("button", { name: "Explore more First Night looks" }));
+  expect(within(section).getAllByRole("article")).toHaveLength(41);
+
   expect(screen.queryByRole("button", { name: "Explore more First Night looks" })).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Open First Night: A room made for two" }));
   const dialog = within(screen.getByRole("dialog"));
-  expect(dialog.getByText("1 / 24")).toBeInTheDocument();
+  expect(dialog.getByText("1 / 41")).toBeInTheDocument();
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowLeft" });
-  expect(dialog.getByRole("heading")).toHaveTextContent("Soft drapes, a canopy of light");
-  expect(dialog.getByText("24 / 24")).toBeInTheDocument();
+  expect(dialog.getByRole("heading")).toHaveTextContent("A little world in red");
+  expect(dialog.getByText("41 / 41")).toBeInTheDocument();
   expect(
     new URL(
       dialog.getByRole("link", { name: "Ask about this look" }).getAttribute("href")!,
     ).searchParams.get("text"),
-  ).toContain("BC-99 · First Night");
+  ).toContain("BC-191 · First Night");
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "ArrowRight" });
-  expect(dialog.getByText("1 / 24")).toBeInTheDocument();
+  expect(dialog.getByText("1 / 41")).toBeInTheDocument();
   fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
   expect(screen.queryByRole("dialog")).toBeNull();
 });

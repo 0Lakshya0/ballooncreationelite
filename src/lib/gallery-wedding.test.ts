@@ -31,10 +31,10 @@ it("retains20 unique supplied Wedding originals and appends BC138–157 without 
   expect(galleryWeddingMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 20 }, (_, i) => `BC-${138 + i}`),
   );
-  expect(galleryMedia).toHaveLength(174);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
+  expect(galleryMedia).toHaveLength(191);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(191);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 174 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 191 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "wedding")?.reference).toBe("BC-01");
   expect(galleryMedia.find((p) => p.id === "proposal-red-lantern-ring")?.reference).toBe("BC-137");
@@ -65,7 +65,7 @@ it("keeps exactly one Wedding parent with ordered Mehndi7,Haldi6,Stage6,Entrance
     ["proposal", 21],
     ["naming-ceremony", 20],
     ["anniversary", 20],
-    ["first-night", 24],
+    ["first-night", 41],
     ["room-surprise", 1],
     ["baby-shower", 18],
     ["welcome-baby", 1],

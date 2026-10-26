@@ -36,10 +36,10 @@ it("retains18 originals, adds17 new BC158–174, and leaves the exact BC145 repe
   expect(galleryShowroomMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 17 }, (_, i) => `BC-${158 + i}`),
   );
-  expect(galleryMedia).toHaveLength(174);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
+  expect(galleryMedia).toHaveLength(191);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(191);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 174 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 191 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "showroom-floral-display")?.reference).toBe("BC-07");
 });
@@ -58,7 +58,7 @@ it("keeps Showroom18 separate with existing architectural mood and all other sty
     ["proposal", 21],
     ["naming-ceremony", 20],
     ["anniversary", 20],
-    ["first-night", 24],
+    ["first-night", 41],
     ["baby-shower", 18],
     ["welcome-baby", 1],
     ["kids-birthday", 14],

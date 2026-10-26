@@ -78,7 +78,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "First Night",
     "THE QUIETLY ROMANTIC EDIT",
     "Just the two of you.",
-    "Thoughtful flower details for an intimate newlywed room setting.",
+    "Petal paths, softly lit canopies and thoughtful room details for a moment together.",
     "intimate",
     "90px 8px 90px 8px",
     3,

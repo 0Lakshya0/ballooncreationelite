@@ -1,3 +1,4 @@
+import { galleryFirstNightBatch3Media } from "./gallery-first-night-batch-3";
 import { galleryShowroomMedia } from "./gallery-showroom";
 import { galleryWeddingMedia } from "./gallery-wedding";
 import { weddingPart, type WeddingPartId } from "./gallery-wedding-groups";
@@ -239,6 +240,7 @@ export const galleryMedia: GalleryMedia[] = definitions
     galleryAnniversaryBatch2Media,
     galleryFirstNightMedia,
     galleryFirstNightBatch2Media,
+    galleryFirstNightBatch3Media,
     galleryNamingMedia,
     galleryNamingBatch2Media,
     galleryProposalMedia,

@@ -23,9 +23,9 @@ it("retains all10 originals, appends8 photos and verifies both byte-identical du
   expect(galleryAnniversaryMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 8 }, (_, i) => `BC-${i + 58}`),
   );
-  expect(galleryMedia).toHaveLength(174);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(174);
+  expect(galleryMedia).toHaveLength(191);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(191);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(191);
 });
 it("keeps20 Anniversary looks in their own romantic collection with no birthday or proposal mixing", () => {
   const sections = galleryCollections();
