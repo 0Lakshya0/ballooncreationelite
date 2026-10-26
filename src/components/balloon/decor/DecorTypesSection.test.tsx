@@ -7,9 +7,10 @@ import {
 } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import DecorTypesSection from "./DecorTypesSection";
 import { CHIP_GROUPS, DECOR_DATA } from "./decor-data";
+import { decorPhotoIds, suppliedDecorPhoto } from "@/lib/supplied-site-photos";
 import { contact } from "@/lib/celebrations";
 import { liquidFragment } from "./liquid-shader";
 import { observeVisibility } from "@/lib/visibility";
@@ -75,14 +76,17 @@ describe("Integrated approved decor collections", () => {
       expect(chip.desc).toBeTruthy();
     }
     for (const image of JSON.stringify(DECOR_DATA).matchAll(/img\/([^"\s]+)/g))
-      expect(existsSync("public/decor-types/" + image[1])).toBe(true);
+      expect(Object.hasOwn(decorPhotoIds, image[1]!)).toBe(true);
     const shaderSource = readFileSync("mockups/_english_liquid_gold.py", "utf8");
     expect(liquidFragment).toBe(shaderSource.match(/var fragment=`([\s\S]*?)`;/)![1]);
   });
-  it("renders 25 photographed styles and 08/09/08 photo islands as native React on the collections page", () => {
+  it("renders 25 styles with supplied photos or neutral non-photo marks and the 08/09/08 islands", () => {
     const c = mount();
     expect(c.querySelectorAll(".chip")).toHaveLength(25);
-    expect(c.querySelectorAll(".chip img")).toHaveLength(25);
+    expect(c.querySelectorAll(".chip img, .chip [data-photo-missing]")).toHaveLength(25);
+    expect(c.querySelectorAll(".chip img").length).toBe(19);
+    expect(c.querySelectorAll(".chip [data-photo-missing]").length).toBe(6);
+    expect(c.querySelector('img[src^="/decor-types/"]')).toBeNull();
     expect([...c.querySelectorAll(".chapter-count")].map((e) => e.textContent)).toEqual([
       "08 DECOR STYLES",
       "09 DECOR STYLES",
@@ -110,7 +114,13 @@ describe("Integrated approved decor collections", () => {
           [...c.querySelectorAll(".opt-card")].find((e) => e.getAttribute("data-opt") === option),
         );
         expect(c.querySelector(".detail-body h3")?.textContent).toBe(option);
-        expect(c.querySelector(".option-view .detail-hero img")).toBeTruthy();
+        const hero = c.querySelector(".option-view .detail-hero");
+        const photo = suppliedDecorPhoto(detail.img || data.photo);
+        if (photo) expect(hero?.querySelector("img")).toHaveAttribute("src", photo.image);
+        else {
+          expect(hero?.querySelector("img")).toBeNull();
+          expect(hero?.querySelector("[data-photo-missing]")).toBeTruthy();
+        }
         expect(c.querySelector(".detail-card")?.textContent).toContain(detail.what);
         for (const label of [
           "When to pick it",

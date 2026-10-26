@@ -95,8 +95,9 @@ fs.writeFileSync(
     JSON.stringify(fragment) +
     ";\n",
 );
-fs.cpSync("mockups/img", "public/decor-types", { recursive: true });
+// Archived mockup photos are not website assets. Supplied photography is resolved
+// through src/lib/supplied-site-photos.ts, including explicit missing-photo entries.
 fs.cpSync("mockups/fonts", "public/decor-types/fonts", { recursive: true });
 console.log(
-  "Synced 25 styles / 150 options, 34 local photos, fonts, scoped CSS and approved collision shader.",
+  "Synced 25 styles / 150 options, fonts, scoped CSS and approved collision shader; supplied-photo registry retained.",
 );

@@ -13,7 +13,7 @@
 - Keep the single-page event experience at the index route; share celebration data and isolate the concierge form to minimize duplication.
 - Define all visual styling as global semantic tokens and named styles, with luxury and glass Button variants to preserve consistent controls.
 - Submit concierge inquiries through a validated public server function and service-only database RPC; serialize phone-based rate limiting in PostgreSQL so requests remain private and limits survive server restarts.
-- Keep generated editorial photography bundled in the app; replace it with real portfolio photography when the owner supplies it.
+- Customer pages must use suitable owner-supplied photography, resolved through `src/lib/supplied-site-photos.ts` or the supplied gallery/occasion manifests. Never restore generated mockup photos, including via build/sync scripts. For missing equipment/style shots, use a neutral non-photo mark and request the specific original; never substitute an unrelated photo or assert supplied references are verified client work.
 - Use one IntersectionObserver for early, one-time nested scroll reveals and CSS-only ambient/hover motion; reduced-motion users see all content without animation to keep the experience lightweight and accessible.
 - Stack invisible, aria-hidden tagline sizing copies in the headline grid so its longest sentence reserves stable space at every width without browser measurement.
 - Render middle-text showers as staggered CSS transform/opacity particles keyed to each text cycle, using full-height tracks so falling distance follows text height without measurement or layout shifts.

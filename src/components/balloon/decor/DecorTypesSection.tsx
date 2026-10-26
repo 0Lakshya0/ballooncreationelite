@@ -1,21 +1,41 @@
 import { Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ImgHTMLAttributes } from "react";
 
 import { CHIP_GROUPS, DECOR_DATA, type Chip, type ChipOption } from "./decor-data";
 import * as Dialog from "@radix-ui/react-dialog";
 import { contact } from "@/lib/celebrations";
+import { suppliedDecorPhoto } from "@/lib/supplied-site-photos";
 import { useDecorMotion } from "./use-decor-motion";
 import "./approved-decor.css";
 import "./integration.css";
 
-/** Photos live in a folder — web path of that folder can be changed with the imgBase prop. */
-export type DecorTypesSectionProps = {
-  /** Default "img" (photos next to the page). On the site: imgBase="/decor-types" */
-  imgBase?: string;
-};
+/** Retained prop for embedding compatibility; imagery is always resolved from the supplied-photo registry. */
+export type DecorTypesSectionProps = { imgBase?: string };
 
-const resolveImg = (src: string, base: string) =>
-  src.startsWith("img/") ? `${base}/${src.slice(4)}` : src;
+function DecorPhoto({
+  photoKey,
+  ...props
+}: Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & { photoKey: string }) {
+  const photo = suppliedDecorPhoto(photoKey);
+  if (!photo)
+    return (
+      <span
+        className={`decor-material-mark ${props.className ?? ""}`}
+        data-photo-missing={photoKey}
+        aria-hidden="true"
+      >
+        <i />
+      </span>
+    );
+  return (
+    <img
+      {...props}
+      src={photo.image}
+      alt={props.alt ? photo.detail : ""}
+      data-supplied-id={photo.id}
+    />
+  );
+}
 
 const LABELS = {
   opts: "Every option inside — tap any one for its full detail",
@@ -48,10 +68,7 @@ const optKey = (chip: string, option: string) => `${chip} · ${option}`;
 
 const waLink = (message: string) => `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
 
-export default function DecorTypesSection({
-  imgBase = "/decor-types",
-}: DecorTypesSectionProps = {}) {
-  const img = (src: string) => resolveImg(src, imgBase);
+export default function DecorTypesSection(_props: DecorTypesSectionProps = {}) {
   const rootRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const { enabled, reduced, toggleMotion } = useDecorMotion(rootRef);
@@ -180,8 +197,8 @@ export default function DecorTypesSection({
                       <p>{chapter.intro}</p>
                     </div>
                     <div className="chapter-image">
-                      <img
-                        src={img("img/" + chapter.photo)}
+                      <DecorPhoto
+                        photoKey={"img/" + chapter.photo}
                         alt={chapter.alt}
                         loading="lazy"
                         width={640}
@@ -207,7 +224,7 @@ export default function DecorTypesSection({
                           onClick={(e) => showChip(name, e.currentTarget)}
                         >
                           <span className="thumb">
-                            <img src={img(data.photo)} alt="" loading="lazy" />
+                            <DecorPhoto photoKey={data.photo} alt="" loading="lazy" />
                           </span>
                           <span className="txt">
                             <span className="nm">{name}</span>
@@ -255,8 +272,8 @@ export default function DecorTypesSection({
               aria-haspopup="dialog"
               onClick={(e) => showChip(m.chip, e.currentTarget)}
             >
-              <img
-                src={img("img/" + m.photo)}
+              <DecorPhoto
+                photoKey={"img/" + m.photo}
                 alt={m.alt}
                 loading="lazy"
                 width={640}
@@ -346,7 +363,7 @@ export default function DecorTypesSection({
               {chip && !option && (
                 <div>
                   <div className="detail-hero">
-                    <img src={img(chip.photo)} alt={openChip ?? ""} />
+                    <DecorPhoto photoKey={chip.photo} alt={openChip ?? ""} />
                   </div>
                   <div className="detail-body">
                     <span className="detail-kicker">{chip.kicker}</span>
@@ -397,7 +414,7 @@ export default function DecorTypesSection({
                               onClick={() => setOpenOption(name)}
                             >
                               <span className="opt-thumb">
-                                <img src={img(o?.img || chip.photo)} alt="" loading="lazy" />
+                                <DecorPhoto photoKey={o?.img || chip.photo} alt="" loading="lazy" />
                               </span>
                               {name}
                               <span className="arw">→</span>
@@ -410,7 +427,7 @@ export default function DecorTypesSection({
                     <span className="detail-h">{LABELS.ex}</span>
                     <div className="detail-mini">
                       {chip.gallery.map((g) => (
-                        <img src={img(g)} alt="" loading="lazy" key={g} />
+                        <DecorPhoto photoKey={g} alt="" loading="lazy" key={g} />
                       ))}
                     </div>
 
@@ -443,11 +460,17 @@ export default function DecorTypesSection({
                     {LABELS.back.replace("{name}", openChip ?? "")}
                   </button>
                   <div className="detail-hero">
-                    <img src={img(option.img || chip.photo)} alt={openOption} />
+                    <DecorPhoto photoKey={option.img || chip.photo} alt={openOption} />
                   </div>
                   <div className="detail-body">
                     <span className="detail-kicker">{openChip}</span>
                     <h3>{openOption}</h3>
+                    {suppliedDecorPhoto(option.img || chip.photo) && (
+                      <p className="decor-photo-caption">
+                        Supplied celebration reference. Your chosen option, colours and inclusions
+                        are confirmed for your event.
+                      </p>
+                    )}
                     <p className="detail-intro">{option.what}</p>
                     {option.pick && (
                       <p className="opt-pick">
@@ -475,7 +498,12 @@ export default function DecorTypesSection({
                       <div className="fact-card">
                         <b>{LABELS.time}</b>
                         <span className="fact-lead">{option.time}</span>
-                        <img className="fact-photo" src={img(chip.photo)} alt="" loading="lazy" />
+                        <DecorPhoto
+                          className="fact-photo"
+                          photoKey={chip.photo}
+                          alt=""
+                          loading="lazy"
+                        />
                       </div>
                       <div className="fact-card">
                         <b>{LABELS.colours}</b>
@@ -483,7 +511,7 @@ export default function DecorTypesSection({
                         <div className="chip-row">
                           {option.palette.map((p) => (
                             <span className="mini-chip" key={p.t}>
-                              <img src={img(p.img)} alt="" loading="lazy" />
+                              <DecorPhoto photoKey={p.img} alt="" loading="lazy" />
                               <i className="pc-dot" style={{ background: p.c }} />
                               {p.t}
                             </span>
@@ -495,8 +523,8 @@ export default function DecorTypesSection({
                         <div className="chip-row">
                           {option.best.map((b, index) => (
                             <span className="mini-chip" key={b}>
-                              <img
-                                src={img(option.bestPhotos[index]?.img ?? chip.photo)}
+                              <DecorPhoto
+                                photoKey={option.bestPhotos[index]?.img ?? chip.photo}
                                 alt=""
                                 loading="lazy"
                               />
@@ -510,7 +538,7 @@ export default function DecorTypesSection({
                     <span className="detail-h">{LABELS.ex}</span>
                     <div className="detail-mini">
                       {option.ex.map((s) => (
-                        <img src={img(s)} alt="" loading="lazy" key={s} />
+                        <DecorPhoto photoKey={s} alt="" loading="lazy" key={s} />
                       ))}
                     </div>
 
@@ -526,8 +554,8 @@ export default function DecorTypesSection({
                       {option.pairs.map((p) =>
                         DECOR_DATA[p] ? (
                           <button type="button" key={p} onClick={() => showChip(p)}>
-                            <img
-                              src={img(DECOR_DATA[p]?.photo ?? chip.photo)}
+                            <DecorPhoto
+                              photoKey={DECOR_DATA[p]?.photo ?? chip.photo}
                               alt=""
                               loading="lazy"
                             />
@@ -535,7 +563,7 @@ export default function DecorTypesSection({
                           </button>
                         ) : (
                           <span className="pair-tag" key={p}>
-                            <img src={img(chip.photo)} alt="" loading="lazy" />
+                            <DecorPhoto photoKey={chip.photo} alt="" loading="lazy" />
                             {p}
                           </span>
                         ),

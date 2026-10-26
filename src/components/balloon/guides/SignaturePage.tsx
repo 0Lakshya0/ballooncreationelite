@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Flower2, Palette, Ruler } from "lucide-react";
-import wedding from "@/assets/wedding.webp";
+import { sitePhotos } from "@/lib/supplied-site-photos";
 import { GuideShell } from "./GuideShell";
 const principles = [
   {
@@ -57,8 +57,8 @@ export function SignaturePage() {
         </div>
         <figure>
           <img
-            src={wedding}
-            alt="Floral wedding styling inspiration from Balloon Creation"
+            src={sitePhotos.wedding.image}
+            alt={sitePhotos.wedding.detail}
             width={800}
             height={600}
           />

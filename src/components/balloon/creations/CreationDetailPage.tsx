@@ -80,7 +80,7 @@ export function CreationDetailPage({ service }: { service: ServiceDetail }) {
               <figure className="service-hero-main">
                 <img
                   src={service.heroImage}
-                  alt={`${service.name} styling by Balloon Creation, Indore`}
+                  alt={service.gallery[0]?.caption ?? `${service.name} styling reference`}
                   width={1024}
                   height={1024}
                   fetchPriority="high"

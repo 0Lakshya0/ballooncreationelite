@@ -1,17 +1,17 @@
 import { getOccasion, occasionPages } from "./occasion-catalogue";
-import wedding from "@/assets/wedding.webp";
-import birthday from "@/assets/birthday.webp";
-import anniversary from "@/assets/anniversary.webp";
-import baby from "@/assets/baby-shower.webp";
-import devotional from "@/assets/devotional.webp";
-import hero from "@/assets/celebration-hero.webp";
-
-const thumbs = import.meta.glob<string>("/src/assets/categories/*.webp", {
-  eager: true,
-  import: "default",
-});
-const cat = (n: number): string =>
-  thumbs[`/src/assets/categories/category-${String(n).padStart(2, "0")}.webp`] ?? hero;
+import {
+  sitePhotos,
+  legacyCategoryPhotos,
+  legacyServicePhotoIds,
+  suppliedSitePhoto,
+} from "./supplied-site-photos";
+const wedding = sitePhotos.wedding.image;
+const birthday = sitePhotos.birthday.image;
+const anniversary = sitePhotos.anniversary.image;
+const baby = sitePhotos.baby.image;
+const devotional = sitePhotos.traditional.image;
+const hero = sitePhotos.hall.image;
+const cat = (n: number): string => legacyCategoryPhotos[n]?.image ?? hero;
 
 export type ServicePackage = {
   name: string;
@@ -54,7 +54,7 @@ export type ServiceDetail = {
  * genuinely works (limited installations per day, seasonal dates booked early).
  * If your capacity changes, edit them here — every page reads from this file.
  */
-export const serviceDetails: ServiceDetail[] = [
+const sourceServiceDetails: ServiceDetail[] = [
   {
     slug: "grand-weddings-rings",
     name: "Grand Weddings & Rings",
@@ -1086,6 +1086,17 @@ export const serviceDetails: ServiceDetail[] = [
     },
   },
 ];
+
+export const serviceDetails: ServiceDetail[] = sourceServiceDetails.map((service) => {
+  const photos = legacyServicePhotoIds[service.slug]!.map(suppliedSitePhoto);
+  return {
+    ...service,
+    heroImage: photos[0]!.image,
+    accentImage: photos[1]!.image,
+    accentCaption: photos[1]!.detail,
+    gallery: photos.map((photo) => ({ src: photo.image, caption: photo.detail })),
+  };
+});
 
 export const getService = (slug: string) =>
   getOccasion(slug) ?? serviceDetails.find((item) => item.slug === slug);

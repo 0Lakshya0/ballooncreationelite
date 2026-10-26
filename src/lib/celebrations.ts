@@ -1,15 +1,16 @@
-import wedding from "@/assets/wedding.webp";
-import birthday from "@/assets/birthday.webp";
-import anniversary from "@/assets/anniversary.webp";
-import baby from "@/assets/baby-shower.webp";
-import devotional from "@/assets/devotional.webp";
-
-const categories = import.meta.glob<string>("/src/assets/categories/*.webp", {
-  eager: true,
-  import: "default",
-});
-const cat = (n: number): string | undefined =>
-  categories[`/src/assets/categories/category-${String(n).padStart(2, "0")}.webp`];
+import {
+  sitePhotos,
+  legacyCategoryPhotos,
+  legacyServicePhotoIds,
+  suppliedSitePhoto,
+} from "./supplied-site-photos";
+const wedding = sitePhotos.wedding.image;
+const birthday = sitePhotos.birthday.image;
+const anniversary = sitePhotos.anniversary.image;
+const baby = sitePhotos.baby.image;
+const devotional = sitePhotos.traditional.image;
+const hero = sitePhotos.hall.image;
+const cat = (n: number): string => legacyCategoryPhotos[n]?.image ?? hero;
 
 export const contact = {
   phone: "+917489863753",
@@ -33,7 +34,7 @@ export type Celebration = {
   gallery: string[];
 };
 
-export const celebrations: Celebration[] = [
+const sourceCelebrations: Celebration[] = [
   {
     slug: "grand-weddings-rings",
     name: "Grand Weddings & Rings",
@@ -110,3 +111,8 @@ export const celebrations: Celebration[] = [
     gallery: [devotional, cat(20), cat(5)].filter(Boolean) as string[],
   },
 ];
+
+export const celebrations: Celebration[] = sourceCelebrations.map((celebration) => {
+  const photos = legacyServicePhotoIds[celebration.slug]!.map(suppliedSitePhoto);
+  return { ...celebration, image: photos[0]!.image, gallery: photos.map((photo) => photo.image) };
+});

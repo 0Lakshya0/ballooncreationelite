@@ -2,9 +2,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { contact, celebrations } from "@/lib/celebrations";
 import { observeVisibility } from "@/lib/visibility";
-import wedding from "@/assets/wedding.jpg";
-import anniversary from "@/assets/anniversary.jpg";
-import hall from "@/assets/celebration-hero.jpg";
+import { sitePhotos } from "@/lib/supplied-site-photos";
+const wedding = sitePhotos.wedding.image;
+const anniversary = sitePhotos.anniversary.image;
+const hall = sitePhotos.hall.image;
 import { SiteLiquidBackground } from "../site-liquid-background";
 import brandLogo from "@/assets/brand-logo.png";
 import "../decor/collections-page.css";
@@ -367,10 +368,10 @@ export default function AboutUsPage() {
                 <em>Indore</em>
               </span>
               <figure className="ab-portrait">
-                <Photo src={wedding} alt="Floral wedding celebration styling" priority />
-                <figcaption>The wedding edit · Indore</figcaption>
+                <Photo src={wedding} alt={sitePhotos.wedding.detail} priority />
+                <figcaption>The wedding edit · Styling reference</figcaption>
               </figure>
-              <Photo className="ab-inset" src={anniversary} alt="Intimate anniversary styling" />
+              <Photo className="ab-inset" src={anniversary} alt={sitePhotos.anniversary.detail} />
               <div className="ab-quote">
                 <span>The feeling we stage</span>
                 <p>“The breath before the entrance.”</p>
@@ -404,7 +405,7 @@ export default function AboutUsPage() {
         <section className="ab-section">
           <div className="ab-container ab-split">
             <div className="ab-media ab-reveal">
-              <Photo src={hall} alt="A celebration hall with floral and balloon styling" />
+              <Photo src={hall} alt={sitePhotos.hall.detail} />
               <div className="ab-plaque">
                 <strong>{BRAND.years}</strong>
                 <span>Years of craft · Indore</span>

@@ -48,7 +48,7 @@ it.each(serviceDetails)(
       render(<RouterProvider router={router} />);
     });
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(service.hook);
-    expect(document.querySelectorAll(".service-shot")).toHaveLength(6);
+    expect(document.querySelectorAll(".service-shot")).toHaveLength(service.gallery.length);
     expect(document.querySelectorAll(".service-package")).toHaveLength(3);
     expect(document.querySelectorAll(".faq-item")).toHaveLength(service.faqs.length);
     expect(document.querySelector<HTMLSelectElement>('select[name="occasion"]')?.value).toBe(

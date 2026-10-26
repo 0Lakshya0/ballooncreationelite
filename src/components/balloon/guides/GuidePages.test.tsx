@@ -1,3 +1,4 @@
+import { sitePhotos } from "@/lib/supplied-site-photos";
 import { act } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import {
@@ -80,9 +81,10 @@ it("explains three principles, three planning steps and four confirmation checks
   expect(document.querySelectorAll(".guide-principles article")).toHaveLength(3);
   expect(document.querySelectorAll(".guide-process li")).toHaveLength(3);
   expect(document.querySelectorAll(".guide-checklist li")).toHaveLength(4);
-  expect(
-    screen.getByRole("img", { name: "Floral wedding styling inspiration from Balloon Creation" }),
-  ).toHaveAttribute("src", expect.stringContaining("wedding"));
+  expect(screen.getByRole("img", { name: sitePhotos.wedding.detail })).toHaveAttribute(
+    "src",
+    sitePhotos.wedding.image,
+  );
   expect(screen.getByRole("link", { name: "Tell us your idea" })).toHaveAttribute(
     "href",
     "/lets-celebrate",
