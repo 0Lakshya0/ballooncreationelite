@@ -12,9 +12,11 @@ Scope: application pages, phone/desktop layouts, navigation, search, forms, Bloo
 6. Wrapped About-page facts had no row spacing on narrow screens. Add an 18px row gap without changing the approved typography, content or desktop layout.
 7. ESLint traversed disposable bundled assets/cache and exhausted memory. Ignore `.cache/**` and `.wrangler/**`; do not wholesale-reformat unrelated source or protected owner files.
 
+8. Independent published-HTML verification exposed negative animated Home statistics in an embedded clock context. Start elapsed time from the first animation-frame timestamp, not a separate `performance.now()` origin, and clamp progress to zero through one. Regression tests cover mismatched clocks, a backward frame, exact final values and pause/cleanup.
+
 ## Verification
 
-- Application: **398 tests / 48 files pass**. Run isolated from simultaneous heavy browser audits; an earlier concurrent run hit timing limits in two large existing DOM tests, and the isolated full run passes without raising their timeouts or weakening assertions.
+- Application: **400 tests / 49 files pass**. Run isolated from simultaneous heavy browser audits; an earlier concurrent run hit timing limits in two large existing DOM tests, and the isolated full run passes without raising their timeouts or weakening assertions.
 - TypeScript: `npx tsc --noEmit` passes.
 - Changed-source ESLint and About stylesheet formatting pass.
 - Production preview adapter: **5 Node tests pass**, covering GET/HEAD assets, POST-body/query forwarding, separate cookies, missing assets/path containment and rejected asset POSTs (`npm run test:preview`).

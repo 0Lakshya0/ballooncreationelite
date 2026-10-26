@@ -48,10 +48,13 @@ function Counter({ value, suffix, active }: { value: number; suffix: string; act
     document.addEventListener("bce:motionchange", halt);
     document.addEventListener("visibilitychange", halt);
     media.addEventListener("change", halt);
-    const start = performance.now();
+    // HTML previews/embedded documents can use a different frame clock origin.
+    // Measure elapsed time entirely from animation-frame timestamps.
+    let start: number | undefined;
     const duration = 1300;
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
+      start ??= now;
+      const t = Math.max(0, Math.min(1, (now - start) / duration));
       const eased = 1 - Math.pow(1 - t, 3);
       setDisplay(Math.round(value * eased));
       if (t < 1) frame = requestAnimationFrame(tick);
