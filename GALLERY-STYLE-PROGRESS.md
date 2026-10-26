@@ -49,3 +49,7 @@ Room Surprise reuses20 existing photos (17 First Night,3 Proposal) in addition t
 Source `ecd735c37298ecd574ee3accb90486a3f7fd98da`; phone artifact `7abe3450173a4717ebb6b9a49ba9ea5e80f34f43`; published gallery https://clck.ru/3WhB2W. GitHub/local blob8f495b33fede194f9213eec635f2091b5a334cd8 equals63,720,433bytes. Independent short follow rendered all3chunks with Room21/First Night41/Proposal21/Bachelor14/Car15+5/Bloon. Product Launch is deferred, not the next recommended batch.
 
 Environment recovery: never apply the older recovery stash over current implementation. Ten protected edits byte-compared to recovery backups and remain unchanged/unstaged. Healthy Website :8080 PID2254 reused. Received/processed is not a verified owned-client-work claim or a promise of20–25 unique photos/style.
+
+## Current MAIN after Bloon-only identity update
+
+https://clck.ru/3WhDCK — source710e96d96f9c8d43d0fe45b75c194bde99159b47, phone artifacta4ec09afcb8cb6431c5ab57d6bd3f955dacee9ec, blob3b4c7084190eb1cd2e34ead427575cebd2a6c8eb/63,728,046bytes. Gallery/photo counts, IDs, shared membership and deferred Product Launch above are unchanged. Bloon creator-name disclosure now follows two unnamed creator answers, third+names Lakshya Chouhan, extra personal details refused; no backend/provider update. See BLOON-INTEGRATION.md for the151 focused tests/four exact-artifact browser cases and conversation-reset scope. Prior Room source/artifact link remains valid history, not the newest MAIN.
