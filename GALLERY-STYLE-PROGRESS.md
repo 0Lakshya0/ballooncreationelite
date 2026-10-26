@@ -1,6 +1,6 @@
 # Gallery style progress — owner/chat only
 
-Updated2026-10-26 after Room Surprise shared-collection batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
+Updated2026-10-26 after the full website audit; intake counts remain those of Room Surprise shared-collection batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
 
 “Batch added” means supplied photos have been received and processed, not that a style is finished forever or meets the aspirational20–25 unique photos/style. Existing reference photos are included in gallery counts, which are not verified owned-client-work counts. Wedding chapters count as one parent style. Deduplicate globally without moving old refs or losing shortlists.
 
@@ -53,3 +53,7 @@ Environment recovery: never apply the older recovery stash over current implemen
 ## Current MAIN after Bloon-only identity update
 
 https://clck.ru/3WhDCK — source710e96d96f9c8d43d0fe45b75c194bde99159b47, phone artifacta4ec09afcb8cb6431c5ab57d6bd3f955dacee9ec, blob3b4c7084190eb1cd2e34ead427575cebd2a6c8eb/63,728,046bytes. Gallery/photo counts, IDs, shared membership and deferred Product Launch above are unchanged. Bloon creator-name disclosure now follows two unnamed creator answers, third+names Lakshya Chouhan, extra personal details refused; no backend/provider update. See BLOON-INTEGRATION.md for the151 focused tests/four exact-artifact browser cases and conversation-reset scope. Prior Room source/artifact link remains valid history, not the newest MAIN.
+
+## Full website audit follow-up —2026-10-26
+
+https://clck.ru/3WhH8W — source`d096da13847856b3ea2d6c8140835772c08e1775`, final phone artifact`a4176799fa948e0d6bca57d0d5235d3a61797dc1`, blob`268f025c835d31345d5c28f3c40d3e52fd91c210`/63,709,041bytes. Main link now opens Home; gallery remains accessible from Home. All371placements/351unique hashes and8labelled visual sheets reviewed; no accidental file/style mix found. Final phone320/390/1440 gallery/saving/viewer/Room shared membership/Car15+5/Wedding7+6+6+2 PASS, checked last after the Home embedded-counter fix. No photo additions, moves, new IDs or reassignment of deliberate owner classifications. All19processed styles and deferred ProductLaunch remain exactly as listed above.400app+116offlineWorker+5preview tests PASS; live privateDBsaving not verified. See WEBSITE-AUDIT-2026-10-26.md and PHONE-VIEW.md for coverage/limits/publication evidence.
