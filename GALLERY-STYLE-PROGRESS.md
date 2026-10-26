@@ -1,10 +1,10 @@
 # Gallery style progress — owner/chat only
 
-Updated2026-10-26 after Pet Decoration batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
+Updated2026-10-26 after House Warming batch1. Never display this tracker, pending labels or internal notes on the customer website. After every incoming batch, update this file and repeat the completed style names in chat; mark pending names red (🔴) or explicitly request the next style.
 
 “Batch added” means supplied photos have been received and processed, not that a style is finished forever or meets the aspirational20–25 unique photos/style. Existing reference photos are included in gallery counts, which are not verified owned-client-work counts. Wedding chapters count as one parent style. Deduplicate globally without moving old refs or losing shortlists.
 
-## ✅ Received batches added —11 styles
+## ✅ Received batches added —12 styles
 
 | Style | Current gallery photos |
 | --- | ---: |
@@ -19,16 +19,16 @@ Updated2026-10-26 after Pet Decoration batch1. Never display this tracker, pendi
 | Showroom Setup |18|
 | Welcome Baby |17|
 | Pet Decoration |21|
+| House Warming |21|
 
 Wedding automatically contains Mehndi7 → Haldi6 → Stage Decoration6 → Entrance & Aisle2.
 
-## Pending supplied-photo batches —9 styles
+## Pending supplied-photo batches —8 styles
 
 These styles still have one pre-existing reference each; no supplied batch is recorded yet.
 
 - 🔴 Room Surprise
-- 🔴 House Warming — recommended next:10 photos
-- 🔴 Car Decoration
+- 🔴 Car Decoration — recommended next:10 photos
 - 🔴 Bachelor Party
 - 🔴 Grand Opening
 - 🔴 Corporate Events
@@ -38,8 +38,8 @@ These styles still have one pre-existing reference each; no supplied batch is re
 
 ## Latest batch / delivery
 
-20 Pet Decoration inputs:all20 unique, new BC208–227, no repeats. Pet Decoration1→21. All old207 refs/shortlists unchanged; next unused BC228. Gallery227 images/20 styles/46 initial cards.63 distinct focused gallery tests across17 files covered successfully (new-test ID corrected and retried), types/lint/portable production build PASS. Four focused browser cases native390/phone320/390/1440 plus phone390/1440 reloads PASS; initial shared-browser1440 selector timeout passed in a fresh-browser rerun, no general race-fix claim. User requests faster batching; focused QA/cached tooling/no unrelated redesign/providers.
+20 House Warming inputs:all20 unique BC228–247, no repeats. House Warming1→21. All old227 refs/shortlists unchanged; next unused BC248. Gallery247 images/20 styles/48 initial cards.66 focused gallery tests across18 files/types/lint/portable production build PASS. Four focused browser cases native390/phone320/390/1440 plus phone390/1440 reloads PASS; desktop uses a fresh browser, no historical reload-race-fix claim. Reuse cached tooling and focused QA for faster batching, no unrelated redesign/providers.
 
-Keep user-classified safari, memory/portrait walls, shop displays, playhouses and pet photo corners in Pet Decoration without ownership, authenticity, affiliation or pet-safety claims; preserve marks and whole scenes. Received/processed counts are not verified owned-client-work counts.
+Keep user-classified balloon-lettered room, ceremonial backdrop, festive hallway, glass-fronted entrance and welcome-board images in House Warming without ownership/authenticity/affiliation/material/safety claims. Whole scenes, people, signage and source marks preserved, first360×640 source not upscaled. Received/processed counts are not verified owned-client-work counts.
 
-Source `3a02462fe33240d0ec5e73e27109fcefc27fc8c1`; phone artifact `b89c6e4f7ee4da656d684286cba7759f3c50728b`; published gallery https://clck.ru/3Wgtpx.
+Source `a792d498af8d9afb73f3ec19f7e31d45ef11beb8`; phone artifact `d03e7ebdabfb2da0e95db3a4aa475450cfdfb9f4`; published gallery https://clck.ru/3WgvWt.
