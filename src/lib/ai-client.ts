@@ -1,4 +1,8 @@
-import { enforceBloonIdentity, localBloonAnswer } from "./bloon-identity";
+import {
+  enforceBloonIdentity,
+  localBloonAnswer,
+  type BloonIdentityContext,
+} from "./bloon-identity";
 
 // Public endpoint only. Provider credentials stay in Cloudflare Secrets.
 export const AI_ENDPOINT = "https://ballooncreation-assistant.lakshyac909.workers.dev/chat";
@@ -56,11 +60,15 @@ export function aiVisitorId() {
   return sessionId;
 }
 
-export async function requestAI(question: string, signal: AbortSignal): Promise<AIAnswer> {
+export async function requestAI(
+  question: string,
+  signal: AbortSignal,
+  identityContext?: BloonIdentityContext,
+): Promise<AIAnswer> {
   const text = question.trim();
   if (text.length < 2 || text.length > AI_QUESTION_LIMIT)
     throw new AIRequestError("Please use 2–1,500 characters.");
-  const identity = localBloonAnswer(text);
+  const identity = localBloonAnswer(text, identityContext);
   if (identity) return { answer: identity, provider: "bloon" };
   const response = await fetch(AI_ENDPOINT, {
     method: "POST",
@@ -91,7 +99,7 @@ export async function requestAI(question: string, signal: AbortSignal): Promise<
   if (typeof data.answer !== "string" || !data.answer.trim())
     throw new AIRequestError("No AI answer was received. Please try later.");
   return {
-    answer: enforceBloonIdentity(data.answer.slice(0, 6000), text),
+    answer: enforceBloonIdentity(data.answer.slice(0, 6000), text, identityContext),
     provider: ["gemini", "groq", "cloudflare", "zai", "openrouter"].includes(data.provider)
       ? data.provider
       : "ai",

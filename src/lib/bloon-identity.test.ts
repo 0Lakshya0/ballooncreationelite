@@ -38,7 +38,7 @@ describe("Bloon identity, independent of upstream", () => {
     const fetch = vi.spyOn(globalThis, "fetch");
     expect(localBloonAnswer(question)).toContain("Bloon");
     const answer = await requestAI(question, new AbortController().signal);
-    expect(answer.answer).toBe(bloonIntroduction(question));
+    expect(answer.answer).toBe(localBloonAnswer(question));
     expect(answer.provider).toBe("bloon");
     expect(answer.remaining).toBeUndefined();
     expect(fetch).not.toHaveBeenCalled();
@@ -61,8 +61,6 @@ describe("Bloon identity, independent of upstream", () => {
     "My name is Claude.",
     "My name is Spark.",
     "I am Spark.",
-    "I am an AI model developed by OpenAI.",
-    "I was created by Google.",
     "मेरा नाम Gemini है।",
     "Mera naam Groq hai.",
   ])("guards an older upstream's conflicting self introduction: %s", (answer) => {

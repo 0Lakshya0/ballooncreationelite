@@ -22,7 +22,7 @@ import {
   type Point,
 } from "@/lib/ai-dock";
 import { contact } from "@/lib/celebrations";
-import { BLOON_NAME, localBloonAnswer } from "@/lib/bloon-identity";
+import { BLOON_NAME, resolveBloonIdentity } from "@/lib/bloon-identity";
 import { AIOrb } from "./ai-orb";
 import "./ai-concierge.css";
 
@@ -88,6 +88,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
   const [cooldown, setCooldown] = useState(0);
   const sequence = useRef(0);
   const busyRef = useRef(false);
+  const identityContext = useRef({ creatorQuestions: 0 });
   const alive = useRef(true);
   const abort = useRef<AbortController | null>(null);
   const orb = useRef<HTMLButtonElement>(null);
@@ -174,7 +175,8 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
         setDraft(value);
         return;
       }
-      const identity = localBloonAnswer(question);
+      const identityDecision = resolveBloonIdentity(question, identityContext.current);
+      const identity = identityDecision.answer;
       const local = identity || localBusinessAnswer(question);
       if (!local && Date.now() < retryUntil) {
         setDraft(value);
@@ -185,6 +187,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       }
       setError("");
       setDraft("");
+      identityContext.current = identityDecision.context;
       append({ role: "user", text: question });
       if (local) {
         append({ role: "assistant", text: local, provider: identity ? "bloon" : "team" });
@@ -196,7 +199,7 @@ const AIConcierge = forwardRef<Handle>(function AIConcierge(_, ref) {
       abort.current = controller;
       const timeout = setTimeout(() => controller.abort(), 40_000);
       try {
-        const result = await requestAI(question, controller.signal);
+        const result = await requestAI(question, controller.signal, identityContext.current);
         if (!alive.current) return;
         append({ role: "assistant", text: result.answer, provider: result.provider });
         if (typeof result.remaining === "number") setRemaining(result.remaining);
