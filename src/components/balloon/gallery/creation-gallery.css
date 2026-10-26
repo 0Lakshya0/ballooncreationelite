@@ -1343,3 +1343,17 @@
   top: 25px;
   right: 25px;
 }
+
+/* Keep complete Welcome Baby scenes and source lettering inside their own soft frames. */
+.gc-collection[data-gallery-style="welcome-baby"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gc-collection[data-gallery-style="welcome-baby"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+}
+/* The full44px heart stays inside the80px top-right corner, even in saved-only view. */
+.gc-collection[data-gallery-style="welcome-baby"] .gc-heart {
+  top: 30px;
+  right: 30px;
+}

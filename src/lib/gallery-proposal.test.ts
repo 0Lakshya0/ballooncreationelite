@@ -33,10 +33,10 @@ it("retains20 originals, appends19 unique BC119–137 and omits the byte-identic
   expect(galleryProposalMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 19 }, (_, i) => `BC-${119 + i}`),
   );
-  expect(galleryMedia).toHaveLength(191);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(191);
+  expect(galleryMedia).toHaveLength(207);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(207);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 191 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 207 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "proposal-rose-sparkle")?.reference).toBe("BC-31");
   expect(galleryMedia.find((p) => p.id === "naming-gold-silver-balloons")?.reference).toBe(
@@ -51,14 +51,14 @@ it("keeps21 Proposal images independent, preserves all other styles and scopes t
   expect(proposal.layout).toBe("romantic");
   expect(proposal.radius).toBe("140px 140px 4px 4px");
   expect(proposal.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(42);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(44);
   for (const [id, n] of [
     ["anniversary", 20],
     ["first-night", 41],
     ["room-surprise", 1],
     ["naming-ceremony", 20],
     ["baby-shower", 18],
-    ["welcome-baby", 1],
+    ["welcome-baby", 17],
     ["kids-birthday", 14],
     ["birthday", 7],
   ] as const)

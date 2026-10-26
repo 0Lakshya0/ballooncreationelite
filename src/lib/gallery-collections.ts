@@ -98,7 +98,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Welcome Baby",
     "THE HOME-WELCOME EDIT",
     "A little arrival. A whole lot of love.",
-    "Cheerful home and doorway welcomes for a new family member.",
+    "Gentle balloon palettes, playful details and welcoming settings for a little arrival.",
     "soft",
     "8px 80px 8px 80px",
     3,
