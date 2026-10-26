@@ -1,3 +1,11 @@
+## Latest MAIN — supplied photos across customer pages (2026-10-26)
+
+**https://clck.ru/3WhWqS** — supersedes the prior gallery/audit link. About, Signature, legacy service pages, Home/collection thumbnails and all Decor render surfaces now use suitable supplied photos instead of generated mockup photography. Gallery assignments/351 unique photos are unchanged. **19/25 decor parents have suitable photographs; 6 use neutral non-photo marks**, with 8 exact equipment/detail subjects requested from the owner. Do not claim every style is already photographed or fill gaps with unrelated images.
+
+Source `43d44f4ad0fa7799768f9ce9c4619df4001b5b79`; phone artifact `2fbb17d12bce793c4edd98c627970df5b32b764b`; Git blob `4884c865ee5ae7529bf6fc958cdf5f55a7f7b910`, **53,755,477 bytes**, local/GitHub equal. **408 application tests/50 files**, TypeScript/scoped lint/builds, native+exact-phone changed-page checks at 320/390/1440, 373 production/371 embedded raster provenance checks PASS. See **[SUPPLIED-WEBSITE-PHOTOS.md](SUPPLIED-WEBSITE-PHOTOS.md)** for exact missing subjects, validation and immutable target. No backend/provider work. Notes below describe earlier releases, not the current photo coverage.
+
+---
+
 > Current MAIN: **https://clck.ru/3Wf3YS** — later frontend Bloon-identity update. Previous page/motion implementation and verification below remain unchanged; server prompt deployment remains pending. See `BLOON-IDENTITY.md`.
 
 > Current MAIN: **https://clck.ru/3Wexuz** — the same dedicated pages, now with instant option navigation and no upward entry motion. Latest source/artifact and normal-motion QA: `OPENING-MOTION.md`, `PHONE-VIEW.md`. Original feature-specific verification is retained below.
