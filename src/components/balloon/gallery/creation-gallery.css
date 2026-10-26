@@ -1389,3 +1389,12 @@
 .gc-collection[data-gallery-style="farewell-party"] .gc-card-landscape .gc-open img {
   aspect-ratio: 4/3;
 }
+
+/* Corporate collections show complete stages, entrances, tables and printed details. */
+.gc-collection[data-gallery-style="corporate-events"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gc-collection[data-gallery-style="corporate-events"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+}

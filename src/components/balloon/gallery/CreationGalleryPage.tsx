@@ -189,6 +189,7 @@ export function CreationGalleryPage() {
             "Showroom Setup",
             "Welcome Baby",
             "Farewell Party",
+            "Corporate Events",
           ].includes(item.occasion) &&
             item.width > item.height)) &&
           "gc-card-landscape",

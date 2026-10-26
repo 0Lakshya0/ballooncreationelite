@@ -178,7 +178,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Corporate Events",
     "THE BUSINESS CELEBRATION EDIT",
     "Considered. Coordinated. Celebrated.",
-    "Shared business celebrations with a cohesive visual direction.",
+    "Balloon-framed stages, welcome displays and considered table details for shared celebrations.",
     "architectural",
     "16px 0 16px 0",
     3,

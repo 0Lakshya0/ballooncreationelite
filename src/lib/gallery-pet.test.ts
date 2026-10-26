@@ -27,10 +27,10 @@ it("retains20 unique original files and adds stable BC208–227 without replacin
   expect(galleryPetMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 20 }, (_, i) => `BC-${208 + i}`),
   );
-  expect(galleryMedia).toHaveLength(282);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(282);
+  expect(galleryMedia).toHaveLength(300);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(300);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 282 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 300 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "pet-themed-celebration")?.reference).toBe("BC-16");
   expect(
@@ -53,7 +53,7 @@ it("keeps Pet Decoration21 independent, preserves all other styles/Wedding chapt
     initial: 3,
   });
   expect(sections.find((p) => p.id === "pet-decoration")?.items).toHaveLength(21);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(52);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(54);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],
