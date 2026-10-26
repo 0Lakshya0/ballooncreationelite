@@ -1363,3 +1363,14 @@
   aspect-ratio: 4/5;
   object-fit: contain;
 }
+
+/* Preserve complete House Warming doorways, facades, rangoli and source marks. */
+.gc-collection[data-gallery-style="house-warming"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+/* Keep the full44px save circle inside the100px rounded crown, including one-card views. */
+.gc-collection[data-gallery-style="house-warming"] .gc-heart {
+  top: 35px;
+  right: 35px;
+}

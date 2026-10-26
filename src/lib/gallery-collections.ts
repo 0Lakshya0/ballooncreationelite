@@ -128,7 +128,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "House Warming",
     "THE NEW CHAPTER COLLECTION",
     "Make the first welcome beautiful.",
-    "Entrance and floral details for a new beginning at home.",
+    "Floral doorways, welcoming entrances and festive details for a new chapter at home.",
     "architectural",
     "100px 100px 0 0",
     3,
