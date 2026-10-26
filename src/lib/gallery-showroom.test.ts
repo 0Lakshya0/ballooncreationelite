@@ -41,10 +41,10 @@ it("retains18 originals, adds17 new BC158–174, and leaves the exact BC145 repe
   expect(galleryShowroomMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 17 }, (_, i) => `BC-${158 + i}`),
   );
-  expect(galleryMedia).toHaveLength(338);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
+  expect(galleryMedia).toHaveLength(351);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(351);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 351 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "showroom-floral-display")?.reference).toBe("BC-07");
 });
@@ -56,7 +56,7 @@ it("keeps Showroom18 separate with existing architectural mood and all other sty
   expect(section.layout).toBe("architectural");
   expect(section.radius).toBe("0 70px 0 0");
   expect(section.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(58);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["wedding", 21],

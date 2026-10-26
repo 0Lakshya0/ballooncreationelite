@@ -149,7 +149,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Bachelor Party",
     "THE FRIENDS-FIRST COLLECTION",
     "One more night with your favourites.",
-    "Celebration settings for a party with your closest people.",
+    "Party backdrops, bride-to-be details and intimate gatherings with your favourite people.",
     "intimate",
     "4px 4px 80px 4px",
     3,

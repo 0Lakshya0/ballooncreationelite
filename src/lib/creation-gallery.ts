@@ -1,3 +1,4 @@
+import { galleryBachelorMedia } from "./gallery-bachelor-batch-1";
 import { galleryAnnualDayMedia } from "./gallery-annual-day-batch-1";
 import { galleryCarMedia } from "./gallery-car-batch-1";
 import { carPart, type CarPartId } from "./gallery-car-groups";
@@ -265,6 +266,7 @@ export const galleryMedia: GalleryMedia[] = definitions
     galleryCorporateMedia,
     galleryCarMedia,
     galleryAnnualDayMedia,
+    galleryBachelorMedia,
   );
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {

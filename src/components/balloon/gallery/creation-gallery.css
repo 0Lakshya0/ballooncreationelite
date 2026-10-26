@@ -1539,3 +1539,12 @@
   max-width: 404px;
   margin-inline: auto;
 }
+
+/* Bachelor Party keeps full room/table scenes, floral frames, lettering and source marks. */
+.gc-collection[data-gallery-style="bachelor-party"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gc-collection[data-gallery-style="bachelor-party"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+}

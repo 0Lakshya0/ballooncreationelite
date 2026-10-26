@@ -27,10 +27,10 @@ it("retains19 unique original files and adds stable BC320–338 without replacin
   expect(galleryAnnualDayMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 19 }, (_, i) => `BC-${320 + i}`),
   );
-  expect(galleryMedia).toHaveLength(338);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(338);
+  expect(galleryMedia).toHaveLength(351);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(351);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 338 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 351 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "annual-day")?.reference).toBe("BC-20");
   expect(
@@ -53,7 +53,7 @@ it("keeps Annual Day Function20 independent, preserves all other styles/Wedding 
     initial: 3,
   });
   expect(sections.find((p) => p.id === "annual-day-function")?.items).toHaveLength(20);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(58);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(60);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["birthday", 7],

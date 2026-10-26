@@ -230,6 +230,7 @@ export function CreationGalleryPage() {
             "Farewell Party",
             "Corporate Events",
             "Annual Day Function",
+            "Bachelor Party",
           ].includes(item.occasion) &&
             item.width > item.height)) &&
           "gc-card-landscape",
