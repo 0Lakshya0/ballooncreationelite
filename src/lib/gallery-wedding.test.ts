@@ -14,7 +14,12 @@ it("retains20 unique supplied Wedding originals and appends BC138–157 without 
   const prior = new Set(
     readdirSync("photo-intake", { recursive: true })
       .map(String)
-      .filter((p) => /\.jpe?g$/i.test(p) && !p.startsWith("gallery-wedding-batch-1/"))
+      .filter(
+        (p) =>
+          /\.jpe?g$/i.test(p) &&
+          !p.startsWith("gallery-wedding-batch-1/") &&
+          p !== "gallery-showroom-batch-1/existing-wedding-tropical-repeat-original.jpeg",
+      )
       .map((p) => hash("photo-intake/" + p)),
   );
   for (const p of manifest.photos) {
@@ -26,10 +31,10 @@ it("retains20 unique supplied Wedding originals and appends BC138–157 without 
   expect(galleryWeddingMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 20 }, (_, i) => `BC-${138 + i}`),
   );
-  expect(galleryMedia).toHaveLength(157);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(157);
+  expect(galleryMedia).toHaveLength(174);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 157 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 174 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "wedding")?.reference).toBe("BC-01");
   expect(galleryMedia.find((p) => p.id === "proposal-red-lantern-ring")?.reference).toBe("BC-137");
@@ -55,7 +60,7 @@ it("keeps exactly one Wedding parent with ordered Mehndi7,Haldi6,Stage6,Entrance
     "haldi",
     "stage",
   ]);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(40);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(42);
   for (const [id, n] of [
     ["proposal", 21],
     ["naming-ceremony", 20],

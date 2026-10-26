@@ -19,9 +19,9 @@ it("retains all11 unique originals and appends BC66–76 without replacing previ
   expect(galleryAnniversaryBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 11 }, (_, i) => `BC-${66 + i}`),
   );
-  expect(galleryMedia).toHaveLength(157);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(157);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(157);
+  expect(galleryMedia).toHaveLength(174);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(174);
   expect(galleryMedia.find((p) => p.id === "anniversary")?.reference).toBe("BC-08");
   expect(galleryMedia.find((p) => p.id === "anniversary-three-gold")?.reference).toBe("BC-65");
 });

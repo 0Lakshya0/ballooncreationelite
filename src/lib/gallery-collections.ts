@@ -168,7 +168,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Showroom Setup",
     "THE DISPLAY COLLECTION",
     "Frame the space. Set the mood.",
-    "Floral displays that give a space a considered first impression.",
+    "Floral features, statement entrances and styled displays that give a space its own personality.",
     "architectural",
     "0 70px 0 0",
     3,

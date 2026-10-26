@@ -1,3 +1,4 @@
+import { galleryShowroomMedia } from "./gallery-showroom";
 import { galleryWeddingMedia } from "./gallery-wedding";
 import { weddingPart, type WeddingPartId } from "./gallery-wedding-groups";
 import { galleryProposalMedia } from "./gallery-proposal";
@@ -242,6 +243,7 @@ export const galleryMedia: GalleryMedia[] = definitions
     galleryNamingBatch2Media,
     galleryProposalMedia,
     galleryWeddingMedia,
+    galleryShowroomMedia,
   );
 export const SHORTLIST_KEY = "bce-creation-shortlist-v1";
 export function readGalleryShortlist(raw: string | null, items = galleryMedia): string[] {

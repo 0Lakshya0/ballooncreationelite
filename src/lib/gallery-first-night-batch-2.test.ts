@@ -30,10 +30,10 @@ it("retains13 unique original hashes, appends BC87–99 and preserves all earlie
   expect(galleryFirstNightBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 13 }, (_, i) => `BC-${87 + i}`),
   );
-  expect(galleryMedia).toHaveLength(157);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(157);
+  expect(galleryMedia).toHaveLength(174);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(174);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 157 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 174 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "first-night")?.reference).toBe("BC-10");
   expect(galleryMedia.find((p) => p.id === "anniversary-layered-love")?.reference).toBe("BC-76");
@@ -46,7 +46,7 @@ it("keeps all24 First Night photos in their intimate collection without mixing R
   expect(first.layout).toBe("intimate");
   expect(first.radius).toBe("90px 8px 90px 8px");
   expect(first.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(40);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(42);
   for (const [id, count] of [
     ["anniversary", 20],
     ["room-surprise", 1],
