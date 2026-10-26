@@ -22,8 +22,8 @@ it("retains all10 original files, appends nine stable references and omits the c
   expect(galleryMedia.filter((p) => p.id === manifest.duplicates[0].existingId)).toHaveLength(1);
   expect(manifest.duplicates[0].existingReference).toBe("BC-28");
   expect(galleryMedia.find((p) => p.id === "kids-first-birthday-peach")?.reference).toBe("BC-28");
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(267);
-  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(267);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(282);
+  expect(new Set(galleryMedia.map((p) => p.reference)).size).toBe(282);
 });
 it("separates normal and kids birthdays and classifies proposal lettering by the actual photo", () => {
   expect(galleryBatch2Media.filter((p) => p.occasion === "Birthday")).toHaveLength(4);

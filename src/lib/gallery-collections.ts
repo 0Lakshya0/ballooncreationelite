@@ -198,7 +198,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Farewell Party",
     "THE NEXT CHAPTER EDIT",
     "A goodbye worth remembering.",
-    "Thoughtful backdrops for goodbyes and new beginnings.",
+    "Graduation moments, farewell backdrops and memory-filled details for the chapter ahead.",
     "soft",
     "70px 4px 4px 4px",
     3,

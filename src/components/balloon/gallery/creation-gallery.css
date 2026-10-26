@@ -1380,3 +1380,12 @@
   aspect-ratio: 4/5;
   object-fit: contain;
 }
+
+/* Farewell frames keep complete people, memory boards, lettering and source marks. */
+.gc-collection[data-gallery-style="farewell-party"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gc-collection[data-gallery-style="farewell-party"] .gc-card-landscape .gc-open img {
+  aspect-ratio: 4/3;
+}

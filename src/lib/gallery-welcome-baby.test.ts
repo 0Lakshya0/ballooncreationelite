@@ -43,10 +43,10 @@ it("retains18 originals, adds16 BC192–207 and keeps exact BC47 and re-encoded 
   expect(galleryWelcomeBabyMedia.map((p) => p.reference)).toEqual(
     Array.from({ length: 16 }, (_, i) => `BC-${192 + i}`),
   );
-  expect(galleryMedia).toHaveLength(267);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(267);
+  expect(galleryMedia).toHaveLength(282);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(282);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 267 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 282 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(
     readGalleryShortlist(
@@ -68,7 +68,7 @@ it("keeps Welcome Baby17 separate, retains all other style counts and Wedding ch
     initial: 3,
   });
   expect(sections.find((p) => p.id === "welcome-baby")?.items).toHaveLength(17);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(50);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(52);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["first-night", 41],
