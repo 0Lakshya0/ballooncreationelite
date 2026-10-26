@@ -158,7 +158,7 @@ const styles: [string, string, string, string, string, string, string, number][]
     "Grand Opening",
     "THE FIRST IMPRESSION EDIT",
     "An entrance worth remembering.",
-    "Welcoming entrances and opening-day floral details.",
+    "Balloon-framed entrances, floral welcomes and statement details for a memorable first impression.",
     "architectural",
     "0px",
     3,

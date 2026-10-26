@@ -24,10 +24,10 @@ it("retains5 unique originals and appends BC114–118 without replacing previous
   expect(galleryNamingBatch2Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 5 }, (_, i) => `BC-${114 + i}`),
   );
-  expect(galleryMedia).toHaveLength(247);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(247);
+  expect(galleryMedia).toHaveLength(267);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(267);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 247 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 267 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "floral-swing")?.reference).toBe("BC-09");
   expect(galleryMedia.filter((p) => p.id === "floral-swing")).toHaveLength(1);
@@ -37,7 +37,7 @@ it("reaches20 Naming Ceremony looks with style-local navigation and preserves al
   const sections = galleryCollections();
   expect(sections).toHaveLength(20);
   expect(sections.find((p) => p.id === "naming-ceremony")?.items).toHaveLength(20);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(48);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(50);
   for (const [id, n] of [
     ["baby-shower", 18],
     ["welcome-baby", 17],

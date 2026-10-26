@@ -1374,3 +1374,9 @@
   top: 35px;
   right: 35px;
 }
+
+/* Grand Opening frames retain complete entrances, ribbon details, signage and source marks. */
+.gc-collection[data-gallery-style="grand-opening"] .gc-open img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}

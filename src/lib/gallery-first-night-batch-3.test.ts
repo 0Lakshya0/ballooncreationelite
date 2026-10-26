@@ -39,10 +39,10 @@ it("retains20 originals, adds17 new BC175–191 and leaves three exact Proposal 
   expect(galleryFirstNightBatch3Media.map((p) => p.reference)).toEqual(
     Array.from({ length: 17 }, (_, i) => `BC-${175 + i}`),
   );
-  expect(galleryMedia).toHaveLength(247);
-  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(247);
+  expect(galleryMedia).toHaveLength(267);
+  expect(new Set(galleryMedia.map((p) => p.id)).size).toBe(267);
   expect(galleryMedia.map((p) => p.reference).sort()).toEqual(
-    Array.from({ length: 247 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
+    Array.from({ length: 267 }, (_, i) => `BC-${String(i + 1).padStart(2, "0")}`).sort(),
   );
   expect(galleryMedia.find((p) => p.id === "first-night")?.reference).toBe("BC-10");
   expect(
@@ -59,7 +59,7 @@ it("keeps all41 First Night references in one intimate collection without changi
   expect(section.layout).toBe("intimate");
   expect(section.radius).toBe("90px 8px 90px 8px");
   expect(section.initial).toBe(3);
-  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(48);
+  expect(sections.reduce((n, p) => n + Math.min(p.initial, p.items.length), 0)).toBe(50);
   expect(weddingChapters(galleryMedia).map((p) => p.items.length)).toEqual([7, 6, 6, 2]);
   for (const [id, n] of [
     ["wedding", 21],
