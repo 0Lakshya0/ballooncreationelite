@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && node scripts/prepare-cloudflare-website.mjs",
     "build:dev": "vite build --mode development",
     "preview": "node scripts/preview-production.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:preview": "node --test scripts/preview-production.check.mjs"
+    "test:preview": "node --test scripts/preview-production.check.mjs",
+    "test:hosting": "node --test scripts/prepare-cloudflare-website.check.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"
